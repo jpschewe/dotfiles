@@ -1,3 +1,8 @@
+2003-12-02  Jon Schewe  <jpschewe@mtu.net>
+
+	* init.el (jde-import-choose-imports): Added advice to fix
+	annoyance with jde-import.  Should be fixed in next release of JDE.
+
 2003-11-30  Jon Schewe  <jpschewe@mtu.net>
 
 	* init.el (system-location): Add the ability to tell the
