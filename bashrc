@@ -53,8 +53,8 @@ fi
 
 #now actually build my path
 # then load packages locations
-source "$HOME/.addpath"
-source "$HOME/.packages"
+source "${HOME}/.addpath"
+source "${HOME}/.packages"
 
 #------------------------------
 # BASH Environment options

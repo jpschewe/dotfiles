@@ -1,6 +1,6 @@
 # Source my .bashrc, but hack to only do it once...
 # $BRC is set in .bashrc
-test -z "$BRC" && source $HOME/.bashrc
+test -z "$BRC" && source "${HOME}/.bashrc"
 
 #stty -echo
 #stty -ocrnl
