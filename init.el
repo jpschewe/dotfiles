@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.27 $
+;; $Revision: 1.28 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1036,7 +1036,12 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (setq gnus-article-save-directory "~/Mail/")
 (setq gnus-nntp-server nil)
 (cond ((eq system-location 'honeywell)
-       (setq gnus-select-method '(nntp "news.phxlab.honeywell.com")))
+       (setq gnus-select-method '(nntp "news.phxlab.honeywell.com"))
+       (setq gnus-secondary-select-methods '((nnimap "Honeywell"
+						     (nnimap-address "mn65-eggplant")
+						     (nnimap-stream ssl)
+						     (nnimap-list-pattern (".Mail-imap/*"))
+						     ))))
       ((eq system-location 'home)
        (setq gnus-select-method '(nntp "netnews.comcast.net"))
        (setq gnus-secondary-select-methods '((nnimap "mtu.net"
