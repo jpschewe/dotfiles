@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.71 $
+;; $Revision: 1.72 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -677,6 +677,9 @@
   (c-set-offset 'class-close -2)
   ;;(c-set-offset 'c-brace-offset -2)
   (setq c-block-comment-prefix "* ")
+
+  (add-special-font-lock-faces-jps (list 'c-font-lock-keywords 'c-font-lock-keywords-1 'c-font-lock-keywords-2 'c-font-lock-keywords-3))
+  (add-special-font-lock-faces-jps (list 'c++-font-lock-keywords 'c++-font-lock-keywords-1 'c++-font-lock-keywords-2 'c++-font-lock-keywords-3))
   )
 
 (add-hook 'c-mode-common-hook 'c-mode-common-hook-jps)
