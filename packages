@@ -241,6 +241,13 @@ case $OSTYPE in
             append PATH /net/packages/gnu-cm/1999-12/install/sparc-sun-solaris2*.6/bin
 esac
 
+### subversion
+case $OSTYPE in
+  cygwin)
+    append PATH /usr/lib/subversion/bin
+    ;;
+esac
+
 #enscript
 case $OSTYPE in
   cygwin)
@@ -300,7 +307,7 @@ case $OSTYPE in
                            JAVA_HOME="d:/packages/Sun-JDK-1.3.1"
                            ;;
             eggplant-laptop)
-                           JAVA_HOME="c:/packages/jdk-1.5.0"
+                           JAVA_HOME="c:/packages/jdk1.5.0"
                            ;;
             *)
 		JAVA_HOME="c:/packages/jdk1.5.0_01"
