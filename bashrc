@@ -8,60 +8,10 @@
 #  return 0
 #fi
 
-#-------------------------------
-# ARCH and PATH
-#-------------------------------
-export HOST=`/bin/hostname`
-case `/bin/uname -r` in
-  5.5*)
-        OS_JPS=solaris2
-        ARCH_JPS=sun4;;
-  5.6*)
-        OS_JPS=solaris2
-        ARCH_JPS=sun4;;
-  5.7*)
-        OS_JPS=solaris2
-        ARCH_JPS=sun4;;
-  5.8*)
-        OS_JPS=solaris2
-        ARCH_JPS=sun4;;
-  4.1.4)
-         OS_JPS=sunos4
-         ARCH_JPS=sun4;;
-  5.*)
-       OS_JPS=irix5
-       stty intr ^C;;
-  6*)
-      OS_JPS=irix6
-      stty intr ^C;;
-  A.09.05)
-           OS_JPS=hpux9
-           stty intr ^C;;
-  B.10.*)
-          OS_JPS=hpux10
-          stty intr ^C;;
-  *)
-     case `/bin/uname` in
-       CYGWIN*)
-                OS_JPS=cygwin
-                ARCH_JPS=pc
-                ;;
-       Linux)
-              OS_JPS=linux
-              ARCH_JPS=pc
-              ;;
-       *)
-          echo "winging it...assuming sunos"
-          OS_JPS=sunos4;;
-     esac
-     ;;
-esac
-export ARCH_JPS
-export OS_JPS
-
 # define location
-case $OS_JPS in
-  solaris2 | cygwin)
+export HOST=`/bin/hostname`
+case $OSTYPE in
+  solaris2* | cygwin)
             case `nslookup $HOST 2> /dev/null | /bin/grep $HOST | /bin/awk '{print $2}'` in
               *.htc.honeywell.com)
                 LOCATION=htc
@@ -93,7 +43,7 @@ case $OS_JPS in
 esac
 export LOCATION
 
-if [ $OS_JPS = "cygwin" ]; then
+if [ $OSTYPE = "cygwin" ]; then
   #set in NT directly export CYGWIN="tty nosmbntsec" #title doesn't seem to help either, binmode will break getenv in emacs, ntea will break permissions for ls
   alias uptime='finger @localhost | grep UpTime'
   export SHELL="/bin/bash"
@@ -126,11 +76,6 @@ export history_control=ignoredups
 
 notify=
 unset MAILPATH MAILCHECK
-#if [ $ARCH_JPS = "sun4" ]; then
-#  ulimit -c 0  # limit core sizes to zero
-if [ $ARCH_JPS = "hp700" ]; then
-  stty erase  intr  kill ^u 2>/dev/null
-fi
 
 export EDITOR='vim'
 
@@ -192,13 +137,6 @@ alias which='type -path'
 alias where='type -all'
 alias find-unused-unix='for h in `ypmatch HTC-HOSTS netgroup`; do ping -c 1 $h > /dev/null 2>&1 || echo $h; done'
   
-#if [ $OS_JPS \!= "cygwin" ]; then
-#  if [ -x "`type -p ypcat`" ]; then
-#    alias ultras="rup -l `ypcat hosts.byaddr | grep 2/270 | egrep -v 'greenhornet|grinch' | awk '{print $2}' | sort | fmt`"
-#    ypg() { ypcat $2 | grep -i $1; }
-#  fi
-#fi
-
 alias rdesktop='\rdesktop -g 1024x768 -K'
 alias mn65-rsconsole='rdesktop -u getreal mn65-rsconsole'
 
@@ -207,7 +145,7 @@ alias mn65-rsconsole='rdesktop -u getreal mn65-rsconsole'
 #alias psu='ps auxww | egrep "^$*"'
 
 #my aliases
-case $OS_JPS in
+case $OSTYPE in
   cygwin)
 	  alias ls='ls -F'
 	  ;;
@@ -394,9 +332,6 @@ elif [ $TERM = "emacs" ]; then
   alias ls='ls -F'
   alias more='cat'
   alias less='cat'
-  #if [ \! $OS_JPS = "cygwin" ]; then
-  #  export VISUAL=gnuclient
-  #fi
   PS1="\u@\h:\w\n>";
   export EDITOR=gnuclient
 elif [ $TERM = "sun-nic" ]; then
@@ -410,7 +345,7 @@ else
 fi
 export PS1
 
-if [ \! $OS_JPS = "linux" ]; then
+if [ \! $OSTYPE = "linux" ]; then
   MOZILLA_HOME=/usr/local/netscape/current/java/classes
   export MOZILLA_HOME
   
@@ -429,7 +364,7 @@ export CYPSP
 
 MANPATH=`substpath PATH bin man`
 export MANPATH
-case $OS_JPS in
+case $OSTYPE in
   linux) 
      append MANPATH /usr/share/man
      ;;
@@ -443,7 +378,7 @@ esac
 
 INFOPATH=`substpath PATH bin info`
 export INFOPATH
-case $OS_JPS in
+case $OSTYPE in
   linux) 
      append INFOPATH /usr/share/info
      ;;
