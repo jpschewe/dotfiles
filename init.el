@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.18 $
+;; $Revision: 1.19 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -852,6 +852,14 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
     
     ;;common stuff
     (reset-user-mail-address)
+
+    ;; VM6.77 onwards re-defined the expunge-folder key to ###, this restores
+    ;; the default single #
+    (define-key vm-mode-map "#" 'vm-expunge-folder)
+
+    ;; treat a message as MIME even if it's lacking a MIME version
+    ;; header, as long as it has a Content-type header Fri Nov 01 11:07:49 2002
+    (setq vm-mime-require-mime-version-header nil)
     
     (setq mail-signature t
 	  mail-signature-file "~/.signature"
@@ -867,7 +875,6 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 					   "jpschewe@users.sourceforge.net"
 					   )
 	  vm-delete-after-saving t	; delete a message after I save it
-	  vm-mime-use-w3-for-text/html t
 	  vm-use-toolbar nil
 	  vm-mutable-frames nil
 	  vm-reply-subject-prefix "RE: "
@@ -883,6 +890,16 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 	    ("application/pdf" "acroread")
 	    )
 	  )
+
+    ;; Pre-process HTML messages and display in text mode on Linux.
+    ;; Use "lynx -force_html -dump /dev/stdin" if you don't have w3m
+    (if (eq system-type 'linux)
+	(progn
+	  (add-to-list 'vm-mime-type-converter-alist
+		       '(("text/html" "text/plain" "w3m -T text/html -dump")))
+	  (add-to-list 'vm-mime-internal-content-type-exceptions '("text/html"))
+	  (setq vm-mime-use-w3-for-text/html nil))
+      (setq vm-mime-use-w3-for-text/html t))
     
     (add-to-list 'vm-mime-default-face-charsets "Windows-1251")
     (add-to-list 'vm-mime-default-face-charsets "Windows-1252")
