@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.52 $
+;; $Revision: 1.53 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -323,7 +323,7 @@
     (add-to-list 'dired-auto-shell-command-alist '("\\.prc$" "pilot-xfer -i")))
 
   ;;images
-  (let ((extensions '("ps" "jpg" "bmp" "pbm" "pgm" "ppm" "xbm" "xpm" "ras" "rast" "gif" "tif" "tiff" "png")))
+  (let ((extensions '("ps" "jpg" "bmp" "pbm" "pgm" "ppm" "xbm" "xpm" "ras" "rast" "gif" "tif" "tiff" "png" "xwd")))
     ;;gimp
     (when (eq system-type 'linux)
       (map 'list '(lambda (ext)
@@ -609,8 +609,8 @@
   (define-key java-mode-map (concat prefix-key-jps "p") 'insert-package-name-jps)
   (define-key java-mode-map (concat prefix-key-jps "l") 'insert-class-name-jps)
   (define-key java-mode-map (concat prefix-key-jps "e") 'check-java-imports-jps)
-  (define-key java-mode-map [(control ?c) (control ?v) (control ?z)] 'jde-import-then-organize-jps)
   (define-key java-mode-map [(control ?c) (control ?v) (control ?i)] 'jde-import-organize-jps)
+  (define-key java-mode-map [(control ?c) (control ?v) (control ?z)] 'jde-import-then-organize-jps)
   (define-key java-mode-map "\C-cr" 'replace-string)
   (c-set-offset 'inexpr-class 0)	;Don't indent inner classes too much
   (c-set-offset 'class-close 'c-lineup-close-paren) ;Line up end of class
@@ -1232,10 +1232,9 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 	  (lambda () (speedbar-add-supported-extension ".g")))
 (setq antlr-language "Java")
 
-(defvar c-Java-access-key)		;antlr-mode references this, but it's not defined anywhere
+(defconst c-Java-access-key nil)		;antlr-mode references this, but it's not defined anywhere
 (setq antlr-tab-offset-alist
-      '((antlr-mode nil 2 t)
-	(java-mode "antlr" 2 nil)
+      '((antlr-mode nil 2 nil)
 	(java-mode "antlr" 2 nil)
 	))
 (defun antlr-mode-hook-jps()
