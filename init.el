@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.43 $
+;; $Revision: 1.44 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -88,7 +88,8 @@
 ;;
 ;;;;;;;;;;;;
 (message "System specific")
-(cond ((eq system-type 'windows-nt)
+(cond ((or (eq system-type 'windows-nt) 
+	   (eq system-type 'cygwin32))
        ;;XEmacs on NT works better this way (I hope)
        (setq directory-sep-char ?/)
 
@@ -370,7 +371,8 @@
     (add-to-list 'dired-auto-shell-command-alist '("\\.ps$" "kghostview")))
   
   ;;dos/windows executables
-  (when (eq system-type 'windows-nt)
+  (when (or (eq system-type 'windows-nt)
+	    (eq system-type 'cygwin32))
     (add-to-list 'dired-auto-shell-command-alist '("\\.exe$" "*f")))
 
   ;;java
@@ -378,7 +380,8 @@
   (add-to-list 'dired-auto-shell-command-alist '("\\.jar$" "jar -tvf"))
 
   ;; default windows handling
-  (when (eq system-type 'windows-nt)
+  (when (or (eq system-type 'windows-nt)
+	    (eq system-type 'cygwin32))
     (add-to-list 'dired-auto-shell-command-alist (list ".*"
 						       (expand-file-name "winrun" (locate-data-directory "config-jps")))))
 
@@ -655,7 +658,8 @@
 			     jde-compile-finish-flush-completion-cache))
  )
 
-(cond ((eq system-type 'windows-nt)
+(cond ((or (eq system-type 'windows-nt)
+	   (eq system-type 'cygwin32))
        (custom-set-variables '(jde-ant-home "c:/packages/ant")))
       ((eq system-type 'linux)
        (custom-set-variables '(jde-ant-home "/opt/jakarta/ant"))))
@@ -687,7 +691,8 @@
     (setq ad-return-value ad-do-it)))
 
 ;; Tomcat
-(cond ((eq system-type 'windows-nt)
+(cond ((or (eq system-type 'windows-nt)
+	   (eq system-type 'cygwin32))
        (setq catalina-home "c:/packages/tomcat"))
       ((eq system-type 'linux)
        (setq catalina-home "/opt/jakarta/tomcat")))
@@ -838,96 +843,96 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (add-hook 'message-mode-hook 'message-mode-hook-jps)
 
 
-(eval-after-load "vm"
-  (progn
-    (cond ((eq system-type 'windows-nt)
-	   (setq vm-primary-inbox "n:/users/jschewe/Mail/INBOX"
-		 mail-archive-file-name "n:/users/jschewe/Mail/Sent"
-		 vm-folder-directory "n:/users/jschewe/Mail/"
-		 )
-	   (add-to-list 'vm-mime-attachment-auto-suffix-alist '("application/msword"  . ".doc"))
-	   (add-to-list 'vm-mime-attachment-auto-suffix-alist '("application/vnd.ms-excel"  . ".xls"))
-	   (add-to-list 'vm-mime-attachment-auto-suffix-alist '("application/vnd.ms-powerpoint"  . ".ppt"))
-	   (add-to-list 'vm-mime-attachment-auto-suffix-alist '("application/pdf"  . ".pdf"))
-	   )
-	  ((or (eq system-type 'linux) (eq system-type 'usg-unix-v))
-	   (progn
-	     (setq vm-primary-inbox "~/Mail/INBOX"
-		   mail-archive-file-name "~/Mail/Sent"
-		   vm-folder-directory "~/Mail/")
-	     ))
-	  (t (setq vm-primary-inbox "~/Mail/INBOX"
-		   mail-archive-file-name "~/Mail/Sent"
-		   vm-folder-directory "~/Mail/"
-		   )))
-    
-    ;;common stuff
-    (reset-user-mail-address)
-
-    ;; VM6.77 onwards re-defined the expunge-folder key to ###, this restores
-    ;; the default single #
-    (define-key vm-mode-map "#" 'vm-expunge-folder)
-
-    ;; treat a message as MIME even if it's lacking a MIME version
-    ;; header, as long as it has a Content-type header Fri Nov 01 11:07:49 2002
-    (setq vm-mime-require-mime-version-header nil)
-    
-    (setq mail-signature t
-	  mail-signature-file "~/.signature"
-	  mail-self-blind nil
-	  vm-spool-files nil
-	  vm-crash-box-suffix ".crash"
-	  vm-spool-file-suffixes (list ".spool")
-	  vm-auto-get-new-mail 60
-	  vm-reply-ignored-addresses (list "schewe_jon@htc.honeywell.com"
-					   "jschewe@htc.honeywell.com"
-					   "jon.schewe@honeywell.com"
-					   "jpschewe@mtu.net"
-					   "jpschewe@users.sourceforge.net"
-					   )
-	  vm-delete-after-saving t	; delete a message after I save it
-	  vm-use-toolbar nil
-	  vm-mutable-frames nil
-	  vm-reply-subject-prefix "RE: "
-	  vm-forwarding-subject-format "Fw: %s"
-	  vm-forwarding-digest-type "mime" ;;rfc934, rfc1153, mime, nil
-	  vm-mime-external-content-types-alist
-	  `(
-	    ("application/msword" ,openoffice-executable)
-	    ("application/vnd.ms-excel" ,openoffice-executable)
-	    ("application/vnd.ms-powerpoint" ,openoffice-executable)
-	    ("application/rtf" ,openoffice-executable)
-	    ("application/msexcel" ,openoffice-executable)
-	    ("application/pdf" "acroread")
-	    )
-	  )
-
-    ;; Pre-process HTML messages and display in text mode on Linux.
-    ;; Use "lynx -force_html -dump /dev/stdin" if you don't have w3m
-    (if (eq system-type 'linux)
-	(progn
-	  (add-to-list 'vm-mime-type-converter-alist
-		       '("text/html" "text/plain" "w3m -T text/html -dump"))
-	  (add-to-list 'vm-mime-internal-content-type-exceptions "text/html")
-	  (setq vm-mime-use-w3-for-text/html nil))
-      (setq vm-mime-use-w3-for-text/html t))
-    
-    (add-to-list 'vm-mime-default-face-charsets "Windows-1251")
-    (add-to-list 'vm-mime-default-face-charsets "Windows-1252")
-    (add-to-list 'vm-mime-default-face-charsets "Windows-1257")
-    (add-to-list 'vm-mime-default-face-charsets "Windows-1255")
-    (add-to-list 'vm-mime-default-face-charsets "utf-8")
-    (add-to-list 'vm-mime-default-face-charsets "UTF8")
-    (add-to-list 'vm-mime-default-face-charsets "iso-8859-15")
-    (add-to-list 'vm-mime-default-face-charsets "X-UNKNOWN")
-
-    (setq-default vm-summary-show-threads t)
-
-    ;; try and speed composing messages
-    (fset 'vm-update-composition-buffer-name 'ignore)
-
-    t ;;make sure eval-after-load is happy
-    ))
+;;(eval-after-load "vm"
+;;  (progn
+;;    (cond ((eq system-type 'windows-nt)
+;;	   (setq vm-primary-inbox "n:/users/jschewe/Mail/INBOX"
+;;		 mail-archive-file-name "n:/users/jschewe/Mail/Sent"
+;;		 vm-folder-directory "n:/users/jschewe/Mail/"
+;;		 )
+;;	   (add-to-list 'vm-mime-attachment-auto-suffix-alist '("application/msword"  . ".doc"))
+;;	   (add-to-list 'vm-mime-attachment-auto-suffix-alist '("application/vnd.ms-excel"  . ".xls"))
+;;	   (add-to-list 'vm-mime-attachment-auto-suffix-alist '("application/vnd.ms-powerpoint"  . ".ppt"))
+;;	   (add-to-list 'vm-mime-attachment-auto-suffix-alist '("application/pdf"  . ".pdf"))
+;;	   )
+;;	  ((or (eq system-type 'linux) (eq system-type 'usg-unix-v))
+;;	   (progn
+;;	     (setq vm-primary-inbox "~/Mail/INBOX"
+;;		   mail-archive-file-name "~/Mail/Sent"
+;;		   vm-folder-directory "~/Mail/")
+;;	     ))
+;;	  (t (setq vm-primary-inbox "~/Mail/INBOX"
+;;		   mail-archive-file-name "~/Mail/Sent"
+;;		   vm-folder-directory "~/Mail/"
+;;		   )))
+;;    
+;;    ;;common stuff
+;;    (reset-user-mail-address)
+;;
+;;    ;; VM6.77 onwards re-defined the expunge-folder key to ###, this restores
+;;    ;; the default single #
+;;    (define-key vm-mode-map "#" 'vm-expunge-folder)
+;;
+;;    ;; treat a message as MIME even if it's lacking a MIME version
+;;    ;; header, as long as it has a Content-type header Fri Nov 01 11:07:49 2002
+;;    (setq vm-mime-require-mime-version-header nil)
+;;    
+;;    (setq mail-signature t
+;;	  mail-signature-file "~/.signature"
+;;	  mail-self-blind nil
+;;	  vm-spool-files nil
+;;	  vm-crash-box-suffix ".crash"
+;;	  vm-spool-file-suffixes (list ".spool")
+;;	  vm-auto-get-new-mail 60
+;;	  vm-reply-ignored-addresses (list "schewe_jon@htc.honeywell.com"
+;;					   "jschewe@htc.honeywell.com"
+;;					   "jon.schewe@honeywell.com"
+;;					   "jpschewe@mtu.net"
+;;					   "jpschewe@users.sourceforge.net"
+;;					   )
+;;	  vm-delete-after-saving t	; delete a message after I save it
+;;	  vm-use-toolbar nil
+;;	  vm-mutable-frames nil
+;;	  vm-reply-subject-prefix "RE: "
+;;	  vm-forwarding-subject-format "Fw: %s"
+;;	  vm-forwarding-digest-type "mime" ;;rfc934, rfc1153, mime, nil
+;;	  vm-mime-external-content-types-alist
+;;	  `(
+;;	    ("application/msword" ,openoffice-executable)
+;;	    ("application/vnd.ms-excel" ,openoffice-executable)
+;;	    ("application/vnd.ms-powerpoint" ,openoffice-executable)
+;;	    ("application/rtf" ,openoffice-executable)
+;;	    ("application/msexcel" ,openoffice-executable)
+;;	    ("application/pdf" "acroread")
+;;	    )
+;;	  )
+;;
+;;    ;; Pre-process HTML messages and display in text mode on Linux.
+;;    ;; Use "lynx -force_html -dump /dev/stdin" if you don't have w3m
+;;    (if (eq system-type 'linux)
+;;	(progn
+;;	  (add-to-list 'vm-mime-type-converter-alist
+;;		       '("text/html" "text/plain" "w3m -T text/html -dump"))
+;;	  (add-to-list 'vm-mime-internal-content-type-exceptions "text/html")
+;;	  (setq vm-mime-use-w3-for-text/html nil))
+;;      (setq vm-mime-use-w3-for-text/html t))
+;;    
+;;    (add-to-list 'vm-mime-default-face-charsets "Windows-1251")
+;;    (add-to-list 'vm-mime-default-face-charsets "Windows-1252")
+;;    (add-to-list 'vm-mime-default-face-charsets "Windows-1257")
+;;    (add-to-list 'vm-mime-default-face-charsets "Windows-1255")
+;;    (add-to-list 'vm-mime-default-face-charsets "utf-8")
+;;    (add-to-list 'vm-mime-default-face-charsets "UTF8")
+;;    (add-to-list 'vm-mime-default-face-charsets "iso-8859-15")
+;;    (add-to-list 'vm-mime-default-face-charsets "X-UNKNOWN")
+;;
+;;    (setq-default vm-summary-show-threads t)
+;;
+;;    ;; try and speed composing messages
+;;    (fset 'vm-update-composition-buffer-name 'ignore)
+;;
+;;    t ;;make sure eval-after-load is happy
+;;    ))
 
 
 ;; smtp
@@ -1729,7 +1734,8 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;; Spell
 ;;
 ;;;;;;;;;;;;
-(when (eq system-type 'windows-nt)
+(when (or (eq system-type 'windows-nt)
+	  (eq system-type 'cygwin32))
   (setq ispell-program-name "aspell"))
 
 ;;;;;;;;;;;
