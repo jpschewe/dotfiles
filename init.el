@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.50 $
+;; $Revision: 1.51 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -675,7 +675,12 @@
   (make-variable-buffer-local 'fill-paragraph-function)
   (setq fill-paragraph-function nil)
 
-  (add-special-font-lock-faces-jps (list 'java-font-lock-keywords 'java-font-lock-keywords-1 'java-font-lock-keywords-2 'java-font-lock-keywords-3 'java-font-lock-keywords-4))
+  (add-special-font-lock-faces-jps
+   (list 'java-font-lock-keywords
+	 'java-font-lock-keywords-1
+	 'java-font-lock-keywords-2
+	 'java-font-lock-keywords-3
+	 'java-font-lock-keywords-4))
   )
 (add-hook 'jde-mode-hook 'jde-mode-hook-jps)
 
