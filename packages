@@ -291,10 +291,6 @@ case $OSTYPE in
   cygwin)
           case $HOST in
             MN65-EGGPLANT | MN65-SCHEDINFRA)
-                           #JAVA_HOME="c:/packages/jdk1.3.1"
-                           #JAVA_HOME="c:/packages/jdk-1.4.0"
-                           #JAVA_HOME="c:/packages/jdk-1.4.0_01"
-                           #JAVA_HOME="c:/packages/jdk-1.4.1"
                            JAVA_HOME="c:/packages/jdk-1.4.1_01"
                            ;;
             MN65-PENGUINI)
@@ -315,9 +311,6 @@ case $OSTYPE in
            . setJava --devel Java2
          else
            case $HOST in
-             mn65-eggplant*)
-                             JAVA_HOME=/usr/java/j2sdk1.4.2_04
-                             ;;
              andromeda*)
                          JAVA_HOME=/usr/java/j2sdk1.4.2_04
                          ;;
@@ -454,17 +447,6 @@ case $LOCATION in
     export ILOG_HOME;
     export ILOG_LICENSE_FILE=${ILOG_HOME}/ilm/access-barrier.ilm
     ;;
-esac
-
-### ampl and conopt
-case $LOCATION in
-  htc)
-       case $OSTYPE in
-         linux)
-                append PATH ${HOME}/ampl-conopt
-                ;;
-       esac
-       ;;
 esac
 
 ### mysql

@@ -76,15 +76,13 @@ export history_control=ignoredups
 
 notify=
 unset MAILPATH MAILCHECK
+unset MAIL
 
 export EDITOR='vim'
 
 #-------------------------------
 # GENERAL ENVIRONMENT VARIALBLES
 #-------------------------------
-# dont' know what this does yet
-#export EXINIT="set ai ic redraw sw=4 w300=4 w1200=12"
-#export DISPLAY=`cat $HOME/.display`
 #export GNU_HOST='grinch.htc.honeywell.com'
 #export GNU_SECURE="${HOME}/.gnu_hosts"
 
