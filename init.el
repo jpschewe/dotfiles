@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.9 $
+;; $Revision: 1.10 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -380,13 +380,9 @@
 
   
   (setq dired-compression-method 'gzip)
+  (set-default 'dired-omit-files t)
   )
 (add-hook 'dired-load-hook 'dired-load-hook-jps)
-
-(defun dired-mode-hook-jps ()
-  (dired-omit-toggle t)
-  )
-(add-hook 'dired-mode-hook 'dired-mode-hook-jps)
 
 (require 'dired)
 (load-library "dired-shell")
