@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.56 $
+;; $Revision: 1.57 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -346,6 +346,7 @@
   
   ;;office documents
   (add-to-list 'dired-auto-shell-command-alist '("\\.doc$" openoffice-executable))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.DOC$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.sxw$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.xls$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.sxc$" openoffice-executable))
@@ -566,8 +567,9 @@
 ;;HACK to get ediff to work
 (defun ediff-file-remote-p (file-name)
   nil)
-(setq ediff-ignore-similar-regions t
-      ediff-auto-refine t)
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq-default ediff-ignore-similar-regions t)
+(setq-default ediff-auto-refine t)
 
 
 ;;;;;;;;;;;
@@ -1145,7 +1147,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
       )
 ;;(setq display-time-form-list '(time-text load-text mail-text))
 (setq display-time-form-list '(date time-text load-text))
-(display-time)
+;;(display-time)
 ;;(display-time-stop)
 
 
