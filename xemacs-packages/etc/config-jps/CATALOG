@@ -2,3 +2,4 @@
 
 OVERRIDE YES	-- prefer public identifiers to system identifiers --
 
+SYSTEM "log4j.dtd" log4j.dtd
