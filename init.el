@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.66 $
+;; $Revision: 1.67 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -307,10 +307,11 @@
 ;;
 ;;;;;;;;;;;;
 (message "HTML")
-(add-hook 'html-mode-hook (lambda ()
-			    (camelCase-mode 1)
-			    (auto-fill-mode nil)
-			    ))
+(defun html-mode-hook-jps ()
+  (camelCase-mode 1)
+  (auto-fill-mode -1)
+  )
+(add-hook 'html-mode-hook 'html-mode-hook-jps)
 
 
 ;;;;;;;;;;;
@@ -638,10 +639,12 @@
   (define-key java-mode-map "\C-cr" 'replace-string)
   (c-set-offset 'inexpr-class 0)	;Don't indent inner classes too much
   (c-set-offset 'class-close 'c-lineup-close-paren) ;Line up end of class
+
+  ;;setup some registers
+  (set-register ?d "if(LOG.isDebugEnabled()) {")
+  (set-register ?n "System.getProperty(\"line.separator\")")
   )
 (add-hook 'java-mode-hook 'java-mode-hook-jps)
-
-(set-register ?n "System.getProperty(\"line.separator\")")
 
 ;ignore assert files from ant compilation
 (add-to-list 'completion-ignored-extensions ".assert")
@@ -668,6 +671,7 @@
 			     jde-compile-finish-flush-completion-cache))
  )
 (defun jde-mode-hook-jps()
+  
   ;; make parens show the text before the paren in the minibuffer
   (setq paren-backwards-message t)
   
@@ -717,15 +721,20 @@ Unless optional argument INPLACE is non-nil, return a new string."
       newstr)))
 
 
-;;(defadvice jde-import-choose-imports (around fix-to-do-save-excursion)
-;;  "Fix annoying behavior that causes jde to remove my split buffers after importing a class.  Should be fixed in next version."
-;;  (save-window-excursion
-;;    (setq ad-return-value ad-do-it)))
+(defadvice jde-run-executable (around fix-for-process-connection-type-0)
+  "Fix process type to be pipies for java"
+  (let ((process-connection-type nil))
+    (setq ad-return-value ad-do-it)))
 
-;;(defadvice jde-import-organize (around fix-to-do-save-excursion)
-;;  "Fix annoying behavior that causes jde to remove my split buffers after importing a class.  Should be fixed in next version."
-;;  (save-excursion
-;;    (setq ad-return-value ad-do-it)))
+(defadvice jde-run-vm-launch (around fix-for-process-connection-type-1)
+  "Fix process type to be pipies for java"
+  (let ((process-connection-type nil))
+    (setq ad-return-value ad-do-it)))
+
+(defadvice jde-ant-build (around fix-for-process-connection-type-2)
+  "Fix process type to be pipies for java"
+  (let ((process-connection-type nil))
+    (setq ad-return-value ad-do-it)))
 
 ;;HACK to get around stupid dialog function in JDEE 2.3.4b5 that don't pay
 ;;attention to use-dialog-box
@@ -766,7 +775,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
   (setq indent-tabs-mode nil)
   (font-lock-mode)
   (setq sgml-indent-data t) ;;for some reason this doesn't work right
-  (auto-fill-mode nil)
+  (auto-fill-mode -1)
   )
 (add-hook 'sgml-mode-hook  'sgml-mode-hook-jps)
 
@@ -1238,7 +1247,6 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (add-to-list 'auto-mode-alist '("\\.g$" . antlr-mode))
 (add-hook 'speedbar-load-hook		; would be too late in antlr-mode.el
 	  (lambda () (speedbar-add-supported-extension ".g")))
-(setq antlr-language "Java")
 
 (defconst c-Java-access-key nil)	;antlr-mode references this, but it's not defined anywhere
 (setq antlr-tab-offset-alist
