@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.45 $
+;; $Revision: 1.46 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1772,5 +1772,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
  '(package-get-remote (quote (("ftp.xemacs.org" "/pub/xemacs/packages")))))
 
 (put 'narrow-to-region 'disabled nil)
+
+(reset-user-mail-address)
 
 (setq minibuffer-max-depth nil)
