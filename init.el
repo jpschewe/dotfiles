@@ -876,10 +876,15 @@
 
   (local-set-key [(control ?c) (control ?v) (control ?i)] 'jde-import-organize-jps)
   ;;(local-set-key [(control ?c) (control ?v) (control ?z)] 'jde-import-then-organize-jps)
+  (local-set-key (concat prefix-key-jps "p") 'insert-project-header-info-jps)
   )
 (add-hook 'jde-mode-hook 'jde-mode-hook-jps)
 
 (add-hook 'jde-run-mode-hook 'turn-off-font-lock)
+
+(defun insert-project-header-info-jps ()
+  (interactive)
+  (insert project-header-info))
 
 (defun jde-import-then-organize-jps ()
   (interactive)
@@ -972,8 +977,8 @@ Unless optional argument INPLACE is non-nil, return a new string."
 
 ;;my own catalog for dtds
 (require 'psgml)
-;;(add-to-list 'sgml-catalog-files
-;;	     (expand-file-name "~/.xemacs/xemacs-packages/etc/CATALOG" (locate-data-directory "config-jps")))
+(add-to-list 'sgml-catalog-files
+	     (expand-file-name "CATALOG" (locate-data-directory "config-jps")))
 
 (setq sgml-auto-activate-dtd nil	; don't parse dtd right away
       sgml-warn-about-undefined-elements nil ; don't complain about unknown elements
