@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.64 $
+;; $Revision: 1.65 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -64,8 +64,13 @@
       )
 
 ;;handle password prompts
+;;(setq comint-password-prompt-regexp "\\([Ee]nter \\|[Oo]ld \\|[Nn]ew \\|^\\|'s \\|Bad \\)\\([Pp]ass\\(word\\|phrase\\(, try again\\)?\\)\\)\\|\\(\\(same\\)?pass ?phrase\\):?\\s *\\'")
 (setq comint-password-prompt-regexp
-      "\\([Ee]nter \\|[Oo]ld \\|[Nn]ew \\|^\\|'s \\|Bad \\)\\([Pp]ass\\(word\\|phrase\\(, try again\\)?\\)\\)\\|\\(\\(same\\)?pass ?phrase\\):?\\s *\\'")
+;;      (concat
+;;       "^\\(\\(?:[Ee]nter\\|[Oo]ld\\|[Nn]ew\\|[Bb]ad\\|\\sw+'s\\)\\(?: same\\)? \\)?"
+       "^.*\\(?:[Pp]ass\\(?:word\\| ?phrase\\)\\).*:\\s-*\\'"
+;;     )
+       )
  
 ;; set the title to make it easy to determine which XEmacs is running
 (let ((host (downcase (system-name))))
@@ -84,6 +89,9 @@
 
 ;; move the mouse if it gets in the way
 ;;(mouse-avoidance-mode 'exile)
+
+;;make sure cache directory exists
+(make-directory-path "~/.xemacs/cache")
 
 ;;;;;;;;;;;
 ;;
@@ -181,9 +189,9 @@
 (message "Printing")
 (setq lpr-command "kprinter"
       lpr-switches '("--stdin");;(list "-r" "-G" "-b\"- jschewe -\"")
+      lpr-add-switches t ; add -J title
+      lpr-page-header-switches '("-F" "-l 58") ; be compatible with linux pr
       ps-print-header-frame nil		; save some toner
-      vm-print-command "kprinter"
-      vm-print-command-switches '("--stdin")
       )
 
 
@@ -301,7 +309,7 @@
 (message "HTML")
 (add-hook 'html-mode-hook (lambda ()
 			    (camelCase-mode 1)
-			    (auto-fill-mode -1)
+			    (auto-fill-mode nil)
 			    ))
 
 
@@ -491,7 +499,7 @@
   ;; other customizations here
   (make-local-variable 'c-basic-offset)
   (setq c-basic-offset 2
-        tab-width 2
+        ;;tab-width 2
         fill-column 78)
   ;;(c-toggle-hungry-state t)
   ;;(turn-on-auto-fill)
@@ -595,7 +603,7 @@
   ;; make parens show the text before the paren in the minibuffer
   (setq paren-backwards-message t)
 
-  (setq tab-width 2)
+  ;;(setq tab-width 2)
   (setq indent-tabs-mode nil)
   (camelCase-mode 1)
   )
@@ -659,7 +667,6 @@
  '(jde-compile-finish-hook '(jde-compile-finish-refresh-speedbar 
 			     jde-compile-finish-flush-completion-cache))
  )
-
 (defun jde-mode-hook-jps()
   ;; make parens show the text before the paren in the minibuffer
   (setq paren-backwards-message t)
@@ -682,8 +689,8 @@
 	 'java-font-lock-keywords-4))
 
   ;;FIX doesn't seem to be working yet
-  (define-key jde-mode-map [(control ?c) (control ?v) (control ?i)] 'jde-import-organize-jps)
-  (define-key jde-mode-map [(control ?c) (control ?v) (control ?z)] 'jde-import-then-organize-jps)
+  (local-set-key [(control ?c) (control ?v) (control ?i)] 'jde-import-organize-jps)
+  (local-set-key [(control ?c) (control ?v) (control ?z)] 'jde-import-then-organize-jps)
   )
 (add-hook 'jde-mode-hook 'jde-mode-hook-jps)
 
@@ -699,6 +706,8 @@
 
 (add-hook 'jde-run-mode-hook 'turn-off-font-lock)
 
+(autoload 'subst-char-in-string "jde-util" nil t)
+
 ;;(defadvice jde-import-choose-imports (around fix-to-do-save-excursion)
 ;;  "Fix annoying behavior that causes jde to remove my split buffers after importing a class.  Should be fixed in next version."
 ;;  (save-window-excursion
@@ -708,6 +717,13 @@
 ;;  "Fix annoying behavior that causes jde to remove my split buffers after importing a class.  Should be fixed in next version."
 ;;  (save-excursion
 ;;    (setq ad-return-value ad-do-it)))
+
+;;HACK to get around stupid dialog function in JDEE 2.3.4b5 that don't pay
+;;attention to use-dialog-box
+(eval-after-load "efc-xemacs"
+  (when (fboundp 'make-dialog-box)
+    (setq efc-query-options-function nil)))
+
 
 ;; Tomcat
 (cond ((or (eq system-type 'windows-nt)
@@ -739,7 +755,8 @@
 (defun sgml-mode-hook-jps ()
   (setq indent-tabs-mode nil)
   (font-lock-mode)
-  (setq sgml-indent-data nil)
+  (setq sgml-indent-data t) ;;for some reason this doesn't work right
+  (auto-fill-mode nil)
   )
 (add-hook 'sgml-mode-hook  'sgml-mode-hook-jps)
 
@@ -779,9 +796,6 @@
 
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
-(add-to-list 'auto-mode-alist '("\\.xml$"  . sgml-mode))
-
-
 
 ;;;;;;;;;;;
 ;;
@@ -927,6 +941,9 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;;
 ;;    ;; try and speed composing messages
 ;;    (fset 'vm-update-composition-buffer-name 'ignore)
+;;
+;;      vm-print-command lpr-command
+;;      vm-print-command-switches lpr-switches
 ;;
 ;;    t ;;make sure eval-after-load is happy
 ;;    ))
@@ -1777,19 +1794,6 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 
 ;;HACK Something is screwed up, but this fixes it
 (when (not (boundp 'null-buffer-file-name)) (defun null-buffer-file-name ()))
-
-;; something requires this
-(unless (boundp 'subst-char-in-string)
-  (defun subst-char-in-string (fromchar tochar string &optional inplace)
-    "Replace FROMCHAR with TOCHAR in STRING each time it occurs.
-Unless optional argument INPLACE is non-nil, return a new string."
-    (let ((i (length string))
-	  (newstr (if inplace string (copy-sequence string))))
-      (while (> i 0)
-	(setq i (1- i))
-	(if (eq (aref newstr i) fromchar)
-	    (aset newstr i tochar)))
-      newstr)))
 
 (message "done loading configuration")
 
