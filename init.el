@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.73 $
+;; $Revision: 1.74 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -321,26 +321,21 @@
 (message "comint")
 (require 'comint)
 
-(defun rlogin-hook-jps ()
-  (comint-common-hook-jps)
-  )
-  
 (defun comint-common-hook-jps ()
   (local-set-key [up] 'comint-previous-matching-input-from-input)
   (local-set-key [down] 'comint-next-matching-input-from-input)
   (local-set-key "\C-cc" 'comint-continue-subjob)
   (turn-off-font-lock)
+  (local-set-key [tab] 'comint-dynamic-complete)
   )
 
 (add-hook 'gdb-mode-hook 'comint-common-hook-jps)
 (add-hook 'shell-mode-hook 'comint-common-hook-jps)
-(add-hook 'rlogin-mode-hook 'rlogin-hook-jps)
 
 (defun ssh-hook-jps ()
   (comint-common-hook-jps)
   (setq comint-process-echoes nil);;some do and some don't, so leave the extra copies in there
   ;;(add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m)
-  ;;(ssh-directory-tracking-mode 1) ;;track via NFS
   )
 (add-hook 'ssh-mode-hook 'ssh-hook-jps)
 
