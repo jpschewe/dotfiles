@@ -237,6 +237,13 @@
 (global-set-key "\C-xt" 'toggle-truncate-lines)
 ;; end keybindings
 
+;;;;;;;;;;;
+;;
+;; Subversion
+;;
+;;;;;;;;;;;;
+(autoload 'svn-status "psvn" nil t)
+
 
 ;;;;;;;;;;;
 ;;
