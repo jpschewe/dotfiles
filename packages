@@ -339,7 +339,7 @@ case $OSTYPE in
                          JAVA_HOME=`cd ${javadir} && pwd`
                        fi
                      fi
-                     if [ -n "${JAVA_HOME}" -a -e ${JAVA_HOME} ]; then
+                     if [ -n "${JAVA_HOME}" -a -e "${JAVA_HOME}" ]; then
                        prepend PATH "${JAVA_HOME}/bin"
                      fi
                      ;;
