@@ -352,10 +352,12 @@ if [ \! $OS = "linux" ]; then
 fi
 
 ### for scyllarus
+# FIX needed?
 # lisp
 ARGUSCODE=${HOME}/projects/argus/code
 export ARGUSCODE
 
+# FIX make add as a  function
 # socc
 CYBERPANEL=${HOME}/projects/argus/code/socc
 export CYBERPANEL
