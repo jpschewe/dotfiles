@@ -109,7 +109,6 @@ source "$HOME/.packages"
 #------------------------------
 # BASH Environment options
 #------------------------------
-
 # Set umask to group-write IFF home directory is in my default group
 # This might work for places where I DO and DON'T want group-write.
 if [ -G ${HOME} ]; then

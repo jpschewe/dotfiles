@@ -337,10 +337,14 @@ case $OS_JPS in
           ANT_HOME=/cygdrive/c/packages/jakarta-ant-1.5.1
           ;;
   linux)
-         ANT_HOME=/opt/jakarta/ant
+         if [ -e /usr/share/ant ]; then
+           ANT_HOME=/usr/share/ant
+         else 
+           ANT_HOME=/opt/jakarta/ant
+         fi
          ;;
   *)
-     ANT_HOME=/net/packages/java/ant/1.5
+     ANT_HOME=/net/packages/java/ant/1.6.1/apache-ant-1.6.1
      ;;
 esac
 export ANT_HOME
