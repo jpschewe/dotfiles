@@ -1,12 +1,13 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.53 $
+;; $Revision: 1.54 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
  '(gutter-buffers-tab-enabled nil);;get rid of stupid themometer
  '(gutter-buffers-tab-visible nil);;get rid of stupid themometer
  '(load-home-init-file t t);;don't let XEmacs mangle my .emacs
- )
+ '(query-user-mail-address nil) ;; quit asking me my email address
+)
 
 ;;set faces up front
 (custom-set-faces)
@@ -1791,6 +1792,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 
 (put 'narrow-to-region 'disabled nil)
 
+;; ensure my email address is set
 (reset-user-mail-address)
 
 (setq minibuffer-max-depth nil)
