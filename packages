@@ -262,7 +262,8 @@ case $OS in
                      prepend PATH "${JAVA_HOME}/bin"
                      ;;
   linux)
-         if [ -x `type -p setJava` ]; then
+	 setjava="`type -p setJava`"
+         if [ $setjava -a -x $setjava ]; then
            . setJava --devel Java2
          else
            case $HOST in
@@ -273,7 +274,6 @@ case $OS in
                                           JAVA_HOME=/usr/java/j2sdk1.4.1_01
                                           ;;
            esac
-           echo "java is ${JAVA_HOME}"
          fi
          append PATH "${JAVA_HOME}/bin"
          ;;
