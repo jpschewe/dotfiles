@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.60 $
+;; $Revision: 1.61 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -59,7 +59,8 @@
       ;;find-file-use-truenames t ;; always find the real filename
       ;;Manual-program "man"
       visible-bell t;; don't beep
-      scroll-step 5			; set how many lines to scroll at a time      
+      scroll-step 5			; set how many lines to scroll at a time
+      enable-local-eval t ;;don't propmt me about evals in files
       )
 
 ;;handle password prompts
@@ -193,8 +194,6 @@
 ;;;;;;;;;;;;
 (message "Parens")
 (paren-set-mode 'paren)
-;; make parens show the text before the paren in the minibuffer
-(setq paren-backwards-message t)
 
 
 ;;;;;;;;;;;
@@ -503,6 +502,9 @@
   (add-hook 'c-mode-hook
 	    '(lambda () (or (file-exists-p "makefile") (file-exists-p "Makefile")
 			    (progn 
+			      ;; make parens show the text before the paren in the minibuffer
+			      (setq paren-backwards-message t)
+			      
 			      (make-local-variable 'compile-command)  
 			      (setq compile-command
 				    (concat "gmake -j2 "
@@ -586,6 +588,9 @@
 (add-special-font-lock-faces-jps (list 'perl-font-lock-keywords 'perl-font-lock-keywords-1 'perl-font-lock-keywords-2))
 
 (defun cperl-mode-hook-jps ()
+  ;; make parens show the text before the paren in the minibuffer
+  (setq paren-backwards-message t)
+
   (setq tab-width 2)
   (setq indent-tabs-mode nil)
   (camelCase-mode 1)
@@ -608,10 +613,9 @@
 (setq java-home (getenv "JAVA_HOME"))
 
 (defun java-mode-hook-jps ()
-  (make-local-variable 'compile-command)
-  (setq compile-command (concat "javac -deprecation -g -J-mx64m "
-				(file-name-nondirectory
-				 (buffer-file-name))))
+  ;; make parens show the text before the paren in the minibuffer
+  (setq paren-backwards-message t)
+  
   (define-key java-mode-map "\C-cc" 'compile)
   (define-key java-mode-map (concat prefix-key-jps "l") 'insert-class-name-jps)
   (define-key java-mode-map (concat prefix-key-jps "e") 'check-java-imports-jps)
@@ -634,22 +638,24 @@
 (custom-set-variables
 
  ;;now set in prj.el files
- '(jde-run-option-debug '(nil "Attach" nil));;don't open a socket for the debugger
- '(jde-build-function '(jde-ant-build))
- '(jde-ant-read-target t);;prompt for the target name
- '(jde-ant-enable-find t);;make jde-ant look for the build file
- '(jde-ant-complete-target nil);;don't try and parse the build file for me
- '(jde-import-excluded-packages '("\\(bsh.*\\|sched-infra.*\\|com.sun.*\\|sunw.*\\|sun.*\\|org.gjt.mm.mysql.*\\)"))
- '(jde-bug-vm-includes-jpda-p t)
- '(jde-import-sorted-groups 'asc)
- '(jde-import-group-of-rules
-   (quote
-    (
-     ("^\\(com\\.honeywell\\.htc\\.[^.]+\\([.][^.]+[.]\\)*\\)" . 1)
-     ("^\\(com\\.honeywell\\.[^.]+\\([.][^.]+[.]\\)*\\)" . 1)
-     ;;("^javax?\\.")
-     ("^\\([^.]+\\([.][^.]+[.]\\)*\\)" . 1)
-     )))
+;; '(jde-run-option-debug '(nil "Attach" nil));;don't open a socket for the debugger
+;; '(jde-build-function '(jde-ant-build))
+;; '(jde-ant-read-target t);;prompt for the target name
+;; '(jde-ant-enable-find t);;make jde-ant look for the build file
+;; '(jde-ant-complete-target nil);;don't try and parse the build file for me
+;; '(jde-ant-home (getenv "ANT_HOME"))
+;; 
+;; '(jde-import-excluded-packages '("\\(bsh.*\\|sched-infra.*\\|com.sun.*\\|sunw.*\\|sun.*\\|org.gjt.mm.mysql.*\\)"))
+;; '(jde-bug-vm-includes-jpda-p t)
+;; '(jde-import-sorted-groups 'asc)
+;; '(jde-import-group-of-rules
+;;   (quote
+;;    (
+;;     ("^\\(com\\.honeywell\\.htc\\.[^.]+\\([.][^.]+[.]\\)*\\)" . 1)
+;;     ("^\\(com\\.honeywell\\.[^.]+\\([.][^.]+[.]\\)*\\)" . 1)
+;;     ;;("^javax?\\.")
+;;     ("^\\([^.]+\\([.][^.]+[.]\\)*\\)" . 1)
+;;     )))
  ;; end set in prj.el files
  
  '(jde-auto-parse-buffer-interval 60)
@@ -663,9 +669,10 @@
 			     jde-compile-finish-flush-completion-cache))
  )
 
-(setq jde-ant-home (getenv "ANT_HOME"))
-
 (defun jde-mode-hook-jps()
+  ;; make parens show the text before the paren in the minibuffer
+  (setq paren-backwards-message t)
+  
   ;;(modify-syntax-entry ?_ " ")
   (camelCase-mode 1)
   (diminish 'senator-minor-mode "Sen")
@@ -684,6 +691,7 @@
 	 'java-font-lock-keywords-4))
 
   (define-key jde-mode-map [(control ?c) (control ?v) (control ?i)] 'jde-import-organize-jps)
+  ;;FIX doesn't seem to be working yet
   (define-key jde-mode-map [(control ?c) (control ?v) (control ?z)] 'jde-import-then-organize-jps)
   )
 (add-hook 'jde-mode-hook 'jde-mode-hook-jps)
@@ -1219,6 +1227,9 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 	(java-mode "antlr" 2 nil)
 	))
 (defun antlr-mode-hook-jps()
+  ;; make parens show the text before the paren in the minibuffer
+  (setq paren-backwards-message t)
+  
   (make-local-variable 'c-basic-offset)
   (setq c-basic-offset 2)
   (setq fill-column 78)
