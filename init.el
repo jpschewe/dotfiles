@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.75 $
+;; $Revision: 1.76 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -459,6 +459,33 @@
   )
 (add-hook 'html-mode-hook 'html-mode-hook-jps)
 
+;; setup the template for new html files
+(eval-after-load "html-helper-mode"
+  (setq tempo-template-html-skeleton
+	'(
+	  "<?xml version='1.0' encoding='us-ascii'?>" n>
+	  "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" n>
+	  "<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>" n>
+	  "<head>" n>
+	  "<meta http-equiv='Content-Type' content='text/html; charset=us-ascii'/>" n>
+	  "<title>" (p "Document Title: " title) "</title>" n>
+	  "<link rel='stylesheet' type='text/css' href='style.css'/>" n>
+	  "</head>" n>
+	  "<body>" n>
+	  "<h1>" (s title) "</h1>" n>
+	  p
+	  >
+	  ""
+	  "<hr/>"n>
+	  "<p>" n>
+	  (html-helper-return-created-string) html-helper-timestamp-start html-helper-timestamp-end
+	  n>
+	  "</p>" n>
+	  "</body>" n>
+	  "</html>"
+	  )
+	)
+  )
 
 ;;;;;;;;;;;
 ;;
