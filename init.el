@@ -245,6 +245,7 @@
 ;;
 ;;;;;;;;;;;;
 (autoload 'svn-status "psvn" nil t)
+(add-to-list 'completion-ignored-extensions ".svn/")
 
 
 ;;;;;;;;;;;
