@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.16 $
+;; $Revision: 1.17 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -784,15 +784,20 @@
 (message "Mail")
 (require 'vm)
 
-;;FIX perhaps set user-full-name???
+(defvar user-mail-address-alist nil "Pairs of email addresses and names, used by set-user-mail-address")
+(add-to-list 'user-mail-address-alist '("scyllarus@honeywell.com" . "Scyllarus"))
+
 (defun set-user-mail-address (address)
   "Change my email address to whatever the argument is.  Sets
-user-mail-address, mc-gpg-user-id, add-log-mailing-address"
+user-mail-address, mc-gpg-user-id, add-log-mailing-address, user-full-name.
+Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
   (interactive "sAddress: ")
   (setq user-mail-address address
 	mc-gpg-user-id address
 	add-log-mailing-address address
-	))
+	)
+  (setq user-full-name (or (cdr (assoc address user-mail-address-alist)) "Jon Schewe"))
+  )
 
 (defun reset-user-mail-address ()
   "Reset the address based on my location"
@@ -845,8 +850,7 @@ user-mail-address, mc-gpg-user-id, add-log-mailing-address"
     ;;common stuff
     (reset-user-mail-address)
     
-    (setq user-full-name "Jon Schewe"
-	  mail-signature t
+    (setq mail-signature t
 	  mail-signature-file "~/.signature"
 	  mail-self-blind nil
 	  vm-spool-files nil
