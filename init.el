@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.15 $
+;; $Revision: 1.16 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -784,12 +784,14 @@
 (message "Mail")
 (require 'vm)
 
+;;FIX perhaps set user-full-name???
 (defun set-user-mail-address (address)
   "Change my email address to whatever the argument is.  Sets
-user-mail-address, mc-gpg-user-id"
+user-mail-address, mc-gpg-user-id, add-log-mailing-address"
   (interactive "sAddress: ")
   (setq user-mail-address address
 	mc-gpg-user-id address
+	add-log-mailing-address address
 	))
 
 (defun reset-user-mail-address ()
