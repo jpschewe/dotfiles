@@ -220,8 +220,12 @@ esac
 #Xemacs
 case $OS in
   cygwin)
+    case $HOST in
+      eggplant-laptop)
           append PATH "/cygdrive/c/packages/XEmacs/XEmacs-21.4.13/i586-pc-win32"
           ;;
+    esac
+      ;;
   solaris2 | sunos4)
      #prepend PATH /net/packages/xemacs/20.4/install/sparc-sun-solaris2.4/bin
      prepend PATH /net/packages/xemacs/21.1.3/install/bin/sparc-sun-solaris2.6/
@@ -303,10 +307,14 @@ SSUSER=jschewe
 export SSUSER
 case $OS in
   cygwin)
-          SSDIR=//mn65-fs1/projects/schedinfra/vss
-          export SSDIR
-          append PATH "/cygdrive/c/progra~1/micros~4/vss/win32"
-          ;;
+    case $LOCATION in
+      htc)
+        SSDIR=//mn65-fs1/projects/schedinfra/vss
+        export SSDIR
+        append PATH "/cygdrive/c/progra~1/micros~4/vss/win32"
+        ;;
+    esac
+    ;;
   linux)
          SOSHOME=${HOME}/.sos
          export SOSHOME
@@ -367,13 +375,6 @@ case $OS in
           ;;
 esac
 
-#JProbe
-case $OS in
-  cygwin)
-          append PATH "/ProgramFiles/JProbe/Profiler"
-          ;;
-esac
-
 # winnt system stuff
 case $OS in
   cygwin)
@@ -383,46 +384,34 @@ case $OS in
           ;;
 esac
 
-### Oracle on nt
-case $OS in
-  cygwin)
-          append PATH "/cygdrive/c/orant/BIN"
-          ;;
-esac
-
 ### cplex
 #export CPLEXHOME=/net/packages/cplex
 #append PATH ${CPLEXHOME}/6.6/solaris2.5-ultra
 #export CPLEXLICDIR=${CPLEXHOME}/netlicen
 
 ### ilog
-case $OS in
-  cygwin)
-          ILOG_HOME=//hl-dfs/net/packages/ilog
-          append PATH ${ILOG_HOME}/ilm/current/win32
-          ;;
-  solaris2)
-     export ILOG_HOME=/net/packages/ilog
-     append PATH ${ILOG_HOME}/ilm/current/unix
-     ;;
+case $LOCATION in
+  htc)
+    case $OS in
+      cygwin)
+        ILOG_HOME=//hl-dfs/net/packages/ilog
+        append PATH ${ILOG_HOME}/ilm/current/win32
+        ;;
+      solaris2)
+        ILOG_HOME=/net/packages/ilog
+        append PATH ${ILOG_HOME}/ilm/current/unix
+        ;;
+    esac
+    export ILOG_HOME;
+    export ILOG_LICENSE_FILE=${ILOG_HOME}/ilm/access-barrier.ilm
+    ;;
 esac
-export ILOG_HOME;
-export ILOG_LICENSE_FILE=${ILOG_HOME}/ilm/access-barrier.ilm
 
 ### mysql
 case $OS in
   cygwin) append PATH /cygdrive/c/packages/mysql/bin
           ;;
 esac
-
-### apache
-#case $OS in
-#  solaris2)
-#            APACHE_HOME=/net/packages/bugzilla/apache/2.0.40/install
-#            export APACHE_HOME
-#            append PATH ${APACHE_HOME}/bin
-#	    ;;
-#esac
 
 ### gimp
 case $OS in
@@ -434,18 +423,18 @@ esac
 ### VisualWorks 7.1
 case $OS in
   linux)
-         #export VISUALWORKS=/usr/local/vw7nc
-         export VISUALWORKS=/usr/local/vw7.1nc
-         append PATH ${VISUALWORKS}
-         ;;
+    #export VISUALWORKS=/usr/local/vw7nc
+    export VISUALWORKS=/usr/local/vw7.1nc
+    append PATH ${VISUALWORKS}
+    ;;
 esac
 
 ### Mozilla
 case $OS in
   linux)
-         append PATH /usr/local/mozilla
-         append PATH /usr/local/firefox/firefox
-         ;;
+    append PATH /usr/local/mozilla
+    append PATH /usr/local/firefox/firefox
+    ;;
 esac
 
 ### Allegro lisp

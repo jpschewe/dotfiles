@@ -59,6 +59,40 @@ esac
 export ARCH
 export OS
 
+# define location
+case $OS in
+  solaris2 | cygwin)
+            case `nslookup $HOST 2> /dev/null | grep $HOST | awk '{print $2}'` in
+              *.htc.honeywell.com)
+                LOCATION=htc
+                ;;
+              *.mn.mtu.net)
+                LOCATION=home
+                ;;
+              *)
+                LOCATION=unknown
+                ;;
+            esac
+            ;;
+  linux)
+         case `hostname -f` in
+           *.htc.honeywell.com)
+                LOCATION=htc
+                ;;
+           *.mn.mtu.net) 
+                LOCATION=home
+                ;;
+           *) 
+                LOCATION=unknown
+                ;;
+         esac
+         ;;
+  *)
+     LOCATION=unknown
+     ;;
+esac
+export LOCATION
+
 if [ $OS = "cygwin" ]; then
   #set in NT directly export CYGWIN="tty nosmbntsec" #title doesn't seem to help either, binmode will break getenv in emacs, ntea will break permissions for ls
   alias uptime='finger @localhost | grep UpTime'
@@ -395,23 +429,16 @@ case $OS in
 esac
 
 # Setup proxy server
-case $OS in
-  solaris2 | cygwin)
-            case `nslookup $HOST 2> /dev/null | grep $HOST | awk '{print $2}'` in
-              *.htc.honeywell.com) export http_proxy="http://mn65-eggplant.htc.honeywell.com:3128";;
-              #*.mn.mtu.net) export http_proxy="http://eggplant:3128";;
-              *) unset http_proxy;;
-            esac
-            ;;
-  linux)
-         case `hostname -f` in
-           *.htc.honeywell.com) export http_proxy="http://mn65-eggplant.htc.honeywell.com:3128";;
-           #*.mn.mtu.net) export http_proxy="http://eggplant:3128";;
-           *) unset http_proxy;;
-         esac
-         ;;
+case $LOCATION in
+  home)
+    unset http_proxy
+    ;;
+  htc)
+    export http_proxy="http://mn65-eggplant.htc.honeywell.com:3128"
+    ;;
   *)
-     unset http_proxy;;
+    unset http_proxy
+  ;;
 esac
 
 #
