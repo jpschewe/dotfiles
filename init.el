@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.23 $
+;; $Revision: 1.24 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1040,7 +1040,13 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
        (setq gnus-select-method '(nntp "netnews.comcast.net")))
       (t ;;default to mtu.net and hope for the best
        (setq gnus-select-method nil)))
-(setq gnus-secondary-select-methods '(nil))
+(setq gnus-secondary-select-methods '((nnmbox "testing"
+					      (nnmbox-mbox-file "~/Mail/pgp-test")
+					      )))
+(setq mail-sources '(
+		     (file :path "~/Mail/pgp-test.spool")
+		     ))
+
 (setq gnus-activate-foreign-newsgroups t)
 ;;(setq gnus-read-active-file "some")
 (setq gnus-check-new-newsgroups nil)
