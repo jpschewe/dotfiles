@@ -444,6 +444,7 @@ esac
 case $OS in
   linux)
          append PATH /usr/local/mozilla
+         append PATH /usr/local/firefox/firefox
          ;;
 esac
 
