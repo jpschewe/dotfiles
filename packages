@@ -302,6 +302,8 @@ case $OSTYPE in
             eggplant-laptop)
                            JAVA_HOME="c:/packages/jdk-1.5.0"
                            ;;
+            *)
+		JAVA_HOME="c:/packages/jdk1.5.0_01"
           esac
           UJAVA_HOME="`cygpath -u ${JAVA_HOME}`"
           append PATH "${UJAVA_HOME}/bin"
@@ -361,11 +363,11 @@ case $OSTYPE in
     esac
     ;;
   linux)
-         SOSHOME=${HOME}/.sos
+         SOSHOME="${HOME}/.sos"
          export SOSHOME
          ;;
   *)
-     MWFONT_CACHE_DIR=${HOME}/windows/font-cache
+     MWFONT_CACHE_DIR="${HOME}/windows/font-cache"
      export MW_FONT_CACHE_DIR
      ;;
 esac
@@ -475,6 +477,13 @@ esac
 case $OSTYPE in
   cygwin)
           append PATH /cygdrive/c/packages/gimp/bin
+          ;;
+esac
+
+### subversion
+case $OSTYPE in
+  cygwin)
+          append PATH /usr/lib/subversion/bin
           ;;
 esac
 
