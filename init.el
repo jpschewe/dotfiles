@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.76 $
+;; $Revision: 1.77 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -797,7 +797,7 @@
 ;; Load CEDET
 (load-file "~/.xemacs/cedet-1.0beta3b/common/cedet.el")
 ;; Enabling SEMANTIC minor modes.  See semantic/INSTALL for more ideas.
-(semantic-load-enable-code-helpers)
+(semantic-load-enable-minimum-features)
 
 (add-to-list 'auto-mode-alist '("\\.jass$" . jde-mode))
 (add-to-list 'auto-mode-alist '("\\.jad$" . jde-mode))
@@ -1144,10 +1144,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (setq send-mail-function 'smtpmail-send-it)
 (setq message-send-mail-function send-mail-function)
 (cond ((eq system-location 'honeywell)
-       (cond ((string-match "mn65-eggplant" (system-name)) 
-	      (setq smtp-server "localhost"))
-	     (t 
-	      (setq smtp-server "smtp.honeywell.com"))))
+       (setq smtp-server "lug.htc.honeywell.com"))
       ((eq system-location 'home)
        (setq smtp-server "eggplant"))
       (t;;default to mtu.net and hope for the best
