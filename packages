@@ -7,7 +7,6 @@
 #
 # Null out variables to be set, and export them.
 PATH= ; export PATH
-INFOPATH= ; export INFOPATH
 LD_LIBRARY_PATH= ; export LD_LIBRARY_PATH
 LM_LICENSE_FILE= ; export LM_LICENSE_FILE
 CLASSPATH= ; export CLASSPATH
@@ -95,7 +94,6 @@ if [ \! $OS = "cygwin" -a \! $OS = "linux" ]; then
 
   ### GNU misc
   prepend PATH /usr/local/gnu-misc/current/bin
-  prepend INFOPATH /usr/local/gnu-misc/current/info
 
   ### PERL
   prepend PATH /usr/local/perl/5.6.1/bin
@@ -116,7 +114,6 @@ if [ \! $OS = "cygwin" -a \! $OS = "linux" ]; then
   # GNU gcc
   export GCC_PATH=/usr/local/gnu-gcc/current
   prepend PATH		${GCC_PATH}/bin
-  prepend INFOPATH	${GCC_PATH}/info
 
   ### SPI
   #export SPI_DIR=/net/projects/spi/developers/jschewe/DiagDisp/
@@ -128,7 +125,14 @@ fi
 case $OS in
   solaris2) prepend PATH /opt/SUNWspro/bin
 	    prepend PATH /usr/ccs/bin
-	    #prepend LM_LICENSE_FILE /usr/local/flexlm/licenses/license.dat;; #1726@stan;;
+	    #prepend LM_LICENSE_FILE /usr/local/flexlm/licenses/license.dat;; #1726@stan
+            ;;
+esac 
+
+### Procmail
+case $OS in
+  solaris2) append PATH /net/packages/procmail/3.10/bin.solaris2
+            ;;
 esac 
 
 ### AssertMate
@@ -143,7 +147,6 @@ fi
 # TeX
 addpkg_tex() {
   append PATH /usr/local/tex/current/bin
-  append INFOPATH /usr/local/tex/current/info
 }
 
 ### netcat
@@ -205,7 +208,6 @@ case ${OS} in
           ;;
   solaris2)
             append PATH /net/packages/gnu-cm/1999-12/install/sparc-sun-solaris2.6/bin
-            append INFOPATH /net/packages/gnu-cm/1999-12/install/sparc-sun-solaris2.6/info
 esac
 
 #enscript
@@ -458,7 +460,6 @@ esac
 ### HOME
 prepend PATH "${HOME}/bin"
 prepend PATH "${HOME}/bin/${OS}"
-append INFOPATH "${HOME}/info"
 
 if [ $OS = "cygwin" ]; then
   #echo "path is $PATH"

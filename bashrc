@@ -385,6 +385,16 @@ case $OS in
      ;;
 esac
 
+INFOPATH=`substpath PATH bin info`
+export INFOPATH
+case $OS in
+  linux) 
+     append INFOPATH /usr/share/info
+     ;;
+  *)
+     ;;
+esac
+
 # Setup proxy server
 case $OS in
   solaris2 | cygwin)
