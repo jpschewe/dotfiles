@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.65 $
+;; $Revision: 1.66 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -704,9 +704,18 @@
   (save-excursion
     (jde-import-organize t)))
 
-(add-hook 'jde-run-mode-hook 'turn-off-font-lock)
+(unless (fboundp 'subst-char-in-string)
+  (defun subst-char-in-string (fromchar tochar string &optional inplace)
+    "Replace FROMCHAR with TOCHAR in STRING each time it occurs.
+Unless optional argument INPLACE is non-nil, return a new string."
+    (let ((i (length string))
+	  (newstr (if inplace string (copy-sequence string))))
+      (while (> i 0)
+	(setq i (1- i))
+	(if (eq (aref newstr i) fromchar)
+	    (aset newstr i tochar)))
+      newstr)))
 
-(autoload 'subst-char-in-string "jde-util" nil t)
 
 ;;(defadvice jde-import-choose-imports (around fix-to-do-save-excursion)
 ;;  "Fix annoying behavior that causes jde to remove my split buffers after importing a class.  Should be fixed in next version."
@@ -722,7 +731,8 @@
 ;;attention to use-dialog-box
 (eval-after-load "efc-xemacs"
   (when (fboundp 'make-dialog-box)
-    (setq efc-query-options-function nil)))
+    (setq efc-query-options-function nil)
+    t))
 
 
 ;; Tomcat
