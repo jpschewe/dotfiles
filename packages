@@ -312,7 +312,8 @@ case $OSTYPE in
                      for java_dir in \
                        /usr/java/jdk1.5.0_01 \
                        /usr/java/jdk1.5.0 \
-                       /usr/java/j2sdk1.4.2_04
+                       /usr/java/j2sdk1.4.2_04 \
+                      /usr/lib/java
                        do
                          if [ -z "${JAVA_HOME}" -a -e ${java_dir} ]; then
                            JAVA_HOME=${java_dir}
