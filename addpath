@@ -1,0 +1,111 @@
+# Hey EMACS, this should be in -*- sh -*- mode
+#
+# Routines to modify environment variables.
+# This is sourced from my .bashrc file.
+#
+# Author: Eric Engstrom (engstrom@mtu.net)
+##
+
+# Add to the path variable named by $1 the component $2. 
+# $3 must be "append" or "prepend" to indicate where the component is added.
+# $4 optionally specifies the separator character... 
+# separator defaults to ":" or ";" if the latter is already used.
+addpath () {
+    local p s v r
+    if [ -z "$2" -o ! -e "$2" ]; then return; fi
+    p=$1
+    v=${!p}
+    test "$v" != "${v%%;*}" && s=';'
+    s=${s:-":"}
+    s=${4:-"$s"}
+    case "$v" in
+	*"$s$2$s"*|*"$s$2"|"$2$s"*|"$2")	r="$v";;
+	"")					r="$2";;
+	*)			case "$3" in
+					p*)	r="$2$s$v";;
+					a*)	r="$v$s$2";;
+				esac
+    esac
+    export $p="$r"
+}
+
+# convenience routines which append/prepend a string to a path.
+append () { addpath "$1" "$2" append "$3"; }
+prepend () { addpath "$1" "$2" prepend "$3"; }
+
+# Substitute $3 for $2 at the end of all components of path variable
+# named by $1 and return the subset which represent existing directories
+#p=$PATH; until [ $p = $d ]; do d=${p%%:*}; m=${d/%bin/man}; ; p=${p#*:}; done
+substpath() {
+    local p d m r a b
+    p=${!1}
+    a=$2
+    b=$3
+    until [ "$p" == "$d" ]; do
+        d=${p%%:*}
+        m=${d/%$a/$b};
+        if [ $d != $m -a -d "$m" ]; then
+            r=$r:$m
+        fi
+        p=${p#*:}
+    done 
+    echo ${r#:}
+}
+
+# Replace all substrings of $2 with $3 in the variable named by $1
+replpath () {
+    local p v r
+    if [ -z "$3" -o ! -e "$3" ]; then return; fi
+    p=$1
+    v=${!p}
+    r=${v//$2/$3}
+    #echo "$p - $v - $r"
+    export $p="$r"
+    hash -r
+}
+
+# Remove all path components $2 from the variable named by $1
+rmpath () {
+    local p v r
+    if [ -z "$2" ]; then return; fi
+    p=$1
+    v=${!p}
+    r=${v//$2}
+    r=${r//::/:}  # remove doubled path separators
+    echo "$p - $v - $r"
+    export $p="$r"
+    hash -r
+}
+
+# Use a "New" version for a package by updating the corresponding
+# ${PACKAGE}DIR variable as well as the PATH and MANPATH variables.
+# NOTE: HIGHLY dependent upon my conventions for Package directory
+# variables as well as PATH and MANPATH conventions
+newpkg() {
+    local d v r
+    # check parameters
+    if [ "$#" -ne 2 ]; then 
+        echo "Usage: $FUNCNAME <pkg> <ver>"
+        return 
+    fi
+    # compute the package-dir variable name
+    d=`echo "$1DIR" | tr a-z A-Z`
+    if [ -z "${!d}" ]; then
+        echo "$FUNCNAME(): no package-dir variable named '${d}'" 1>&2
+        return
+    fi
+    # compute the new value of the pkg-dir
+    v=${!d}
+    r="${v%/*}/$2"
+    if [ ! -d "$r" ]; then
+        echo "$FUNCNAME(): no package directory named '${r}'" 1>&2
+        return
+    fi
+    # set the value of the package variable to the new value
+    replpath PATH "$v" "$r"
+    replpath MANPATH "$v" "$r"
+    export $d="$r"
+    echo "${d} is now '${!d}'; in \$PATH and \$MANPATH"
+}
+
+# eof .addpath

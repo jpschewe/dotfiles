@@ -1,0 +1,456 @@
+# Hey EMACS, this should be in -*- ksh -*- mode
+#
+# FILE		.paths
+# OVERVIEW	setup bash/sh paths (PATH,MANPATH)
+#
+
+#
+# Null out variables to be set, and export them.
+PATH= ; export PATH
+INFOPATH= ; export INFOPATH
+LD_LIBRARY_PATH= ; export LD_LIBRARY_PATH
+LM_LICENSE_FILE= ; export LM_LICENSE_FILE
+CLASSPATH= ; export CLASSPATH
+
+### "Standard" OS PATH
+append PATH 		/usr/bin
+
+#append LD_LIBRARY_PATH	/usr/lib
+append PATH /bin
+
+### Backwards compatible
+case $OS in
+  linux)
+         append PATH /usr/local/bin
+         append PATH /opt/kde3/bin
+         append PATH /opt/gnome/bin
+         ;;
+esac
+
+### Standard OS Networking
+case $OS in
+  solaris2) append PATH /usr/sbin
+	    append PATH /usr/dt/bin
+	    append PATH /opt/SUNWdtpcv/bin
+	    #append LD_LIBRARY_PATH /opt/SUNWdtpcv/lib
+	    ;;
+  *)        append PATH /usr/etc;;
+esac
+append PATH /etc
+
+### BSD Compatability
+case $OS in
+  irix5 | irix6)     prepend PATH /usr/bsd;;
+  sunos4 | solaris2) prepend PATH /usr/ucb;;
+esac
+
+#-----------------------------------------------------------------------------
+### X Windows
+case $OS in
+  sunos4) X11HOME=/usr/local/X11R5 
+          append PATH	${X11HOME}/local
+          append PATH /usr/local/X11/current/bin
+          #append LD_LIBRARY_PATH /usr/local/X11/current/lib
+          ;;
+  cygwin) X11HOME=/usr/X11R6 
+          append PATH ${X11HOME}/bin
+          ;;
+  solaris2)      X11HOME=/usr/local/X11/current;;
+  linux) X11HOME=/usr/X11R6;;
+esac
+
+if [ \! $OS = "cygwin" ]; then
+  append PATH 		${X11HOME}/bin
+  #append LD_LIBRARY_PATH	${X11HOME}/lib
+  export X11INC_DIR=${X11HOME}/include
+  export X11LIB_DIR=${X11HOME}/lib
+fi
+
+### OS Native X/OpenWindows
+case $OS in
+  hpux9 | hpux10)    append PATH /usr/bin/X11;;
+  irix5 | irix6)     append PATH /usr/bin/X11;;
+  sunos4 | solaris2) export OPENWINHOME=/usr/openwin
+		     append PATH 		${OPENWINHOME}/bin
+		     #append LD_LIBRARY_PATH	${OPENWINHOME}/lib
+		     #append HELPPATH		${OPENWINHOME}/lib/help
+		     ##export HELPPATH
+		     ;;
+esac 
+
+#-----------------------------------------------------------------------------
+
+if [ \! $OS = "cygwin" -a \! $OS = "linux" ]; then
+  ### psutils
+  append PATH /usr/local/psutils/current/bin
+
+  ### GNNpress
+  #append PATH /net/packages/gnnpress/1.2b/install/${PLATFORM}
+
+  ### Ispell
+  append PATH /usr/local/ispell/current/bin
+
+  ### GNU misc
+  prepend PATH /usr/local/gnu-misc/current/bin
+  prepend INFOPATH /usr/local/gnu-misc/current/info
+
+  ### PERL
+  prepend PATH /usr/local/perl/5.6.1/bin
+
+  ### tcl-tk
+  #append PATH /usr/local/tcl-tk/current/bin
+  #append LD_LIBRARY_PATH /usr/local/tcl-tk/current/lib
+  append PATH /usr/local/tcl-tk/8.0/bin
+  #append LD_LIBRARY_PATH /usr/local/tcl-tk/8.0/lib
+  TCL_LIBRARY=/usr/local/tcl-tk/8.0/lib/tcl8.0
+  TK_LIBRARY=/usr/local/tcl-tk/8.0/lib/tk8.0
+  #append PATH /usr/local/tcl-tk/current/bin
+  # append LD_LIBRARY_PATH /usr/local/tcl-tk/current/lib
+  # TCL_LIBRARY=/usr/local/tcl-tk/current/lib/tcl7.6
+  # TK_LIBRARY=/usr/local/tcl-tk/current/lib/tk4.2
+  export TCL_LIBRARY TK_LIBRARY
+
+  # GNU gcc
+  export GCC_PATH=/usr/local/gnu-gcc/current
+  prepend PATH		${GCC_PATH}/bin
+  prepend INFOPATH	${GCC_PATH}/info
+
+  ### SPI
+  #export SPI_DIR=/net/projects/spi/developers/jschewe/DiagDisp/
+  #append PATH ${SPI_DIR}/bin/sun4
+  #append MANPATH ${SPI_DIR}/man
+fi
+
+# Standard OS Compiler
+case $OS in
+  solaris2) prepend PATH /opt/SUNWspro/bin
+	    prepend PATH /usr/ccs/bin
+	    #prepend LM_LICENSE_FILE /usr/local/flexlm/licenses/license.dat;; #1726@stan;;
+esac 
+
+### AssertMate
+if [ $OS = "cygwin" ]; then
+  ASSERT_HOME="c:/packages/AssertMate"
+  export ASSERT_HOME
+  ASSERTMATE="${ASSERT_HOME}/class/RSTclasses.zip"
+  export ASSERTMATE
+fi
+
+#------------------------------------------------------------------------------
+# TeX
+addpkg_tex() {
+  append PATH /usr/local/tex/current/bin
+  append INFOPATH /usr/local/tex/current/info
+}
+
+### netcat
+case $OS in
+  cygwin) append PATH /cygdrive/c/packages/netcat
+esac
+
+### samba
+#case $OS in
+#  solaris2) append PATH /net/packages/samba/1.9.18p7/install/sparc-sun-solaris2.5/bin;;
+#esac
+
+### lynx
+#case $OS in
+#  solaris2) 
+#	 append PATH /net/packages/lynx/sparc-sun-solaris2.5/bin
+#  ;;
+#esac
+
+### Sicstus
+#case $OS in
+#  solaris2)
+#    export SICSHOME=/net/packages/prolog/sicstus/sicstus3.8.5/bin
+#    # for emacs
+#    export EPROLOG sictus 
+#    append PATH ${SICSHOME}
+#    ;;
+#  cygwin)
+#          ### SICStus Prolog
+#          append PATH /cygdrive/c/packages/SICStus_Prolog/bin
+#          ;;
+#esac
+
+### daVinci
+#case $OS in
+#  solaris2)
+#    export DAVINCIHOME=/net/projects/d-circa/code/daVinci_V2.0
+#    append PATH ${DAVINCIHOME}
+#    ;;
+#esac
+
+### ical
+#case ${OS} in
+#  solaris2)
+#    append PATH /net/packages/ical/2.0p2/sparc-sun-solaris2.5/bin
+#    ;;
+#  sunos4)
+#    append PATH /net/packages/ical/2.0p2/sparc-sun-sunos4.1.4/bin
+#    ;;
+#esac
+
+### cvs
+CVSIGNORE=".cvsignore"
+CVS_RSH="ssh"
+export CVSIGNORE CVS_RSH
+case ${OS} in
+  cygwin)
+          #prepend PATH /ProgramFiles/CVS\ for\ NT
+          ;;
+  solaris2)
+            append PATH /net/packages/gnu-cm/1999-12/install/sparc-sun-solaris2.6/bin
+            append INFOPATH /net/packages/gnu-cm/1999-12/install/sparc-sun-solaris2.6/info
+esac
+
+#enscript
+case $OS in
+  cygwin)
+          export ENSCRIPT_LIBRARY="c:/packages/enscript"
+          ;;
+esac
+
+#Xemacs
+case $OS in
+  cygwin)
+          append PATH "/cygdrive/c/packages/XEmacs/XEmacs-21.4.9/i586-pc-win32"
+          ;;
+  solaris2 | sunos4)
+     #prepend PATH /net/packages/xemacs/20.4/install/sparc-sun-solaris2.4/bin
+     prepend PATH /net/packages/xemacs/21.1.3/install/bin/sparc-sun-solaris2.6/
+     ;;
+esac
+# make sure XEmacs generates an error log
+xemacs () {
+  if [ ! -d ~/.xemacs ]; then
+    mkdir -p ~/.xemacs
+  fi
+  
+  if [ -e ~/.xemacs/${HOST}-errors ]; then
+    mv -f ~/.xemacs/${HOST}-errors ~/.xemacs/${HOST}-errors.old
+  fi
+  command xemacs $* > ~/.xemacs/${HOST}-errors 2>&1
+}
+
+
+### java
+case $OS in
+  cygwin)
+          case $HOST in
+            MN65-EGGPLANT | MN65-SCHEDINFRA)
+                           #JAVA_HOME="c:/packages/jdk1.3.1"
+                           #JAVA_HOME="c:/packages/jdk-1.4.0"
+                           #JAVA_HOME="c:/packages/jdk-1.4.0_01"
+                           #JAVA_HOME="c:/packages/jdk-1.4.1"
+                           JAVA_HOME="c:/packages/jdk-1.4.1_01"
+                           ;;
+            MN65-PENGUINI)
+                           JAVA_HOME="d:/packages/Sun-JDK-1.3.1"
+                           ;;
+          esac
+          UJAVA_HOME="`cygpath -u ${JAVA_HOME}`"
+          append PATH "${UJAVA_HOME}/bin"
+          append PATH "${UJAVA_HOME}/jre/bin"
+          ;;
+  solaris2 | sunos4)
+                     JAVA_HOME=/net/packages/java/jdk/1.4.1_01/solaris-sparc-32bit
+                     prepend PATH "${JAVA_HOME}/bin"
+                     ;;
+  linux)
+         case $HOST in
+           mn65-eggplant)
+                          JAVA_HOME=/usr/java/j2sdk1.4.2
+                          ;;
+           andromeda.htc.honeywell.com)
+                                        JAVA_HOME=/usr/java/j2sdk1.4.1_01
+                                        ;;
+         esac
+         append PATH "${JAVA_HOME}/bin"
+         ;;
+esac
+export JAVA_HOME
+
+#AssertMate
+case $OS in
+  cygwin)
+          append PATH "/cygdrive/c/packages/AssertMate/bin"
+          ;;
+esac
+
+### unzip & Motif
+#case $OS in
+   #solaris2) append LD_LIBRARY_PATH /usr/dt/lib;;
+#esac
+
+#source safe
+SSUSER=jschewe
+export SSUSER
+case $OS in
+  cygwin)
+          SSDIR=//mn65-fs1/projects/schedinfra/vss
+          export SSDIR
+          append PATH "/cygdrive/c/progra~1/micros~4/vss/win32"
+          ;;
+  linux)
+         SOSHOME=${HOME}/.sos
+         export SOSHOME
+         ;;
+  *)
+     MWFONT_CACHE_DIR=${HOME}/windows/font-cache
+     export MW_FONT_CACHE_DIR
+     ;;
+esac
+
+### ant
+case $OS in
+  cygwin)
+          ANT_HOME=/cygdrive/c/packages/ant
+          ;;
+  linux)
+         ANT_HOME=/opt/jakarta/ant
+         ;;
+  *)
+     ANT_HOME=/net/packages/java/ant/1.5
+     ;;
+esac
+export ANT_HOME
+export ANT_OPTS="-Xmx256M"
+append PATH "${ANT_HOME}/bin"
+
+# Microsoft VisualStudio C/C++
+case $OS in
+  cygwin)
+          append PATH "c:/Program Files/Microsoft Visual Studio/VC98/Bin"
+          append PATH "c:/Program Files/Microsoft Visual Studio/VC98/Lib"
+          append PATH "c:/Program Files/Microsoft Visual Studio/Common/MSDev98/Bin"
+          export LIB=`cygpath -w "/ProgramFiles/Microsoft Visual Studio/VC98/Lib"`
+          export INCLUDE=`cygpath -w "/ProgramFiles/Microsoft Visual Studio/VC98/Include"`
+          ;;
+esac
+
+## ipso
+#case $OS in
+#  cygwin)
+#          append PATH "/cygdrive/h/projects/IPSO/Active-R1/com/honeywell/goalsetter/bpc"
+#          append PATH "/cygdrive/h/projects/IPSO/Active-R1/com/honeywell/goalsetter/util/database"
+#          append PATH "/cygdrive/h/projects/IPSO/Active-R1/com/honeywell/goalsetter/bpc/bpc_ellipsoid"
+#          ;;
+#esac
+
+#enscript
+case $OS in
+  cygwin)
+          append PATH "/cygdrive/c/packages/enscript"
+          ;;
+esac
+
+#jad
+case $OS in
+  cygwin)
+          append PATH "/cygdrive/c/Installs/jad"
+          ;;
+esac
+
+#JProbe
+case $OS in
+  cygwin)
+          append PATH "/ProgramFiles/JProbe/Profiler"
+          ;;
+esac
+
+# winnt system stuff
+case $OS in
+  cygwin)
+          append PATH "/cygdrive/c/WINDOWS/system32"
+          append PATH "/cygdrive/c/WINDOWS"
+          append PATH "/cygdrive/c/packages/putty"
+          ;;
+esac
+
+### Oracle on nt
+case $OS in
+  cygwin)
+          append PATH "/cygdrive/c/orant/BIN"
+          ;;
+esac
+
+### cplex
+#export CPLEXHOME=/net/packages/cplex
+#append PATH ${CPLEXHOME}/6.6/solaris2.5-ultra
+#export CPLEXLICDIR=${CPLEXHOME}/netlicen
+
+### ilog
+case $OS in
+  cygwin)
+          ILOG_HOME=//hl-dfs/net/packages/ilog
+          append PATH ${ILOG_HOME}/ilm/current/win32
+          ;;
+  solaris2)
+     export ILOG_HOME=/net/packages/ilog
+     append PATH ${ILOG_HOME}/ilm/current/unix
+     ;;
+esac
+export ILOG_HOME;
+export ILOG_LICENSE_FILE=${ILOG_HOME}/ilm/access-barrier.ilm
+
+### mysql
+case $OS in
+  cygwin) append PATH /cygdrive/c/packages/mysql/bin
+          ;;
+esac
+
+### apache
+#case $OS in
+#  solaris2)
+#            APACHE_HOME=/net/packages/bugzilla/apache/2.0.40/install
+#            export APACHE_HOME
+#            append PATH ${APACHE_HOME}/bin
+#	    ;;
+#esac
+
+### gimp
+case $OS in
+  cygwin)
+          append PATH /cygdrive/c/packages/gimp/bin
+          ;;
+esac
+
+### VisualWorks 7.1
+case $OS in
+  linux)
+         #export VISUALWORKS=/usr/local/vw7nc
+         export VISUALWORKS=/usr/local/vw7.1nc
+         append PATH ${VISUALWORKS}
+         ;;
+esac
+
+### Mozilla
+case $OS in
+  linux)
+         append PATH /usr/local/mozilla
+         ;;
+esac
+
+### Allegro lisp
+case $OS in
+  linux)
+         append PATH /usr/local/acl/acl62
+         ;;
+  solaris2)
+            append PATH /net/packages/allegro/acl62
+            ;;
+esac
+
+### HOME
+prepend PATH ${HOME}/bin
+prepend PATH ${HOME}/bin/${OS}
+#prepend LD_LIBRARY_PATH ${HOME}/lib/${OS}
+append INFOPATH ${HOME}/info
+
+if [ $OS = "cygwin" ]; then
+  #echo "path is $PATH"
+  WPATH=`cygpath -p -w "$PATH"`
+  export PATH=`cygpath -p -u "$WPATH"`
+fi
