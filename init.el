@@ -1,4 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
+;; $Revision: 1.3 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -302,36 +303,17 @@
     (add-to-list 'dired-auto-shell-command-alist '("\\.prc$" "pilot-xfer -i")))
 
   ;;images
-  (add-to-list 'dired-auto-shell-command-alist '("\\.ps$" "gv"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.jpg$" "gimp"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.JPG$" "gimp"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.jpg$" "display"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.JPG$" "display"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.bmp$" "gimp"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.bmp$" "display"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.pbm$" "gimp"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.pbm$" "display"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.pgm$" "gimp"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.pgm$" "display"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.ppm$" "gimp"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.ppm$" "display"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.xbm$" "gimp"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.xbm$" "display"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.xpm$" "gimp"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.xpm$" "display"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.ras$" "gimp"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.ras$" "display"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.rast$" "gimp"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.rast$" "display"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.gif$" "gimp"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.gif$" "display"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.tif$" "gimp"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.tif$" "display"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.tiff$" "gimp"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.tiff$" "display"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.png$" "gimp"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.png$" "display"))
-
+  (let ((extensions '("ps" "jpg" "bmp" "pbm" "pgm" "ppm" "xbm" "xpm" "ras" "rast" "gif" "tif" "tiff" "png")))
+    ;;gimp
+    (when (eq system-type 'linux)
+      (map 'list '(lambda (ext)
+		    (add-to-list 'foo-alist (list (concat "\\." ext "$") "gimp"))) extensions))
+    ;;display
+    (when (eq system-type 'linux)
+      (map 'list '(lambda (ext)
+		    (add-to-list 'foo-alist (list (concat "\\." ext "$") "display"))) extensions))
+    )
+  
   ;;bzip
   (add-to-list 'dired-auto-shell-command-alist '("\\.bz2$" "bunzip2"))
   (add-to-list 'dired-auto-shell-command-alist '("\\.tar.bz2$" "tar --bzip2 -xvf"))
@@ -346,8 +328,10 @@
   (add-to-list 'dired-auto-shell-command-alist '("\\.ppt$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.sxi$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.rtf$" openoffice-executable))
+  
+  ;; default windows handling
   (when (eq system-type 'windows-nt)
-    (add-to-list 'dired-auto-shell-command-alist '("\\.mdb$" "winrun")))
+    (add-to-list 'dired-auto-shell-command-alist '(".*" "winrun")))
 
   ;;Protege, almost works
   (add-to-list 'dired-auto-shell-command-alist '("\\.prj$" "protege"))
@@ -897,7 +881,7 @@
        (setq smtp-server "smtp.honeywell.com"))
       ((string-match "mn.mtu.net" (system-name))
        (setq smtp-server "eggplant"))
-      (t
+      (T
        (setq smtp-server "mtu.net")))
 ;;(setq smtpmail-debug-info nil) ;;show trace buffer
 ;;(setq smtpmail-code-conv-from nil)
