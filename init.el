@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.51 $
+;; $Revision: 1.52 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -609,6 +609,7 @@
   (define-key java-mode-map (concat prefix-key-jps "p") 'insert-package-name-jps)
   (define-key java-mode-map (concat prefix-key-jps "l") 'insert-class-name-jps)
   (define-key java-mode-map (concat prefix-key-jps "e") 'check-java-imports-jps)
+  (define-key java-mode-map [(control ?c) (control ?v) (control ?z)] 'jde-import-then-organize-jps)
   (define-key java-mode-map [(control ?c) (control ?v) (control ?i)] 'jde-import-organize-jps)
   (define-key java-mode-map "\C-cr" 'replace-string)
   (c-set-offset 'inexpr-class 0)	;Don't indent inner classes too much
@@ -684,6 +685,11 @@
   )
 (add-hook 'jde-mode-hook 'jde-mode-hook-jps)
 
+(defun jde-import-then-organize-jps ()
+  (interactive)
+  (call-interactively 'jde-import-find-and-import)
+  (jde-import-organize-jps))
+
 (defun jde-import-organize-jps ()
   (interactive)
   (save-excursion
@@ -694,6 +700,11 @@
 (defadvice jde-import-choose-imports (around fix-to-do-save-excursion)
   "Fix annoying behavior that causes jde to remove my split buffers after importing a class.  Should be fixed in next version."
   (save-window-excursion
+    (setq ad-return-value ad-do-it)))
+
+(defadvice jde-import-organize (around fix-to-do-save-excursion)
+  "Fix annoying behavior that causes jde to remove my split buffers after importing a class.  Should be fixed in next version."
+  (save-excursion
     (setq ad-return-value ad-do-it)))
 
 ;; Tomcat
