@@ -287,6 +287,10 @@ sd() {
   esac
 }
 
+if [ -n `type -p nc` ]; then
+  alias nc=netcat
+fi
+
 dsd() {
   case "$1" in
   "") echo "usage: dsd <dir>" >&2 ;;
