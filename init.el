@@ -1,13 +1,13 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.54 $
+;; $Revision: 1.55 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
  '(gutter-buffers-tab-enabled nil);;get rid of stupid themometer
  '(gutter-buffers-tab-visible nil);;get rid of stupid themometer
  '(load-home-init-file t t);;don't let XEmacs mangle my .emacs
- '(query-user-mail-address nil) ;; quit asking me my email address
-)
+ '(query-user-mail-address nil);; quit asking me my email address
+ )
 
 ;;set faces up front
 (custom-set-faces)
@@ -141,8 +141,8 @@
 (setq font-lock-maximum-decoration t
       font-lock-use-colors '(color)
       font-lock-auto-fontify t
-      font-lock-verbose nil ;; no messages while fontifying
-      lazy-lock-stealth-verbose nil ;; no messages while fontifying
+      font-lock-verbose nil;; no messages while fontifying
+      lazy-lock-stealth-verbose nil;; no messages while fontifying
       fast-lock-cache-directories '("~/.xemacs/font-lock-cache")
       lazy-lock-stealth-time nil
       query-replace-highlight t
@@ -607,11 +607,8 @@
 				(file-name-nondirectory
 				 (buffer-file-name))))
   (define-key java-mode-map "\C-cc" 'compile)
-  (define-key java-mode-map (concat prefix-key-jps "p") 'insert-package-name-jps)
   (define-key java-mode-map (concat prefix-key-jps "l") 'insert-class-name-jps)
   (define-key java-mode-map (concat prefix-key-jps "e") 'check-java-imports-jps)
-  (define-key java-mode-map [(control ?c) (control ?v) (control ?i)] 'jde-import-organize-jps)
-  (define-key java-mode-map [(control ?c) (control ?v) (control ?z)] 'jde-import-then-organize-jps)
   (define-key java-mode-map "\C-cr" 'replace-string)
   (c-set-offset 'inexpr-class 0)	;Don't indent inner classes too much
   (c-set-offset 'class-close 'c-lineup-close-paren) ;Line up end of class
@@ -631,7 +628,7 @@
 (custom-set-variables
 
  ;;now set in prj.el files
- '(jde-run-option-debug '(nil "Attach" nil)) ;;don't open a socket for the debugger
+ '(jde-run-option-debug '(nil "Attach" nil));;don't open a socket for the debugger
  '(jde-build-function '(jde-ant-build))
  '(jde-ant-read-target t);;prompt for the target name
  '(jde-ant-enable-find t);;make jde-ant look for the build file
@@ -660,11 +657,7 @@
 			     jde-compile-finish-flush-completion-cache))
  )
 
-(cond ((or (eq system-type 'windows-nt)
-	   (eq system-type 'cygwin32))
-       (custom-set-variables '(jde-ant-home "c:/packages/ant")))
-      ((eq system-type 'linux)
-       (custom-set-variables '(jde-ant-home "/opt/jakarta/ant"))))
+(setq jde-ant-home (getenv "ANT_HOME"))
 
 (defun jde-mode-hook-jps()
   ;;(modify-syntax-entry ?_ " ")
@@ -683,6 +676,9 @@
 	 'java-font-lock-keywords-2
 	 'java-font-lock-keywords-3
 	 'java-font-lock-keywords-4))
+
+  (define-key jde-mode-map [(control ?c) (control ?v) (control ?i)] 'jde-import-organize-jps)
+  (define-key jde-mode-map [(control ?c) (control ?v) (control ?z)] 'jde-import-then-organize-jps)
   )
 (add-hook 'jde-mode-hook 'jde-mode-hook-jps)
 
@@ -729,29 +725,6 @@
   (interactive)
   (file-name-nondirectory (expand-file-name buffer-file-name)))
 
-(defun insert-package-name-jps ()
-  (interactive)
-  (insert (concat "package "
-		  (replace-in-string
-		   (replace-in-string
-		    (replace-in-string
-		     (if (eq nil jde-run-working-directory)
-			 (file-name-directory (buffer-file-name))
-		       (replace-in-string (file-name-directory
-					   (buffer-file-name)) (expand-file-name jde-run-working-directory) "")
-		       )
-		     "/" "\\.")
-		    "\\.$" "")
-		   "^\\." "")
-		  ";\n")))
-
-(defun get-java-class-file-jps ()
-  (interactive)
-  (replace-in-string (get-java-file-jps)
-                     ".java"
-                     ".class"))
-
-
 ;;;;;;;;;;;
 ;;
 ;; SGML
@@ -783,7 +756,7 @@
 ;;my own catalog for dtds
 (require 'psgml)
 (add-to-list 'sgml-catalog-files
-             (expand-file-name "~/.xemacs/xemacs-packages/etc/CATALOG" (locate-data-directory "config-jps")))
+	     (expand-file-name "~/.xemacs/xemacs-packages/etc/CATALOG" (locate-data-directory "config-jps")))
 
 (setq sgml-auto-activate-dtd nil	; don't parse dtd right away
       sgml-warn-about-undefined-elements nil ; don't complain about unknown elements
@@ -964,7 +937,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 	      (setq smtp-server "smtp.honeywell.com"))))
       ((eq system-location 'home)
        (setq smtp-server "eggplant"))
-      (t ;;default to mtu.net and hope for the best
+      (t;;default to mtu.net and hope for the best
        (setq smtp-server "mtu.net")))
 ;;(setq smtpmail-debug-info nil) ;;show trace buffer
 ;;(setq smtpmail-code-conv-from nil)
@@ -1085,7 +1058,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
        ;; 					     (nnimap-list-pattern ("INBOX" "Mail/*"))
        ;; 					     )))
        )
-      (t ;;default to mtu.net and hope for the best
+      (t;;default to mtu.net and hope for the best
        (setq gnus-select-method nil)
        (setq gnus-secondary-select-methods nil)))
 
@@ -1100,7 +1073,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (setq gnus-default-article-saver 'gnus-summary-save-in-mail)
 (setq gnus-message-archive-group nil)
 (setq gnus-outgoing-message-group nil)
-(setq gnus-large-newsgroup nil)         ;Don't ask about large newsgroups
+(setq gnus-large-newsgroup nil)		;Don't ask about large newsgroups
 ;;setup the Summary lines
 (setq gnus-summary-line-format "%U%R%z%I%(%[%d: %-20,20n%]%) %s\n")
 (setq gnus-uu-user-view-rules 
@@ -1185,9 +1158,10 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (setq crypt-encryption-type 'pgp
       crypt-confirm-password t
       ;;crypt-never-ever-decrypt t ; handy if never encrypting stuff
+      crypt-inhibit-formats '() ;; always decrypt stuff, this variable
+				;; contains dos if mule exists
       )
 (require 'crypt)
-
 
 ;;;;;;;;;;;
 ;;
@@ -1233,7 +1207,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 	  (lambda () (speedbar-add-supported-extension ".g")))
 (setq antlr-language "Java")
 
-(defconst c-Java-access-key nil)		;antlr-mode references this, but it's not defined anywhere
+(defconst c-Java-access-key nil)	;antlr-mode references this, but it's not defined anywhere
 (setq antlr-tab-offset-alist
       '((antlr-mode nil 2 nil)
 	(java-mode "antlr" 2 nil)
@@ -1524,8 +1498,8 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (global-set-key "\C-x\C-v" 'view-file)
 (global-set-key "\C-m" 'newline-and-indent)
 
-(autoload 'todo-show "todo-mode.el" nil t)
-(global-set-key (concat prefix-key-jps "t") 'todo-show)
+(autoload 'top "top-mode" nil t)
+(global-set-key (concat prefix-key-jps "t") 'top)
 
 (global-set-key "\C-xk" 'kill-this-buffer)
 
@@ -1727,6 +1701,10 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (when (eq system-location 'honeywell)
   (add-to-list 'completion-ignored-extensions ".fasl")
   (add-to-list 'load-path (expand-file-name "/net/packages/allegro/acl62/xeli"))
+  ;;check if we have a local version
+  (let ((filename (expand-file-name "/usr/local/acl/acl62/xeli")))
+    (if (file-exists-p filename)
+	(add-to-list 'load-path filename)))
   (setq fi:find-tag-lock nil)
   (require 'fi-site-init)
   (add-hook 'fi:lisp-mode-hook
@@ -1778,6 +1756,10 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (diminish 'isearch-mode "IS")
 (diminish 'camelCase-mode "CC")
 
+
+;;; Emacs compatibility
+(unless (boundp 'quit-window)
+  (defalias 'quit-window 'kill-this-buffer))
 
 ;;HACK Something is screwed up, but this fixes it
 (when (not (boundp 'null-buffer-file-name)) (defun null-buffer-file-name ()))

@@ -1,3 +1,7 @@
+2004-07-07  Jon Schewe  <jon.schewe@honeywell.com>
+
+	* init.el (jde-mode-hook-jps): Get keybindings correct.
+
 2003-12-19  Jon Schewe  <jpschewe@mtu.net>
 
 	* init.el ("vm"): Parse html pages with w3m.
