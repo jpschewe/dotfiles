@@ -1,4 +1,4 @@
-# $Revision: 1.1 $ $Date: 2004/11/14 18:19:01 $ 
+# $Revision: 1.2 $ $Date: 2004/11/14 19:35:52 $ 
 #
 # This makefile compiles the JDE lisp files.
 #
@@ -6,11 +6,11 @@
 # created by Steve Rowley <sgr@alum.mit.edu>
 #
 
-EMACS = emacs
+EMACS = xemacs
 
 # Default locations of the packages required to compile the JDE.
-CEDET = ../../cedet
-ELIB  = ../../elib
+CEDET = ../../../cedet-1.0beta3b
+ELIB  = /usr/share/xemacs/xemacs-packages/lisp/elib
 all:
 	test -d $(CEDET) -a -d $(ELIB)
 	rm -f *.elc jde-compile-script-init
@@ -30,6 +30,9 @@ all:
 
 # 
 # $Log: makefile,v $
+# Revision 1.2  2004/11/14 19:35:52  jpschewe
+# Fixed compiles.
+#
 # Revision 1.1  2004/11/14 18:19:01  jpschewe
 # Updated to JDEE 2.3.4.
 #

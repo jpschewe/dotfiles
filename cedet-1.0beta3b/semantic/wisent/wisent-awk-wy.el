@@ -2,10 +2,10 @@
 
 ;; Copyright (C) 2002 David Ponce
 
-;; Author: Jon Schewe <jschewe@mn65-eggplant.htc.honeywell.com>
-;; Created: 2004-09-03 07:36:44z
+;; Author: Jon Schewe <jpschewe@workstation.mn.mtu.net>
+;; Created: 2004-11-14 13:16:48z
 ;; Keywords: syntax
-;; X-RCS: $Id: wisent-awk-wy.el,v 1.1 2004/09/03 20:23:56 jpschewe Exp $
+;; X-RCS: $Id: wisent-awk-wy.el,v 1.2 2004/11/14 19:35:52 jpschewe Exp $
 
 ;; This file is not part of GNU Emacs.
 ;;

@@ -5,7 +5,7 @@
 ## Author: David Ponce <david@dponce.com>
 ## Maintainer: CEDET developers <http://sf.net/projects/cedet>
 ## Created: 12 Sep 2003
-## X-RCS: $Id: Makefile,v 1.1 2004/09/03 20:24:00 jpschewe Exp $
+## X-RCS: $Id: Makefile,v 1.2 2004/11/14 19:35:53 jpschewe Exp $
 ##
 ## This program is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU General Public License as
@@ -38,7 +38,7 @@ cogre \
 contrib
 
 ## Path to your Emacs
-EMACS=emacs
+EMACS=xemacs
 
 ## Your shell (On Windows/Cygwin I recommend to use bash)
 #SHELL=bash

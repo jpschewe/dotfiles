@@ -2,10 +2,10 @@
 
 ;; Copyright (C) 2003, 2004 Eric M. Ludlam
 
-;; Author: Jon Schewe <jschewe@mn65-eggplant.htc.honeywell.com>
-;; Created: 2004-09-03 07:37:00z
+;; Author: Jon Schewe <jpschewe@workstation.mn.mtu.net>
+;; Created: 2004-11-14 13:18:15z
 ;; Keywords: syntax
-;; X-RCS: $Id: wisent-dot-wy.el,v 1.1 2004/09/03 20:24:00 jpschewe Exp $
+;; X-RCS: $Id: wisent-dot-wy.el,v 1.2 2004/11/14 19:35:52 jpschewe Exp $
 
 ;; This file is not part of GNU Emacs.
 ;;
