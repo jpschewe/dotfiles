@@ -306,7 +306,7 @@ esac
 ### ant
 case $OS in
   cygwin)
-          ANT_HOME=/cygdrive/c/packages/ant
+          ANT_HOME=/cygdrive/c/packages/jakarta-ant-1.5.1
           ;;
   linux)
          ANT_HOME=/opt/jakarta/ant
