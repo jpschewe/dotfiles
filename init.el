@@ -409,13 +409,18 @@
 ;; Allegro
 ;;
 ;;;;;;;;;;;
-(when (eq system-location 'htc)
-  (add-to-list 'completion-ignored-extensions ".fasl")
-  (add-to-list 'load-path (expand-file-name "/net/packages/allegro/acl62/xeli"))
+(when (and
+       (eq system-location 'htc)
+       (or (file-exists-p "/net/packages/allegro/acl62/xeli")
+	   (file-exists-p "/usr/local/acl/acl62/xeli")))
+  
   ;;check if we have a local version
-  (let ((filename (expand-file-name "/usr/local/acl/acl62/xeli")))
-    (if (file-exists-p filename)
-	(add-to-list 'load-path filename)))
+  (if (file-exists-p "/usr/local/acl/acl62/xeli")
+      (add-to-list 'load-path (expand-file-name "/usr/local/acl/acl62/xeli"))
+    (add-to-list 'load-path (expand-file-name "/net/packages/allegro/acl62/xeli")))
+
+  (add-to-list 'completion-ignored-extensions ".fasl")
+  
   (setq fi:find-tag-lock nil)
   (require 'fi-site-init)
   (defun allegro-lisp-mode-hook-jps ()
