@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.26 $
+;; $Revision: 1.27 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1048,7 +1048,8 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
        (setq gnus-select-method nil)
        (setq gnus-secondary-select-methods nil)))
 
-(setq gnus-activate-foreign-newsgroups t)
+;; This should avoid my mailboxes from being checked when reading news
+(setq gnus-activate-foreign-newsgroups 3)
 
 ;;(setq gnus-read-active-file "some")
 (setq gnus-check-new-newsgroups nil)
