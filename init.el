@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.36 $
+;; $Revision: 1.37 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -536,23 +536,23 @@
 (add-hook 'compilation-mode-hook 'turn-off-font-lock)
 
 ;;Make sure compilation mode finds the right file when instrumenting Java code
-(defun compilation-filter-hook-jps ()
-  (interactive)
-  (save-excursion
-    ;;(goto-char (process-mark (get-buffer-process (current-buffer))))
-    ;;Just want to search over the last set of stuff, so exchange point and mark?
-    ;;(exchange-point-and-mark t) ;;doesn't work for first compile...
-    (let* ((point-marker (point-marker))
-	   (end (process-mark (get-buffer-process (current-buffer))))
-	   (beg (or (and (boundp 'comint-last-output-start)
-			 comint-last-output-start)
-		    (- end (length string)))))
-      (goto-char beg)
-      (while (re-search-forward "[/\\\\]instrumented\\([/\\\\].\\)" nil t)
-	(replace-match "/src\\1"))
-      (goto-char point-marker))
-    ))
-(add-hook 'compilation-filter-hook 'compilation-filter-hook-jps)
+;;(defun compilation-filter-hook-jps ()
+;;  (interactive)
+;;  (save-excursion
+;;    ;;(goto-char (process-mark (get-buffer-process (current-buffer))))
+;;    ;;Just want to search over the last set of stuff, so exchange point and mark?
+;;    ;;(exchange-point-and-mark t) ;;doesn't work for first compile...
+;;    (let* ((point-marker (point-marker))
+;;	   (end (process-mark (get-buffer-process (current-buffer))))
+;;	   (beg (or (and (boundp 'comint-last-output-start)
+;;			 comint-last-output-start)
+;;		    (- end (length string)))))
+;;      (goto-char beg)
+;;      (while (re-search-forward "[/\\\\]instrumented\\([/\\\\].\\)" nil t)
+;;	(replace-match "/src\\1"))
+;;      (goto-char point-marker))
+;;    ))
+;;(add-hook 'compilation-filter-hook 'compilation-filter-hook-jps)
 
 
 ;;;;;;;;;;;
