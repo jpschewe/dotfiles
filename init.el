@@ -897,7 +897,7 @@
        (setq smtp-server "smtp.honeywell.com"))
       ((string-match "mn.mtu.net" (system-name))
        (setq smtp-server "eggplant"))
-      (T
+      (t
        (setq smtp-server "mtu.net")))
 ;;(setq smtpmail-debug-info nil) ;;show trace buffer
 ;;(setq smtpmail-code-conv-from nil)

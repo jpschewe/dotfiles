@@ -1,2 +1,2 @@
-(custom-set-faces
- '(default ((t (:size "12pt" :family "Courier"))) t))
+;;(custom-set-faces
+;; '(default ((t (:size "12pt" :family "Courier"))) t))
