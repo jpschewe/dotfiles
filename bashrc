@@ -237,7 +237,6 @@ total() {
 # ldd           - list dynamic dependencies
 # pstat -T      - 
 # vmstat        -
-# finger NAME@mnmail1.honeywell.com
 # /usr/local/X11R5/bin/imake -DUseInstalled -I/usr/local/X11R5/lib/X11/config
 
 #------------------------------
@@ -250,17 +249,16 @@ total() {
 #       xname $*
 #}          
 
-fdu() {
-    perl -le 'while(<>) {chop;$f++;$b+=((stat($_))[7])};
-                    print "files=$f - bytes=$b"'
-}
+#fdu() {
+#    perl -le 'while(<>) {chop;$f++;$b+=((stat($_))[7])};
+#                    print "files=$f - bytes=$b"'
+#}
 
-
-psg() {
-  ps $1 | tee /tmp/psg.$$ | awk 'NR == 1 {print $0}'
-  cat /tmp/psg.$$ | egrep $2
-  /bin/rm -f /tmp/psg.$$
-}
+#psg() {
+#  ps $1 | tee /tmp/psg.$$ | awk 'NR == 1 {print $0}'
+#  cat /tmp/psg.$$ | egrep $2
+#  /bin/rm -f /tmp/psg.$$
+#}
 
 # findp
 # Author: Robert S. Sciuk
