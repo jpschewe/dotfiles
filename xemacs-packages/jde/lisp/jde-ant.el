@@ -1,6 +1,6 @@
 ;; jde-ant.el --- Use Apache Ant to build your JDE projects
 
-;; $Revision: 1.3 $ $Date: 2004/11/16 20:17:40 $ 
+;; $Revision: 1.4 $ $Date: 2004/11/21 15:01:58 $ 
 
 ;;
 ;; Author: Jason Stell | jason.stell@globalone.net
@@ -401,13 +401,12 @@ classpath normalized with `jde-build-classpath'."
 			    t
 			    (car build-history)
 			    'build-history)))
-	     (list (read-from-minibuffer
-		    "Target to build: "
-		    (car build-history)
-		    nil
-		    nil
-		    'build-history)))
-	     ))
+		 (list (read-from-minibuffer
+			"Target to build: "
+			(car build-history)
+			nil
+			nil
+			'build-history)))))
 	  (target 
 	   (jde-ant-escape (mapconcat 'identity targets " ")))
 	  (interactive-args
@@ -418,6 +417,7 @@ classpath normalized with `jde-build-classpath'."
 		nil nil
 		'(jde-ant-interactive-args-history . 1)))))
 
+               
      ;; Setting the history for future use
      (jde-ant-add-to-history buildfile build-history)
      
@@ -728,11 +728,14 @@ Returns nil if it cannot find a project file in DIR or an ascendant directory."
 
 ;;
 ;; $Log: jde-ant.el,v $
-;; Revision 1.3  2004/11/16 20:17:40  jpschewe
-;; Correctly prompts for ant target.
+;; Revision 1.4  2004/11/21 15:01:58  jpschewe
+;; Fixed jde-ant.el from CVS.
 ;;
-;; Revision 1.2  2004/11/16 11:34:21  jpschewe
-;; Got fixed version of JDEE for dialog boxes and for pipes and jde-ant.
+;; Revision 1.76  2004/11/20 05:51:04  paulk
+;; Fix regression in jde-ant-build command. Thanks to Jon Schewe.
+;;
+;; Revision 1.75  2004/11/16 13:48:43  jslopez
+;; Fixes typo, indentity->identity.
 ;;
 ;; Revision 1.74  2004/11/16 05:34:48  paulk
 ;; Updated jde-ant-build to force use of pipes on Linux to interact with Ant. Also, simplified the code.
