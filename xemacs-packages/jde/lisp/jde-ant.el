@@ -1,6 +1,6 @@
 ;; jde-ant.el --- Use Apache Ant to build your JDE projects
 
-;; $Revision: 1.1 $ $Date: 2004/11/14 18:19:02 $ 
+;; $Revision: 1.2 $ $Date: 2004/11/16 11:34:21 $ 
 
 ;;
 ;; Author: Jason Stell | jason.stell@globalone.net
@@ -381,58 +381,46 @@ classpath normalized with `jde-build-classpath'."
   "Build the current project using Ant.  If interactive, we try to prompt the
   user for certain variables.."
   (interactive
-   (let (buildfile target build-history targets interactive-args)
-     
-     ;;build up the list of args we should use
+   (let* ((buildfile (jde-ant-interactive-get-buildfile))
+	  (build-history (jde-ant-get-from-history buildfile))
+	  (targets 
+	   (if jde-ant-read-target
+	       (if jde-ant-complete-target
+		   (if (fboundp 'completing-read-multiple)
+		       (completing-read-multiple
+			"Target to build: "
+			(jde-ant-get-target-alist buildfile)
+			nil
+			nil
+			(car build-history)
+			'build-history)
+		     (list (completing-read
+			    "Target to build: "
+			    (jde-ant-get-target-alist buildfile)
+			    nil
+			    t
+			    (car build-history)
+			    'build-history))))
+	     (list (read-from-minibuffer
+		    "Target to build: "
+		    (car build-history)
+		    nil
+		    nil
+		    'build-history))))
+	  (target 
+	   (jde-ant-escape (mapconcat 'indentity targets " ")))
+	  (interactive-args
+	   (if jde-ant-read-args
+	       (read-from-minibuffer
+		"Additional build args: "
+		(nth 0 jde-ant-interactive-args-history)
+		nil nil
+		'(jde-ant-interactive-args-history . 1)))))
 
-     ;;get the buildfile.
-     (setq buildfile (jde-ant-interactive-get-buildfile))
-
-     ;; Getting the history for the proper buildfile
-     (setq build-history (jde-ant-get-from-history buildfile))
-     
-     ;;get the target using completion.
-     (if jde-ant-read-target
-         (if jde-ant-complete-target
-             (if (fboundp 'completing-read-multiple)
-                 (setq targets (completing-read-multiple
-                                "Target to build: "
-                                (jde-ant-get-target-alist buildfile)
-                                nil
-                                nil
-                                (car build-history)
-                                'build-history))
-               (setq targets (list (completing-read
-                                    "Target to build: "
-                                    (jde-ant-get-target-alist buildfile)
-                                    nil
-                                    t
-                                    (car build-history)
-                                    'build-history))))
-
-           ;;without using completion... read the target as a string.
-           (setq targets (list (read-from-minibuffer
-                                "Target to build: "
-                                (car build-history)
-                                nil
-                                nil
-                                'build-history)))))
-     
-     (while targets
-       (progn
-         (setq target (concat target " " (car targets)))
-         (setq targets (cdr targets))))
-     
+               
      ;; Setting the history for future use
      (jde-ant-add-to-history buildfile build-history)
      
-     (setq target (jde-ant-escape target))
-     (if jde-ant-read-args
-         (setq interactive-args (read-from-minibuffer
-                                 "Additional build args: "
-                                 (nth 0 jde-ant-interactive-args-history)
-                                 nil nil
-                                 '(jde-ant-interactive-args-history . 1))))
 
      ;;some of these global variables are defaults.  We should restore then for
      ;;every request.  IE jde-ant-interactive-target and
@@ -444,8 +432,9 @@ classpath normalized with `jde-build-classpath'."
      ;;This should be a list of buildfile, target and optional-args.
      (list buildfile target interactive-args)))
   
-  (let ((compile-command (jde-build-ant-command target
-                                                interactive-args buildfile)))
+  (let ((compile-command 
+	 (jde-build-ant-command target interactive-args buildfile))
+	process-connection-type)
 
     (when compile-command
       ;; Force save-some-buffers to use the minibuffer
@@ -739,8 +728,11 @@ Returns nil if it cannot find a project file in DIR or an ascendant directory."
 
 ;;
 ;; $Log: jde-ant.el,v $
-;; Revision 1.1  2004/11/14 18:19:02  jpschewe
-;; Updated to JDEE 2.3.4.
+;; Revision 1.2  2004/11/16 11:34:21  jpschewe
+;; Got fixed version of JDEE for dialog boxes and for pipes and jde-ant.
+;;
+;; Revision 1.74  2004/11/16 05:34:48  paulk
+;; Updated jde-ant-build to force use of pipes on Linux to interact with Ant. Also, simplified the code.
 ;;
 ;; Revision 1.73  2004/08/21 04:31:55  paulk
 ;; Update the wizard class list after building a project.

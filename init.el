@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.70 $
+;; $Revision: 1.71 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -875,27 +875,19 @@ Unless optional argument INPLACE is non-nil, return a new string."
 
 
 ;;(defadvice jde-run-executable (around fix-for-process-connection-type-0)
-;;  "Fix process type to be pipies for java"
+;;  "Fix process type to be pipes for java"
 ;;  (let ((process-connection-type nil))
 ;;    (setq ad-return-value ad-do-it)))
 ;;
 ;;(defadvice jde-run-vm-launch (around fix-for-process-connection-type-1)
-;;  "Fix process type to be pipies for java"
+;;  "Fix process type to be pipes for java"
 ;;  (let ((process-connection-type nil))
 ;;    (setq ad-return-value ad-do-it)))
 ;;
 ;;(defadvice jde-ant-build (around fix-for-process-connection-type-2)
-;;  "Fix process type to be pipies for java"
+;;  "Fix process type to be pipes for java"
 ;;  (let ((process-connection-type nil))
 ;;    (setq ad-return-value ad-do-it)))
-
-;;HACK to get around stupid dialog function in JDEE 2.3.4b5 that don't pay
-;;attention to use-dialog-box
-(eval-after-load "efc-xemacs"
-  (when (fboundp 'make-dialog-box)
-    (setq efc-query-options-function nil)
-    t))
-
 
 ;; Tomcat
 (cond ((or (eq system-type 'windows-nt)

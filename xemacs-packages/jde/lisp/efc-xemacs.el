@@ -4,7 +4,7 @@
 ;; Maintainer: Andy Piper
 ;; Keywords: lisp, tools, classes gui
 
-;; Copyright (C) 2002, 2003 Andy Piper.
+;; Copyright (C) 2002, 2003, 2004 Andy Piper.
 ;; Copyright (C) 2001, 2002 Paul Kinnucan.
 
 ;; GNU Emacs is free software; you can redistribute it and/or modify
@@ -36,9 +36,9 @@
 
 ;; Install ourselves as the default option function,
 ;; only if this version of XEmacs supports native widgets.
-;;JPS EVIL!!!!!
-;;(when (fboundp 'make-dialog-box)
-;;  (setq efc-query-options-function 'efc-xemacs-query-options))
+(when (and (fboundp 'make-dialog-box)
+	   use-dialog-box)
+  (setq efc-query-options-function 'efc-xemacs-query-options))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                                                            ;; 
