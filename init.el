@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.55 $
+;; $Revision: 1.56 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1755,7 +1755,6 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (diminish 'auto-fill-function "Af")
 (diminish 'isearch-mode "IS")
 (diminish 'camelCase-mode "CC")
-
 
 ;;; Emacs compatibility
 (unless (boundp 'quit-window)
