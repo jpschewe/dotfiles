@@ -1,5 +1,7 @@
 2003-12-14  Jon Schewe  <jpschewe@mtu.net>
 
+	* bashrc (notify): Added restart-tomcat alias.
+
 	* addpath (substpath): Fixed to handle spaces in variables.
 
 2003-11-29  Jon Schewe  <jpschewe@mtu.net>

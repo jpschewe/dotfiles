@@ -12,7 +12,7 @@
 # separator defaults to ":" or ";" if the latter is already used.
 addpath () {
     local p s v r
-    if [ -z "$2" -o ! -e "$2" ]; then echo "return"; return; fi
+    if [ -z "$2" -o ! -e "$2" ]; then return; fi
     p=$1
     v=${!p}
     test "$v" != "${v%%;*}" && s=';'

@@ -130,6 +130,7 @@ alias cvs-stat='cvs status | egrep ^File | grep -v Up-to-date'
 alias cvsup='cvs update -d -R'
 
 # other stuff here
+alias restart-tomcat='(cd / && sudo /etc/init.d/tomcat restart)'
 #alias BG='(exec $* &) &'
 alias cwd='builtin pwd'
 alias clean='/bin/rm -f *~ *.~* .*~ *% core &>/dev/null'
