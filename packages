@@ -471,14 +471,6 @@ case $OSTYPE in
     ;;
 esac
 
-### Mozilla
-case $OSTYPE in
-  linux)
-    append PATH /usr/local/mozilla
-    append PATH /usr/local/firefox/firefox
-    ;;
-esac
-
 ### Allegro lisp
 case $OSTYPE in
   linux)
