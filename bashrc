@@ -399,7 +399,7 @@ case $LOCATION in
     unset http_proxy
     ;;
   htc)
-    export http_proxy="http://mn65-eggplant.htc.honeywell.com:3128"
+    export http_proxy="http://lug.htc.honeywell.com:3128"
     ;;
   *)
     unset http_proxy
