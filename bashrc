@@ -61,7 +61,7 @@ source "$HOME/.packages"
 #------------------------------
 # Set umask to group-write IFF home directory is in my default group
 # This might work for places where I DO and DON'T want group-write.
-if [ -G ${HOME} ]; then
+if [ -G "${HOME}" ]; then
   umask 022 # u+rw, og+r
 else
   umask 002 # ug+rw, o+r
