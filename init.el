@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.31 $
+;; $Revision: 1.32 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -359,7 +359,13 @@
 
   ;;adobe
   (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "acroread"))
+  (when (eq system-type 'linux)
+    (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "kghostview")))
 
+  ;;Postscript
+  (when (eq system-type 'linux)
+    (add-to-list 'dired-auto-shell-command-alist '("\\.ps$" "kghostview")))
+  
   ;;dos/windows executables
   (when (eq system-type 'windows-nt)
     (add-to-list 'dired-auto-shell-command-alist '("\\.exe$" "*f")))
