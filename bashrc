@@ -345,6 +345,12 @@ else
 fi
 export PS1
 
+# perl - this may be wrong - need to play with it for a while.
+if [ $OSTYPE = "cygwin" ]; then
+  # could also want this to be "raw"
+  export PERLIO="perlio"
+fi
+
 if [ \! $OSTYPE = "linux" ]; then
   MOZILLA_HOME=/usr/local/netscape/current/java/classes
   export MOZILLA_HOME

@@ -197,6 +197,37 @@ esac
 #    ;;
 #esac
 
+# Floating point comparison from http://lists.debian.org/debian-user/2000/09/msg04413.html
+# returns 0 if $1 > $2
+# returns 1 if $1 < $2
+# returns 2 if $1 = $2
+# returns 3
+fpcmp() {
+        local int_a=${1%.*}
+        local dec_a=${1#*.}
+        local int_b=${2%.*}
+        local dec_b=${2#*.}
+
+        [ $int_a -lt $int_b ] && return 0
+        [ $int_b -lt $int_a ] && return 1
+        [ $int_b -eq $int_a ] && {
+                [ $dec_a -lt $dec_b ] && return 0 
+                [ $dec_b -lt $dec_a ] && return 1 
+                [ $dec_b -eq $dec_a ] && return 2
+        }
+        return 3
+}
+
+### ssh
+
+#ssh_version=`ssh -V 2>&1 | awk -F _ '{print $2}' | awk -F p '{print $1}'`
+#if [ ! `fpcmp $ssh_version 3.6` ]; then
+#  echo "Warning old ssh found"
+#  alias ssh='ssh -F /dev/null'
+#else
+#  alias ssh='ssh'
+#fi
+
 ### cvs
 CVSIGNORE=".cvsignore"
 CVS_RSH="ssh"
@@ -226,8 +257,8 @@ case $OSTYPE in
     esac
       ;;
   solaris2* | sunos4)
-     #prepend PATH /net/packages/xemacs/20.4/install/sparc-sun-solaris2*.4/bin
-     prepend PATH /net/packages/xemacs/21.1.3/install/bin/sparc-sun-solaris2*.6/
+     #prepend PATH /net/packages/xemacs/20.4/install/sparc-sun-solaris2.4/bin
+     prepend PATH /net/packages/xemacs/21.1.3/install/bin/sparc-sun-solaris2.6/
      ;;
 esac
 # make sure XEmacs generates an error log
@@ -247,11 +278,13 @@ xemacs () {
 }
 
 # Matlab
-case $LOCATION in
-  htc)
-       append PATH "/net/packages/matlab/6.5/bin"
-       ;;
-esac
+addpkg_matlab() {
+  case $LOCATION in
+    htc)
+         append PATH "/net/packages/matlab/6.5/bin"
+         ;;
+  esac
+}
 
 ### java
 case $OSTYPE in
@@ -415,7 +448,7 @@ case $LOCATION in
         ;;
       linux)
         ILOG_HOME=/net/packages/ilog
-        alias cplex=${ILOG_HOME}/cplex/9.0.1/bin/x86_RHEL3.0_3.2/cplex
+        alias cplex=${ILOG_HOME}/cplex/9.0.2/bin/x86_RHEL3.0_3.2/cplex
         ;;
     esac
     export ILOG_HOME;
