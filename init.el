@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.4 $
+;; $Revision: 1.5 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -329,26 +329,14 @@
   (add-to-list 'dired-auto-shell-command-alist '("\\.sxi$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.rtf$" openoffice-executable))
   
-  ;; default windows handling
-  (when (eq system-type 'windows-nt)
-    (add-to-list 'dired-auto-shell-command-alist '(".*" "winrun")))
-
-  ;;Protege, almost works
+  ;;Protege
   (add-to-list 'dired-auto-shell-command-alist '("\\.prj$" "protege"))
 
-  ;;Visio
-  (when (eq system-type 'windows-nt)
-    (add-to-list 'dired-auto-shell-command-alist '("\\.vsd$" "winrun")))
-
   ;;zip
-  (when (eq system-type 'windows-nt)
-    (add-to-list 'dired-auto-shell-command-alist '("\\.zip$" "winrun")))
   (when (or (eq system-type 'linux) (eq system-type 'usg-unix-v))
     (add-to-list 'dired-auto-shell-command-alist '("\\.zip$" "unzip")))
 
   ;;adobe
-  (when (eq system-type 'windows-nt)
-    (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "winrun")))
   (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "acroread"))
 
   ;;dos/windows executables
@@ -358,6 +346,12 @@
   ;;java
   (add-to-list 'dired-auto-shell-command-alist '("\\.jar$" "jar -xvf"))
   (add-to-list 'dired-auto-shell-command-alist '("\\.jar$" "jar -tvf"))
+
+  ;; default windows handling
+  (when (eq system-type 'windows-nt)
+    (add-to-list 'dired-auto-shell-command-alist (list ".*"
+						       (expand-file-name "winrun" (locate-data-directory "config-jps")))))
+
   
   (setq dired-compression-method 'gzip)
   )

@@ -1,0 +1,4 @@
+	-- SGML catalog for XEmacs These are my personal ones --
+
+OVERRIDE YES	-- prefer public identifiers to system identifiers --
+
