@@ -364,12 +364,12 @@ case $OSTYPE in
           fi
           ;;
   linux)
-         if [ -e /usr/share/ant ]; then
+         if [ -e /net/packages/java/ant/1.6.2/apache-ant-1.6.2 ]; then
+           ANT_HOME=/net/packages/java/ant/1.6.2/apache-ant-1.6.2
+         elif [ -e /usr/share/ant ]; then
            ANT_HOME=/usr/share/ant
-         else
-           if [ -e /opt/jakarta/ant ]; then
-             ANT_HOME=/opt/jakarta/ant
-           fi
+         elif [ -e /opt/jakarta/ant ]; then
+           ANT_HOME=/opt/jakarta/ant
          fi
          ;;
   *)
@@ -381,7 +381,7 @@ esac
 if [ -n "${ANT_HOME}" ]; then
   export ANT_HOME
   export ANT_OPTS="-Xmx256M"
-  append PATH "${ANT_HOME}/bin"
+  prepend PATH "${ANT_HOME}/bin"
 fi
 
 # Microsoft VisualStudio C/C++
