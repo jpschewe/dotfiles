@@ -452,10 +452,9 @@ case $OS in
 esac
 
 ### HOME
-prepend PATH ${HOME}/bin
-prepend PATH ${HOME}/bin/${OS}
-#prepend LD_LIBRARY_PATH ${HOME}/lib/${OS}
-append INFOPATH ${HOME}/info
+prepend PATH "${HOME}/bin"
+prepend PATH "${HOME}/bin/${OS}"
+append INFOPATH "${HOME}/info"
 
 if [ $OS = "cygwin" ]; then
   #echo "path is $PATH"
