@@ -1270,7 +1270,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
        ;; 					     )))
        )
       ((eq system-location 'home)
-       (setq gnus-select-method '(nntp "netnews.comcast.net"))
+       (setq gnus-select-method '(nntp "newsgroups.comcast.net"))
        ;;(setq gnus-secondary-select-methods '((nnimap "mtu.net"
        ;; 					     (nnimap-address "mtu.net")
        ;; 					     (nnimap-stream ssl)
