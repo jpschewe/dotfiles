@@ -103,10 +103,9 @@ fi
 # ALIASES & one-line FUNCTIONS
 #------------------------------
 
-alias brc='unset BASHRCREAD ; . "${HOME}/.bashrc"'
-
-# get ssh-agent going
-alias sa='. "${HOME}/.ssh/sssha"'
+export BRC=$HOME/.bashrc	# also used for test in .profile
+alias brc=". $BRC"
+#alias brc='unset BASHRCREAD ; . "${HOME}/.bashrc"'
 
 # cvs aliases here
 #alias gnu-cvs='cvs -d /net/packages/gnu/CVS-Repository'

@@ -12,7 +12,7 @@
 #
 # Author: Eric Engstrom (engstrom(-AT-)m t u(-DOT-)n e t)
 #
-# $Id: sssha,v 1.1 2004/10/12 13:01:20 jpschewe Exp $
+# $Id: sssha,v 1.2 2004/10/28 12:25:49 jpschewe Exp $
 ##
 
 # default file in which to store environment info
@@ -22,7 +22,7 @@ declare -a SSSHA_KEYS[*]
 # parse args - can specify -e <env-file> and/or -k <private-key>
 sssha_parse_args() {
   local OPTIND=1
-  while getopts "vxe:k:t:" OPT; do
+  while getopts "xe:k:t:" OPT; do
     #echo "$OPT $OPTARG $OPTIND"
     case $OPT in
       t) SSSHA_ARGS="-t $OPTARG" ;;
@@ -64,6 +64,7 @@ sssha_start_agent () {
   if [ "${SSSHA_STOP_ON_EXIT}" -a -f "${SSSHA_ENV}" ]; then
     trap "sssha_stop_agent" EXIT
   fi
+  unset SSSHA_STOP_ON_EXIT
 }
 
 # --- ADD KEYS TO RUNNING AGENT --- #
@@ -90,7 +91,7 @@ sssha_add_keys () {
 # 2. Start the agent if we cannot connect to it.
 # 3. Add the keys that aren't already registered.
 sssha_parse_args $*;
-(tty -s && ! ps -ef | egrep "^ *${USER}.*${SSH_AGENT_PID}.*ssh-agent$" > /dev/null) \
+(tty -s && ! /bin/ps -ef | egrep "^ *${USER}.*${SSH_AGENT_PID}.*ssh-agent$" > /dev/null) \
    && sssha_start_agent
 (tty -s) && sssha_add_keys ${SSSHA_KEYS[@]}
 
