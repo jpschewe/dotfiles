@@ -1,6 +1,8 @@
 #!/bin/sh
 
 mypath="`echo $0 | sed -e 's,[^/]*$,,;s,/$,,;s,^$,.,'`"
+cd ${mypath}
+mypath=$PWD
 
 ln -sf "${mypath}/addpath" "${HOME}/.addpath"
 ln -sf "${mypath}/bash_login" "${HOME}/.bash_login"
