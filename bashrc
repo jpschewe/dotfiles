@@ -412,3 +412,6 @@ esac
 #BASHRCREAD=true
 #export BASHRCREAD
 
+if [ -f "${HOME}/.ssh/sssha" ]; then
+  . "${HOME}/.ssh/sssha"
+fi
