@@ -1611,10 +1611,10 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (require 'efs)
 (efs-display-ftp-activity)
 
-(when (or (eq system-type 'usg-unix-v) (eq system-type 'linux))
+;;(when (or (eq system-type 'usg-unix-v) (eq system-type 'linux))
   ;;(setq gnuserv-frame t);;Use the current frame for gnuserv clients, Setting this causes gnuclient to not work correctly!
-  (gnuserv-start)
-  )
+(gnuserv-start)
+;;  )
 
 ;; dictionary and thesaurus
 (autoload 'dict "dict" nil t)
