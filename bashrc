@@ -109,7 +109,14 @@ source "$HOME/.packages"
 #------------------------------
 # BASH Environment options
 #------------------------------
-umask 002       # ug+rw, o+r
+
+# Set umask to group-write IFF home directory is in my default group
+# This might work for places where I DO and DON'T want group-write.
+if [ -G ${HOME} ]; then
+  umask 022 # u+rw, og+r
+else
+  umask 002 # ug+rw, o+r
+fi
 
 export IGNOREEOF=0
 export FIGNORE=.o:\~:.bak:.class
