@@ -2,21 +2,23 @@
 
 mypath="`echo $0 | sed -e 's,[^/]*$,,;s,/$,,;s,^$,.,'`"
 
-ln -s "${mypath}/addpath" "${HOME}/.addpath"
-ln -s "${mypath}/bash_login" "${HOME}/.bash_login"
-ln -s "${mypath}/bashrc" "${HOME}/.bashrc"
-ln -s "${mypath}/packages" "${HOME}/.packages"
-ln -s "${mypath}/profile" "${HOME}/.profile"
+ln -sf "${mypath}/addpath" "${HOME}/.addpath"
+ln -sf "${mypath}/bash_login" "${HOME}/.bash_login"
+ln -sf "${mypath}/bashrc" "${HOME}/.bashrc"
+ln -sf "${mypath}/packages" "${HOME}/.packages"
+ln -sf "${mypath}/profile" "${HOME}/.profile"
 
 # ask about ssh
-#echo -n "Would you like to hae ssh-agent start up on login? "
-#answer=''
-#read answer
-#if [ "x${answer}" "xyes
-#mkdir -p "${HOME}/.ssh
-#ln -s "${mypath}/sssha" "${HOME}/.ssh/sssha"
-
+echo -n "Would you like to hae ssh-agent start up on login? (y/N) "
+answer=''
+read answer
+if [ "x${answer}" = "xy" ]; then
+  mkdir -p "${HOME}/.ssh"
+  ln -sf "${mypath}/sssha" "${HOME}/.ssh/sssha"
+else
+  rm -f "${HOME}/.ssh/sssha"
+fi
 
 # subversion
 mkdir -p "${HOME}/.subversion"
-ln -s "${mypath}/subversion-config" "${HOME}/.subversion/config"
+ln -fs "${mypath}/subversion-config" "${HOME}/.subversion/config"
