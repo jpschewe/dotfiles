@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.77 $
+;; $Revision: 1.78 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -783,6 +783,7 @@
   ;;(setq tab-width 2)
   (setq indent-tabs-mode nil)
   (camelCase-mode 1)
+  (local-set-key (concat prefix-key-jps "p") 'cperl-perldoc)
   )
 (add-hook 'cperl-mode-hook 'cperl-mode-hook-jps)
 (add-to-list 'auto-mode-alist '("\\.cgi$" . perl-mode))
@@ -798,6 +799,10 @@
 (load-file "~/.xemacs/cedet-1.0beta3b/common/cedet.el")
 ;; Enabling SEMANTIC minor modes.  See semantic/INSTALL for more ideas.
 (semantic-load-enable-minimum-features)
+
+;; Load JDE
+(add-to-list 'load-path (expand-file-name "~/.xemacs/jde-2.3.5/lisp"))
+(load-file "~/.xemacs/jde-2.3.5/lisp/jde-autoload.el")
 
 (add-to-list 'auto-mode-alist '("\\.jass$" . jde-mode))
 (add-to-list 'auto-mode-alist '("\\.jad$" . jde-mode))
@@ -869,9 +874,8 @@
 	 'java-font-lock-keywords-3
 	 'java-font-lock-keywords-4))
 
-  ;;FIX doesn't seem to be working yet
   (local-set-key [(control ?c) (control ?v) (control ?i)] 'jde-import-organize-jps)
-  (local-set-key [(control ?c) (control ?v) (control ?z)] 'jde-import-then-organize-jps)
+  ;;(local-set-key [(control ?c) (control ?v) (control ?z)] 'jde-import-then-organize-jps)
   )
 (add-hook 'jde-mode-hook 'jde-mode-hook-jps)
 
