@@ -362,8 +362,10 @@ export CYPSP
 
 MANPATH=`substpath PATH bin man`
 export MANPATH
-case $OSTYPE in
-  linux) append MANPATH /usr/share/man;;
+case $OS in
+  linux) 
+     append MANPATH /usr/share/man
+     ;;
   sunos4 | solaris2)
      ### procmail on sunos and solaris
      append MANPATH /net/packages/procmail/3.10/man

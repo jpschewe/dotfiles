@@ -231,10 +231,12 @@ xemacs () {
     mkdir -p ~/.xemacs
   fi
   
-  if [ -e ~/.xemacs/${HOST}-errors ]; then
-    mv -f ~/.xemacs/${HOST}-errors ~/.xemacs/${HOST}-errors.old
+  if [ x"$DISPLAY" != x"" ]; then
+    if [ -e ~/.xemacs/${HOST}-errors ]; then
+      mv -f ~/.xemacs/${HOST}-errors ~/.xemacs/${HOST}-errors.old
+    fi
+    command xemacs $* > ~/.xemacs/${HOST}-errors 2>&1
   fi
-  command xemacs $* > ~/.xemacs/${HOST}-errors 2>&1
 }
 
 
