@@ -1,4 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
+;; $Revision: 1.78 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
