@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.69 $
+;; $Revision: 1.70 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -815,12 +815,12 @@
  '(jde-auto-parse-enable t)
  ;;see if this helps things at all 
  '(jde-project-context-switching-enabled-p t)
- ;;don't jump to the first error or remove the compilation buffer! 
- '(jde-ant-build-hook '(jde-compile-finish-refresh-speedbar 
-			jde-compile-finish-flush-completion-cache)) 
- '(jde-compile-finish-hook '(jde-compile-finish-refresh-speedbar 
-			     jde-compile-finish-flush-completion-cache))
  )
+ ;;don't jump to the first error or remove the compilation buffer! 
+(defadvice jde-compile-finish-kill-buffer (around remove-jde-compile-finish-kill-buffer)
+  "remove jde-compile-finish-kill-buffer"
+  )
+
 (defun jde-mode-hook-jps()
   
   ;; make parens show the text before the paren in the minibuffer
@@ -874,20 +874,20 @@ Unless optional argument INPLACE is non-nil, return a new string."
       newstr)))
 
 
-(defadvice jde-run-executable (around fix-for-process-connection-type-0)
-  "Fix process type to be pipies for java"
-  (let ((process-connection-type nil))
-    (setq ad-return-value ad-do-it)))
-
-(defadvice jde-run-vm-launch (around fix-for-process-connection-type-1)
-  "Fix process type to be pipies for java"
-  (let ((process-connection-type nil))
-    (setq ad-return-value ad-do-it)))
-
-(defadvice jde-ant-build (around fix-for-process-connection-type-2)
-  "Fix process type to be pipies for java"
-  (let ((process-connection-type nil))
-    (setq ad-return-value ad-do-it)))
+;;(defadvice jde-run-executable (around fix-for-process-connection-type-0)
+;;  "Fix process type to be pipies for java"
+;;  (let ((process-connection-type nil))
+;;    (setq ad-return-value ad-do-it)))
+;;
+;;(defadvice jde-run-vm-launch (around fix-for-process-connection-type-1)
+;;  "Fix process type to be pipies for java"
+;;  (let ((process-connection-type nil))
+;;    (setq ad-return-value ad-do-it)))
+;;
+;;(defadvice jde-ant-build (around fix-for-process-connection-type-2)
+;;  "Fix process type to be pipies for java"
+;;  (let ((process-connection-type nil))
+;;    (setq ad-return-value ad-do-it)))
 
 ;;HACK to get around stupid dialog function in JDEE 2.3.4b5 that don't pay
 ;;attention to use-dialog-box
