@@ -14,53 +14,53 @@
 export HOST=`/bin/hostname`
 case `/bin/uname -r` in
   5.5*)
-        OS=solaris2
-        ARCH=sun4;;
+        OS_JPS=solaris2
+        ARCH_JPS=sun4;;
   5.6*)
-        OS=solaris2
-        ARCH=sun4;;
+        OS_JPS=solaris2
+        ARCH_JPS=sun4;;
   5.7*)
-        OS=solaris2
-        ARCH=sun4;;
+        OS_JPS=solaris2
+        ARCH_JPS=sun4;;
   5.8*)
-        OS=solaris2
-        ARCH=sun4;;
+        OS_JPS=solaris2
+        ARCH_JPS=sun4;;
   4.1.4)
-         OS=sunos4
-         ARCH=sun4;;
+         OS_JPS=sunos4
+         ARCH_JPS=sun4;;
   5.*)
-       OS=irix5
+       OS_JPS=irix5
        stty intr ^C;;
   6*)
-      OS=irix6
+      OS_JPS=irix6
       stty intr ^C;;
   A.09.05)
-           OS=hpux9
+           OS_JPS=hpux9
            stty intr ^C;;
   B.10.*)
-          OS=hpux10
+          OS_JPS=hpux10
           stty intr ^C;;
   *)
      case `/bin/uname` in
        CYGWIN*)
-                OS=cygwin
-                ARCH=pc
+                OS_JPS=cygwin
+                ARCH_JPS=pc
                 ;;
        Linux)
-              OS=linux
-              ARCH=pc
+              OS_JPS=linux
+              ARCH_JPS=pc
               ;;
        *)
           echo "winging it...assuming sunos"
-          OS=sunos4;;
+          OS_JPS=sunos4;;
      esac
      ;;
 esac
-export ARCH
-export OS
+export ARCH_JPS
+export OS_JPS
 
 # define location
-case $OS in
+case $OS_JPS in
   solaris2 | cygwin)
             case `nslookup $HOST 2> /dev/null | /bin/grep $HOST | /bin/awk '{print $2}'` in
               *.htc.honeywell.com)
@@ -93,7 +93,7 @@ case $OS in
 esac
 export LOCATION
 
-if [ $OS = "cygwin" ]; then
+if [ $OS_JPS = "cygwin" ]; then
   #set in NT directly export CYGWIN="tty nosmbntsec" #title doesn't seem to help either, binmode will break getenv in emacs, ntea will break permissions for ls
   alias uptime='finger @localhost | grep UpTime'
   export SHELL="/bin/bash"
@@ -120,9 +120,9 @@ export history_control=ignoredups
 
 notify=
 unset MAILPATH MAILCHECK
-#if [ $ARCH = "sun4" ]; then
+#if [ $ARCH_JPS = "sun4" ]; then
 #  ulimit -c 0  # limit core sizes to zero
-if [ $ARCH = "hp700" ]; then
+if [ $ARCH_JPS = "hp700" ]; then
   stty erase  intr  kill ^u 2>/dev/null
 fi
 
@@ -186,7 +186,7 @@ alias which='type -path'
 alias where='type -all'
 alias find-unused-unix='for h in `ypmatch HTC-HOSTS netgroup`; do ping -c 1 $h > /dev/null 2>&1 || echo $h; done'
   
-#if [ $OS \!= "cygwin" ]; then
+#if [ $OS_JPS \!= "cygwin" ]; then
 #  if [ -x "`type -p ypcat`" ]; then
 #    alias ultras="rup -l `ypcat hosts.byaddr | grep 2/270 | egrep -v 'greenhornet|grinch' | awk '{print $2}' | sort | fmt`"
 #    ypg() { ypcat $2 | grep -i $1; }
@@ -201,7 +201,7 @@ alias mn65-rsconsole='rdesktop -u getreal mn65-rsconsole'
 #alias psu='ps auxww | egrep "^$*"'
 
 #my aliases
-case $OS in
+case $OS_JPS in
   cygwin)
 	  alias ls='ls -F'
 	  ;;
@@ -371,7 +371,7 @@ elif [ $TERM = "emacs" ]; then
   alias ls='ls -F'
   alias more='cat'
   alias less='cat'
-  #if [ \! $OS = "cygwin" ]; then
+  #if [ \! $OS_JPS = "cygwin" ]; then
   #  export VISUAL=gnuclient
   #fi
   PS1="\u@\h:\w\n>";
@@ -387,7 +387,7 @@ else
 fi
 export PS1
 
-if [ \! $OS = "linux" ]; then
+if [ \! $OS_JPS = "linux" ]; then
   MOZILLA_HOME=/usr/local/netscape/current/java/classes
   export MOZILLA_HOME
   
@@ -406,7 +406,7 @@ export CYPSP
 
 MANPATH=`substpath PATH bin man`
 export MANPATH
-case $OS in
+case $OS_JPS in
   linux) 
      append MANPATH /usr/share/man
      ;;
@@ -420,7 +420,7 @@ esac
 
 INFOPATH=`substpath PATH bin info`
 export INFOPATH
-case $OS in
+case $OS_JPS in
   linux) 
      append INFOPATH /usr/share/info
      ;;

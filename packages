@@ -18,7 +18,7 @@ append PATH 		/usr/bin
 append PATH /bin
 
 ### Backwards compatible
-case $OS in
+case $OS_JPS in
   linux)
          append PATH /usr/local/bin
          append PATH /opt/kde3/bin
@@ -27,7 +27,7 @@ case $OS in
 esac
 
 ### Standard OS Networking
-case $OS in
+case $OS_JPS in
   solaris2) append PATH /usr/sbin
 	    append PATH /usr/dt/bin
 	    append PATH /opt/SUNWdtpcv/bin
@@ -36,19 +36,19 @@ case $OS in
   *)        append PATH /usr/etc;;
 esac
 
-case $OS in
+case $OS_JPS in
   sunos4 | solaris2) append PATH /etc;;
 esac
 
 ### BSD Compatability
-case $OS in
+case $OS_JPS in
   irix5 | irix6)     prepend PATH /usr/bsd;;
   sunos4 | solaris2) prepend PATH /usr/ucb;;
 esac
 
 #-----------------------------------------------------------------------------
 ### X Windows
-case $OS in
+case $OS_JPS in
   sunos4) X11HOME=/usr/local/X11R5 
           append PATH	${X11HOME}/local
           append PATH /usr/local/X11/current/bin
@@ -61,7 +61,7 @@ case $OS in
   linux) X11HOME=/usr/X11R6;;
 esac
 
-if [ \! $OS = "cygwin" ]; then
+if [ \! $OS_JPS = "cygwin" ]; then
   append PATH 		${X11HOME}/bin
   #append LD_LIBRARY_PATH	${X11HOME}/lib
   export X11INC_DIR=${X11HOME}/include
@@ -69,7 +69,7 @@ if [ \! $OS = "cygwin" ]; then
 fi
 
 ### OS Native X/OpenWindows
-case $OS in
+case $OS_JPS in
   hpux9 | hpux10)    append PATH /usr/bin/X11;;
   irix5 | irix6)     append PATH /usr/bin/X11;;
   sunos4 | solaris2) export OPENWINHOME=/usr/openwin
@@ -82,7 +82,7 @@ esac
 
 #-----------------------------------------------------------------------------
 
-if [ \! $OS = "cygwin" -a \! $OS = "linux" ]; then
+if [ \! $OS_JPS = "cygwin" -a \! $OS_JPS = "linux" ]; then
   ### psutils
   append PATH /usr/local/psutils/current/bin
 
@@ -122,7 +122,7 @@ if [ \! $OS = "cygwin" -a \! $OS = "linux" ]; then
 fi
 
 # Standard OS Compiler
-case $OS in
+case $OS_JPS in
   solaris2) prepend PATH /opt/SUNWspro/bin
 	    prepend PATH /usr/ccs/bin
 	    #prepend LM_LICENSE_FILE /usr/local/flexlm/licenses/license.dat;; #1726@stan
@@ -130,13 +130,13 @@ case $OS in
 esac 
 
 ### Procmail
-case $OS in
+case $OS_JPS in
   solaris2) append PATH /net/packages/procmail/3.10/bin.solaris2
             ;;
 esac 
 
 ### AssertMate
-if [ $OS = "cygwin" ]; then
+if [ $OS_JPS = "cygwin" ]; then
   ASSERT_HOME="c:/packages/AssertMate"
   export ASSERT_HOME
   ASSERTMATE="${ASSERT_HOME}/class/RSTclasses.zip"
@@ -150,24 +150,24 @@ addpkg_tex() {
 }
 
 ### netcat
-case $OS in
+case $OS_JPS in
   cygwin) append PATH /cygdrive/c/packages/netcat
 esac
 
 ### samba
-#case $OS in
+#case $OS_JPS in
 #  solaris2) append PATH /net/packages/samba/1.9.18p7/install/sparc-sun-solaris2.5/bin;;
 #esac
 
 ### lynx
-#case $OS in
+#case $OS_JPS in
 #  solaris2) 
 #	 append PATH /net/packages/lynx/sparc-sun-solaris2.5/bin
 #  ;;
 #esac
 
 ### Sicstus
-#case $OS in
+#case $OS_JPS in
 #  solaris2)
 #    export SICSHOME=/net/packages/prolog/sicstus/sicstus3.8.5/bin
 #    # for emacs
@@ -181,7 +181,7 @@ esac
 #esac
 
 ### daVinci
-#case $OS in
+#case $OS_JPS in
 #  solaris2)
 #    export DAVINCIHOME=/net/projects/d-circa/code/daVinci_V2.0
 #    append PATH ${DAVINCIHOME}
@@ -189,7 +189,7 @@ esac
 #esac
 
 ### ical
-#case ${OS} in
+#case ${OS_JPS} in
 #  solaris2)
 #    append PATH /net/packages/ical/2.0p2/sparc-sun-solaris2.5/bin
 #    ;;
@@ -202,7 +202,7 @@ esac
 CVSIGNORE=".cvsignore"
 CVS_RSH="ssh"
 export CVSIGNORE CVS_RSH
-case ${OS} in
+case ${OS_JPS} in
   cygwin)
           #prepend PATH /ProgramFiles/CVS\ for\ NT
           ;;
@@ -211,14 +211,14 @@ case ${OS} in
 esac
 
 #enscript
-case $OS in
+case $OS_JPS in
   cygwin)
           export ENSCRIPT_LIBRARY="c:/packages/enscript"
           ;;
 esac
 
 #Xemacs
-case $OS in
+case $OS_JPS in
   cygwin)
     case $HOST in
       eggplant-laptop)
@@ -249,7 +249,7 @@ xemacs () {
 
 
 ### java
-case $OS in
+case $OS_JPS in
   cygwin)
           case $HOST in
             MN65-EGGPLANT | MN65-SCHEDINFRA)
@@ -291,21 +291,21 @@ esac
 export JAVA_HOME
 
 #AssertMate
-case $OS in
+case $OS_JPS in
   cygwin)
           append PATH "/cygdrive/c/packages/AssertMate/bin"
           ;;
 esac
 
 ### unzip & Motif
-#case $OS in
+#case $OS_JPS in
    #solaris2) append LD_LIBRARY_PATH /usr/dt/lib;;
 #esac
 
 #source safe
 SSUSER=jschewe
 export SSUSER
-case $OS in
+case $OS_JPS in
   cygwin)
     case $LOCATION in
       htc)
@@ -326,7 +326,7 @@ case $OS in
 esac
 
 ### ant
-case $OS in
+case $OS_JPS in
   cygwin)
           ANT_HOME=/cygdrive/c/packages/jakarta-ant-1.5.1
           ;;
@@ -342,7 +342,7 @@ export ANT_OPTS="-Xmx256M"
 append PATH "${ANT_HOME}/bin"
 
 # Microsoft VisualStudio C/C++
-case $OS in
+case $OS_JPS in
   cygwin)
           append PATH "c:/Program Files/Microsoft Visual Studio/VC98/Bin"
           append PATH "c:/Program Files/Microsoft Visual Studio/VC98/Lib"
@@ -353,7 +353,7 @@ case $OS in
 esac
 
 ## ipso
-#case $OS in
+#case $OS_JPS in
 #  cygwin)
 #          append PATH "/cygdrive/h/projects/IPSO/Active-R1/com/honeywell/goalsetter/bpc"
 #          append PATH "/cygdrive/h/projects/IPSO/Active-R1/com/honeywell/goalsetter/util/database"
@@ -362,21 +362,21 @@ esac
 #esac
 
 #enscript
-case $OS in
+case $OS_JPS in
   cygwin)
           append PATH "/cygdrive/c/packages/enscript"
           ;;
 esac
 
 #jad
-case $OS in
+case $OS_JPS in
   cygwin)
           append PATH "/cygdrive/c/Installs/jad"
           ;;
 esac
 
 # winnt system stuff
-case $OS in
+case $OS_JPS in
   cygwin)
           append PATH "/cygdrive/c/WINDOWS/system32"
           append PATH "/cygdrive/c/WINDOWS"
@@ -392,7 +392,7 @@ esac
 ### ilog
 case $LOCATION in
   htc)
-    case $OS in
+    case $OS_JPS in
       cygwin)
         ILOG_HOME=//hl-dfs/net/packages/ilog
         append PATH ${ILOG_HOME}/ilm/current/win32
@@ -408,29 +408,28 @@ case $LOCATION in
 esac
 
 ### mysql
-case $OS in
+case $OS_JPS in
   cygwin) append PATH /cygdrive/c/packages/mysql/bin
           ;;
 esac
 
 ### gimp
-case $OS in
+case $OS_JPS in
   cygwin)
           append PATH /cygdrive/c/packages/gimp/bin
           ;;
 esac
 
-### VisualWorks 7.1
-case $OS in
+### VisualWorks 7.2
+case $OS_JPS in
   linux)
-    #export VISUALWORKS=/usr/local/vw7nc
     export VISUALWORKS=/usr/local/vw7.1nc
     append PATH ${VISUALWORKS}
     ;;
 esac
 
 ### Mozilla
-case $OS in
+case $OS_JPS in
   linux)
     append PATH /usr/local/mozilla
     append PATH /usr/local/firefox/firefox
@@ -438,7 +437,7 @@ case $OS in
 esac
 
 ### Allegro lisp
-case $OS in
+case $OS_JPS in
   linux)
          append PATH /usr/local/acl/acl62
          ;;
@@ -449,9 +448,9 @@ esac
 
 ### HOME
 prepend PATH "${HOME}/bin"
-prepend PATH "${HOME}/bin/${OS}"
+prepend PATH "${HOME}/bin/${OS_JPS}"
 
-if [ $OS = "cygwin" ]; then
+if [ $OS_JPS = "cygwin" ]; then
   #echo "path is $PATH"
   WPATH=`cygpath -p -w "$PATH"`
   export PATH=`cygpath -p -u "$WPATH"`
