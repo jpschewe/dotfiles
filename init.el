@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.35 $
+;; $Revision: 1.36 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1057,11 +1057,12 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 						     ))))
       ((eq system-location 'home)
        (setq gnus-select-method '(nntp "netnews.comcast.net"))
-       (setq gnus-secondary-select-methods '((nnimap "mtu.net"
-						     (nnimap-address "mtu.net")
-						     (nnimap-stream ssl)
-						     (nnimap-list-pattern ("INBOX" "Mail/*"))
-						     ))))
+       ;;(setq gnus-secondary-select-methods '((nnimap "mtu.net"
+       ;; 					     (nnimap-address "mtu.net")
+       ;; 					     (nnimap-stream ssl)
+       ;; 					     (nnimap-list-pattern ("INBOX" "Mail/*"))
+       ;; 					     )))
+       )
       (t ;;default to mtu.net and hope for the best
        (setq gnus-select-method nil)
        (setq gnus-secondary-select-methods nil)))
