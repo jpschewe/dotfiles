@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.63 $
+;; $Revision: 1.64 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1777,6 +1777,19 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 
 ;;HACK Something is screwed up, but this fixes it
 (when (not (boundp 'null-buffer-file-name)) (defun null-buffer-file-name ()))
+
+;; something requires this
+(unless (boundp 'subst-char-in-string)
+  (defun subst-char-in-string (fromchar tochar string &optional inplace)
+    "Replace FROMCHAR with TOCHAR in STRING each time it occurs.
+Unless optional argument INPLACE is non-nil, return a new string."
+    (let ((i (length string))
+	  (newstr (if inplace string (copy-sequence string))))
+      (while (> i 0)
+	(setq i (1- i))
+	(if (eq (aref newstr i) fromchar)
+	    (aset newstr i tochar)))
+      newstr)))
 
 (message "done loading configuration")
 
