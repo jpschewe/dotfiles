@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.20 $
+;; $Revision: 1.21 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -897,7 +897,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 	(progn
 	  (add-to-list 'vm-mime-type-converter-alist
 		       '(("text/html" "text/plain" "w3m -T text/html -dump")))
-	  (add-to-list 'vm-mime-internal-content-type-exceptions '("text/html"))
+	  (add-to-list 'vm-mime-internal-content-type-exceptions "text/html")
 	  (setq vm-mime-use-w3-for-text/html nil))
       (setq vm-mime-use-w3-for-text/html t))
     
