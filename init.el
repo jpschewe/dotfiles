@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.58 $
+;; $Revision: 1.59 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1440,7 +1440,12 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (global-set-key (concat prefix-key-jps "o") 'ss-checkout)
 (global-set-key (concat prefix-key-jps "y") 'ss-get)
 
-(global-set-key (concat prefix-key-jps "a") 'tags-search)
+(global-set-key (concat prefix-key-jps "a") 'tags-search-jps)
+(defun tags-search-jps (regex)
+  "tags-search and default to current-word"
+  (interactive (list (read-string "Tags search (regexp): " (current-word))))
+  (tags-search regex)
+  )
 
 (global-set-key [(meta return)] 'hippie-expand);; expand
 (global-set-key [insert] 'toggle-read-only)
