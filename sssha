@@ -1,0 +1,102 @@
+#!/bin/bash
+# Hey EMACS, this should be in -*- sh -*- mode
+#
+# sssha = Start SSH Agent
+#
+# Routines to modify setup ssh-agent and associated environment variables.
+# This is sourced from my .bashrc file, something like this:
+#   # setup ssh-agent, if appropriate
+#   if [ -f "$HOME/.ssh/sssha" ]; then
+#     source $HOME/.ssh/sssha
+#   fi
+#
+# Author: Eric Engstrom (engstrom(-AT-)m t u(-DOT-)n e t)
+#
+# $Id: sssha,v 1.1 2004/10/12 13:01:20 jpschewe Exp $
+##
+
+# default file in which to store environment info
+SSSHA_ENV=$HOME/.ssh/agent-env.`hostname`
+declare -a SSSHA_KEYS[*]
+
+# parse args - can specify -e <env-file> and/or -k <private-key>
+sssha_parse_args() {
+  local OPTIND=1
+  while getopts "vxe:k:t:" OPT; do
+    #echo "$OPT $OPTARG $OPTIND"
+    case $OPT in
+      t) SSSHA_ARGS="-t $OPTARG" ;;
+      e) SSSHA_ENV="$OPTARG" ;;
+      k) [ -f "${OPTARG}" ] && SSSHA_KEYS[${#SSSHA_KEYS[*]}]="$OPTARG" ;;
+      x) SSSHA_STOP_ON_EXIT=$OPT
+    esac
+  done
+  shift $(($OPTIND - 1))
+
+  # set default key, if none specified
+  if [ -z "${SSSHA_KEYS[*]}" ]; then
+    for key in $HOME/.ssh/id_[rd]sa; do
+      [ -f "$key" ] && SSSHA_KEYS[${#SSSHA_KEYS[*]}]="$key"
+    done
+  fi
+
+  # Source the existing environment cache, if available
+  if [ -f "${SSSHA_ENV}" ]; then
+    . ${SSSHA_ENV}
+  fi
+}
+
+# --- STOP RUNNING AGENT --- #
+sssha_stop_agent () {
+  echo "Stopping ssh-agent..."
+  eval `ssh-agent -k`
+  /bin/rm -f ${SSSHA_ENV}
+}
+
+# --- START NEW AGENT --- #
+sssha_start_agent () {
+  echo "Initializing new ssh-agent..."
+  ssh-agent ${SSSHA_ARGS} | sed 's/^echo/#echo/' > ${SSSHA_ENV}
+  chmod 600 ${SSSHA_ENV}
+  . ${SSSHA_ENV}
+  # if -x option passed, and THIS shell started the agent, 
+  # then stop the agent when this shell exits
+  if [ "${SSSHA_STOP_ON_EXIT}" -a -f "${SSSHA_ENV}" ]; then
+    trap "sssha_stop_agent" EXIT
+  fi
+}
+
+# --- ADD KEYS TO RUNNING AGENT --- #
+sssha_add_keys () {
+  # determine which keys need to be added yet
+  local key
+  local -a keys
+  for key in "$@"; do
+    (ssh-add -l | egrep "[ /]$key " > /dev/null) \
+      || keys[${#keys[*]}]="$key"
+  done
+
+  # return if no keys to add
+  [ -z "${keys[*]}" ] && return
+    
+  # add the missing keys, but kill the agent if add fails
+  ( trap "" SIGINT
+    ssh-add "${keys[@]}" || sssha_stop_agent
+  )
+}
+
+# Here comes the real work:
+# 1. Parse args
+# 2. Start the agent if we cannot connect to it.
+# 3. Add the keys that aren't already registered.
+sssha_parse_args $*;
+(tty -s && ! ps -ef | egrep "^ *${USER}.*${SSH_AGENT_PID}.*ssh-agent$" > /dev/null) \
+   && sssha_start_agent
+(tty -s) && sssha_add_keys ${SSSHA_KEYS[@]}
+
+# leave this around for stop_agent
+#unset SSSHA_ENV
+unset SSSHA_KEYS
+unset SSSHA_ARGS
+
+##
