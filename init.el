@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.19 $
+;; $Revision: 1.20 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -62,7 +62,7 @@
 
 ;;handle password prompts
 (setq comint-password-prompt-regexp
-      "\\(\\([Ee]nter \\|[Oo]ld \\|[Nn]ew \\|^\\|'s \\)[Pp]assword\\|pass phrase\\):\\s *\\'")
+      "\\(\\([Ee]nter \\|[Oo]ld \\|[Nn]ew \\|^\\|'s \\)[Pp]assword\\|pass ?phrase\\):\\s *\\'")
  
 ;; set the title to make it easy to determine which XEmacs is running
 (let ((host (downcase (system-name))))
@@ -1044,7 +1044,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (setq gnus-secondary-select-methods '(nil))
 (setq gnus-activate-foreign-newsgroups t)
 ;;(setq gnus-read-active-file "some")
-;;(setq gnus-check-new-newsgroups nil)
+(setq gnus-check-new-newsgroups nil)
 ;;(setq gnus-local-organization "Honeywell Technology Center")
 ;;(setq gnus-local-domain "htc.honeywell.com")
 (setq gnus-asynchronous t)
@@ -1052,7 +1052,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (setq gnus-message-archive-group nil)
 (setq gnus-outgoing-message-group nil)
 (setq gnus-large-newsgroup nil)         ;Don't ask about large newsgroups
-                                        ;setup the Summary lines
+;;setup the Summary lines
 (setq gnus-summary-line-format "%U%R%z%I%(%[%d: %-20,20n%]%) %s\n")
 (setq gnus-uu-user-view-rules 
       '(("\\.\\(jpe?g\\|gif\\|tiff?\\|p[pgb]m\\|xwd\\|xbm\\|pcx\\)$"
