@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.34 $
+;; $Revision: 1.35 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -353,6 +353,7 @@
   (add-to-list 'dired-auto-shell-command-alist '("\\.ppt$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.sxi$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.rtf$" openoffice-executable))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.sxd$" openoffice-executable))
   
   ;;Protege
   (add-to-list 'dired-auto-shell-command-alist '("\\.prj$" "protege"))
@@ -625,26 +626,28 @@
 ;;    (define-key jde-run-mode-map "\C-c\C-c" 'comint-kill-subjob)))
 
 (custom-set-variables
+
+ ;;now set in prj.el files
  '(jde-run-option-debug '(nil "Attach" nil)) ;;don't open a socket for the debugger
  '(jde-build-function '(jde-ant-build))
  '(jde-ant-read-target t);;prompt for the target name
  '(jde-ant-enable-find t);;make jde-ant look for the build file
  '(jde-ant-complete-target nil);;don't try and parse the build file for me
  '(jde-import-excluded-packages '("\\(bsh.*\\|sched-infra.*\\|com.sun.*\\|sunw.*\\|sun.*\\|org.gjt.mm.mysql.*\\)"))
- '(jde-compile-option-debug (quote ("all")))
- '(jde-auto-parse-buffer-interval 60)
  '(jde-bug-vm-includes-jpda-p t)
- '(jde-auto-parse-enable t)
  '(jde-import-sorted-groups 'asc)
  '(jde-import-group-of-rules
    (quote
     (
-     ("^\\(net\\.mtu\\.eggplant\\.[^.]+\\([.][^.]+[.]\\)*\\)" . 1)
      ("^\\(com\\.honeywell\\.htc\\.[^.]+\\([.][^.]+[.]\\)*\\)" . 1)
      ("^\\(com\\.honeywell\\.[^.]+\\([.][^.]+[.]\\)*\\)" . 1)
      ;;("^javax?\\.")
      ("^\\([^.]+\\([.][^.]+[.]\\)*\\)" . 1)
      )))
+ ;; end set in prj.el files
+ 
+ '(jde-auto-parse-buffer-interval 60)
+ '(jde-auto-parse-enable t)
  ;;see if this helps things at all 
  '(jde-project-context-switching-enabled-p t)
  ;;don't jump to the first error or remove the compilation buffer! 
@@ -1601,7 +1604,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
   (message "LDAP")
   (require 'ldap)
   (setq ldap-default-base "")
-  (setq ldap-default-host "mn65-exuser2.htc.honeywell.com")
+  (setq ldap-default-host "mn65ex557.htc.honeywell.com")
   (require 'eudcb-ldap)
 ;;(require 'eudcb-bbdb)
   (setq eudc-server ldap-default-host)
