@@ -1851,37 +1851,43 @@ That is, the cvsroot as seen on the cvs server (if remote), without hostname if 
         (concat root "/" module))))) 
  
 (defun my-cvs-parse-commit () 
-  (let ((root (cvs-get-local-commit-root)) 
-        path base-rev subtype) 
-    (log-message "CVS" (concat "root: " root)) 
-    (cvs-or 
+  (let ((root (cvs-get-local-commit-root))
+        path base-rev subtype)
+    (log-message "CVS" (concat "root: " root))
+
+    (message (concat "Matching: " (concat (regexp-quote root) "/" "\\(.*\\),v  <--  .*$")))
+    (cvs-or
  
-     (and 
-      ;; eat obsolete "Checking in" comment - lost in OpenCVS version 1.12.9 
-      (cvs-or (cvs-match "\\(Checking in\\|Removing\\) \\(.*\\);$") t) 
-      ;; Instead, match on repository-local commit-root prefix 
-      (cvs-match (concat (regexp-quote root) "/" "\\(.*\\),v  <--  .*$") 
-                 (path 1)) 
-      (cvs-or 
-       ;; deletion 
-       (cvs-match "new revision: delete; previous revision: \\([0-9.]*\\)$" 
-                (subtype 'REMOVED) (base-rev 1)) 
-       ;; addition 
-       (cvs-match "initial revision: \\([0-9.]*\\)$" 
-                (subtype 'ADDED) (base-rev 1)) 
-       ;; update 
-       (cvs-match "new revision: \\([0-9.]*\\); previous revision: .*$" 
-                (subtype 'COMMITTED) (base-rev 1))) 
-      ;; eat obsolete "done" comment - lost in OpenCVS version 1.12.9 
-      (cvs-or (cvs-match "done$") t) 
-      ;; it's important here not to rely on the default directory management 
-      ;; because `cvs commit' might begin by a series of Examining messages 
-      ;; so the processing of the actual checkin messages might begin with 
-      ;; a `current-dir' set to something different from "" 
-      (cvs-parsed-fileinfo (cons 'UP-TO-DATE subtype) path 'trust 
-                         :base-rev base-rev)) 
+     (and
+      ;; eat obsolete "Checking in" comment - lost in OpenCVS version 1.12.9
+      (cvs-or (cvs-match "\\(Checking in\\|Removing\\) \\(.*\\);$") t)
+      ;; Instead, match on repository-local commit-root prefix
+      (cvs-match (concat (regexp-quote root) "/" "\\(.*\\),v  <--  .*$")
+                 (path 1))
+      ;;(cvs-match (concat "/export/CVS-Repository/reunion" "/" "\\(.*\\),v  <--  .*$")
+      ;;           (path 1))
       
-     ;; useless message added before the actual addition: ignored 
+      (cvs-or
+       ;; deletion
+       (cvs-match "new revision: delete; previous revision: \\([0-9.]*\\)$"
+		  (subtype 'REMOVED) (base-rev 1))
+       ;; addition
+       (cvs-match "initial revision: \\([0-9.]*\\)$"
+		  (subtype 'ADDED) (base-rev 1))
+       ;; update
+       (cvs-match "new revision: \\([0-9.]*\\); previous revision: .*$"
+		  (subtype 'COMMITTED) (base-rev 1)))
+      ;; eat obsolete "done" comment - lost in OpenCVS version 1.12.9
+      (cvs-or (cvs-match "done$") t)
+      ;; it's important here not to rely on the default directory
+      ;; management because `cvs commit' might begin by a series of
+      ;; Examining messages so the processing of the actual checkin
+      ;; messages might begin with a `current-dir' set to something
+      ;; different from ""
+      (cvs-parsed-fileinfo (cons 'UP-TO-DATE subtype) path 'trust
+			   :base-rev base-rev))
+     
+     ;; useless message added before the actual addition: ignored
      (cvs-match "RCS file: .*\ndone$"))))
 
 ;;;;;;;;;;;
