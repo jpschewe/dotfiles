@@ -13,10 +13,10 @@
 (custom-set-faces)
 
 ;; define a variable to tell us where we are
-(defvar system-location 'unknown "The location that we're at.  Possible values: honeywell, home, unknown")
+(defvar system-location 'unknown "The location that we're at.  Possible values: htc, home, unknown")
 (let ((host (downcase (system-name))))
-  (cond ((string-match "honeywell.com" host)
-	 (setq system-location 'honeywell))
+  (cond ((string-match "htc.honeywell.com" host)
+	 (setq system-location 'htc))
 	((string-match "mn.mtu.net" host)
 	 (setq system-location 'home))
 	((string-match "eggplant-laptop" host)
@@ -409,7 +409,7 @@
 ;; Allegro
 ;;
 ;;;;;;;;;;;
-(when (eq system-location 'honeywell)
+(when (eq system-location 'htc)
   (add-to-list 'completion-ignored-extensions ".fasl")
   (add-to-list 'load-path (expand-file-name "/net/packages/allegro/acl62/xeli"))
   ;;check if we have a local version
@@ -1031,7 +1031,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (defun reset-user-mail-address ()
   "Reset the address based on my location"
   (interactive)
-  (cond ((eq system-location 'honeywell)
+  (cond ((eq system-location 'htc)
 	 (set-user-mail-address "jon.schewe@honeywell.com"))
 	((eq system-location 'home)
 	 (set-user-mail-address "jpschewe@mtu.net"))
@@ -1152,7 +1152,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (load-library "smtpmail")
 (setq send-mail-function 'smtpmail-send-it)
 (setq message-send-mail-function send-mail-function)
-(cond ((eq system-location 'honeywell)
+(cond ((eq system-location 'htc)
        (setq smtp-server "lug.htc.honeywell.com"))
       ((eq system-location 'home)
        (setq smtp-server "eggplant"))
@@ -1261,7 +1261,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (autoload 'gnus "gnus" nil t)
 (setq gnus-article-save-directory "~/Mail/")
 (setq gnus-nntp-server nil)
-(cond ((eq system-location 'honeywell)
+(cond ((eq system-location 'htc)
        (setq gnus-select-method '(nntp "news.phxlab.honeywell.com"))
        ;;(setq gnus-secondary-select-methods '((nnimap "Honeywell"
        ;; 					     (nnimap-address "mn65-eggplant")
@@ -1729,7 +1729,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;; LDAP
 ;;
 ;;;;;;;;;;;;
-(when (eq system-location 'honeywell)
+(when (eq system-location 'htc)
   (message "LDAP")
   (require 'ldap)
   (setq ldap-default-base "")
@@ -1813,7 +1813,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;; zenirc
 ;;
 ;;;;;;;;;;;
-(when (eq system-location 'honeywell)
+(when (eq system-location 'htc)
   (setq zenirc-server-alist
 	'(
 	  ("oldbob.htc.honeywell.com" 6060 "circa" "Eggplant" nil)
