@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.3 $
+;; $Revision: 1.4 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -307,11 +307,11 @@
     ;;gimp
     (when (eq system-type 'linux)
       (map 'list '(lambda (ext)
-		    (add-to-list 'foo-alist (list (concat "\\." ext "$") "gimp"))) extensions))
+		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "gimp"))) extensions))
     ;;display
     (when (eq system-type 'linux)
       (map 'list '(lambda (ext)
-		    (add-to-list 'foo-alist (list (concat "\\." ext "$") "display"))) extensions))
+		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "display"))) extensions))
     )
   
   ;;bzip
@@ -754,7 +754,7 @@
 ;;my own catalog for dtds
 (require 'psgml)
 (add-to-list 'sgml-catalog-files
-             (expand-file-name "~/.xemacs/xemacs-packages/etc/CATALOG"));;FIX figure out how to get this via data-directory-list ...
+             (expand-file-name "~/.xemacs/xemacs-packages/etc/CATALOG" (locate-data-directory "config-jps")))
 
 (setq sgml-auto-activate-dtd nil	; don't parse dtd right away
       sgml-warn-about-undefined-elements nil ; don't complain about unknown elements
