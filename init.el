@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.21 $
+;; $Revision: 1.22 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -608,11 +608,10 @@
 ;ignore assert files from ant compilation
 (add-to-list 'completion-ignored-extensions ".assert")
 
-(when (eq system-type 'windows-nt)
-  (eval-after-load "jde-run"
-    ;;fix bug with wrong signal being sent to running processes
-    (define-key jde-run-mode-map "\C-c\C-c" 'comint-kill-subjob)
-    ))
+;;(when (eq system-type 'windows-nt)
+;;  (eval-after-load "jde-run"
+;;    ;;fix bug with wrong signal being sent to running processes
+;;    (define-key jde-run-mode-map "\C-c\C-c" 'comint-kill-subjob)))
 
 (custom-set-variables
  '(jde-run-option-debug '(nil "Attach" nil)) ;;don't open a socket for the debugger
