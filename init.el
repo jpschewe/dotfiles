@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.74 $
+;; $Revision: 1.75 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -767,8 +767,10 @@
 ;;;;;;;;;;;;
 (message "Java")
 
-;;cedat
+;; Load CEDET
 (load-file "~/.xemacs/cedet-1.0beta3b/common/cedet.el")
+;; Enabling SEMANTIC minor modes.  See semantic/INSTALL for more ideas.
+(semantic-load-enable-code-helpers)
 
 (add-to-list 'auto-mode-alist '("\\.jass$" . jde-mode))
 (add-to-list 'auto-mode-alist '("\\.jad$" . jde-mode))
