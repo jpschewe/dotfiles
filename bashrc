@@ -358,6 +358,8 @@ alias check-schedinfra="find . \( -name '*.alt' -o -name '*.lib' -o -name '*.jav
 
 alias check-ptm="find *.properties src docs web build.xml lib matlab prj.el -type f -perm +222 -print | grep -v 'vssver.scc' | grep -v .xvpics | grep -v foo | grep -v matlab.jar | grep -v web-linux.xml | grep -v ObjectModel.bak"
 
+alias check-sydney="find src doc build.xml lib prj.el -type f -perm +222 -print | grep -v 'vssver.scc' | grep -v .xvpics | grep -v TAGS"
+
 # ------------------
 # some terminal stuff
 # ------------------

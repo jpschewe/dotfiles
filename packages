@@ -390,11 +390,6 @@ case $OS_JPS in
           ;;
 esac
 
-### cplex
-#export CPLEXHOME=/net/packages/cplex
-#append PATH ${CPLEXHOME}/6.6/solaris2.5-ultra
-#export CPLEXLICDIR=${CPLEXHOME}/netlicen
-
 ### ilog
 case $LOCATION in
   htc)
@@ -407,10 +402,24 @@ case $LOCATION in
         ILOG_HOME=/net/packages/ilog
         append PATH ${ILOG_HOME}/ilm/current/unix
         ;;
+      linux)
+        ILOG_HOME=/net/packages/ilog
+        ;;
     esac
     export ILOG_HOME;
     export ILOG_LICENSE_FILE=${ILOG_HOME}/ilm/access-barrier.ilm
     ;;
+esac
+
+### ampl and conopt
+case $LOCATION in
+  htc)
+       case $OS_JPS in
+         linux)
+                append PATH ${HOME}/ampl-conopt
+                ;;
+       esac
+       ;;
 esac
 
 ### mysql
