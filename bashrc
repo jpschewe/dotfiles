@@ -286,11 +286,11 @@ sd() {
   esac
 }
 
-#if [ -n `type -p nc` ]; then
-#  alias nc=netcat
-#elif [ -n `type -p netcat` ]; then
-#  alias netcat=nc
-#fi
+if [ -n "`type -p nc`" -a -z "`type -p netcat`" ]; then
+  alias netcat=nc
+elif [ -n "`type -p netcat`" -a -z "`type -p nc`" ]; then
+  alias nc=netcat
+fi
 
 dsd() {
   case "$1" in
