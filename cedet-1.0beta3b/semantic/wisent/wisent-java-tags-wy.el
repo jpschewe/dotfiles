@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2002 David Ponce
 
-;; Author: Jon Schewe <jschewe@mn65-eggplant.htc.honeywell.com>
-;; Created: 2005-02-17 08:11:44z
+;; Author: Jon Schewe <jpschewe@workstation.mn.mtu.net>
+;; Created: 2005-02-17 21:25:11z
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

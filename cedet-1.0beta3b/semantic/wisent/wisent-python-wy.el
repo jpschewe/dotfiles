@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2002, 2003, 2004 Richard Kim
 
-;; Author: Jon Schewe <jschewe@mn65-eggplant.htc.honeywell.com>
-;; Created: 2005-02-17 08:11:52z
+;; Author: Jon Schewe <jpschewe@workstation.mn.mtu.net>
+;; Created: 2005-02-17 21:25:57z
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2002, 2003 Vladimir G. Sekissov
 
-;; Author: Jon Schewe <jschewe@mn65-eggplant.htc.honeywell.com>
-;; Created: 2005-02-17 08:11:57z
+;; Author: Jon Schewe <jpschewe@workstation.mn.mtu.net>
+;; Created: 2005-02-17 21:26:30z
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

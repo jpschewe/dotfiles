@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2003 David Shilvock
 
-;; Author: Jon Schewe <jschewe@mn65-eggplant.htc.honeywell.com>
-;; Created: 2005-02-17 08:12:16z
+;; Author: Jon Schewe <jpschewe@workstation.mn.mtu.net>
+;; Created: 2005-02-17 21:28:13z
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 

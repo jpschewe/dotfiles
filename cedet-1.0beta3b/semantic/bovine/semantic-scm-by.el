@@ -2,8 +2,8 @@
 
 ;; Copyright (C) 2001, 2003 Eric M. Ludlam
 
-;; Author: Jon Schewe <jschewe@mn65-eggplant.htc.honeywell.com>
-;; Created: 2005-02-17 08:11:57z
+;; Author: Jon Schewe <jpschewe@workstation.mn.mtu.net>
+;; Created: 2005-02-17 21:26:29z
 ;; Keywords: syntax
 ;; X-RCS: $Id$
 
