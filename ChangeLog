@@ -1,3 +1,8 @@
+2003-12-16  Jon Schewe  <jon.schewe@honeywell.com>
+
+	* init.el (comint-password-prompt-regexp): Handle password prompt
+	for MySQL.
+
 2003-12-10  Jon Schewe  <jon.schewe@honeywell.com>
 
 	* init.el (set-user-mail-address): Make set-user-mail-address
