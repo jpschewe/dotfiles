@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.42 $
+;; $Revision: 1.43 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -53,7 +53,7 @@
       shell-multiple-shells t;; allow multiple shell buffers
       browse-url-browser-function 'browse-url-netscape;; use netscape
       browse-url-new-window-flag t;; try to use a new window when browsing
-      completion-ignore-case t          ;case insensitive file matching
+      ;;completion-ignore-case t          ;case insensitive file matching
       find-file-compare-truenames t;; watch out for symlinks
       ;;Manual-program "man"
       visible-bell t;; don't beep
