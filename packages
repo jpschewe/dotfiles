@@ -247,6 +247,12 @@ xemacs () {
   fi
 }
 
+# Matlab
+case $LOCATION in
+  htc)
+       append PATH "/net/packages/matlab/6.5/bin"
+       ;;
+esac
 
 ### java
 case $OS_JPS in
