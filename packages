@@ -236,6 +236,8 @@ xemacs () {
       mv -f ~/.xemacs/${HOST}-errors ~/.xemacs/${HOST}-errors.old
     fi
     command xemacs $* > ~/.xemacs/${HOST}-errors 2>&1
+  else
+    command xemacs $*
   fi
 }
 
