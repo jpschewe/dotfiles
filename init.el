@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.72 $
+;; $Revision: 1.73 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -374,7 +374,7 @@
 ;;;;;;;;;;;;
 (message "text-mode")
 ;; Turn on word-wrap in text modes
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
+;;(add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 
 ;;;;;;;;;;;
@@ -775,7 +775,6 @@
 ;;cedat
 (load-file "~/.xemacs/cedet-1.0beta3b/common/cedet.el")
 
-(add-to-list 'auto-mode-alist '("\\.template$" . jde-mode))
 (add-to-list 'auto-mode-alist '("\\.jass$" . jde-mode))
 (add-to-list 'auto-mode-alist '("\\.jad$" . jde-mode))
 (add-to-list 'auto-mode-alist '("\\.xjava$" . jde-mode))
