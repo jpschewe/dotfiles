@@ -2,10 +2,10 @@
 
 ;; Copyright (C) 2002, 2003, 2004 David Ponce
 
-;; Author: Jon Schewe <jpschewe@workstation.mn.mtu.net>
-;; Created: 2004-11-14 13:17:00z
+;; Author: Jon Schewe <jschewe@mn65-eggplant.htc.honeywell.com>
+;; Created: 2005-02-17 08:11:47z
 ;; Keywords: syntax
-;; X-RCS: $Id: wisent-java-wy.el,v 1.2 2004/11/14 19:35:52 jpschewe Exp $
+;; X-RCS: $Id$
 
 ;; This file is not part of GNU Emacs.
 ;;

@@ -1,8 +1,8 @@
-This is semantic.info, produced by makeinfo version 4.3 from
+This is semantic.info, produced by makeinfo version 4.7 from
 semantic.texi.
 
-This manual documents Semantic, a new intrastructure for parser based
-text analysis for Emacs.
+   This manual documents Semantic, a new intrastructure for parser
+based text analysis for Emacs.
 
    Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004 Eric M. Ludlam
 Copyright (C) 2001, 2002, 2003 David Ponce Copyright (C) 2002, 2003
@@ -15,7 +15,7 @@ Richard Y. Kim
      with the Front-Cover Texts being list, and with the Back-Cover
      Texts being list.  A copy of the license is included in the
      section entitled "GNU Free Documentation License".
-   
+
 INFO-DIR-SECTION Emacs
 START-INFO-DIR-ENTRY
 * Semantic: (semantic).	Infrastructure for parser based text analysis.
@@ -43,7 +43,7 @@ include the "bovine" parser, and the "wisent" parser.
 
 To send bug reports, or participate in discussions about semantic, use
 the mailing list cedet-semantic@sourceforge.net via the URL:
-<http://lists.sourceforge.net/lists/listinfo/cedet-semantic>
+`http://lists.sourceforge.net/lists/listinfo/cedet-semantic'
 
 * Menu:
 
@@ -58,8 +58,8 @@ the mailing list cedet-semantic@sourceforge.net via the URL:
 
 File: semantic.info,  Node: Overview,  Next: Installation,  Prev: Top,  Up: Top
 
-Overview
-********
+1 Overview
+**********
 
 This chapter gives the overview of semantic and its goals.
 
@@ -116,18 +116,18 @@ The following diagram illustrates the benefits of using semantic:
                     +---------------+    |        |    |        |
         Texinfo --->| TEXI.  PARSER |--->|        |    |        |<--- ecb
                     +---------------+    |        |    |        |
-     
+
                          ...                ...           ...         ...
-     
+
                     +---------------+    |        |    |        |<--- app. 1
         Lang. A --->| A      Parser |--->|        |    |        |
                     +---------------+    |        |    |        |<--- app. 2
                     +---------------+    |        |    |        |
         Lang. B --->| B      Parser |--->|        |    |        |<--- app. 3
                     +---------------+    |        |    |        |
-     
+
                           ...        ...     ...          ...       ...
-     
+
                     +---------------+    |        |    |        |
         Lang. Y --->| Y      Parser |--->|        |    |        |<--- app. ?
                     +---------------+    |        |    |        |
@@ -142,8 +142,8 @@ The following diagram illustrates the benefits of using semantic:
 
 File: semantic.info,  Node: Semantic Components,  Up: Overview
 
-Semantic Components
-===================
+1.1 Semantic Components
+=======================
 
 This chapter gives an overview of major components of semantic and how
 they interact with each other to perform its job.
@@ -182,8 +182,8 @@ access the information in the parse tree.
 
 File: semantic.info,  Node: Installation,  Next: Semantic manuals,  Prev: Overview,  Up: Top
 
-Installation
-************
+2 Installation
+**************
 
 To install semantic, untar the distribution into a subdirectory, such as
 `/usr/share/emacs/site-lisp/semantic-#.#'.  Next, add the following
@@ -202,8 +202,8 @@ of CEDET, see the CEDET `INSTALL' file for directions.
 
 File: semantic.info,  Node: Semantic manuals,  Next: Semantic Internals,  Prev: Installation,  Up: Top
 
-Semantic manuals
-****************
+3 Semantic manuals
+******************
 
 To know how to use applications enabled by semantic, *note the User's
 Guide: (semantic-user)top.
@@ -227,8 +227,8 @@ Manual: (wisent)top.
 
 File: semantic.info,  Node: Semantic Internals,  Next: Glossary,  Prev: Semantic manuals,  Up: Top
 
-Semantic Internals
-******************
+4 Semantic Internals
+********************
 
 This chapter explains the internals of semantic.  This information
 would not be needed by neither applicatioan developers nor grammar
@@ -240,8 +240,8 @@ about how semantic works.
 
 File: semantic.info,  Node: Glossary,  Next: GNU Free Documentation License,  Prev: Semantic Internals,  Up: Top
 
-Glossary
-********
+Appendix A Glossary
+*******************
 
 
      BNF
@@ -314,16 +314,18 @@ Glossary
      to Emacs Lisp.  It is an LALR parser suitable for complex
      languages.
 
+
 
 File: semantic.info,  Node: GNU Free Documentation License,  Next: Index,  Prev: Glossary,  Up: Top
 
-GNU Free Documentation License
-******************************
+Appendix B GNU Free Documentation License
+*****************************************
 
                         Version 1.1, March 2000
+
      Copyright (C) 2000  Free Software Foundation, Inc.
      59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-     
+
      Everyone is permitted to copy and distribute verbatim copies
      of this license document, but changing it is not allowed.
 
@@ -694,33 +696,34 @@ File: semantic.info,  Node: Index,  Prev: GNU Free Documentation License,  Up: T
 Index
 *****
 
+ [index ]
 * Menu:
 
 
 Tag Table:
 Node: Top1089
 Node: Overview1960
-Node: Semantic Components6140
-Node: Installation7552
-Node: Semantic manuals8217
+Node: Semantic Components6124
+Node: Installation7544
+Node: Semantic manuals8213
 Node: Semantic Internals9014
-Node: Glossary9400
-Ref: BNF9535
-Ref: bovinate9740
-Ref: bovine lambda9836
-Ref: bovine parser10024
-Ref: context10156
-Ref: LALR10171
-Ref: lexer10183
-Ref: LL10401
-Ref: nonterminal10411
-Ref: overloadable10430
-Ref: parser10544
-Ref: tag10603
-Ref: token10835
-Ref: token stream10959
-Ref: wisent parser11044
-Node: GNU Free Documentation License11216
-Node: Index30925
+Node: Glossary9404
+Ref: BNF9561
+Ref: bovinate9766
+Ref: bovine lambda9862
+Ref: bovine parser10050
+Ref: context10182
+Ref: LALR10197
+Ref: lexer10209
+Ref: LL10427
+Ref: nonterminal10437
+Ref: overloadable10456
+Ref: parser10570
+Ref: tag10629
+Ref: token10861
+Ref: token stream10985
+Ref: wisent parser11070
+Node: GNU Free Documentation License11243
+Node: Index30970
 
 End Tag Table

@@ -2,10 +2,10 @@
 
 ;; Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004 Eric M. Ludlam
 
-;; Author: Jon Schewe <jpschewe@workstation.mn.mtu.net>
-;; Created: 2004-11-14 13:17:43z
+;; Author: Jon Schewe <jschewe@mn65-eggplant.htc.honeywell.com>
+;; Created: 2005-02-17 08:11:56z
 ;; Keywords: syntax
-;; X-RCS: $Id: semantic-c-by.el,v 1.2 2004/11/14 19:35:52 jpschewe Exp $
+;; X-RCS: $Id$
 
 ;; This file is not part of GNU Emacs.
 ;;

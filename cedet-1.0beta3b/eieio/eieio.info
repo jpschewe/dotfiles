@@ -1,4 +1,4 @@
-This is eieio.info, produced by makeinfo version 4.6 from eieio.texi.
+This is eieio.info, produced by makeinfo version 4.7 from eieio.texi.
 
 START-INFO-DIR-ENTRY
 * eieio: (eieio).       Objects for Emacs
@@ -42,15 +42,15 @@ had to prove them wrong!
 
 File: eieio.info,  Node: Introduction,  Next: CLOS compatibility,  Prev: Top,  Up: Top
 
-Introduction
-************
+1 Introduction
+**************
 
 EIEIO is a CLOS (Common Lisp Object System) compatibility layer.  Due
 to restrictions in the Emacs Lisp language, CLOS cannot be completely
 supported, and a few functions have been added in place of setf.
 
-What EIEIO supports
-===================
+1.1 What EIEIO supports
+=======================
 
   1. A structured framework for the creation of basic classes with
      attributes and methods using singular inheritance similar to CLOS.
@@ -79,8 +79,8 @@ What EIEIO supports
 
  13. Customization support in a class (extension to CLOS)
 
-Issues using EIEIO
-==================
+1.2 Issues using EIEIO
+======================
 
 Complete `defclass' tag support
      All CLOS tags are currently supported, but some are not currently
@@ -95,8 +95,8 @@ Mock object initializers
 :AROUND method tag
      This CLOS method tag is non-functional.
 
-EIEIO example programs that are almost useful.
-==============================================
+1.3 EIEIO example programs that are almost useful.
+==================================================
 
 linemark
      Manage line highlighting, where individual lines are given a
@@ -135,8 +135,8 @@ eieio-speedbar
      display for your objects in very little time. *Note
      eieio-speedbar::
 
-EIEIO wish list
-===============
+1.4 EIEIO wish list
+===================
 
   1. More CLOS compatibility.
 
@@ -148,8 +148,8 @@ EIEIO wish list
 
 File: eieio.info,  Node: CLOS compatibility,  Next: Building Classes,  Prev: Introduction,  Up: Top
 
-CLOS compatibility
-******************
+2 CLOS compatibility
+********************
 
 As you read this, it is important to know that I have just recently
 learned some of the CLOS syntax, but have never used it myself outside
@@ -224,13 +224,13 @@ several new keywords supported by EIEIO.
 
 File: eieio.info,  Node: Building Classes,  Next: Default Superclass,  Prev: CLOS compatibility,  Up: Top
 
-Building Classes
-****************
+3 Building Classes
+******************
 
 A class in EIEIO has a similar structure to that found in other
 languages.  A new class is created with `defclass'
 
- - Function: defclass class-name superclass-list slot-list
+ -- Function: defclass class-name superclass-list slot-list
           options-or-doc
      This function is specified by CLOS, and EIEIO conforms in
      structure.
@@ -427,15 +427,15 @@ languages.  A new class is created with `defclass'
             "Data object which tracks referencers.")
 
 
- - Variable: eieio-error-unsupported-class-tags
+ -- Variable: eieio-error-unsupported-class-tags
      If Non-nil, then `defclass' will throw an error if a tag in a slot
      specifier is unsupported.
 
 
 File: eieio.info,  Node: Default Superclass,  Next: Making New Objects,  Prev: Building Classes,  Up: Top
 
-Default Superclass
-******************
+4 Default Superclass
+********************
 
 All defined classes, if created as a superclass (With no specified
 parent class) will actually inherit from a special superclass stored in
@@ -459,17 +459,17 @@ is aliased.
 `make-instance'.  This, in turns calls the method
 `initialize-instance', which then calls the method `shared-initialize'.
 
- - Function: initialize-instance obj &rest slots
+ -- Function: initialize-instance obj &rest slots
      Initialize OBJ.  Sets slots of OBJ with SLOTS which is a list of
      name/value pairs.  These are actually just passed to
      `shared-initialize'.
 
- - Function: shared-initialize obj &rest slots
+ -- Function: shared-initialize obj &rest slots
      Sets slots of OBJ with SLOTS which is a list of name/value pairs.
 
    These methods are used to override errors:
 
- - Function: slot-missing object slot operation &optional new-value
+ -- Function: slot-missing object slot operation &optional new-value
      This method is called when there is an attempt to access a slot
      that does not exist for a given object.  The default method
      signals an error of type `invalid-slot-name'.  *Note Signals::.
@@ -479,32 +479,32 @@ is aliased.
 
      This function takes arguments in a different order than in CLOS.
 
- - Function: slot-unbound object class slot-name fn
+ -- Function: slot-unbound object class slot-name fn
      This method is called when there is an attempt to access a slot
      that is not bound.  This will throw an `unbound-slot' signal.  If
      overridden it's return value will be returned from the function
      attempting to reference its value.
 
- - Function: no-applicable-method object method
+ -- Function: no-applicable-method object method
      This method is called when there is an attempt to call a method on
      OBJECT when there is no method to call.  The default method throws
      a `no-method-definition' signal.  The return value of this function
      becomes the return value of the non-existent method.
 
- - Function: no-next-method object args
+ -- Function: no-next-method object args
      This method is called when an attempt to call `call-next-method' is
      made, and there is no next method that can be called.    The return
      value becomes the return value of `call-next-method'.
 
    Additional useful methods are:
 
- - Function: clone obj &rest params
+ -- Function: clone obj &rest params
      Make a deep copy of OBJ.  Once this copy is made, make
      modifications specified by PARAMS.  PARAMS uses the same format as
      the SLOTS of `initialize-instance'.  The only other change is to
      modify the name with an incrementing numeric.
 
- - Function: object-print obj &rest strings
+ -- Function: object-print obj &rest strings
      Construct a printing lisp symbol for OBJ.  This would look like:
            #<class-name "objname">
      STRINGS are additional parameters passed in by overloading
@@ -513,7 +513,7 @@ is aliased.
           (defclass data-object ()
              (value)
              "Object containing one data slot.")
-          
+
           (defmethod object-print ((this data-object) &optional strings)
             "Return a string with a summary of the data object as part of the name."
             (apply 'call-next-method this
@@ -523,7 +523,7 @@ is aliased.
           (object-print test-object)
              => #<data-object test-object value: 3>
 
- - Function: object-write obj &optional comment
+ -- Function: object-write obj &optional comment
      Write OBJ onto a stream in a readable fashion.  The resulting
      output will be lisp code which can be used with `read' and `eval'
      to recover the object.  Only slots with `:initarg's are written to
@@ -532,8 +532,8 @@ is aliased.
 
 File: eieio.info,  Node: Making New Objects,  Next: Accessing Slots,  Prev: Default Superclass,  Up: Top
 
-Making New Objects
-******************
+5 Making New Objects
+********************
 
 Once we have defined our classes, it's time to create objects with the
 specified structure.  After we call `defclass' two new functions are
@@ -541,7 +541,7 @@ created, one of which is `classname'.  Thus, from the example at the
 end of the previous chapter *Note Building Classes::, we would have the
 functions `data-object' and `data-object-p'.
 
- - Function: classname object-name &rest slots
+ -- Function: classname object-name &rest slots
      This creates and returns a new object.  This object is not
      assigned to anything, and will be garbage collected if not saved.
      This object will be given the string name OBJECT-NAME.  There can
@@ -563,19 +563,19 @@ functions `data-object' and `data-object-p'.
 
 File: eieio.info,  Node: Accessing Slots,  Next: Writing Methods,  Prev: Making New Objects,  Up: Top
 
-Accessing Slots
-***************
+6 Accessing Slots
+*****************
 
 There are several ways to access slot values in an object.  The naming
 convention and argument order is similar to that found in Emacs Lisp for
 referencing vectors.  The basics for referencing, setting, and calling
 methods are all accounted for.
 
- - Function: oset object slot value
+ -- Function: oset object slot value
      This sets the value behind SLOT to VALUE in OBJECT.  `oset'
      returns VALUE.
 
- - Function: oset-default class slot value
+ -- Function: oset-default class slot value
      This sets the slot SLOT in CLASS which is initialized with the
      `:initform' tag to VALUE.  This will allow a user to set both
      public and private defaults after the class has been constructed.
@@ -590,13 +590,13 @@ methods are all accounted for.
           (oset-default data-object reference (list my-special-object))
 
 
- - Function: oref object slot
+ -- Function: oref object slot
      This recalls the value in slot SLOT in OBJECT and returns it.  If
      OBJECT is a class, and SLOT is a class allocated slot, then oref
      will return that value.  If OBJECT is a class, and SLOT is not
      class allocated, a signal will be thrown.
 
- - Function: oref-default object slot
+ -- Function: oref-default object slot
      This gets the default value in OBJECT's class definition for
      `slot'.  This can be different from the value returned by `oref'.
      OBJECT can also be a class symbol or an instantiated object.
@@ -604,28 +604,28 @@ methods are all accounted for.
    These next accessors are defined by CLOS to reference or modify slot
 values, and use the previously mentioned set/ref routines.
 
- - Function: slot-value object slot
+ -- Function: slot-value object slot
      This function retrieves the value of SLOT from OBJECT.  Unlike
      `oref', the symbol for SLOT must be quoted in.
 
- - Function: set-slot-value object slot value
+ -- Function: set-slot-value object slot value
      This is not a CLOS function, but is meant to mirror `slot-value' if
      you don't want to use the cl package's `setf' function.  This
      function sets the value of SLOT from OBJECT.  Unlike `oset', the
      symbol for SLOT must be quoted in.
 
- - Function: slot-makeunbound object slot
+ -- Function: slot-makeunbound object slot
      This function unbinds SLOT in OBJECT.  Referencing an unbound slot
      can throw an error.
 
- - Function: object-add-to-list object slot &optional append
+ -- Function: object-add-to-list object slot &optional append
      In OBJECT's SLOT, add ITEM to the pre-existing list of elements.
      Optional argument APPEND indicates we need to append to the list.
      If ITEM already exists in the list in SLOT, then it is not added.
      Comparison is done with "equal" through the "member" function call.
      If SLOT is unbound, bind it to the list containing ITEM.
 
- - Function: with-slots entries object forms
+ -- Function: with-slots entries object forms
      Bind ENTRIES lexically to the specified slot values in OBJECT, and
      execute FORMS.  In CLOS, it would be possible to set values in
      OBJECT by using `setf' to assign to these values, but in Emacs,
@@ -640,8 +640,8 @@ values, and use the previously mentioned set/ref routines.
 
 File: eieio.info,  Node: Writing Methods,  Next: Predicates,  Prev: Accessing Slots,  Up: Top
 
-Writing Methods
-***************
+7 Writing Methods
+*****************
 
 Writing a CLOS style method is similar to writing a function.  The
 differences are that there are some extra options and there can be
@@ -652,7 +652,7 @@ with each other.
 available to attach to.  A generic method has no body, and is merely a
 symbol upon which methods are attached.
 
- - Function: defgeneric method arglist [doc-string]
+ -- Function: defgeneric method arglist [doc-string]
      METHOD is the unquoted symbol to turn into a function.  ARGLIST is
      the default list of arguments to use (not implemented yet).
      DOC-STRING is the documentation used for this symbol.
@@ -664,7 +664,7 @@ symbol upon which methods are attached.
      `defgeneric' will prevent you from turning an existing emacs lisp
      function into a generic function.
 
- - Function: defmethod method [:BEFORE | :PRIMARY | :AFTER | :STATIC ]
+ -- Function: defmethod method [:BEFORE | :PRIMARY | :AFTER | :STATIC ]
           arglist [doc-string] forms
      METHOD is the name of the function to be created.
 
@@ -731,7 +731,7 @@ thrown. *Note Signals::
    See the file `eieio-test.el' for an example testing these
 differently tagged methods.
 
- - Function: call-next-method &rest replacement-args
+ -- Function: call-next-method &rest replacement-args
      While running inside a CLOS method, calling this function will
      call the method associated with the parent of the class of the
      currently running method with the same parameters.
@@ -747,7 +747,7 @@ differently tagged methods.
      For example code *Note Default Superclass::.
 
 
- - Function: call-next-method-p
+ -- Function: call-next-method-p
      Return t if there is a next method we can call.
 
 
@@ -761,54 +761,54 @@ differently tagged methods.
 
 File: eieio.info,  Node: Predicates,  Next: Association Lists,  Prev: Writing Methods,  Up: Top
 
-Predicates and Utilities
-************************
+8 Predicates and Utilities
+**************************
 
 Now that we know how to create classes, access slots, and define
 methods, it might be useful to verify that everything is doing ok.  To
 help with this a plethora of predicates have been created.
 
- - Function: class-v class
+ -- Function: class-v class
      Return a vector with all the class's important parts in it.  This
      vector is not a copy.  Changing this vector changes the class.
      The CLOS method `find-class' will have the same effect.
 
- - Function: find-class symbol &optional errorp
+ -- Function: find-class symbol &optional errorp
      CLOS function.  In EIEIO it returns the vector definition of the
      class.  If there is no class, `nil' is returned if ERRORP is `nil'.
 
- - Function: class-p class
+ -- Function: class-p class
      Return non-`nil' if CLASS is a class type.
 
- - Function: object-p obj
+ -- Function: object-p obj
      Return non-`nil' if OBJ is an object.
 
- - Function: slot-exists-p obj-or-class slot
+ -- Function: slot-exists-p obj-or-class slot
      Return Non-`nil' if OBJ-OR-CLASS contains SLOT in its class.
 
- - Function: slot-boundp object slot
+ -- Function: slot-boundp object slot
      Non-`nil' if OBJECT's SLOT is bound.  Setting a slot's value makes
      it bound.  Calling "slot-makeunbound" will make a slot unbound.
      OBJECT can be an instance or a class.
 
- - Function: class-name class
+ -- Function: class-name class
      Return a string of the form #<class myclassname> which should look
      similar to other lisp objects like buffers and processes.
      Printing a class results only in a symbol.
 
- - Function: class-option class option
+ -- Function: class-option class option
      Return the value in CLASS of a given OPTION.  For example:
 
           (class-option eieio-default-superclass :documentation)
 
      Will fetch the documentation string for `eieio-default-superclass'.
 
- - Function: class-constructor class
+ -- Function: class-constructor class
      Return a symbol used as a constructor for CLASS.  This way you can
      make an object of a passed in class without knowing what it is.
      This is not a part of CLOS.
 
- - Function: object-name obj
+ -- Function: object-name obj
      Return a string of the form #<object-class myobjname> for OBJ.
      This should look like lisp symbols from other parts of emacs such
      as buffers and processes, and is shorter and cleaner than printing
@@ -816,51 +816,51 @@ help with this a plethora of predicates have been created.
      get and object's print form, as this allows the object to add
      extra display information into the symbol.
 
- - Function: object-class obj
+ -- Function: object-class obj
      Returns the class symbol from OBJ.
 
- - Function: class-of obj
+ -- Function: class-of obj
      CLOS symbol which does the same thing as `object-class'
 
- - Function: object-class-fast obj
+ -- Function: object-class-fast obj
      Same as `object-class' except this is a macro, and no
      type-checking is performed.
 
- - Function: object-class-name obj
+ -- Function: object-class-name obj
      Returns the symbol of OBJ's class.
 
- - Function: class-parents class
+ -- Function: class-parents class
      Returns the direct parents class of CLASS.  Returns `nil' if it is
      a superclass.
 
- - Function: class-parents-fast class
+ -- Function: class-parents-fast class
      Just like `class-parent' except it is a macro and no type checking
      is performed.
 
- - Function: class-parent class
+ -- Function: class-parent class
      Deprecated function which returns the first parent of CLASS.
 
- - Function: class-children class
+ -- Function: class-children class
      Return the list of classes inheriting from CLASS.
 
- - Function: class-children-fast class
+ -- Function: class-children-fast class
      Just like `class-children', but with no checks.
 
- - Function: same-class-p obj class
+ -- Function: same-class-p obj class
      Returns `t' if OBJ's class is the same as CLASS.
 
- - Function: same-class-fast-p obj class
+ -- Function: same-class-fast-p obj class
      Same as `same-class-p' except this is a macro and no type checking
      is performed.
 
- - Function: object-of-class-p obj class
+ -- Function: object-of-class-p obj class
      Returns `t' if OBJ inherits anything from CLASS.  This is
      different from `same-class-p' because it checks for inheritance.
 
- - Function: child-of-class-p child class
+ -- Function: child-of-class-p child class
      Returns `t' if CHILD is a subclass of CLASS.
 
- - Function: generic-p method-symbol
+ -- Function: generic-p method-symbol
      Returns `t' if `method-symbol' is a generic function, as opposed
      to a regular emacs list function.
 
@@ -874,23 +874,23 @@ inherits from `data-object'.
 
 File: eieio.info,  Node: Association Lists,  Next: Introspection,  Prev: Predicates,  Up: Top
 
-Association Lists
-*****************
+9 Association Lists
+*******************
 
 Lisp offers the concept of association lists, with primitives such as
 `assoc' used to access them.  Eieio provides a few such functions to
 help with using lists of objects easily.
 
- - Function: object-assoc key slot list
+ -- Function: object-assoc key slot list
      Returns the first object in LIST for which KEY is in SLOT.
 
- - Function: object-assoc-list slot list
+ -- Function: object-assoc-list slot list
      Return an association list generated by extracting SLOT from all
      objects in LIST.  For each element of LIST the `car' is the value
      of SLOT, and the `cdr' is the object it was extracted from.  This
      is useful for generating completion tables.
 
- - Function: eieio-build-class-alist &optional base-class
+ -- Function: eieio-build-class-alist &optional base-class
      Returns an alist of all currently defined classes.  This alist is
      suitable for completion lists used by interactive functions to
      select a class.  The optional argument BASE-CLASS allows the
@@ -900,8 +900,8 @@ help with using lists of objects easily.
 
 File: eieio.info,  Node: Introspection,  Next: Signals,  Prev: Association Lists,  Up: Top
 
-Introspection
-*************
+10 Introspection
+****************
 
 Introspection permits a programmer to peek at the contents of a class
 without any previous knowledge of that class.  While EIEIO implements
@@ -909,26 +909,26 @@ objects on top of vectors, and thus everything is technically visible,
 some functions have been provided.  None of these functions are a part
 of CLOS.
 
- - Function: object-slots obj
+ -- Function: object-slots obj
      Return the list of public slots for OBJ.
 
- - Function: class-slot-initarg class slot
+ -- Function: class-slot-initarg class slot
      For the given CLASS return the :initarg associated with SLOT.  Not
      all slots have initargs, so the return value can be nil.
 
 
 File: eieio.info,  Node: Signals,  Next: Base Classes,  Prev: Introspection,  Up: Top
 
-Signals
-*******
+11 Signals
+**********
 
 There are new signal types that can be caught when using eieio.
 
- - Signal: invalid-slot-name obj-or-class slot
+ -- Signal: invalid-slot-name obj-or-class slot
      This signal is called when an attempt to reference a slot in an
      OBJ-OR-CLASS is made, and the SLOT is not defined for it.
 
- - Signal: no-method-definition method arguments
+ -- Signal: no-method-definition method arguments
      This signal is called when METHOD is called, with ARGUMENTS and
      nothing is resolved.  This occurs when METHOD has been defined,
      but the arguments make it impossible for eieio to determine which
@@ -937,29 +937,29 @@ There are new signal types that can be caught when using eieio.
      Overload the method `no-method-definition' to protect against this
      signal.
 
- - Signal: no-next-method class arguments
+ -- Signal: no-next-method class arguments
      This signal is called if the function `call-next-method' is called
      and there is no next method to be called.
 
      Overload the method `no-next-method' to protect against this
      signal.
 
- - Signal: invalid-slot-type slot spec value
+ -- Signal: invalid-slot-type slot spec value
      This signal is called when an attempt to set SLOT is made, and VAR
      doesn't match the specified type SPEC.
 
      In EIEIO, this is also used of a slot specifier has an invalid
      value during a `defclass'.
 
- - Signal: unbound-slot object class slot
+ -- Signal: unbound-slot object class slot
      This signal is called when an attempt to reference SLOT in OBJECT
      is made, and that instance is currently unbound.
 
 
 File: eieio.info,  Node: Base Classes,  Next: Browsing,  Prev: Signals,  Up: Top
 
-Base Classes
-************
+12 Base Classes
+***************
 
 Asside from `eieio-default-superclass', EIEIO comes with some
 additional classes that you can use.  By using multiple inheritance, it
@@ -977,8 +977,8 @@ is possible to use several features at the same time.
 
 File: eieio.info,  Node: eieio-instance-inheritor,  Next: eieio-instance-tracker,  Prev: Base Classes,  Up: Base Classes
 
-`eieio-instance-inheritor'
-==========================
+12.1 `eieio-instance-inheritor'
+===============================
 
 This class is in package `eieio-base'.
 
@@ -987,7 +987,7 @@ object instance can reference the parent instance.  If the parent's slot
 value is changed, then the child instance is also changed.  If the
 child's slot is set, then the parent's slot is not modified.
 
- - Class: eieio-instance-inheritor parent-instance
+ -- Class: eieio-instance-inheritor parent-instance
      A class whose instances are enabled with instance inheritance.
      The PARENT-INSTANCE slot indicates the instance which is
      considered the parent of the current instance.  Default is `nil'.
@@ -1011,22 +1011,22 @@ File: eieio.info,  Node: eieio-instance-tracker,  Next: eieio-singleton,  Prev: 
    Sometimes it is useful to keep a master list of all instances of a
 given class.  The class `eieio-instance-tracker' performs this task.
 
- - Class: eieio-instance-tracker tracker-symbol
+ -- Class: eieio-instance-tracker tracker-symbol
      Enable instance tracking for this class.  The field TRACKER-SYMBOL
      should be initialized in inheritors of this class to a symbol
      created with `defvar'.  This symbol will serve as the variable
      used as a master list of all objects of the given class.
 
- - Method on eieio-instance-tracker: initialize-instance obj fields
+ -- Method on eieio-instance-tracker: initialize-instance obj fields
      This method is defined as an `:AFTER' method.  It adds new
      instances to the master list.  Do not overload this method unless
      you use `call-next-method.'
 
- - Method on eieio-instance-tracker: delete-instance obj
+ -- Method on eieio-instance-tracker: delete-instance obj
      Remove OBJ from the master list of instances of this class.  This
      may let the garbage collector nab this instance.
 
- - eieio-instance-tracker-find: key field list-symbol
+ -- eieio-instance-tracker-find: key field list-symbol
      This convenience function lets you find instances.  KEY is the
      value to search for.  FIELD is the field to compare KEY against.
      The function `equal' is used for comparison.  The paramter
@@ -1036,12 +1036,12 @@ given class.  The class `eieio-instance-tracker' performs this task.
 
 File: eieio.info,  Node: eieio-singleton,  Next: eieio-persistent,  Prev: eieio-instance-tracker,  Up: Base Classes
 
-`eieio-singleton'
-=================
+12.2 `eieio-singleton'
+======================
 
 This class is in package `eieio-base'.
 
- - Class: eieio-singleton
+ -- Class: eieio-singleton
      Inheriting from the singleton class will guarantee that there will
      only ever be one instance of this class.  Multiple calls to
      `make-instance' will always return the same object.
@@ -1049,8 +1049,8 @@ This class is in package `eieio-base'.
 
 File: eieio.info,  Node: eieio-persistent,  Next: eieio-named,  Prev: eieio-singleton,  Up: Base Classes
 
-`eieio-persistent'
-==================
+12.3 `eieio-persistent'
+=======================
 
 This class is in package `eieio-base'.
 
@@ -1062,7 +1062,7 @@ will want your top level object to inherit from `eieio-persistent'.
 names stored to disk are made relative with
 `eieio-persistent-path-relative'.
 
- - Class: eieio-persistent file file-header-line
+ -- Class: eieio-persistent file file-header-line
      Enables persistence for instances of this class.  Slot FILE with
      initarg `:file' is the file name in which this object will be
      saved.  Class allocated slot FILE-HEADER-LINE is used with method
@@ -1071,42 +1071,42 @@ names stored to disk are made relative with
    All objects can write themselves to a file, but persistent objects
 have several additional methods that aid in maintaining them.
 
- - Method on eieio-persistent: eieio-persistent-save obj &optional file
+ -- Method on eieio-persistent: eieio-persistent-save obj &optional file
      Write the object OBJ to its file.  If optional argument FILE is
      specified, use that file name instead.
 
- - Method on eieio-persistent: eieio-persistent-path-relative obj file
+ -- Method on eieio-persistent: eieio-persistent-path-relative obj file
      Return a file name derived from FILE which is relative to the
      stored location of OBJ.  This method should be used to convert
      file names so that they are relative to the save file, making any
      system of files movable from one location to another.
 
- - Method on eieio-persistent: object-write obj &optional comment
+ -- Method on eieio-persistent: object-write obj &optional comment
      Like `object-write' for `standard-object', but will derive a
      header line comment from the class allocated slot if one is not
      provided.
 
- - Function: eieio-persistent-read filename
+ -- Function: eieio-persistent-read filename
      Read FILENAME which contains an `eieio-persistent' object
      previously written with `eieio-persistent-save'.
 
 
 File: eieio.info,  Node: eieio-named,  Next: eieio-speedbar,  Prev: eieio-persistent,  Up: Base Classes
 
-`eieio-named'
-=============
+12.4 `eieio-named'
+==================
 
 This class is in package `eieio-base'.
 
- - Class: eieio-named
+ -- Class: eieio-named
      Object with a name.  Name storage already occurs in an object.
      This object provides get/set access to it.
 
 
 File: eieio.info,  Node: eieio-speedbar,  Prev: eieio-named,  Up: Base Classes
 
-`eieio-speedbar'
-================
+12.5 `eieio-speedbar'
+=====================
 
 This class is in package `eieio-speedbar'.
 
@@ -1115,7 +1115,7 @@ possible to cause your classes to be displayable in Speedbar. *Note
 Top: (speedbar)Top.  Inheriting from these classes will enable a
 speedbar major display mode with a minimum of effort.
 
- - Class: eieio-speedbar buttontype buttonface
+ -- Class: eieio-speedbar buttontype buttonface
      Enables base speedbar display for a class.  The slot BUTTONTYPE is
      any of the symbols allowed by the function
      `speedbar-make-tag-line' for the EXP-BUTTON-TYPE argument *Note
@@ -1124,11 +1124,11 @@ speedbar major display mode with a minimum of effort.
      slots BUTTONTYPE and BUTTONFACE are class allocated slots, and do
      not take up space in your instances.
 
- - Class: eieio-speedbar-directory-button buttontype buttonface
+ -- Class: eieio-speedbar-directory-button buttontype buttonface
      This class inherits from `eieio-speedbar' and initializes
      BUTTONTYPE and BUTTONFACE to appear as directory level lines.
 
- - Class: eieio-speedbar-file-button buttontype buttonface
+ -- Class: eieio-speedbar-file-button buttontype buttonface
      This class inherits from `eieio-speedbar' and initializes
      BUTTONTYPE and BUTTONFACE to appear as file level lines.
 
@@ -1139,29 +1139,29 @@ BUTTONFACE to get the desired effects.
 
    Useful methods to define for your new class include:
 
- - Method on eieio-speedbar: eieio-speedbar-derive-line-path obj depth
+ -- Method on eieio-speedbar: eieio-speedbar-derive-line-path obj depth
      Return a string representing a directory associated with an
      instance of OBJ.  DEPTH can be used to indice how many levels of
      indentation have been opened by the user where OBJ is shown.
 
- - Method on eieio-speedbar: eieio-speedbar-description obj
+ -- Method on eieio-speedbar: eieio-speedbar-description obj
      Return a string description of OBJ.  This is shown in the
      minibuffer or tooltip when the mouse hovers over this instance in
      speedbar.
 
- - Method on eieio-speedbar: eieio-speedbar-child-description obj
+ -- Method on eieio-speedbar: eieio-speedbar-child-description obj
      Return a string representing a description of a child node of OBJ
      when that child is not an object.  It is often useful to just use
      item info helper functions such as
      `speedbar-item-info-file-helper'.
 
- - Method on eieio-speedbar: eieio-speedbar-object-buttonname obj
+ -- Method on eieio-speedbar: eieio-speedbar-object-buttonname obj
      Return a string which is the text displayed in speedbar for OBJ.
 
- - Method on eieio-speedbar: eieio-speedbar-object-children obj
+ -- Method on eieio-speedbar: eieio-speedbar-object-children obj
      Return a list of children of OBJ.
 
- - Method on eieio-speedbar: eieio-speedbar-child-make-tag-lines obj
+ -- Method on eieio-speedbar: eieio-speedbar-child-make-tag-lines obj
           depth
      This method inserts a list of speedbar tag lines for OBJ to
      represent its children.  Implement this method for your class if
@@ -1173,7 +1173,7 @@ BUTTONFACE to get the desired effects.
 
    Some other functions you will need to learn to use are:
 
- - eieio-speedbar-create: make-map key-map menu name toplevelfn
+ -- eieio-speedbar-create: make-map key-map menu name toplevelfn
      Register your object display mode with speedbar.  MAKE-MAP is a
      function which initialized you keymap.  KEY-MAP is a symbol you
      keymap is installed into.  MENU is an easy menu vector
@@ -1190,8 +1190,8 @@ BUTTONFACE to get the desired effects.
 
 File: eieio.info,  Node: Browsing,  Next: Class Values,  Prev: Base Classes,  Up: Top
 
-Browsing class trees
-********************
+13 Browsing class trees
+***********************
 
 To browse all the currently loaded classes in emacs, simply run the
 EIEIO browser.  `M-x eieio-browse'.  This browses all the way from the
@@ -1221,8 +1221,8 @@ class.  *Note Class Values::.
 
 File: eieio.info,  Node: Class Values,  Next: Customizing,  Prev: Browsing,  Up: Top
 
-Class Values
-************
+14 Class Values
+***************
 
 Details about any class or object can be retrieved using the function
 `eieio-describe-class' function.  Interactively, type in the name of a
@@ -1236,8 +1236,8 @@ class is displayed.
 
 File: eieio.info,  Node: Customizing,  Next: Documentation,  Prev: Class Values,  Up: Top
 
-Customizing Objects
-*******************
+15 Customizing Objects
+**********************
 
 In Emacs 20 a useful customization utility became available called
 `custom'.  EIEIO supports custom through two new widget types.  If a
@@ -1248,14 +1248,14 @@ to these objects, they will no longer be linked together.
 
    If you want in place editing of objects, use the following methods:
 
- - Function: eieio-customize-object object
+ -- Function: eieio-customize-object object
      Create a custom buffer and insert a widget for editing OBJECT.  At
      the end, an `Apply' and `Reset' button are available.  This will
      edit the object "in place" so references to it are also changed.
      There is no effort to prevent multiple edits of a singular object,
      so care must be taken by the user of this function.
 
- - Function: eieio-custom-widget-insert object flags
+ -- Function: eieio-custom-widget-insert object flags
      This method inserts an edit object into the current buffer in
      place.  It's sole code is `(widget-create 'object-edit :value
      object)' and is provided as a locale for adding tracking, or
@@ -1271,8 +1271,8 @@ This method does nothing by default, but that may change in the future.
 This would be the best way to make your objects persistent when using
 in-place editing.
 
-Widget extention
-================
+15.1 Widget extention
+=====================
 
 When widgets are being created, one new widget extention has been added,
 called the `:slotofchoices'.  When this occurs in a widget definition,
@@ -1296,13 +1296,13 @@ items defined in this second slot.
 
 File: eieio.info,  Node: Documentation,  Next: Naming Conventions,  Prev: Customizing,  Up: Top
 
-Documentation
-*************
+16 Documentation
+****************
 
 It is possible to automatically create documentation for your classes in
 texinfo format by using the tools in the file `eieio-doc.el'
 
- - Command: eieiodoc-class class indexstring &optional skiplist
+ -- Command: eieiodoc-class class indexstring &optional skiplist
      This will start at the current point, and created an indented menu
      of all the child classes of, and including CLASS, but skipping any
      classes that might be in SKIPLIST It will then create nodes for
@@ -1335,8 +1335,8 @@ texinfo format by using the tools in the file `eieio-doc.el'
 
 File: eieio.info,  Node: Naming Conventions,  Next: Demo Programs,  Prev: Documentation,  Up: Top
 
-Naming Conventions
-******************
+17 Naming Conventions
+*********************
 
 The Emacs Lisp programming manual has a great chapter programming
 conventions that help keep each Emacs package working nicely with the
@@ -1365,8 +1365,8 @@ package.
 
 File: eieio.info,  Node: Demo Programs,  Next: Function Index,  Prev: Naming Conventions,  Up: Top
 
-Demo Programs
-*************
+18 Demo Programs
+****************
 
 There are many sample programs I have written for eieio which could
 become useful components of other applications, or are good stand alone
@@ -1394,112 +1394,124 @@ File: eieio.info,  Node: Function Index,  Prev: Demo Programs,  Up: Top
 Function Index
 **************
 
+ [index ]
 * Menu:
 
-* call-next-method:                      Writing Methods.
-* call-next-method-p:                    Writing Methods.
-* child-of-class-p:                      Predicates.
-* class-children:                        Predicates.
-* class-children-fast:                   Predicates.
-* class-constructor:                     Predicates.
-* class-name:                            Predicates.
-* class-of:                              Predicates.
-* class-option:                          Predicates.
-* class-p:                               Predicates.
-* class-parent:                          Predicates.
-* class-parents:                         Predicates.
-* class-parents-fast:                    Predicates.
-* class-slot-initarg:                    Introspection.
-* class-v:                               Predicates.
-* classname:                             Making New Objects.
-* clone:                                 Default Superclass.
-* defclass:                              Building Classes.
-* defgeneric:                            Writing Methods.
-* defmethod:                             Writing Methods.
+* call-next-method:                      Writing Methods.     (line  95)
+* call-next-method-p:                    Writing Methods.     (line 111)
+* child-of-class-p:                      Predicates.          (line 100)
+* class-children:                        Predicates.          (line  83)
+* class-children-fast:                   Predicates.          (line  86)
+* class-constructor:                     Predicates.          (line  46)
+* class-name:                            Predicates.          (line  34)
+* class-of:                              Predicates.          (line  62)
+* class-option:                          Predicates.          (line  39)
+* class-p:                               Predicates.          (line  20)
+* class-parent:                          Predicates.          (line  80)
+* class-parents:                         Predicates.          (line  72)
+* class-parents-fast:                    Predicates.          (line  76)
+* class-slot-initarg:                    Introspection.       (line  16)
+* class-v:                               Predicates.          (line  11)
+* classname:                             Making New Objects.  (line  13)
+* clone:                                 Default Superclass.  (line  68)
+* defclass:                              Building Classes.    (line  11)
+* defgeneric:                            Writing Methods.     (line  16)
+* defmethod:                             Writing Methods.     (line  29)
 * delete-instance on eieio-instance-tracker: eieio-instance-tracker.
-* eieio-build-class-alist:               Association Lists.
-* eieio-custom-widget-insert:            Customizing.
-* eieio-customize-object:                Customizing.
+                                                              (line  20)
+* eieio-build-class-alist:               Association Lists.   (line  20)
+* eieio-custom-widget-insert:            Customizing.         (line  23)
+* eieio-customize-object:                Customizing.         (line  16)
 * eieio-persistent-path-relative on eieio-persistent: eieio-persistent.
-* eieio-persistent-read:                 eieio-persistent.
+                                                              (line  30)
+* eieio-persistent-read:                 eieio-persistent.    (line  41)
 * eieio-persistent-save on eieio-persistent: eieio-persistent.
+                                                              (line  26)
 * eieio-speedbar-child-description on eieio-speedbar: eieio-speedbar.
+                                                              (line  48)
 * eieio-speedbar-child-make-tag-lines on eieio-speedbar: eieio-speedbar.
+                                                              (line  61)
 * eieio-speedbar-derive-line-path on eieio-speedbar: eieio-speedbar.
+                                                              (line  38)
 * eieio-speedbar-description on eieio-speedbar: eieio-speedbar.
+                                                              (line  43)
 * eieio-speedbar-object-buttonname on eieio-speedbar: eieio-speedbar.
+                                                              (line  54)
 * eieio-speedbar-object-children on eieio-speedbar: eieio-speedbar.
-* eieiodoc-class:                        Documentation.
-* find-class:                            Predicates.
-* generic-p:                             Predicates.
-* initialize-instance:                   Default Superclass.
+                                                              (line  57)
+* eieiodoc-class:                        Documentation.       (line  10)
+* find-class:                            Predicates.          (line  16)
+* generic-p:                             Predicates.          (line 103)
+* initialize-instance:                   Default Superclass.  (line  29)
 * initialize-instance on eieio-instance-tracker: eieio-instance-tracker.
-* invalid-slot-name:                     Signals.
-* invalid-slot-type:                     Signals.
+                                                              (line  15)
+* invalid-slot-name:                     Signals.             (line   9)
+* invalid-slot-type:                     Signals.             (line  29)
 * key:                                   eieio-instance-tracker.
-* make-map:                              eieio-speedbar.
-* no-applicable-method:                  Default Superclass.
-* no-method-definition:                  Signals.
-* no-next-method <1>:                    Signals.
-* no-next-method:                        Default Superclass.
-* object-add-to-list:                    Accessing Slots.
-* object-assoc:                          Association Lists.
-* object-assoc-list:                     Association Lists.
-* object-class:                          Predicates.
-* object-class-fast:                     Predicates.
-* object-class-name:                     Predicates.
-* object-name:                           Predicates.
-* object-of-class-p:                     Predicates.
-* object-p:                              Predicates.
-* object-print:                          Default Superclass.
-* object-slots:                          Introspection.
-* object-write:                          Default Superclass.
-* object-write on eieio-persistent:      eieio-persistent.
-* oref:                                  Accessing Slots.
-* oref-default:                          Accessing Slots.
-* oset:                                  Accessing Slots.
-* oset-default:                          Accessing Slots.
-* same-class-fast-p:                     Predicates.
-* same-class-p:                          Predicates.
-* set-slot-value:                        Accessing Slots.
-* shared-initialize:                     Default Superclass.
-* slot-boundp:                           Predicates.
-* slot-exists-p:                         Predicates.
-* slot-makeunbound:                      Accessing Slots.
-* slot-missing:                          Default Superclass.
-* slot-unbound:                          Default Superclass.
-* slot-value:                            Accessing Slots.
-* unbound-slot:                          Signals.
-* with-slots:                            Accessing Slots.
+                                                              (line  24)
+* make-map:                              eieio-speedbar.      (line  72)
+* no-applicable-method:                  Default Superclass.  (line  55)
+* no-method-definition:                  Signals.             (line  13)
+* no-next-method <1>:                    Signals.             (line  22)
+* no-next-method:                        Default Superclass.  (line  61)
+* object-add-to-list:                    Accessing Slots.     (line  59)
+* object-assoc:                          Association Lists.   (line  11)
+* object-assoc-list:                     Association Lists.   (line  14)
+* object-class:                          Predicates.          (line  59)
+* object-class-fast:                     Predicates.          (line  65)
+* object-class-name:                     Predicates.          (line  69)
+* object-name:                           Predicates.          (line  51)
+* object-of-class-p:                     Predicates.          (line  96)
+* object-p:                              Predicates.          (line  23)
+* object-print:                          Default Superclass.  (line  74)
+* object-slots:                          Introspection.       (line  13)
+* object-write:                          Default Superclass.  (line  93)
+* object-write on eieio-persistent:      eieio-persistent.    (line  36)
+* oref:                                  Accessing Slots.     (line  31)
+* oref-default:                          Accessing Slots.     (line  37)
+* oset:                                  Accessing Slots.     (line  12)
+* oset-default:                          Accessing Slots.     (line  16)
+* same-class-fast-p:                     Predicates.          (line  92)
+* same-class-p:                          Predicates.          (line  89)
+* set-slot-value:                        Accessing Slots.     (line  49)
+* shared-initialize:                     Default Superclass.  (line  34)
+* slot-boundp:                           Predicates.          (line  29)
+* slot-exists-p:                         Predicates.          (line  26)
+* slot-makeunbound:                      Accessing Slots.     (line  55)
+* slot-missing:                          Default Superclass.  (line  39)
+* slot-unbound:                          Default Superclass.  (line  49)
+* slot-value:                            Accessing Slots.     (line  45)
+* unbound-slot:                          Signals.             (line  36)
+* with-slots:                            Accessing Slots.     (line  66)
 
 
 
 Tag Table:
 Node: Top154
 Node: Introduction1730
-Node: CLOS compatibility5137
-Node: Building Classes8073
-Node: Default Superclass16135
-Node: Making New Objects20413
-Node: Accessing Slots21784
-Node: Writing Methods25253
-Node: Predicates29937
-Node: Association Lists34188
-Node: Introspection35273
-Node: Signals35943
-Node: Base Classes37337
-Node: eieio-instance-inheritor38062
-Node: eieio-instance-tracker39330
-Node: eieio-singleton40731
-Node: eieio-persistent41148
-Node: eieio-named43030
-Node: eieio-speedbar43345
-Node: Browsing47158
-Node: Class Values48173
-Node: Customizing48664
-Node: Documentation51148
-Node: Naming Conventions52704
-Node: Demo Programs53914
-Node: Function Index54890
+Node: CLOS compatibility5173
+Node: Building Classes8113
+Node: Default Superclass16181
+Node: Making New Objects20462
+Node: Accessing Slots21838
+Node: Writing Methods25320
+Node: Predicates30012
+Node: Association Lists34291
+Node: Introspection35383
+Node: Signals36061
+Node: Base Classes37466
+Node: eieio-instance-inheritor38197
+Node: eieio-instance-tracker39476
+Node: eieio-singleton40881
+Node: eieio-persistent41309
+Node: eieio-named43206
+Node: eieio-speedbar43532
+Node: Browsing47365
+Node: Class Values48386
+Node: Customizing48883
+Node: Documentation51385
+Node: Naming Conventions52948
+Node: Demo Programs54164
+Node: Function Index55146
 
 End Tag Table

@@ -1,4 +1,4 @@
-This is cogre.info, produced by makeinfo version 4.6 from cogre.texi.
+This is cogre.info, produced by makeinfo version 4.7 from cogre.texi.
 
 START-INFO-DIR-ENTRY
 * cogre: (cogre).       Graphs & UML for Emacs
@@ -23,8 +23,8 @@ inheritance via EIEIO *Note (eieio)Top::.
 
 File: cogre.info,  Node: Getting Started,  Next: Class Diagrams,  Prev: Top,  Up: Top
 
-Getting Started
-***************
+1 Getting Started
+*****************
 
 There are three basic parts to any COGRE interface.
 
@@ -58,16 +58,16 @@ File: cogre.info,  Node: Customizing Nodes,  Prev: Moving Nodes,  Up: Getting St
 
 File: cogre.info,  Node: Class Diagrams,  Next: Semantic Support,  Prev: Getting Started,  Up: Top
 
-Class Diagrams
-**************
+2 Class Diagrams
+****************
 
 Add text here
 
 
 File: cogre.info,  Node: Semantic Support,  Next: Index,  Prev: Class Diagrams,  Up: Top
 
-Semantic Support
-****************
+3 Semantic Support
+******************
 
 Add text here
 
@@ -79,11 +79,11 @@ File: cogre.info,  Node: Index,  Prev: Semantic Support,  Up: Top
 Tag Table:
 Node: Top159
 Node: Getting Started620
-Node: Creating Nodes and Links1472
-Node: Moving Nodes1592
-Node: Customizing Nodes1714
-Node: Class Diagrams1803
-Node: Semantic Support1951
-Node: Index2093
+Node: Creating Nodes and Links1476
+Node: Moving Nodes1596
+Node: Customizing Nodes1718
+Node: Class Diagrams1807
+Node: Semantic Support1959
+Node: Index2105
 
 End Tag Table

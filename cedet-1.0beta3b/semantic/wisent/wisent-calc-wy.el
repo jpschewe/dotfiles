@@ -2,10 +2,10 @@
 
 ;; Copyright (C) 2002, 2003 David Ponce
 
-;; Author: Jon Schewe <jpschewe@workstation.mn.mtu.net>
-;; Created: 2004-11-14 13:16:52z
+;; Author: Jon Schewe <jschewe@mn65-eggplant.htc.honeywell.com>
+;; Created: 2005-02-17 08:11:45z
 ;; Keywords: syntax
-;; X-RCS: $Id: wisent-calc-wy.el,v 1.2 2004/11/14 19:35:52 jpschewe Exp $
+;; X-RCS: $Id$
 
 ;; This file is not part of GNU Emacs.
 ;;

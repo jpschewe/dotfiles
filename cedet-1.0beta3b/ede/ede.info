@@ -1,4 +1,4 @@
-This is ede.info, produced by makeinfo version 4.6 from ede.texi.
+This is ede.info, produced by makeinfo version 4.7 from ede.texi.
 
 START-INFO-DIR-ENTRY
 * ede: (ede).       Objects for Emacs
@@ -30,8 +30,8 @@ ways of doing things.
 
 File: ede.info,  Node: EDE Mode,  Next: Creating a project,  Prev: Top,  Up: Top
 
-EDE Mode
-********
+1 EDE Mode
+**********
 
 EDE is implemented as a minor-mode, which augments other modes such as C
 mode, and Texinfo mode.  You can turn EDE on for all buffers by running
@@ -53,8 +53,8 @@ projects are loaded at that time.
 
 File: ede.info,  Node: Creating a project,  Next: Modifying your project,  Prev: EDE Mode,  Up: Top
 
-Creating a project
-******************
+2 Creating a project
+********************
 
 EDE can support many different types of projects.  When creating a new
 project with the command `ede-new' (or "Create Project" in the menu)
@@ -72,8 +72,8 @@ are two ways to handle Automake based projects.  One is through the
 `project-am' will autoload in any GNU Automake based distribution that
 does not contain a `Project.ede' file.
 
-Creating a subproject
-=====================
+2.1 Creating a subproject
+=========================
 
 A subproject is merely a project in a subdirectory in some other
 projects control.  You can create a subproject by using the `ede-new'
@@ -90,8 +90,8 @@ dependendent on that project's type.
 
 File: ede.info,  Node: Modifying your project,  Next: Building and Debugging,  Prev: Creating a project,  Up: Top
 
-Modifying your project
-**********************
+3 Modifying your project
+************************
 
 A project, and it's targets, are objects using the `EIEIO' object
 system. *Note (eieio)EIEIO::.  These objects have data fields containing
@@ -131,8 +131,8 @@ bound to `C-c . e'.
 
 File: ede.info,  Node: Building and Debugging,  Next: Miscellaneous commands,  Prev: Modifying your project,  Up: Top
 
-Building and Debugging
-**********************
+4 Building and Debugging
+************************
 
 EDE assumes you are writing some sort of program, so attempts to
 facilitate this activity.  EDE will associate the current buffer with a
@@ -156,8 +156,8 @@ file.
 
 File: ede.info,  Node: Miscellaneous commands,  Next: Project types,  Prev: Building and Debugging,  Up: Top
 
-Miscellaneous commands
-**********************
+5 Miscellaneous commands
+************************
 
 EDE also supports the speedbar package.  While speedbar works great
 against directories already, EDE provides a project display mode.  This
@@ -172,8 +172,8 @@ files as grouped by target.
 
 File: ede.info,  Node: Project types,  Next: Extending EDE,  Prev: Miscellaneous commands,  Up: Top
 
-Project types
-*************
+6 Project types
+***************
 
 There are two types of project modes currently.  One is `ede-project',
 and shows up as `Make' and `Automake' when creating new projects.
@@ -198,8 +198,8 @@ managing file lists.
 
 File: ede.info,  Node: Extending EDE,  Prev: Project types,  Up: Top
 
-Extending EDE
-*************
+7 Extending EDE
+***************
 
 EDE makes use of EIEIO, the CLOS package for Emacs.  This lets EDE
 define two object superclasses, specifically the PROJECT and TARGET.
@@ -231,8 +231,8 @@ to track important information.
 methods.  See the `ede-skel.el' file for examples of these.  The files
 `ede-proj-info.el' and `ede-proj-elisp' are two interesting examples.
 
-User interface methods
-======================
+7.1 User interface methods
+==========================
 
 These methods are core behaviors associated with user commands.
 
@@ -269,8 +269,8 @@ These methods are core behaviors associated with user commands.
 `project-rescan'
      Rescan a project file, changing the data in the existing objects.
 
-Base project methods
-====================
+7.2 Base project methods
+========================
 
 These methods are important for querying base information from project
 and target types:
@@ -310,8 +310,8 @@ and target types:
 `ede-documentation'
      List all documentation a project or target is responsible for.
 
-Sourcecode objects
-==================
+7.3 Sourcecode objects
+======================
 
 EDE projects track source file / target associates via source code
 objects.  The definitions for this is in `ede-source.el'.  A source
@@ -341,8 +341,8 @@ object:
 
    *Note Sourcecode::.
 
-Compiler and Linker objects
-===========================
+7.4 Compiler and Linker objects
+===============================
 
 The EDE project class creates makefiles.  In order for a target to
 create a `Makefile', it must know how to compile the sources into the
@@ -393,8 +393,8 @@ objects together.
 
    See `ede-proj-obj.el' for examples of the combination.
 
-Class hierarchies
-=================
+7.5 Class hierarchies
+=====================
 
 * Menu:
 
@@ -416,8 +416,8 @@ File: ede.info,  Node: Project,  Next: Targets,  Prev: Extending EDE,  Up: Exten
 
 File: ede.info,  Node: ede-project-placeholder,  Next: ede-project,  Up: Project
 
-ede-project-placeholder
-=======================
+7.6 ede-project-placeholder
+===========================
 
 Inheritance Tree:
 
@@ -457,26 +457,26 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.6.1 Specialized Methods
+-------------------------
 
- - Method: ede-project-force-load :PRIMARY this
+ -- Method: ede-project-force-load :PRIMARY this
      Make sure the placeholder THIS is replaced with the real thing.
      Return the new object created in its place.
 
- - Method: project-interactive-select-target :PRIMARY this prompt
+ -- Method: project-interactive-select-target :PRIMARY this prompt
      Make sure placeholder THIS is replaced with the real thing, and
      pass through.
 
- - Method: project-add-file :PRIMARY this file
+ -- Method: project-add-file :PRIMARY this file
      Make sure placeholder THIS is replaced with the real thing, and
      pass through.
 
 
 File: ede.info,  Node: ede-project,  Next: ede-proj-project,  Prev: ede-project-placeholder,  Up: Project
 
-ede-project
-===========
+7.7 ede-project
+===============
 
 Inheritance Tree:
 
@@ -529,122 +529,122 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.7.1 Specialized Methods
+-------------------------
 
- - Method: eieio-speedbar-description :PRIMARY obj
+ -- Method: eieio-speedbar-description :PRIMARY obj
      Provide a speedbar description for OBJ.
 
- - Method: ede-map-any-target-p :PRIMARY this proc
+ -- Method: ede-map-any-target-p :PRIMARY this proc
      For project THIS, map PROC to all targets and return if any
      non-nil.  Return the first non-`nil' value returned by PROC.
 
- - Method: project-rescan :PRIMARY this
+ -- Method: project-rescan :PRIMARY this
      Rescan the EDE proj project THIS.
 
- - Method: ede-map-subprojects :PRIMARY this proc
+ -- Method: ede-map-subprojects :PRIMARY this proc
      For object THIS, execute PROC on all subprojects.
 
- - Method: ede-convert-path :PRIMARY this path
+ -- Method: ede-convert-path :PRIMARY this path
      Convert path in a standard way for a given project.  Default to
      making it project relative.  Argument THIS is the project to
      convert PATH to.
 
- - Method: ede-name :PRIMARY this
+ -- Method: ede-name :PRIMARY this
      Return a short-name for THIS project file.  Do this by extracting
      the lowest directory name.
 
- - Method: eieio-speedbar-derive-line-path :PRIMARY obj &optional depth
+ -- Method: eieio-speedbar-derive-line-path :PRIMARY obj &optional depth
      Return the path to OBJ.  Optional DEPTH is the depth we start at.
 
- - Method: ede-buffer-header-file :PRIMARY this buffer
+ -- Method: ede-buffer-header-file :PRIMARY this buffer
      Return `nil', projects don't have header files.
 
- - Method: ede-buffer-documentation-files :PRIMARY this buffer
+ -- Method: ede-buffer-documentation-files :PRIMARY this buffer
      Return all documentation in project THIS based on BUFFER.
 
- - Method: ede-map-targets :PRIMARY this proc
+ -- Method: ede-map-targets :PRIMARY this proc
      For object THIS, execute PROC on all targets.
 
- - Method: ede-buffer-mine :PRIMARY this buffer
+ -- Method: ede-buffer-mine :PRIMARY this buffer
      Return non-`nil' if object THIS lays claim to the file in BUFFER.
 
- - Method: ede-object-keybindings :PRIMARY this
+ -- Method: ede-object-keybindings :PRIMARY this
      Retrieves the slot `keybindings' from an object of class
      `ede-project'
 
- - Method: ede-description :PRIMARY this
+ -- Method: ede-description :PRIMARY this
      Return a description suitible for the minibuffer about THIS.
 
- - Method: eieio-speedbar-object-children :PRIMARY this
+ -- Method: eieio-speedbar-object-children :PRIMARY this
      Return the list of speedbar display children for THIS.
 
- - Method: project-make-dist :PRIMARY this
+ -- Method: project-make-dist :PRIMARY this
      Build a distribution for the project based on THIS target.
 
- - Method: project-new-target-custom :PRIMARY proj
+ -- Method: project-new-target-custom :PRIMARY proj
      Create a new target.  It is up to the project PROJ to get the name.
 
- - Method: ede-expand-filename :PRIMARY this filename &optional force
+ -- Method: ede-expand-filename :PRIMARY this filename &optional force
      Return a fully qualified file name based on project THIS.
      FILENAME should be just a filename which occurs in a directory
      controlled by this project.  Optional argument FORCE forces the
      default filename to be provided even if it doesn't exist.
 
- - Method: ede-menu-items-build :PRIMARY obj &optional current
+ -- Method: ede-menu-items-build :PRIMARY obj &optional current
      Return a list of menu items for building project OBJ.  If optional
      argument CURRENT is non-`nil', return sub-menu code.
 
- - Method: project-new-target :PRIMARY proj
+ -- Method: project-new-target :PRIMARY proj
      Create a new target.  It is up to the project PROJ to get the name.
 
- - Method: project-compile-project :PRIMARY obj &optional command
+ -- Method: project-compile-project :PRIMARY obj &optional command
      Compile the entire current project OBJ.  Argument COMMAND is the
      command to use when compiling.
 
- - Method: eieio-speedbar-object-buttonname :PRIMARY object
+ -- Method: eieio-speedbar-object-buttonname :PRIMARY object
      Return a string to use as a speedbar button for OBJECT.
 
- - Method: ede-map-project-buffers :PRIMARY this proc
+ -- Method: ede-map-project-buffers :PRIMARY this proc
      For THIS, execute PROC on all buffers belonging to THIS.
 
- - Method: eieio-done-customizing :PRIMARY proj
+ -- Method: eieio-done-customizing :PRIMARY proj
      Call this when a user finishes customizing PROJ.
 
- - Method: ede-documentation :PRIMARY this
+ -- Method: ede-documentation :PRIMARY this
      Return a list of files that provides documentation.  Documentation
      is not for object THIS, but is provided by THIS for other files in
      the project.
 
- - Method: project-interactive-select-target :PRIMARY this prompt
+ -- Method: project-interactive-select-target :PRIMARY this prompt
      Interactivly query for a target that exists in project THIS.
      Argument PROMPT is the prompt to use when querying the user for a
      target.
 
- - Method: ede-target-in-project-p :PRIMARY proj target
+ -- Method: ede-target-in-project-p :PRIMARY proj target
      Is PROJ the parent of TARGET?  If TARGET belongs to a subproject,
      return that project file.
 
- - Method: ede-find-target :PRIMARY proj buffer
+ -- Method: ede-find-target :PRIMARY proj buffer
      Fetch the target in PROJ belonging to BUFFER or nil.
 
- - Method: ede-add-subproject :PRIMARY proj-a proj-b
+ -- Method: ede-add-subproject :PRIMARY proj-a proj-b
      Add into PROJ-A, the subproject PROJ-B.
 
- - Method: ede-commit-project :PRIMARY proj
+ -- Method: ede-commit-project :PRIMARY proj
      Commit any change to PROJ to its file.
 
- - Method: ede-object-menu :PRIMARY this
+ -- Method: ede-object-menu :PRIMARY this
      Retrieves the slot `menu' from an object of class `ede-project'
 
- - Method: ede-commit-local-variables :PRIMARY proj
+ -- Method: ede-commit-local-variables :PRIMARY proj
      Commit change to local variables in PROJ.
 
 
 File: ede.info,  Node: ede-proj-project,  Next: project-am-makefile,  Prev: ede-project,  Up: Project
 
-ede-proj-project
-================
+7.8 ede-proj-project
+====================
 
 Inheritance Tree:
 
@@ -705,105 +705,106 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.8.1 Specialized Methods
+-------------------------
 
- - Method: project-rescan :PRIMARY this
+ -- Method: project-rescan :PRIMARY this
      Rescan the EDE proj project THIS.
 
- - Method: ede-proj-makefile-create :PRIMARY this mfilename
+ -- Method: ede-proj-makefile-create :PRIMARY this mfilename
      Create a Makefile for all Makefile targets in THIS.  MFILENAME is
      the makefile to generate.
 
- - Method: ede-proj-makefile-insert-rules :PRIMARY this
+ -- Method: ede-proj-makefile-insert-rules :PRIMARY this
      Insert rules needed by THIS target.
 
- - Method: ede-proj-makefile-tags :PRIMARY this targets
+ -- Method: ede-proj-makefile-tags :PRIMARY this targets
      Insert into the current location rules to make recursive TAGS
      files.  Argument THIS is the project to create tags for.  Argument
      TARGETS are the targets we should depend on for TAGS.
 
- - Method: project-update-version :PRIMARY this
+ -- Method: project-update-version :PRIMARY this
      The `:version' of project THIS has changed.
 
- - Method: ede-buffer-mine :PRIMARY this buffer
+ -- Method: ede-buffer-mine :PRIMARY this buffer
      Return `t' if object THIS lays claim to the file in BUFFER.
 
- - Method: ede-proj-makefile-insert-variables :PRIMARY this
+ -- Method: ede-proj-makefile-insert-variables :PRIMARY this
      Insert variables needed by target THIS.
 
- - Method: project-make-dist :PRIMARY this
+ -- Method: project-make-dist :PRIMARY this
      Build a distribution for the project based on THIS target.
 
- - Method: ede-proj-makefile-insert-dist-rules :PRIMARY this
+ -- Method: ede-proj-makefile-insert-dist-rules :PRIMARY this
      Insert distribution rules for THIS in a Makefile, such as CLEAN
      and DIST.
 
- - Method: project-new-target-custom :PRIMARY this
+ -- Method: project-new-target-custom :PRIMARY this
      Create a new target in THIS for custom.
 
- - Method: ede-proj-makefile-create-maybe :PRIMARY this mfilename
+ -- Method: ede-proj-makefile-create-maybe :PRIMARY this mfilename
      Create a Makefile for all Makefile targets in THIS if needed.
      MFILENAME is the makefile to generate.
 
- - Method: ede-proj-configure-test-required-file :PRIMARY this file
+ -- Method: ede-proj-configure-test-required-file :PRIMARY this file
      For project THIS, test that the file FILE exists, or create it.
 
- - Method: ede-proj-setup-buildenvironment :PRIMARY this &optional force
+ -- Method: ede-proj-setup-buildenvironment :PRIMARY this &optional
+          force
      Setup the build environment for project THIS.  Handles the
      Makefile, or a Makefile.am configure.in combination.  Optional
      argument FORCE will force items to be regenerated.
 
- - Method: ede-proj-makefile-garbage-patterns :PRIMARY this
+ -- Method: ede-proj-makefile-garbage-patterns :PRIMARY this
      Return a list of patterns that are considred garbage to THIS.
      These are removed with make clean.
 
- - Method: ede-proj-configure-synchronize :PRIMARY this
+ -- Method: ede-proj-configure-synchronize :PRIMARY this
      Synchronize what we know about project THIS into configure.in.
 
- - Method: project-new-target :PRIMARY this
+ -- Method: project-new-target :PRIMARY this
      Create a new target in THIS based on the current buffer.
 
- - Method: project-compile-project :PRIMARY proj &optional command
+ -- Method: project-compile-project :PRIMARY proj &optional command
      Compile the entire current project PROJ.  Argument COMMAND is the
      command to use when compiling.
 
- - Method: ede-proj-makefile-configuration-variables :PRIMARY this
+ -- Method: ede-proj-makefile-configuration-variables :PRIMARY this
           configuration
      Return a list of configuration variables from THIS.  Use
      CONFIGURATION as the current configuration to query.
 
- - Method: eieio-done-customizing :PRIMARY proj
+ -- Method: eieio-done-customizing :PRIMARY proj
      Call this when a user finishes customizing this object.  Argument
      PROJ is the project to save.
 
- - Method: ede-proj-configure-recreate :PRIMARY this
+ -- Method: ede-proj-configure-recreate :PRIMARY this
      Delete project THISes configure script and start over.
 
- - Method: ede-proj-makefile-insert-user-rules :PRIMARY this
+ -- Method: ede-proj-makefile-insert-user-rules :PRIMARY this
      Insert user specified rules needed by THIS target.  This is
      different from "ede-proj-makefile-insert-rules" in that this
      function won't create the building rules which are auto created
      with automake.
 
- - Method: ede-proj-dist-makefile :PRIMARY this
+ -- Method: ede-proj-dist-makefile :PRIMARY this
      Return the name of the Makefile with the DIST target in it for
      THIS.
 
- - Method: ede-proj-configure-file :PRIMARY this
+ -- Method: ede-proj-configure-file :PRIMARY this
      The configure.in script used by project THIS.
 
- - Method: ede-commit-project :PRIMARY proj
+ -- Method: ede-commit-project :PRIMARY proj
      Commit any change to PROJ to its file.
 
- - Method: ede-commit-local-variables :PRIMARY proj
+ -- Method: ede-commit-local-variables :PRIMARY proj
      Commit change to local variables in PROJ.
 
 
 File: ede.info,  Node: project-am-makefile,  Prev: ede-proj-project,  Up: Project
 
-project-am-makefile
-===================
+7.9 project-am-makefile
+=======================
 
 Inheritance Tree:
 
@@ -833,33 +834,33 @@ Slots:
           *Note ede-project::.
 
 
-Specialized Methods
--------------------
+7.9.1 Specialized Methods
+-------------------------
 
- - Method: project-rescan :PRIMARY this
+ -- Method: project-rescan :PRIMARY this
      Rescan the makefile for all targets and sub targets.
 
- - Method: project-am-subtree :PRIMARY ampf subpath
+ -- Method: project-am-subtree :PRIMARY ampf subpath
      Return the sub project in AMPF specified by SUBPATH.
 
- - Method: project-targets-for-file :PRIMARY proj
+ -- Method: project-targets-for-file :PRIMARY proj
      Return a list of targets the project PROJ.
 
- - Method: ede-buffer-mine :PRIMARY this buffer
+ -- Method: ede-buffer-mine :PRIMARY this buffer
      Return `t' if object THIS lays claim to the file in BUFFER.
 
- - Method: project-new-target :PRIMARY proj
+ -- Method: project-new-target :PRIMARY proj
      Create a new target named NAME.  Argument TYPE is the type of
      target to insert.  This is a string matching something in
      `project-am-type-alist' or type class symbol.  Despite the fact
      that this is a method, it depends on the current buffer being in
      order to provide a smart default target type.
 
- - Method: project-compile-project :PRIMARY obj &optional command
+ -- Method: project-compile-project :PRIMARY obj &optional command
      Compile the entire current project.  Argument COMMAND is the
      command to use when compiling.
 
- - Method: ede-find-target :PRIMARY amf buffer
+ -- Method: ede-find-target :PRIMARY amf buffer
      Fetch the target belonging to BUFFER.
 
 
@@ -890,8 +891,8 @@ File: ede.info,  Node: Targets,  Next: Sourcecode,  Prev: Project,  Up: Extendin
 
 File: ede.info,  Node: ede-target,  Next: ede-proj-target,  Up: Targets
 
-ede-target
-==========
+7.10 ede-target
+===============
 
 Inheritance Tree:
 
@@ -942,129 +943,129 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.10.1 Specialized Methods
+--------------------------
 
- - Method: eieio-speedbar-description :PRIMARY obj
+ -- Method: eieio-speedbar-description :PRIMARY obj
      Provide a speedbar description for OBJ.
 
- - Method: project-compile-target :PRIMARY obj &optional command
+ -- Method: project-compile-target :PRIMARY obj &optional command
      Compile the current target OBJ.  Argument COMMAND is the command
      to use for compiling the target.
 
- - Method: project-debug-target :PRIMARY obj
+ -- Method: project-debug-target :PRIMARY obj
      Run the current project target OBJ in a debugger.
 
- - Method: ede-convert-path :PRIMARY this path
+ -- Method: ede-convert-path :PRIMARY this path
      Convert path in a standard way for a given project.  Default to
      making it project relative.  Argument THIS is the project to
      convert PATH to.
 
- - Method: ede-name :PRIMARY this
+ -- Method: ede-name :PRIMARY this
      Return the name of THIS targt.
 
- - Method: ede-target-buffer-in-sourcelist :PRIMARY this buffer source
+ -- Method: ede-target-buffer-in-sourcelist :PRIMARY this buffer source
      Return non-`nil' if object THIS is in BUFFER to a SOURCE list.
      Handles complex path issues.
 
- - Method: eieio-speedbar-derive-line-path :PRIMARY obj &optional depth
+ -- Method: eieio-speedbar-derive-line-path :PRIMARY obj &optional depth
      Return the path to OBJ.  Optional DEPTH is the depth we start at.
 
- - Method: ede-buffer-header-file :PRIMARY this buffer
+ -- Method: ede-buffer-header-file :PRIMARY this buffer
      There are no default header files in EDE.  Do a quick check to see
      if there is a Header tag in this buffer.
 
- - Method: project-remove-file :PRIMARY ot fnnd
+ -- Method: project-remove-file :PRIMARY ot fnnd
      Remove the current buffer from project target OT.  Argument FNND
      is an argument.
 
- - Method: ede-buffer-documentation-files :PRIMARY this buffer
+ -- Method: ede-buffer-documentation-files :PRIMARY this buffer
      Check for some documenation files for THIS.  Also do a quick check
      to see if there is a Documentation tag in this BUFFER.
 
- - Method: ede-buffer-mine :PRIMARY this buffer
+ -- Method: ede-buffer-mine :PRIMARY this buffer
      Return non-`nil' if object THIS lays claim to the file in BUFFER.
 
- - Method: ede-map-target-buffers :PRIMARY this proc
+ -- Method: ede-map-target-buffers :PRIMARY this proc
      For THIS, execute PROC on all buffers belonging to THIS.
 
- - Method: eieio-speedbar-child-description :PRIMARY obj
+ -- Method: eieio-speedbar-child-description :PRIMARY obj
      Provide a speedbar description for a plain-child of OBJ.  A plain
      child is a child element which is not an EIEIO object.
 
- - Method: ede-object-keybindings :PRIMARY this
+ -- Method: ede-object-keybindings :PRIMARY this
      Retrieves the slot `keybindings' from an object of class
      `ede-target'
 
- - Method: ede-description :PRIMARY this
+ -- Method: ede-description :PRIMARY this
      Return a description suitible for the minibuffer about THIS.
 
- - Method: eieio-speedbar-object-children :PRIMARY this
+ -- Method: eieio-speedbar-object-children :PRIMARY this
      Return the list of speedbar display children for THIS.
 
- - Method: ede-object-sourcecode :PRIMARY this
+ -- Method: ede-object-sourcecode :PRIMARY this
      Retrieves the slot `sourcetype' from an object of class
      `ede-target'
 
- - Method: ede-expand-filename :PRIMARY this filename &optional force
+ -- Method: ede-expand-filename :PRIMARY this filename &optional force
      Return a fully qualified file name based on target THIS.  FILENAME
      should a a filename which occurs in a directory in which THIS
      works.  Optional argument FORCE forces the default filename to be
      provided even if it doesn't exist.
 
- - Method: ede-menu-items-build :PRIMARY obj &optional current
+ -- Method: ede-menu-items-build :PRIMARY obj &optional current
      Return a list of menu items for building target OBJ.  If optional
      argument CURRENT is non-`nil', return sub-menu code.
 
- - Method: ede-want-file-p :PRIMARY this file
+ -- Method: ede-want-file-p :PRIMARY this file
      Return non-`nil' if THIS target wants FILE.
 
- - Method: project-delete-target :PRIMARY ot
+ -- Method: project-delete-target :PRIMARY ot
      Delete the current target OT from it's parent project.
 
- - Method: ede-target-sourcecode :PRIMARY this
+ -- Method: ede-target-sourcecode :PRIMARY this
      Return the sourcecode objects which THIS permits.
 
- - Method: eieio-speedbar-child-make-tag-lines :PRIMARY this depth
+ -- Method: eieio-speedbar-child-make-tag-lines :PRIMARY this depth
      Create a speedbar tag line for a child of THIS.  It has depth
      DEPTH.
 
- - Method: eieio-speedbar-object-buttonname :PRIMARY object
+ -- Method: eieio-speedbar-object-buttonname :PRIMARY object
      Return a string to use as a speedbar button for OBJECT.
 
- - Method: eieio-done-customizing :PRIMARY target
+ -- Method: eieio-done-customizing :PRIMARY target
      Call this when a user finishes customizing TARGET.
 
- - Method: project-edit-file-target :PRIMARY ot
+ -- Method: project-edit-file-target :PRIMARY ot
      Edit the target OT associated w/ this file.
 
- - Method: ede-documentation :PRIMARY this
+ -- Method: ede-documentation :PRIMARY this
      Return a list of files that provides documentation.  Documentation
      is not for object THIS, but is provided by THIS for other files in
      the project.
 
- - Method: ede-want-file-source-p :PRIMARY this file
+ -- Method: ede-want-file-source-p :PRIMARY this file
      Return non-`nil' if THIS target wants FILE.
 
- - Method: ede-want-file-auxiliary-p :PRIMARY this file
+ -- Method: ede-want-file-auxiliary-p :PRIMARY this file
      Return non-`nil' if THIS target wants FILE.
 
- - Method: project-add-file :PRIMARY ot file
+ -- Method: project-add-file :PRIMARY ot file
      Add the current buffer into project project target OT.  Argument
      FILE is the file to add.
 
- - Method: ede-target-name :PRIMARY this
+ -- Method: ede-target-name :PRIMARY this
      Return the name of THIS target, suitable for make or debug style
      commands.
 
- - Method: ede-object-menu :PRIMARY this
+ -- Method: ede-object-menu :PRIMARY this
      Retrieves the slot `menu' from an object of class `ede-target'
 
 
 File: ede.info,  Node: ede-proj-target,  Next: ede-proj-target-makefile,  Prev: ede-target,  Up: Targets
 
-ede-proj-target
-===============
+7.11 ede-proj-target
+====================
 
 Inheritance Tree:
 
@@ -1120,100 +1121,101 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.11.1 Specialized Methods
+--------------------------
 
- - Method: project-compile-target :PRIMARY obj &optional command
+ -- Method: project-compile-target :PRIMARY obj &optional command
      Compile the current target OBJ.  Argument COMMAND is the command
      to use for compiling the target.
 
- - Method: project-rescan :PRIMARY this readstream
+ -- Method: project-rescan :PRIMARY this readstream
      Rescan target THIS from the read list READSTREAM.
 
- - Method: project-debug-target :PRIMARY obj
+ -- Method: project-debug-target :PRIMARY obj
      Run the current project target OBJ in a debugger.
 
- - Method: ede-proj-configure-add-missing :PRIMARY this
+ -- Method: ede-proj-configure-add-missing :PRIMARY this
      Query if any files needed by THIS provided by automake are missing.
      Results in -add-missing being passed to automake.
 
- - Method: ede-proj-flush-autoconf :PRIMARY this
+ -- Method: ede-proj-flush-autoconf :PRIMARY this
      Flush the configure file (current buffer) to accomodate THIS.  By
      flushing, remove any cruft that may be in the file.  Subsequent
      calls to "ede-proj-tweak-autoconf" can restore items removed by
      flush.
 
- - Method: ede-proj-makefile-insert-rules :PRIMARY this
+ -- Method: ede-proj-makefile-insert-rules :PRIMARY this
      Insert rules needed by THIS target.
 
- - Method: project-remove-file :PRIMARY target file
+ -- Method: project-remove-file :PRIMARY target file
      For TARGET, remove FILE.  FILE must be massaged by
      "ede-convert-path".
 
- - Method: ede-buffer-mine :PRIMARY this buffer
+ -- Method: ede-buffer-mine :PRIMARY this buffer
      Return `t' if object THIS lays claim to the file in BUFFER.
 
- - Method: ede-proj-configure-create-missing :PRIMARY this
+ -- Method: ede-proj-configure-create-missing :PRIMARY this
      Add any missing files for THIS by creating them.
 
- - Method: ede-proj-makefile-sourcevar :PRIMARY this
+ -- Method: ede-proj-makefile-sourcevar :PRIMARY this
      Return the variable name for THIS's sources.
 
- - Method: ede-proj-makefile-insert-variables :PRIMARY this &optional
+ -- Method: ede-proj-makefile-insert-variables :PRIMARY this &optional
           moresource
      Insert variables needed by target THIS.  Optional argument
      MORESOURCE is a list of additional sources to add to the sources
      variable.
 
- - Method: ede-proj-makefile-insert-automake-post-variables :PRIMARY
+ -- Method: ede-proj-makefile-insert-automake-post-variables :PRIMARY
           this
      Insert variables needed by target THIS in Makefile.am after
      SOURCES.
 
- - Method: ede-proj-linkers :PRIMARY obj
+ -- Method: ede-proj-linkers :PRIMARY obj
      List of linkers being used by OBJ.  If the `linker' slot is empty,
      concoct one on a first match found basis for any given type from
      the `availablelinkers' slot.  Otherwise, return the `linker' slot.
      Converts all symbols into the objects to be used.
 
- - Method: ede-proj-makefile-garbage-patterns :PRIMARY this
+ -- Method: ede-proj-makefile-garbage-patterns :PRIMARY this
      Return a list of patterns that are considred garbage to THIS.
      These are removed with make clean.
 
- - Method: ede-proj-tweak-autoconf :PRIMARY this
+ -- Method: ede-proj-tweak-autoconf :PRIMARY this
      Tweak the configure file (current buffer) to accomodate THIS.
 
- - Method: ede-proj-compilers :PRIMARY obj
+ -- Method: ede-proj-compilers :PRIMARY obj
      List of compilers being used by OBJ.  If the `compiler' slot is
      empty, concoct one on a first match found basis for any given type
      from the `availablecompilers' slot.  Otherwise, return the
      `compiler' slot.  Converts all symbols into the objects to be used.
 
- - Method: project-delete-target :PRIMARY this
+ -- Method: project-delete-target :PRIMARY this
      Delete the current target THIS from it's parent project.
 
- - Method: ede-proj-makefile-target-name :PRIMARY this
+ -- Method: ede-proj-makefile-target-name :PRIMARY this
      Return the name of the main target for THIS target.
 
- - Method: eieio-done-customizing :PRIMARY target
+ -- Method: eieio-done-customizing :PRIMARY target
      Call this when a user finishes customizing this object.  Argument
      TARGET is the project we are completing customization on.
 
- - Method: ede-proj-makefile-insert-user-rules :PRIMARY this
+ -- Method: ede-proj-makefile-insert-user-rules :PRIMARY this
      Insert user specified rules needed by THIS target.
 
- - Method: project-add-file :PRIMARY this file
+ -- Method: project-add-file :PRIMARY this file
      Add to target THIS the current buffer represented as FILE.
 
- - Method: ede-proj-makefile-insert-automake-pre-variables :PRIMARY this
+ -- Method: ede-proj-makefile-insert-automake-pre-variables :PRIMARY
+          this
      Insert variables needed by target THIS in Makefile.am before
      SOURCES.
 
- - Method: ede-proj-makefile-dependency-files :PRIMARY this
+ -- Method: ede-proj-makefile-dependency-files :PRIMARY this
      Return a list of source files to convert to dependencies.
      Argument THIS is the target to get sources from.
 
- - Method: ede-proj-makefile-insert-source-variables :PRIMARY this
+ -- Method: ede-proj-makefile-insert-source-variables :PRIMARY this
           &optional moresource
      Insert the source variables needed by THIS.  Optional argument
      MORESOURCE is a list of additional sources to add to the sources
@@ -1222,8 +1224,8 @@ Specialized Methods
 
 File: ede.info,  Node: ede-proj-target-makefile,  Next: ede-proj-target-makefile-objectcode,  Prev: ede-proj-target,  Up: Targets
 
-ede-proj-target-makefile
-========================
+7.12 ede-proj-target-makefile
+=============================
 
 Inheritance Tree:
 
@@ -1286,37 +1288,37 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.12.1 Specialized Methods
+--------------------------
 
- - Method: ede-proj-makefile-dependencies :PRIMARY this
+ -- Method: ede-proj-makefile-dependencies :PRIMARY this
      Return a string representing the dependencies for THIS.  Some
      compilers only use the first element in the dependencies, others
      have a list of intermediates (object files), and others don't care.
      This allows customization of how these elements appear.
 
- - Method: project-compile-target :PRIMARY obj &optional command
+ -- Method: project-compile-target :PRIMARY obj &optional command
      Compile the current target program OBJ.  Optional argument COMMAND
      is the s the alternate command to use.
 
- - Method: ede-proj-makefile-insert-rules :PRIMARY this
+ -- Method: ede-proj-makefile-insert-rules :PRIMARY this
      Insert rules needed by THIS target.
 
- - Method: ede-proj-makefile-insert-variables :PRIMARY this &optional
+ -- Method: ede-proj-makefile-insert-variables :PRIMARY this &optional
           moresource
      Insert variables needed by target THIS.  Optional argument
      MORESOURCE is a list of additional sources to add to the sources
      variable.
 
- - Method: ede-proj-makefile-insert-commands :PRIMARY this
+ -- Method: ede-proj-makefile-insert-commands :PRIMARY this
      Insert the commands needed by target THIS.  For targets, insert
      the commands needed by the chosen compiler.
 
 
 File: ede.info,  Node: ede-proj-target-makefile-objectcode,  Next: ede-proj-target-makefile-archive,  Prev: ede-proj-target-makefile,  Up: Targets
 
-ede-proj-target-makefile-objectcode
-===================================
+7.13 ede-proj-target-makefile-objectcode
+========================================
 
 Inheritance Tree:
 
@@ -1355,29 +1357,29 @@ Slots:
           *Note ede-proj-target-makefile::.
 
 
-Specialized Methods
--------------------
+7.13.1 Specialized Methods
+--------------------------
 
- - Method: ede-buffer-header-file :PRIMARY this buffer
+ -- Method: ede-buffer-header-file :PRIMARY this buffer
      There are no default header files.
 
- - Method: ede-proj-makefile-sourcevar :PRIMARY this
+ -- Method: ede-proj-makefile-sourcevar :PRIMARY this
      Return the variable name for THIS's sources.
 
- - Method: ede-proj-makefile-insert-variables :PRIMARY this &optional
+ -- Method: ede-proj-makefile-insert-variables :PRIMARY this &optional
           moresource
      Insert variables needed by target THIS.  Optional argument
      MORESOURCE is not used.
 
- - Method: ede-proj-makefile-dependency-files :PRIMARY this
+ -- Method: ede-proj-makefile-dependency-files :PRIMARY this
      Return a list of source files to convert to dependencies.
      Argument THIS is the target to get sources from.
 
 
 File: ede.info,  Node: ede-proj-target-makefile-archive,  Next: ede-proj-target-makefile-program,  Prev: ede-proj-target-makefile-objectcode,  Up: Targets
 
-ede-proj-target-makefile-archive
-================================
+7.14 ede-proj-target-makefile-archive
+=====================================
 
 Inheritance Tree:
 
@@ -1406,13 +1408,13 @@ Create a new object with name NAME of class type
 ede-proj-target-makefile-archive
 
 
-Specialized Methods
--------------------
+7.14.1 Specialized Methods
+--------------------------
 
- - Method: ede-proj-makefile-insert-rules :PRIMARY this
+ -- Method: ede-proj-makefile-insert-rules :PRIMARY this
      Create the make rule needed to create an archive for THIS.
 
- - Method: ede-proj-makefile-insert-source-variables :BEFORE this
+ -- Method: ede-proj-makefile-insert-source-variables :BEFORE this
      Insert bin_PROGRAMS variables needed by target THIS.  We aren't
      acutally inserting SOURCE details, but this is used by the
      Makefile.am generator, so use it to add this important bin program.
@@ -1420,8 +1422,8 @@ Specialized Methods
 
 File: ede.info,  Node: ede-proj-target-makefile-program,  Next: ede-proj-target-makefile-shared-object,  Prev: ede-proj-target-makefile-archive,  Up: Targets
 
-ede-proj-target-makefile-program
-================================
+7.15 ede-proj-target-makefile-program
+=====================================
 
 Inheritance Tree:
 
@@ -1472,27 +1474,28 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.15.1 Specialized Methods
+--------------------------
 
- - Method: project-debug-target :PRIMARY obj
+ -- Method: project-debug-target :PRIMARY obj
      Debug a program target OBJ.
 
- - Method: ede-proj-makefile-insert-rules :PRIMARY this
+ -- Method: ede-proj-makefile-insert-rules :PRIMARY this
      Insert rules needed by THIS target.
 
- - Method: ede-proj-makefile-insert-automake-post-variables :PRIMARY
+ -- Method: ede-proj-makefile-insert-automake-post-variables :PRIMARY
           this
      Insert bin_PROGRAMS variables needed by target THIS.
 
- - Method: ede-proj-makefile-insert-automake-pre-variables :PRIMARY this
+ -- Method: ede-proj-makefile-insert-automake-pre-variables :PRIMARY
+          this
      Insert bin_PROGRAMS variables needed by target THIS.
 
 
 File: ede.info,  Node: ede-proj-target-makefile-shared-object,  Next: ede-proj-target-elisp,  Prev: ede-proj-target-makefile-program,  Up: Targets
 
-ede-proj-target-makefile-shared-object
-======================================
+7.16 ede-proj-target-makefile-shared-object
+===========================================
 
 Inheritance Tree:
 
@@ -1532,25 +1535,26 @@ Slots:
           *Note ede-proj-target-makefile-program::.
 
 
-Specialized Methods
--------------------
+7.16.1 Specialized Methods
+--------------------------
 
- - Method: ede-proj-configure-add-missing :PRIMARY this
+ -- Method: ede-proj-configure-add-missing :PRIMARY this
      Query if any files needed by THIS provided by automake are missing.
      Results in -add-missing being passed to automake.
 
- - Method: ede-proj-makefile-sourcevar :PRIMARY this
+ -- Method: ede-proj-makefile-sourcevar :PRIMARY this
      Return the variable name for THIS's sources.
 
- - Method: ede-proj-makefile-insert-automake-post-variables :PRIMARY
+ -- Method: ede-proj-makefile-insert-automake-post-variables :PRIMARY
           this
      Insert bin_PROGRAMS variables needed by target THIS.  We need to
      override -program which has an LDADD element.
 
- - Method: ede-proj-makefile-target-name :PRIMARY this
+ -- Method: ede-proj-makefile-target-name :PRIMARY this
      Return the name of the main target for THIS target.
 
- - Method: ede-proj-makefile-insert-automake-pre-variables :PRIMARY this
+ -- Method: ede-proj-makefile-insert-automake-pre-variables :PRIMARY
+          this
      Insert bin_PROGRAMS variables needed by target THIS.  We aren't
      acutally inserting SOURCE details, but this is used by the
      Makefile.am generator, so use it to add this important bin program.
@@ -1558,8 +1562,8 @@ Specialized Methods
 
 File: ede.info,  Node: ede-proj-target-elisp,  Next: ede-proj-target-makefile-info,  Prev: ede-proj-target-makefile-shared-object,  Up: Targets
 
-ede-proj-target-elisp
-=====================
+7.17 ede-proj-target-elisp
+==========================
 
 Inheritance Tree:
 
@@ -1595,25 +1599,25 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.17.1 Specialized Methods
+--------------------------
 
- - Method: project-compile-target :PRIMARY obj
+ -- Method: project-compile-target :PRIMARY obj
      Compile all sources in a Lisp target OBJ.
 
- - Method: ede-proj-flush-autoconf :PRIMARY this
+ -- Method: ede-proj-flush-autoconf :PRIMARY this
      Flush the configure file (current buffer) to accomodate THIS.
 
- - Method: ede-proj-makefile-sourcevar :PRIMARY this
+ -- Method: ede-proj-makefile-sourcevar :PRIMARY this
      Return the variable name for THIS's sources.
 
- - Method: ede-proj-makefile-insert-variables :AFTER this
+ -- Method: ede-proj-makefile-insert-variables :AFTER this
      Insert variables needed by target THIS.
 
- - Method: ede-proj-tweak-autoconf :PRIMARY this
+ -- Method: ede-proj-tweak-autoconf :PRIMARY this
      Tweak the configure file (current buffer) to accomodate THIS.
 
- - Method: ede-update-version-in-source :PRIMARY this version
+ -- Method: ede-update-version-in-source :PRIMARY this version
      In a Lisp file, updated a version string for THIS to VERSION.
      There are standards in Elisp files specifying how the version
      string is found, such as a `-version' variable, or the standard
@@ -1622,8 +1626,8 @@ Specialized Methods
 
 File: ede.info,  Node: ede-proj-target-makefile-info,  Next: ede-proj-target-makefile-miscelaneous,  Prev: ede-proj-target-elisp,  Up: Targets
 
-ede-proj-target-makefile-info
-=============================
+7.18 ede-proj-target-makefile-info
+==================================
 
 Inheritance Tree:
 
@@ -1659,29 +1663,29 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.18.1 Specialized Methods
+--------------------------
 
- - Method: ede-proj-configure-add-missing :PRIMARY this
+ -- Method: ede-proj-configure-add-missing :PRIMARY this
      Query if any files needed by THIS provided by automake are missing.
      Results in -add-missing being passed to automake.
 
- - Method: object-write :PRIMARY this
+ -- Method: object-write :PRIMARY this
      Before commiting any change to THIS, make sure the mainmenu is
      first.
 
- - Method: ede-proj-makefile-sourcevar :PRIMARY this
+ -- Method: ede-proj-makefile-sourcevar :PRIMARY this
      Return the variable name for THIS's sources.
 
- - Method: ede-proj-makefile-target-name :PRIMARY this
+ -- Method: ede-proj-makefile-target-name :PRIMARY this
      Return the name of the main target for THIS target.
 
- - Method: ede-documentation :PRIMARY this
+ -- Method: ede-documentation :PRIMARY this
      Return a list of files that provides documentation.  Documentation
      is not for object THIS, but is provided by THIS for other files in
      the project.
 
- - Method: ede-proj-makefile-insert-source-variables :PRIMARY this
+ -- Method: ede-proj-makefile-insert-source-variables :PRIMARY this
           &optional moresource
      Insert the source variables needed by THIS info target.  Optional
      argument MORESOURCE is a list of additional sources to add to the
@@ -1691,8 +1695,8 @@ Specialized Methods
 
 File: ede.info,  Node: ede-proj-target-makefile-miscelaneous,  Next: ede-proj-target-aux,  Prev: ede-proj-target-makefile-info,  Up: Targets
 
-ede-proj-target-makefile-miscelaneous
-=====================================
+7.19 ede-proj-target-makefile-miscelaneous
+==========================================
 
 Inheritance Tree:
 
@@ -1728,23 +1732,23 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.19.1 Specialized Methods
+--------------------------
 
- - Method: ede-proj-makefile-insert-rules :PRIMARY this
+ -- Method: ede-proj-makefile-insert-rules :PRIMARY this
      Create the make rule needed to create an archive for THIS.
 
- - Method: ede-proj-makefile-sourcevar :PRIMARY this
+ -- Method: ede-proj-makefile-sourcevar :PRIMARY this
      Return the variable name for THIS's sources.
 
- - Method: ede-proj-makefile-dependency-files :PRIMARY this
+ -- Method: ede-proj-makefile-dependency-files :PRIMARY this
      Return a list of files which THIS target depends on.
 
 
 File: ede.info,  Node: ede-proj-target-aux,  Next: ede-proj-target-scheme,  Prev: ede-proj-target-makefile-miscelaneous,  Up: Targets
 
-ede-proj-target-aux
-===================
+7.20 ede-proj-target-aux
+========================
 
 Inheritance Tree:
 
@@ -1766,17 +1770,17 @@ Inheritance Tree:
 Create a new object with name NAME of class type ede-proj-target-aux
 
 
-Specialized Methods
--------------------
+7.20.1 Specialized Methods
+--------------------------
 
- - Method: ede-proj-makefile-sourcevar :PRIMARY this
+ -- Method: ede-proj-makefile-sourcevar :PRIMARY this
      Return the variable name for THIS's sources.
 
 
 File: ede.info,  Node: ede-proj-target-scheme,  Next: project-am-target,  Prev: ede-proj-target-aux,  Up: Targets
 
-ede-proj-target-scheme
-======================
+7.21 ede-proj-target-scheme
+===========================
 
 Inheritance Tree:
 
@@ -1807,17 +1811,17 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.21.1 Specialized Methods
+--------------------------
 
- - Method: ede-proj-tweak-autoconf :PRIMARY this
+ -- Method: ede-proj-tweak-autoconf :PRIMARY this
      Tweak the configure file (current buffer) to accomodate THIS.
 
 
 File: ede.info,  Node: project-am-target,  Next: project-am-objectcode,  Prev: ede-proj-target-scheme,  Up: Targets
 
-project-am-target
-=================
+7.22 project-am-target
+======================
 
 Inheritance Tree:
 
@@ -1842,38 +1846,38 @@ Inheritance Tree:
 Create a new object with name NAME of class type project-am-target
 
 
-Specialized Methods
--------------------
+7.22.1 Specialized Methods
+--------------------------
 
- - Method: project-compile-target :PRIMARY obj &optional command
+ -- Method: project-compile-target :PRIMARY obj &optional command
      Compile the current target.  Argument COMMAND is the command to
      use for compiling the target.
 
- - Method: project-compile-target-command :PRIMARY this
+ -- Method: project-compile-target-command :PRIMARY this
      Default target to use when compiling a given target.
 
- - Method: project-remove-file :PRIMARY ot fnnd
+ -- Method: project-remove-file :PRIMARY ot fnnd
      Remove the current buffer from any project targets.
 
- - Method: project-make-dist :PRIMARY this
+ -- Method: project-make-dist :PRIMARY this
      Run the current project in the debugger.
 
- - Method: project-compile-project :PRIMARY obj &optional command
+ -- Method: project-compile-project :PRIMARY obj &optional command
      Compile the entire current project.  Argument COMMAND is the
      command to use when compiling.
 
- - Method: project-edit-file-target :PRIMARY obj
+ -- Method: project-edit-file-target :PRIMARY obj
      Edit the target associated w/ this file.
 
- - Method: project-add-file :PRIMARY ot
+ -- Method: project-add-file :PRIMARY ot
      Add the current buffer into a project.  OT is the object target.
      DIR is the directory to start in.
 
 
 File: ede.info,  Node: project-am-objectcode,  Next: project-am-program,  Prev: project-am-target,  Up: Targets
 
-project-am-objectcode
-=====================
+7.23 project-am-objectcode
+==========================
 
 Inheritance Tree:
 
@@ -1907,25 +1911,25 @@ Slots:
           *Note project-am-target::.
 
 
-Specialized Methods
--------------------
+7.23.1 Specialized Methods
+--------------------------
 
- - Method: project-am-macro :PRIMARY this
+ -- Method: project-am-macro :PRIMARY this
      Return the default macro to 'edit' for this object type.
 
- - Method: project-debug-target :PRIMARY obj
+ -- Method: project-debug-target :PRIMARY obj
      Run the current project target in a debugger.
 
- - Method: project-compile-target-command :PRIMARY this
+ -- Method: project-compile-target-command :PRIMARY this
      Default target to use when compiling an object code target.
 
- - Method: ede-buffer-header-file :PRIMARY this buffer
+ -- Method: ede-buffer-header-file :PRIMARY this buffer
      There are no default header files.
 
- - Method: ede-buffer-mine :PRIMARY this buffer
+ -- Method: ede-buffer-mine :PRIMARY this buffer
      Return `t' if object THIS lays claim to the file in BUFFER.
 
- - Method: ede-sb-expand :PRIMARY this depth
+ -- Method: ede-sb-expand :PRIMARY this depth
      Expand node describing something built into objectcode.  TEXT is
      the text clicked on.  TOKEN is the object we are expanding from.
      INDENT is the current indentatin level.
@@ -1933,8 +1937,8 @@ Specialized Methods
 
 File: ede.info,  Node: project-am-program,  Next: project-am-lib,  Prev: project-am-objectcode,  Up: Targets
 
-project-am-program
-==================
+7.24 project-am-program
+=======================
 
 Inheritance Tree:
 
@@ -1968,20 +1972,20 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.24.1 Specialized Methods
+--------------------------
 
- - Method: project-rescan :PRIMARY this
+ -- Method: project-rescan :PRIMARY this
      Rescan object THIS.
 
- - Method: ede-sb-button :PRIMARY this depth
+ -- Method: ede-sb-button :PRIMARY this depth
      Create a speedbar button for object THIS at DEPTH.
 
 
 File: ede.info,  Node: project-am-lib,  Next: project-am-lisp,  Prev: project-am-program,  Up: Targets
 
-project-am-lib
-==============
+7.25 project-am-lib
+===================
 
 Inheritance Tree:
 
@@ -2006,20 +2010,20 @@ Inheritance Tree:
 Create a new object with name NAME of class type project-am-lib
 
 
-Specialized Methods
--------------------
+7.25.1 Specialized Methods
+--------------------------
 
- - Method: project-rescan :PRIMARY this
+ -- Method: project-rescan :PRIMARY this
      Rescan object THIS.
 
- - Method: ede-sb-button :PRIMARY this depth
+ -- Method: ede-sb-button :PRIMARY this depth
      Create a speedbar button for object THIS at DEPTH.
 
 
 File: ede.info,  Node: project-am-lisp,  Next: project-am-texinfo,  Prev: project-am-lib,  Up: Targets
 
-project-am-lisp
-===============
+7.26 project-am-lisp
+====================
 
 Inheritance Tree:
 
@@ -2050,22 +2054,22 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.26.1 Specialized Methods
+--------------------------
 
- - Method: project-am-macro :PRIMARY this
+ -- Method: project-am-macro :PRIMARY this
      Return the default macro to 'edit' for this object.
 
- - Method: project-rescan :PRIMARY this
+ -- Method: project-rescan :PRIMARY this
      Rescan the lisp sources.
 
- - Method: ede-buffer-mine :PRIMARY this buffer
+ -- Method: ede-buffer-mine :PRIMARY this buffer
      Return `t' if object THIS lays claim to the file in BUFFER.
 
- - Method: ede-sb-button :PRIMARY this depth
+ -- Method: ede-sb-button :PRIMARY this depth
      Create a speedbar button for object THIS at DEPTH.
 
- - Method: ede-sb-expand :PRIMARY this depth
+ -- Method: ede-sb-expand :PRIMARY this depth
      Expand node describing lisp code.  TEXT is the text clicked on.
      TOKEN is the object we are expanding from.  INDENT is the current
      indentatin level.
@@ -2073,8 +2077,8 @@ Specialized Methods
 
 File: ede.info,  Node: project-am-texinfo,  Next: project-am-man,  Prev: project-am-lisp,  Up: Targets
 
-project-am-texinfo
-==================
+7.27 project-am-texinfo
+=======================
 
 Inheritance Tree:
 
@@ -2105,30 +2109,30 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.27.1 Specialized Methods
+--------------------------
 
- - Method: project-am-macro :PRIMARY this
+ -- Method: project-am-macro :PRIMARY this
      Return the default macro to 'edit' for this object type.
 
- - Method: project-rescan :PRIMARY this
+ -- Method: project-rescan :PRIMARY this
      Rescan object THIS.
 
- - Method: project-compile-target-command :PRIMARY this
+ -- Method: project-compile-target-command :PRIMARY this
      Default target t- use when compling a texinfo file.
 
- - Method: ede-buffer-mine :PRIMARY this buffer
+ -- Method: ede-buffer-mine :PRIMARY this buffer
      Return `t' if object THIS lays claim to the file in BUFFER.
 
- - Method: ede-sb-button :PRIMARY this depth
+ -- Method: ede-sb-button :PRIMARY this depth
      Create a speedbar button for object THIS at DEPTH.
 
- - Method: ede-sb-expand :PRIMARY this depth
+ -- Method: ede-sb-expand :PRIMARY this depth
      Expand node describing a texinfo manual.  TEXT is the text clicked
      on.  TOKEN is the object we are expanding from.  INDENT is the
      current indentatin level.
 
- - Method: ede-documentation :PRIMARY this
+ -- Method: ede-documentation :PRIMARY this
      Return a list of files that provides documentation.  Documentation
      is not for object THIS, but is provided by THIS for other files in
      the project.
@@ -2136,8 +2140,8 @@ Specialized Methods
 
 File: ede.info,  Node: project-am-man,  Prev: project-am-texinfo,  Up: Targets
 
-project-am-man
-==============
+7.28 project-am-man
+===================
 
 Inheritance Tree:
 
@@ -2159,19 +2163,19 @@ Inheritance Tree:
 Create a new object with name NAME of class type project-am-man
 
 
-Specialized Methods
--------------------
+7.28.1 Specialized Methods
+--------------------------
 
- - Method: project-am-macro :PRIMARY this
+ -- Method: project-am-macro :PRIMARY this
      Return the default macro to 'edit' for this object type.
 
- - Method: project-rescan :PRIMARY this
+ -- Method: project-rescan :PRIMARY this
      Rescan object THIS.
 
- - Method: ede-buffer-mine :PRIMARY this buffer
+ -- Method: ede-buffer-mine :PRIMARY this buffer
      Return `t' if object THIS lays claim to the file in BUFFER.
 
- - Method: ede-sb-button :PRIMARY this depth
+ -- Method: ede-sb-button :PRIMARY this depth
      Create a speedbar button for object THIS at DEPTH.
 
 
@@ -2187,8 +2191,8 @@ targets.
 
 File: ede.info,  Node: ede-sourcecode,  Up: Sourcecode
 
-ede-sourcecode
-==============
+7.29 ede-sourcecode
+===================
 
 Inheritance Tree:
 
@@ -2248,34 +2252,34 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.29.1 Specialized Methods
+--------------------------
 
- - Method: initialize-instance :AFTER this &rest fields
+ -- Method: initialize-instance :AFTER this &rest fields
      Make sure that all ede compiler objects are cached in
      `ede-compiler-list'.
 
- - Method: ede-want-any-files-p :PRIMARY this filenames
+ -- Method: ede-want-any-files-p :PRIMARY this filenames
      Return non-`nil' if THIS will accept any files in FILENAMES.
 
- - Method: ede-want-any-source-files-p :PRIMARY this filenames
+ -- Method: ede-want-any-source-files-p :PRIMARY this filenames
      Return non-`nil' if THIS will accept any source files in FILENAMES.
 
- - Method: ede-want-any-auxiliary-files-p :PRIMARY this filenames
+ -- Method: ede-want-any-auxiliary-files-p :PRIMARY this filenames
      Return non-`nil' if THIS will accept any aux files in FILENAMES.
 
- - Method: ede-buffer-header-file :PRIMARY this filename
+ -- Method: ede-buffer-header-file :PRIMARY this filename
      Return a list of file names of header files for THIS with FILENAME.
      Used to guess header files, but uses the auxsource regular
      expression.
 
- - Method: ede-want-file-p :PRIMARY this filename
+ -- Method: ede-want-file-p :PRIMARY this filename
      Return non-`nil' if sourcecode definition THIS will take FILENAME.
 
- - Method: ede-want-file-source-p :PRIMARY this filename
+ -- Method: ede-want-file-source-p :PRIMARY this filename
      Return non-`nil' if THIS will take FILENAME as an auxiliary .
 
- - Method: ede-want-file-auxiliary-p :PRIMARY this filename
+ -- Method: ede-want-file-auxiliary-p :PRIMARY this filename
      Return non-`nil' if THIS will take FILENAME as an auxiliary .
 
 
@@ -2296,8 +2300,8 @@ commands.
 
 File: ede.info,  Node: ede-compilation-program,  Next: ede-compiler,  Up: Compilers
 
-ede-compilation-program
-=======================
+7.30 ede-compilation-program
+============================
 
 Inheritance Tree:
 
@@ -2376,35 +2380,35 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.30.1 Specialized Methods
+--------------------------
 
- - Method: ede-proj-flush-autoconf :PRIMARY this
+ -- Method: ede-proj-flush-autoconf :PRIMARY this
      Flush the configure file (current buffer) to accomodate THIS.
 
- - Method: ede-proj-makefile-insert-rules :PRIMARY this
+ -- Method: ede-proj-makefile-insert-rules :PRIMARY this
      Insert rules needed for THIS compiler object.
 
- - Method: ede-proj-makefile-insert-variables :PRIMARY this
+ -- Method: ede-proj-makefile-insert-variables :PRIMARY this
      Insert variables needed by the compiler THIS.
 
- - Method: ede-proj-makefile-insert-commands :PRIMARY this
+ -- Method: ede-proj-makefile-insert-commands :PRIMARY this
      Insert the commands needed to use compiler THIS.  The object
      creating makefile rules must call this method for the compiler it
      decides to use after inserting in the rule.
 
- - Method: ede-object-sourcecode :PRIMARY this
+ -- Method: ede-object-sourcecode :PRIMARY this
      Retrieves the slot `sourcetype' from an object of class
      `ede-compilation-program'
 
- - Method: ede-proj-tweak-autoconf :PRIMARY this
+ -- Method: ede-proj-tweak-autoconf :PRIMARY this
      Tweak the configure file (current buffer) to accomodate THIS.
 
 
 File: ede.info,  Node: ede-compiler,  Next: ede-object-compiler,  Prev: ede-compilation-program,  Up: Compilers
 
-ede-compiler
-============
+7.31 ede-compiler
+=================
 
 Inheritance Tree:
 
@@ -2482,26 +2486,26 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.31.1 Specialized Methods
+--------------------------
 
- - Method: initialize-instance :AFTER this &rest fields
+ -- Method: initialize-instance :AFTER this &rest fields
      Make sure that all ede compiler objects are cached in
      `ede-compiler-list'.
 
- - Method: ede-proj-makefile-insert-object-variables :PRIMARY this
+ -- Method: ede-proj-makefile-insert-object-variables :PRIMARY this
           targetname sourcefiles
      Insert an OBJ variable to specify object code to be generated for
      THIS.  The name of the target is TARGETNAME as a string.
      SOURCEFILES is the list of files to be objectified.  Not all
      compilers do this.
 
- - Method: ede-compiler-intermediate-objects-p :PRIMARY this
+ -- Method: ede-compiler-intermediate-objects-p :PRIMARY this
      Return non-`nil' if THIS has intermediate object files.  If this
      compiler creates code that can be linked together, then the object
      files created by the compiler are considered intermediate.
 
- - Method: ede-compiler-intermediate-object-variable :PRIMARY this
+ -- Method: ede-compiler-intermediate-object-variable :PRIMARY this
           targetname
      Return a string based on THIS representing a make object variable.
      TARGETNAME is the name of the target that these objects belong to.
@@ -2509,8 +2513,8 @@ Specialized Methods
 
 File: ede.info,  Node: ede-object-compiler,  Next: ede-linker,  Prev: ede-compiler,  Up: Compilers
 
-ede-object-compiler
-===================
+7.32 ede-object-compiler
+========================
 
 Inheritance Tree:
 
@@ -2585,17 +2589,17 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.32.1 Specialized Methods
+--------------------------
 
- - Method: ede-proj-makefile-insert-variables :PRIMARY this
+ -- Method: ede-proj-makefile-insert-variables :PRIMARY this
      Insert variables needed by the compiler THIS.
 
 
 File: ede.info,  Node: ede-linker,  Prev: ede-object-compiler,  Up: Compilers
 
-ede-linker
-==========
+7.33 ede-linker
+===============
 
 Inheritance Tree:
 
@@ -2656,10 +2660,10 @@ Slots:
 
 
 
-Specialized Methods
--------------------
+7.33.1 Specialized Methods
+--------------------------
 
- - Method: initialize-instance :AFTER this &rest fields
+ -- Method: initialize-instance :AFTER this &rest fields
      Make sure that all ede compiler objects are cached in
      `ede-linker-list'.
 
@@ -2668,43 +2672,43 @@ Specialized Methods
 Tag Table:
 Node: Top146
 Node: EDE Mode1199
-Node: Creating a project2004
-Node: Modifying your project3589
-Node: Building and Debugging5470
-Node: Miscellaneous commands6111
-Node: Project types6714
-Node: Extending EDE7922
-Node: Project15253
-Node: ede-project-placeholder15453
-Node: ede-project16769
-Node: ede-proj-project22233
-Node: project-am-makefile27345
-Node: Targets29012
-Node: ede-target29703
-Node: ede-proj-target35366
-Node: ede-proj-target-makefile41040
-Node: ede-proj-target-makefile-objectcode43927
-Node: ede-proj-target-makefile-archive45546
-Node: ede-proj-target-makefile-program46725
-Node: ede-proj-target-makefile-shared-object48572
-Node: ede-proj-target-elisp50486
-Node: ede-proj-target-makefile-info52233
-Node: ede-proj-target-makefile-miscelaneous54196
-Node: ede-proj-target-aux55452
-Node: ede-proj-target-scheme56108
-Node: project-am-target56910
-Node: project-am-objectcode58501
-Node: project-am-program60046
-Node: project-am-lib60904
-Node: project-am-lisp61644
-Node: project-am-texinfo62855
-Node: project-am-man64417
-Node: Sourcecode65283
-Node: ede-sourcecode65485
-Node: Compilers68300
-Node: ede-compilation-program68694
-Node: ede-compiler71941
-Node: ede-object-compiler75125
-Node: ede-linker77272
+Node: Creating a project2008
+Node: Modifying your project3605
+Node: Building and Debugging5490
+Node: Miscellaneous commands6135
+Node: Project types6742
+Node: Extending EDE7954
+Node: Project15329
+Node: ede-project-placeholder15529
+Node: ede-project16868
+Node: ede-proj-project22383
+Node: project-am-makefile27550
+Node: Targets29244
+Node: ede-target29935
+Node: ede-proj-target35654
+Node: ede-proj-target-makefile41386
+Node: ede-proj-target-makefile-objectcode44302
+Node: ede-proj-target-makefile-archive45949
+Node: ede-proj-target-makefile-program47154
+Node: ede-proj-target-makefile-shared-object49039
+Node: ede-proj-target-elisp50992
+Node: ede-proj-target-makefile-info52769
+Node: ede-proj-target-makefile-miscelaneous54762
+Node: ede-proj-target-aux56045
+Node: ede-proj-target-scheme56726
+Node: project-am-target57553
+Node: project-am-objectcode59175
+Node: project-am-program60750
+Node: project-am-lib61634
+Node: project-am-lisp62400
+Node: project-am-texinfo63640
+Node: project-am-man65233
+Node: Sourcecode66127
+Node: ede-sourcecode66329
+Node: Compilers69176
+Node: ede-compilation-program69570
+Node: ede-compiler72847
+Node: ede-object-compiler76059
+Node: ede-linker78231
 
 End Tag Table
