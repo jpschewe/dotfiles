@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.61 $
+;; $Revision: 1.62 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -285,7 +285,11 @@
 ;;
 ;;;;;;;;;;;;
 (message "Lisp")
-(add-hook 'lisp-mode-hook (lambda () (camelCase-mode 1)))
+(defun lisp-mode-hook-jps ()
+  (camelCase-mode 1)
+  (add-special-font-lock-faces-jps (list 'lisp-font-lock-keywords 'lisp-font-lock-keywords-1 'lisp-font-lock-keywords-2))
+  )
+(add-hook 'lisp-mode-hook 'lisp-mode-hook-jps)
 (add-to-list 'auto-mode-alist  '("\\.alt$" . lisp-mode))
 (add-to-list 'auto-mode-alist  '("\\.lib$" . lisp-mode))
 
@@ -604,6 +608,10 @@
 ;;
 ;;;;;;;;;;;;
 (message "Java")
+
+;;cedat
+(load-file "~/.xemacs/cedet-1.0beta3b/common/cedet.el")
+
 (add-to-list 'auto-mode-alist '("\\.template$" . jde-mode))
 (add-to-list 'auto-mode-alist '("\\.jass$" . jde-mode))
 (add-to-list 'auto-mode-alist '("\\.jad$" . jde-mode))
@@ -637,26 +645,7 @@
 
 (custom-set-variables
 
- ;;now set in prj.el files
-;; '(jde-run-option-debug '(nil "Attach" nil));;don't open a socket for the debugger
-;; '(jde-build-function '(jde-ant-build))
-;; '(jde-ant-read-target t);;prompt for the target name
-;; '(jde-ant-enable-find t);;make jde-ant look for the build file
-;; '(jde-ant-complete-target nil);;don't try and parse the build file for me
-;; '(jde-ant-home (getenv "ANT_HOME"))
-;; 
-;; '(jde-import-excluded-packages '("\\(bsh.*\\|sched-infra.*\\|com.sun.*\\|sunw.*\\|sun.*\\|org.gjt.mm.mysql.*\\)"))
-;; '(jde-bug-vm-includes-jpda-p t)
-;; '(jde-import-sorted-groups 'asc)
-;; '(jde-import-group-of-rules
-;;   (quote
-;;    (
-;;     ("^\\(com\\.honeywell\\.htc\\.[^.]+\\([.][^.]+[.]\\)*\\)" . 1)
-;;     ("^\\(com\\.honeywell\\.[^.]+\\([.][^.]+[.]\\)*\\)" . 1)
-;;     ;;("^javax?\\.")
-;;     ("^\\([^.]+\\([.][^.]+[.]\\)*\\)" . 1)
-;;     )))
- ;; end set in prj.el files
+ ;;'(jde-ant-home (getenv "ANT_HOME"))
  
  '(jde-auto-parse-buffer-interval 60)
  '(jde-auto-parse-enable t)
@@ -690,8 +679,8 @@
 	 'java-font-lock-keywords-3
 	 'java-font-lock-keywords-4))
 
-  (define-key jde-mode-map [(control ?c) (control ?v) (control ?i)] 'jde-import-organize-jps)
   ;;FIX doesn't seem to be working yet
+  (define-key jde-mode-map [(control ?c) (control ?v) (control ?i)] 'jde-import-organize-jps)
   (define-key jde-mode-map [(control ?c) (control ?v) (control ?z)] 'jde-import-then-organize-jps)
   )
 (add-hook 'jde-mode-hook 'jde-mode-hook-jps)
@@ -748,6 +737,7 @@
 (defun sgml-mode-hook-jps ()
   (setq indent-tabs-mode nil)
   (font-lock-mode)
+  (setq sgml-indent-data t)
   )
 (add-hook 'sgml-mode-hook  'sgml-mode-hook-jps)
 
@@ -769,8 +759,8 @@
 
 ;;my own catalog for dtds
 (require 'psgml)
-(add-to-list 'sgml-catalog-files
-	     (expand-file-name "~/.xemacs/xemacs-packages/etc/CATALOG" (locate-data-directory "config-jps")))
+;;(add-to-list 'sgml-catalog-files
+;;	     (expand-file-name "~/.xemacs/xemacs-packages/etc/CATALOG" (locate-data-directory "config-jps")))
 
 (setq sgml-auto-activate-dtd nil	; don't parse dtd right away
       sgml-warn-about-undefined-elements nil ; don't complain about unknown elements
@@ -1449,6 +1439,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (global-set-key (concat prefix-key-jps "g") 'gnus)
 (global-set-key (concat prefix-key-jps "n") 'rename-buffer)
 (global-set-key (concat prefix-key-jps "r") 'revert-buffer-jps)
+(global-set-key (concat prefix-key-jps "b") 'bury-buffer)
 
 (global-set-key (concat prefix-key-jps "u") 'ss-uncheckout)
 (global-set-key (concat prefix-key-jps "i") 'ss-update)
