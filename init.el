@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.11 $
+;; $Revision: 1.12 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -611,22 +611,18 @@
 
 (set-register ?n "System.getProperty(\"line.separator\")")
 
-(require 'jde)
-
 ;ignore assert files from ant compilation
-(setq completion-ignored-extensions (append '(".assert") completion-ignored-extensions))
+(add-to-list 'completion-ignored-extensions ".assert")
 
 (when (eq system-type 'windows-nt)
-  (require 'jde-ant)
-  (require 'jde)
-  ;;fix bug with wrong signal being sent to running processes
-  (define-key jde-run-mode-map "\C-c\C-c" 'comint-kill-subjob)
-  )
+  (eval-after-load "jde-run"
+    ;;fix bug with wrong signal being sent to running processes
+    (define-key jde-run-mode-map "\C-c\C-c" 'comint-kill-subjob)
+    ))
 
 (custom-set-variables
  '(jde-run-option-debug '(nil "Attach" nil)) ;;don't open a socket for the debugger
  '(jde-build-function '(jde-ant-build))
- '(jde-ant-home "/opt/jakarta/ant");;FIX need to make this machine independant
  '(jde-ant-read-target t);;prompt for the target name
  '(jde-ant-enable-find t);;make jde-ant look for the build file
  '(jde-ant-complete-target nil);;don't try and parse the build file for me
@@ -653,6 +649,11 @@
  '(jde-compile-finish-hook '(jde-compile-finish-refresh-speedbar 
 			     jde-compile-finish-flush-completion-cache))
  )
+
+(cond ((eq system-type 'windows-nt)
+       (custom-set-variables '(jde-ant-home "c:/packages/ant")))
+      ((eq system-type 'linux)
+       (custom-set-variables '(jde-ant-home "/opt/jakarta/ant"))))
 
 (defun jde-mode-hook-jps()
   ;;(modify-syntax-entry ?_ " ")
@@ -681,7 +682,6 @@
     (setq ad-return-value ad-do-it)))
 
 ;; Tomcat
-;;FIX need to make sure this is configured by the OS
 (cond ((eq system-type 'windows-nt)
        (setq catalina-home "c:/packages/tomcat"))
       ((eq system-type 'linux)
