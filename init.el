@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.44 $
+;; $Revision: 1.45 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -681,7 +681,8 @@
 
 (defun jde-import-organize-jps ()
   (interactive)
-  (jde-import-organize t))
+  (save-excursion
+    (jde-import-organize t)))
 
 (add-hook 'jde-run-mode-hook 'turn-off-font-lock)
 
