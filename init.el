@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.48 $
+;; $Revision: 1.49 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1209,9 +1209,9 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;; Antlr
 ;;
 ;;;;;;;;;;;;
-(message "Antrl")
+(message "ANTLR")
 (autoload 'antlr-mode "antlr-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.g$'" . antlr-mode))
+(add-to-list 'auto-mode-alist '("\\.g$" . antlr-mode))
 (add-hook 'speedbar-load-hook		; would be too late in antlr-mode.el
 	  (lambda () (speedbar-add-supported-extension ".g")))
 (setq antlr-language "Java")
