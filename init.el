@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.28 $
+;; $Revision: 1.29 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -66,7 +66,7 @@
  
 ;; set the title to make it easy to determine which XEmacs is running
 (let ((host (downcase (system-name))))
-  (setq frame-title-format (concat "XEmacs@" (substring host 0 (search "." host)) ": %b")))
+  (setq frame-title-format (concat "XEmacs: " (user-real-login-name) "@" (substring host 0 (search "." host)) ": %b")))
 
 ;; Change all yes/no prompts to y/n
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -1478,7 +1478,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (global-set-key "\C-x\C-d" 'insert-stardate)
 (autoload 'insert-stardate "stardate" nil t)
 (setq stardate-timezone "CST")
-(setq user-login-name (getenv "USER"))
+(setq user-login-name (user-real-login-name))
  
 (global-set-key "\C-x\C-v" 'view-file)
 (global-set-key "\C-m" 'newline-and-indent)
