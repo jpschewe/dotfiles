@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.6 $
+;; $Revision: 1.7 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -245,6 +245,16 @@
   (font-lock-mode)
   )
 (add-hook 'ksh-mode-hook  'ksh-mode-hook-jps)
+(add-special-font-lock-faces-jps (list 'ksh-font-lock-keywords))
+
+;;;;;;;;;;;
+;;
+;; sh-mode
+;;
+;;;;;;;;;;;;
+(message "ksh-mode")
+(add-hook 'sh-mode-hook  'ksh-mode-hook-jps)
+(add-special-font-lock-faces-jps (list 'sh-font-lock-keywords 'sh-font-lock-keywords-1 'sh-font-lock-keywords-2))
 
 ;;;;;;;;;;;
 ;;
