@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.30 $
+;; $Revision: 1.31 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1707,6 +1707,13 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
     )
   (global-set-key (concat prefix-key-jps "l") 'start-lisp-jps)
   )
+
+;;;;;;;;;;;
+;;
+;; Spell
+;;
+;;;;;;;;;;;;
+(setq ispell-program-name "aspell")
 
 ;;;;;;;;;;;
 ;;
