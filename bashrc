@@ -197,24 +197,15 @@ alias enscript='enscript -2r -b"- jschewe -" -G'
 
 # find that skips over .snapshot directories
 sfind() {
-  paths=''
-  done=''
-  args=''
-  for arg in $*; do
-    if [ -n "$done" ]; then
-      args="${args} ${arg}"
-    else 
-      if [ -z "`echo $arg | sed -e 's/^-.*//'`" ]; then
-        args="${args} ${arg}"
-        done="true"
-      else
-        paths="${paths} ${arg}"
-      fi
-    fi
-  done
-  #echo "paths $paths"
-  #echo "args $args"
-  find ${paths} \( -path '*/.snapshot' -prune \) -o \( ${args} \)
+  (
+    set -o noglob
+    shopt -s extglob
+    ARGS="$*"
+    DIRS="${ARGS/%-*/}"
+    ARGS="${ARGS##*([^-])}"
+    echo find $DIRS -path */.snapshot -prune -false -o \( $ARGS \) 1>&2
+    find $DIRS -path */.snapshot -prune -false -o \( $ARGS \)
+  )
 }
 
 keepalive() {
