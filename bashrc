@@ -104,7 +104,7 @@ fi
 #------------------------------
 
 export BRC="$HOME/.bashrc"	# also used for test in .profile
-alias brc=". $BRC"
+alias brc=". '$BRC'"
 #alias brc='unset BASHRCREAD ; . "${HOME}/.bashrc"'
 
 # cvs aliases here

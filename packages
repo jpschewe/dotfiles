@@ -252,7 +252,7 @@ case $OSTYPE in
   cygwin)
     case $HOST in
       eggplant-laptop)
-          append PATH "/cygdrive/c/packages/XEmacs/XEmacs-21.4.13/i586-pc-win32"
+          prepend PATH "/cygdrive/c/packages/XEmacs/XEmacs-21.4.13/i586-pc-win32"
           ;;
     esac
       ;;
@@ -289,6 +289,7 @@ addpkg_matlab() {
 ### java
 case $OSTYPE in
   cygwin)
+          # eggplant-laptop gets JAVA_HOME from the windows environment
           case $HOST in
             MN65-EGGPLANT | MN65-SCHEDINFRA)
                            JAVA_HOME="c:/packages/jdk-1.4.1_01"
@@ -359,8 +360,8 @@ esac
 ### ant
 case $OSTYPE in
   cygwin)
-          if [ -e /cygdrive/c/packages/jakarta-ant-1.5.1 ]; then
-            ANT_HOME=/cygdrive/c/packages/jakarta-ant-1.5.1
+          if [ -e /cygdrive/c/packages/ant ]; then
+            ANT_HOME=/cygdrive/c/packages/ant
           fi
           ;;
   linux)
