@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.25 $
+;; $Revision: 1.26 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1038,15 +1038,18 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (cond ((eq system-location 'honeywell)
        (setq gnus-select-method '(nntp "news.phxlab.honeywell.com")))
       ((eq system-location 'home)
-       (setq gnus-select-method '(nntp "netnews.comcast.net")))
+       (setq gnus-select-method '(nntp "netnews.comcast.net"))
+       (setq gnus-secondary-select-methods '((nnimap "mtu.net"
+						     (nnimap-address "mtu.net")
+						     (nnimap-stream ssl)
+						     (nnimap-list-pattern ("INBOX" "Mail/*"))
+						     ))))
       (t ;;default to mtu.net and hope for the best
-       (setq gnus-select-method nil)))
-(setq gnus-secondary-select-methods '((nnimap "mtu.net"
-					      (nnimap-address "mtu.net")
-					      (nnimap-stream ssl)
-					      (nnimap-list-pattern ("Mail/*"))
-					      )))
+       (setq gnus-select-method nil)
+       (setq gnus-secondary-select-methods nil)))
+
 (setq gnus-activate-foreign-newsgroups t)
+
 ;;(setq gnus-read-active-file "some")
 (setq gnus-check-new-newsgroups nil)
 ;;(setq gnus-local-organization "Honeywell Technology Center")
