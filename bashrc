@@ -62,7 +62,7 @@ export OS
 # define location
 case $OS in
   solaris2 | cygwin)
-            case `nslookup $HOST 2> /dev/null | grep $HOST | awk '{print $2}'` in
+            case `nslookup $HOST 2> /dev/null | /bin/grep $HOST | /bin/awk '{print $2}'` in
               *.htc.honeywell.com)
                 LOCATION=htc
                 ;;
