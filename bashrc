@@ -151,7 +151,7 @@ alias mv='mv -i'
 alias w='w -s'
 alias which='type -path'
 alias where='type -all'
-alias find-unused-unix='for h in `ypmatch HTC-HOSTS netgroup`; do ping -c 1 $h > /dev/null || echo $h; done'
+alias find-unused-unix='for h in `ypmatch HTC-HOSTS netgroup`; do ping -c 1 $h > /dev/null 2>&1 || echo $h; done'
   
 #if [ $OS \!= "cygwin" ]; then
 #  if [ -x "`type -p ypcat`" ]; then
@@ -194,6 +194,28 @@ alias enscript='enscript -2r -b"- jschewe -" -G'
 # Sort on last alpha field
 # - see http://www.perl.org/CPAN/doc/FMTEYEWTK/sort.html
 #alias psort='perl -0000 -ne \'print ((join "\n", map { $_->[0] } sort { $a->[1] cmp $b->[1] } map {[$_, (split)[-1]] } (split /\n/, $_)) . "\n")\''
+
+# find that skips over .snapshot directories
+sfind() {
+  paths=''
+  done=''
+  args=''
+  for arg in $*; do
+    if [ -n "$done" ]; then
+      args="${args} ${arg}"
+    else 
+      if [ -z "`echo $arg | sed -e 's/^-.*//'`" ]; then
+        args="${args} ${arg}"
+        done="true"
+      else
+        paths="${paths} ${arg}"
+      fi
+    fi
+  done
+  #echo "paths $paths"
+  #echo "args $args"
+  find ${paths} \( -path '*/.snapshot' -prune \) -o \( ${args} \)
+}
 
 keepalive() {
   echo "Going into keepalive mode"
