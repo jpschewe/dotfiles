@@ -333,22 +333,30 @@ esac
 ### ant
 case $OSTYPE in
   cygwin)
-          ANT_HOME=/cygdrive/c/packages/jakarta-ant-1.5.1
+          if [ -e /cygdrive/c/packages/jakarta-ant-1.5.1 ]; then
+            ANT_HOME=/cygdrive/c/packages/jakarta-ant-1.5.1
+          fi
           ;;
   linux)
          if [ -e /usr/share/ant ]; then
            ANT_HOME=/usr/share/ant
-         else 
-           ANT_HOME=/opt/jakarta/ant
+         else
+           if [ -e /opt/jakarta/ant ]; then
+             ANT_HOME=/opt/jakarta/ant
+           fi
          fi
          ;;
   *)
-     ANT_HOME=/net/packages/java/ant/1.6.1/apache-ant-1.6.1
+     if [ -e /net/packages/java/ant/1.6.2/apache-ant-1.6.2 ]; then
+       ANT_HOME=/net/packages/java/ant/1.6.2/apache-ant-1.6.2
+     fi
      ;;
 esac
-export ANT_HOME
-export ANT_OPTS="-Xmx256M"
-append PATH "${ANT_HOME}/bin"
+if [ -n "${ANT_HOME}" ]; then
+  export ANT_HOME
+  export ANT_OPTS="-Xmx256M"
+  append PATH "${ANT_HOME}/bin"
+fi
 
 # Microsoft VisualStudio C/C++
 case $OSTYPE in
