@@ -103,7 +103,7 @@ fi
 # ALIASES & one-line FUNCTIONS
 #------------------------------
 
-export BRC=$HOME/.bashrc	# also used for test in .profile
+export BRC="$HOME/.bashrc"	# also used for test in .profile
 alias brc=". $BRC"
 #alias brc='unset BASHRCREAD ; . "${HOME}/.bashrc"'
 
@@ -244,7 +244,7 @@ whence() {
 
 # Modified from SuSE
 startx ()  {
-  /usr/X11R6/bin/startx ${1+"$@"} 2>&1 | tee ${HOME}/.X-${HOST}.err
+  /usr/X11R6/bin/startx ${1+"$@"} 2>&1 | tee "${HOME}/.X-${HOST}.err"
 }
 
 
@@ -356,16 +356,16 @@ if [ \! $OSTYPE = "linux" ]; then
   export MOZILLA_HOME
   
   # app-defaults stuff
-  export XFILESEARCHPATH=${XFILESEARCHPATH}:${HOME}/lib/%T/%N%S:/net/users/jschewe/lib/app-defaults
+  export XFILESEARCHPATH="${XFILESEARCHPATH}:${HOME}/lib/%T/%N%S:/net/users/jschewe/lib/app-defaults"
   export DTAPPSEARCHPATH=${DTAPPSEARCHPATH}:/net/users/jschewe/lib/app-defaults
 fi
 
 ### for scyllarus
 # socc
 # FIX make add as a  function
-CYBERPANEL=${HOME}/projects/argus/code/socc
+CYBERPANEL="${HOME}/projects/argus/code/socc"
 export CYBERPANEL
-CYPSP=${HOME}/projects/argus/ScenarioPlayer
+CYPSP="${HOME}/projects/argus/ScenarioPlayer"
 export CYPSP
 
 MANPATH=`substpath PATH bin man`
