@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.24 $
+;; $Revision: 1.25 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -121,7 +121,8 @@
       ((eq system-type 'linux)
        (setq openoffice-executable "/opt/OpenOffice.org/program/soffice")
        ;;ls is screwed up somehow on SuSE >= 8.1, so I use the one from 8.0
-       (setq dired-ls-program "ls-xemacs")
+       ;;[jpschewe:20040103.0958CST] 9.0 seems to have fixed this
+       ;;(setq dired-ls-program "ls")
        )
       )
 
@@ -1040,13 +1041,11 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
        (setq gnus-select-method '(nntp "netnews.comcast.net")))
       (t ;;default to mtu.net and hope for the best
        (setq gnus-select-method nil)))
-(setq gnus-secondary-select-methods '((nnmbox "testing"
-					      (nnmbox-mbox-file "~/Mail/pgp-test")
+(setq gnus-secondary-select-methods '((nnimap "mtu.net"
+					      (nnimap-address "mtu.net")
+					      (nnimap-stream ssl)
+					      (nnimap-list-pattern ("Mail/*"))
 					      )))
-(setq mail-sources '(
-		     (file :path "~/Mail/pgp-test.spool")
-		     ))
-
 (setq gnus-activate-foreign-newsgroups t)
 ;;(setq gnus-read-active-file "some")
 (setq gnus-check-new-newsgroups nil)
