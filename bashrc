@@ -289,6 +289,8 @@ sd() {
 
 if [ -n `type -p nc` ]; then
   alias nc=netcat
+elif [ -n `type -p netcat` ]; then
+  alias netcat=nc
 fi
 
 dsd() {
