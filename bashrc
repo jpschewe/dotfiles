@@ -140,10 +140,6 @@ alias find-unused-unix='for h in `ypmatch HTC-HOSTS netgroup`; do ping -c 1 $h >
 alias rdesktop='\rdesktop -g 1024x768 -K'
 alias mn65-rsconsole='rdesktop -u getreal mn65-rsconsole'
 
-#alias psn='ps auxww | egrep "^news" | egrep -v "nnrp|sh -c"'
-#alias psnr='ps auxww | egrep "^news.*nnrp"'
-#alias psu='ps auxww | egrep "^$*"'
-
 #my aliases
 case $OSTYPE in
   cygwin)
@@ -161,6 +157,8 @@ alias lsdir='ls -lA | grep "^d"'
 alias lsfile='ls -lA | egrep -v "^d|^l"'
 alias lslink='ls -lA | grep "^l"'
 alias enscript='enscript -2r -b"- jschewe -" -G'
+alias faketop='ps auwx | sort -n -k 3'
+
 #alias = 'echo $TOTAL;'
 #alias == 'set TOTAL=\!$;'
 #alias + '@ TOTAL+=\!$;'
@@ -171,6 +169,10 @@ alias enscript='enscript -2r -b"- jschewe -" -G'
 # Sort on last alpha field
 # - see http://www.perl.org/CPAN/doc/FMTEYEWTK/sort.html
 #alias psort='perl -0000 -ne \'print ((join "\n", map { $_->[0] } sort { $a->[1] cmp $b->[1] } map {[$_, (split)[-1]] } (split /\n/, $_)) . "\n")\''
+
+#------------------------------
+# Multi-line/complex FUNCTIONS
+#------------------------------
 
 # find that skips over .snapshot directories
 sfind() {
@@ -207,9 +209,6 @@ total() {
 # vmstat        -
 # /usr/local/X11R5/bin/imake -DUseInstalled -I/usr/local/X11R5/lib/X11/config
 
-#------------------------------
-# Multi-line/complex FUNCTIONS
-#------------------------------
 #cd()
 #{
 #        builtin cd $1;
