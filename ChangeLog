@@ -2,6 +2,7 @@
 
 	* init.el (set-user-mail-address): Make set-user-mail-address
 	prompt the user for an address when called interactively.
+	(reset-user-mail-address): Make it easier to change email addresses.
 
 2003-12-09  Jon Schewe  <jon.schewe@honeywell.com>
 

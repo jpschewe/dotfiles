@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.14 $
+;; $Revision: 1.15 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -265,15 +265,6 @@
 ;; Turn on word-wrap in text modes
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
-
-;;;;;;;;;;;
-;;
-;; Changelog
-;;
-;;;;;;;;;;;;
-(message "Changelog")
-(add-hook 'changelog-mode-hook 'turn-on-auto-fill)
-(add-hook 'changelog-mode-hook 'turn-on-font-lock)
 
 ;;;;;;;;;;;
 ;;
@@ -795,28 +786,25 @@
 
 (defun set-user-mail-address (address)
   "Change my email address to whatever the argument is.  Sets
-user-mail-address, mail-default-reply-to, message-default-headers, mc-gpg-user-id"
+user-mail-address, mc-gpg-user-id"
   (interactive "sAddress: ")
   (setq user-mail-address address
-	mail-default-reply-to user-mail-address
-	message-default-headers (concat "Reply-To: " user-mail-address "\n")
 	mc-gpg-user-id address
 	))
+
+(defun reset-user-mail-address ()
+  "Reset the address based on my location"
+  (interactive)
+  (cond ((eq system-location 'honeywell)
+	 (set-user-mail-address "jon.schewe@honeywell.com"))
+	((eq system-location 'home)
+	 (set-user-mail-address "jpschewe@mtu.net"))
+	(t
+	 (set-user-mail-address "jpschewe@mtu.net"))))
 
 ;;always use vm for mail
 (global-set-key "\C-xm" 'vm-mail)
 
-(defun send-scyllarus-message ()
-  "Send a message as scyllarus@honeywell.com Doesn't work quite right
-yet.  Doesn't keep the variables set until the message is sent..."
-  (interactive)
-  (let ((prev-address user-mail-address))
-    (unwind-protect
-	(progn
-	  (set-user-mail-address "scyllarus@honeywell.com")
-	  (vm-mail))
-      (set-user-mail-address prev-address))))
-  
 ;;Do proper line wrapping in mail headers
 (autoload 'message-header-auto-fill "complete-message-recipient")
 (defun mail-mode-hook-jps ()
@@ -853,12 +841,7 @@ yet.  Doesn't keep the variables set until the message is sent..."
 		   )))
     
     ;;common stuff
-    (cond ((eq system-location 'honeywell)
-	   (set-user-mail-address "jon.schewe@honeywell.com"))
-	  ((eq system-location 'home)
-	   (set-user-mail-address "jpschewe@mtu.net"))
-	  (t
-	   (set-user-mail-address "jpschewe@mtu.net")))
+    (reset-user-mail-address)
     
     (setq user-full-name "Jon Schewe"
 	  mail-signature t
