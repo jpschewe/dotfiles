@@ -1,3 +1,8 @@
+2003-12-10  Jon Schewe  <jon.schewe@honeywell.com>
+
+	* init.el (set-user-mail-address): Make set-user-mail-address
+	prompt the user for an address when called interactively.
+
 2003-12-09  Jon Schewe  <jon.schewe@honeywell.com>
 
 	* init.el (message-header-auto-fill): Added support for doing

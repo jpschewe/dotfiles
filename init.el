@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.13 $
+;; $Revision: 1.14 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -273,7 +273,7 @@
 ;;;;;;;;;;;;
 (message "Changelog")
 (add-hook 'changelog-mode-hook 'turn-on-auto-fill)
-
+(add-hook 'changelog-mode-hook 'turn-on-font-lock)
 
 ;;;;;;;;;;;
 ;;
@@ -795,16 +795,28 @@
 
 (defun set-user-mail-address (address)
   "Change my email address to whatever the argument is.  Sets
-user-mail-address, mail-default-reply-to, message-default-headers"
-  (interactive)
+user-mail-address, mail-default-reply-to, message-default-headers, mc-gpg-user-id"
+  (interactive "sAddress: ")
   (setq user-mail-address address
 	mail-default-reply-to user-mail-address
 	message-default-headers (concat "Reply-To: " user-mail-address "\n")
+	mc-gpg-user-id address
 	))
 
 ;;always use vm for mail
 (global-set-key "\C-xm" 'vm-mail)
 
+(defun send-scyllarus-message ()
+  "Send a message as scyllarus@honeywell.com Doesn't work quite right
+yet.  Doesn't keep the variables set until the message is sent..."
+  (interactive)
+  (let ((prev-address user-mail-address))
+    (unwind-protect
+	(progn
+	  (set-user-mail-address "scyllarus@honeywell.com")
+	  (vm-mail))
+      (set-user-mail-address prev-address))))
+  
 ;;Do proper line wrapping in mail headers
 (autoload 'message-header-auto-fill "complete-message-recipient")
 (defun mail-mode-hook-jps ()
@@ -903,7 +915,10 @@ user-mail-address, mail-default-reply-to, message-default-headers"
 (setq send-mail-function 'smtpmail-send-it)
 (setq message-send-mail-function send-mail-function)
 (cond ((eq system-location 'honeywell)
-       (setq smtp-server "smtp.honeywell.com"))
+       (cond ((string-match "mn65-eggplant" (system-name)) 
+	      (setq smtp-server "localhost"))
+	     (t 
+	      (setq smtp-server "smtp.honeywell.com"))))
       ((eq system-location 'home)
        (setq smtp-server "eggplant"))
       (t ;;default to mtu.net and hope for the best
@@ -927,6 +942,10 @@ user-mail-address, mail-default-reply-to, message-default-headers"
 (add-hook 'vm-summary-mode-hook 'mc-install-read-mode)
 (add-hook 'vm-virtual-mode-hook 'mc-install-read-mode)
 (add-hook 'vm-mail-mode-hook 'mc-install-write-mode)
+;; broken -- make sure MIME attachments are expanded before encrypting and signing
+;;(remove-hook 'mc-pre-encryption-hook 'vm-mime-encode-composition)
+;;(remove-hook 'mc-pre-signature-hook 'vm-mime-encode-composition)
+
 ;;for gnus
 (add-hook 'gnus-summary-mode-hook 'mc-install-read-mode)
 (add-hook 'message-mode-hook 'mc-install-write-mode)
