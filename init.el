@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.68 $
+;; $Revision: 1.69 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -137,6 +137,105 @@
        ;;(setq dired-ls-program "ls")
        )
       )
+
+
+;;;;;;;;;;;
+;;
+;; Keybindings
+;;
+;;;;;;;;;;;;
+(message "Keybindings")
+
+(defvar prefix-key-jps "\M-o" "Used as a prefix for my keybindings")
+
+(global-set-key (concat prefix-key-jps "f") 'iconify-frame)
+(global-set-key (concat prefix-key-jps "d") 'delete-region)
+(global-set-key (concat prefix-key-jps "s") 'switch-to-shell-jps)
+(global-set-key (concat prefix-key-jps "m") 'shell)
+(global-set-key (concat prefix-key-jps "g") 'gnus)
+(global-set-key (concat prefix-key-jps "n") 'rename-buffer)
+(global-set-key (concat prefix-key-jps "r") 'revert-buffer-jps)
+(global-set-key (concat prefix-key-jps "b") 'bury-buffer)
+
+(global-set-key (concat prefix-key-jps "u") 'ss-uncheckout)
+(global-set-key (concat prefix-key-jps "i") 'ss-update)
+(global-set-key (concat prefix-key-jps "o") 'ss-checkout)
+(global-set-key (concat prefix-key-jps "y") 'ss-get)
+
+(global-set-key (concat prefix-key-jps "a") 'tags-search-jps)
+(defun tags-search-jps (regex)
+  "tags-search and default to current-word"
+  (interactive (list (read-string "Tags search (regexp): " (current-word))))
+  (tags-search regex)
+  )
+
+(global-set-key [(meta return)] 'hippie-expand);; expand
+(global-set-key [insert] 'toggle-read-only)
+
+;;make my scroll wheel work
+(global-set-key [(button4)] 'scroll-down-command)
+(global-set-key [(button5)] 'scroll-up-command)
+
+;(global-set-key [(control ?s)] 'isearch-forward-regexp)
+;(global-set-key [(control ?r)] 'isearch-backward-regexp)
+
+;;(global-set-key [f6] 'x-copy-primary-selection)
+;;(global-set-key [f8] 'x-yank-clipboard-selection)
+;;(global-set-key [f9] 'function-menu)
+;;(global-set-key [f10] 'x-kill-primary-selection)
+;;(global-set-key '(shift button3) 'mouse-function-menu)
+
+;;(global-set-key [kp-enter] "\C-m")
+;;(global-set-key [kp-0] "0")
+;;(global-set-key [kp-1] "1")
+;;(global-set-key [kp-2] "2")
+;;(global-set-key [kp-3] "3")
+;;(global-set-key [kp-4] "4")
+;;(global-set-key [kp-5] "5")
+;;(global-set-key [kp-6] "6")
+;;(global-set-key [kp-7] "7")
+;;(global-set-key [kp-8] "8")
+;;(global-set-key [kp-9] "9")
+;;(global-set-key [kp-divide] "/")
+;;(global-set-key [kp-multiply] "*")
+;;(global-set-key [kp-subtract] "-")
+;;(global-set-key [kp-add] "+")
+;;(global-set-key [kp-decimal] ".")
+;;(global-set-key [kp-end] [end])
+;;(global-set-key [kp-home] [home])
+;;(global-set-key [kp-prior] [prior])
+;;(global-set-key [kp-next] [next])
+;;(global-set-key [kp-delete] [delete])
+;;(global-set-key [kp-insert] [insert])
+;;(global-set-key [kp-left] [left])
+;;(global-set-key [kp-right] [right])
+;;(global-set-key [kp-up] [up])
+;;(global-set-key [kp-down] [down])
+;; for sun3-50
+;;(global-set-key [f27] [home])
+;;(global-set-key [f33] [end])
+;;(global-set-key [f29] [prior])
+;;(global-set-key [f35] [next])
+;;(global-set-key [(control f27)] 'beginning-of-buffer)
+;;(global-set-key [(control f33)] 'end-of-buffer)
+
+(global-set-key "\C-x\C-d" 'insert-stardate)
+(autoload 'insert-stardate "stardate" nil t)
+(setq stardate-timezone "CST")
+(setq user-login-name (user-real-login-name))
+ 
+(global-set-key "\C-x\C-v" 'view-file)
+(global-set-key "\C-m" 'newline-and-indent)
+
+(autoload 'top "top-mode" nil t)
+(global-set-key (concat prefix-key-jps "t") 'top)
+
+(global-set-key "\C-xk" 'kill-this-buffer)
+
+(global-set-key [scroll-lock] 'overwrite-mode)
+
+(global-set-key "\C-xt" 'toggle-truncate-lines)
+;; end keybindings
 
 
 ;;;;;;;;;;;
@@ -284,8 +383,20 @@
 ;;
 ;;;;;;;;;;;;
 (message "Scheme")
-(add-hook 'scheme-mode-hook (lambda () (camelCase-mode 1)))
+(add-hook 'scheme-mode-hook 'scheme-mode-hook-jps)
+(defun scheme-mode-hook-jps ()
+  (camelCase-mode 1)
+  (add-special-font-lock-faces-jps (list 'scheme-font-lock-keywords)))
 (add-to-list 'auto-mode-alist '("\\.ss$" . scheme-mode))
+
+
+;;;;;;;;;;;
+;;
+;; Alter
+;;
+;;;;;;;;;;;;
+(add-to-list 'auto-mode-alist  '("\\.alt$" . scheme-mode))
+(add-to-list 'auto-mode-alist  '("\\.lib$" . scheme-mode))
 
 ;;;;;;;;;;;
 ;;
@@ -295,11 +406,51 @@
 (message "Lisp")
 (defun lisp-mode-hook-jps ()
   (camelCase-mode 1)
-  (add-special-font-lock-faces-jps (list 'lisp-font-lock-keywords 'lisp-font-lock-keywords-1 'lisp-font-lock-keywords-2))
-  )
+  (add-special-font-lock-faces-jps (list 'lisp-font-lock-keywords 'lisp-font-lock-keywords-1 'lisp-font-lock-keywords-2)))
 (add-hook 'lisp-mode-hook 'lisp-mode-hook-jps)
-(add-to-list 'auto-mode-alist  '("\\.alt$" . lisp-mode))
-(add-to-list 'auto-mode-alist  '("\\.lib$" . lisp-mode))
+
+;;;;;;;;;;;
+;;
+;; Allegro
+;;
+;;;;;;;;;;;
+(when (eq system-location 'honeywell)
+  (add-to-list 'completion-ignored-extensions ".fasl")
+  (add-to-list 'load-path (expand-file-name "/net/packages/allegro/acl62/xeli"))
+  ;;check if we have a local version
+  (let ((filename (expand-file-name "/usr/local/acl/acl62/xeli")))
+    (if (file-exists-p filename)
+	(add-to-list 'load-path filename)))
+  (setq fi:find-tag-lock nil)
+  (require 'fi-site-init)
+  (defun allegro-lisp-mode-hook-jps ()
+    (let ((map (current-local-map)))
+      (define-key map "\C-c."	'find-tag)
+      (define-key map "\C-c,"	'tags-loop-continue)
+      (define-key map "\e."	'fi:lisp-find-definition)
+      (define-key map "\e,"	'fi:lisp-find-next-definition)
+      (add-special-font-lock-faces-jps (list 'lisp-font-lock-keywords 'lisp-font-lock-keywords-1 'lisp-font-lock-keywords-2))
+      (camelCase-mode 1)
+      (turn-on-font-lock)
+      ))
+  (add-hook 'fi:lisp-mode-hook 'allegro-lisp-mode-hook-jps)
+
+  (defun allegro-elisp-mode-hook-jps ()
+    (let ((map (current-local-map)))
+      (add-special-font-lock-faces-jps (list 'lisp-font-lock-keywords 'lisp-font-lock-keywords-1 'lisp-font-lock-keywords-2))
+      (camelCase-mode 1)
+      (turn-on-font-lock)
+      ))
+  (add-hook 'fi:emacs-lisp-mode-hook 'allegro-elisp-mode-hook-jps)
+  
+  ;;have a way to start Allegro lisp
+  (defun start-lisp-jps()
+    "Start Allegro Lisp"
+    (interactive)
+    (fi:common-lisp)
+    )
+  (global-set-key (concat prefix-key-jps "l") 'start-lisp-jps)
+  )
 
 ;;;;;;;;;;;
 ;;
@@ -1461,106 +1612,6 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (setq efs-umask 22)
 
 
-
-;;;;;;;;;;;
-;;
-;; Keybindings
-;;
-;;;;;;;;;;;;
-(message "Keybindings")
-
-(defvar prefix-key-jps "\M-o" "Used as a prefix for my keybindings")
-
-(global-set-key (concat prefix-key-jps "f") 'iconify-frame)
-(global-set-key (concat prefix-key-jps "d") 'delete-region)
-(global-set-key (concat prefix-key-jps "s") 'switch-to-shell-jps)
-(global-set-key (concat prefix-key-jps "m") 'shell)
-(global-set-key (concat prefix-key-jps "g") 'gnus)
-(global-set-key (concat prefix-key-jps "n") 'rename-buffer)
-(global-set-key (concat prefix-key-jps "r") 'revert-buffer-jps)
-(global-set-key (concat prefix-key-jps "b") 'bury-buffer)
-
-(global-set-key (concat prefix-key-jps "u") 'ss-uncheckout)
-(global-set-key (concat prefix-key-jps "i") 'ss-update)
-(global-set-key (concat prefix-key-jps "o") 'ss-checkout)
-(global-set-key (concat prefix-key-jps "y") 'ss-get)
-
-(global-set-key (concat prefix-key-jps "a") 'tags-search-jps)
-(defun tags-search-jps (regex)
-  "tags-search and default to current-word"
-  (interactive (list (read-string "Tags search (regexp): " (current-word))))
-  (tags-search regex)
-  )
-
-(global-set-key [(meta return)] 'hippie-expand);; expand
-(global-set-key [insert] 'toggle-read-only)
-
-;;make my scroll wheel work
-(global-set-key [(button4)] 'scroll-down-command)
-(global-set-key [(button5)] 'scroll-up-command)
-
-;(global-set-key [(control ?s)] 'isearch-forward-regexp)
-;(global-set-key [(control ?r)] 'isearch-backward-regexp)
-
-;;(global-set-key [f6] 'x-copy-primary-selection)
-;;(global-set-key [f8] 'x-yank-clipboard-selection)
-;;(global-set-key [f9] 'function-menu)
-;;(global-set-key [f10] 'x-kill-primary-selection)
-;;(global-set-key '(shift button3) 'mouse-function-menu)
-
-;;(global-set-key [kp-enter] "\C-m")
-;;(global-set-key [kp-0] "0")
-;;(global-set-key [kp-1] "1")
-;;(global-set-key [kp-2] "2")
-;;(global-set-key [kp-3] "3")
-;;(global-set-key [kp-4] "4")
-;;(global-set-key [kp-5] "5")
-;;(global-set-key [kp-6] "6")
-;;(global-set-key [kp-7] "7")
-;;(global-set-key [kp-8] "8")
-;;(global-set-key [kp-9] "9")
-;;(global-set-key [kp-divide] "/")
-;;(global-set-key [kp-multiply] "*")
-;;(global-set-key [kp-subtract] "-")
-;;(global-set-key [kp-add] "+")
-;;(global-set-key [kp-decimal] ".")
-;;(global-set-key [kp-end] [end])
-;;(global-set-key [kp-home] [home])
-;;(global-set-key [kp-prior] [prior])
-;;(global-set-key [kp-next] [next])
-;;(global-set-key [kp-delete] [delete])
-;;(global-set-key [kp-insert] [insert])
-;;(global-set-key [kp-left] [left])
-;;(global-set-key [kp-right] [right])
-;;(global-set-key [kp-up] [up])
-;;(global-set-key [kp-down] [down])
-;; for sun3-50
-;;(global-set-key [f27] [home])
-;;(global-set-key [f33] [end])
-;;(global-set-key [f29] [prior])
-;;(global-set-key [f35] [next])
-;;(global-set-key [(control f27)] 'beginning-of-buffer)
-;;(global-set-key [(control f33)] 'end-of-buffer)
-
-(global-set-key "\C-x\C-d" 'insert-stardate)
-(autoload 'insert-stardate "stardate" nil t)
-(setq stardate-timezone "CST")
-(setq user-login-name (user-real-login-name))
- 
-(global-set-key "\C-x\C-v" 'view-file)
-(global-set-key "\C-m" 'newline-and-indent)
-
-(autoload 'top "top-mode" nil t)
-(global-set-key (concat prefix-key-jps "t") 'top)
-
-(global-set-key "\C-xk" 'kill-this-buffer)
-
-(global-set-key [scroll-lock] 'overwrite-mode)
-
-(global-set-key "\C-xt" 'toggle-truncate-lines)
-;; end keybindings
-
-
 ;;;;;;;;;;;
 ;;
 ;; Source Safe
@@ -1744,40 +1795,6 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 	  ("oldbob.htc.honeywell.com" 6060 "circa" "Eggplant" nil)
 	  ;;("mn65-cygnus.htc.honeywell.com" 6060 "circa" "Eggplant" nil)
 	  )))
-
-;;;;;;;;;;;
-;;
-;; Allegro
-;;
-;;;;;;;;;;;
-(when (eq system-location 'honeywell)
-  (add-to-list 'completion-ignored-extensions ".fasl")
-  (add-to-list 'load-path (expand-file-name "/net/packages/allegro/acl62/xeli"))
-  ;;check if we have a local version
-  (let ((filename (expand-file-name "/usr/local/acl/acl62/xeli")))
-    (if (file-exists-p filename)
-	(add-to-list 'load-path filename)))
-  (setq fi:find-tag-lock nil)
-  (require 'fi-site-init)
-  (add-hook 'fi:lisp-mode-hook
-	    (lambda ()
-	      (let ((map (current-local-map)))
-		(define-key map "\C-c."	'find-tag)
-		(define-key map "\C-c,"	'tags-loop-continue)
-		(define-key map "\e."	'fi:lisp-find-definition)
-		(define-key map "\e,"	'fi:lisp-find-next-definition))))
-  (add-hook 'fi:lisp-mode-hook (lambda () (camelCase-mode 1)))
-  (add-hook 'fi:lisp-mode-hook (lambda () (turn-on-font-lock)))
-  (add-hook 'fi:emacs-lisp-mode-hook (lambda () (camelCase-mode 1)))
-  (add-hook 'fi:emacs-lisp-mode-hook (lambda () (turn-on-font-lock)))
-;;have a way to start Allegro lisp
-  (defun start-lisp-jps()
-    "Start Allegro Lisp"
-    (interactive)
-    (fi:common-lisp)
-    )
-  (global-set-key (concat prefix-key-jps "l") 'start-lisp-jps)
-  )
 
 ;;;;;;;;;;;
 ;;
