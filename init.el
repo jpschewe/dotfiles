@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.33 $
+;; $Revision: 1.34 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1723,7 +1723,8 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;; Spell
 ;;
 ;;;;;;;;;;;;
-(setq ispell-program-name "aspell")
+(when (eq system-type 'windows-nt)
+  (setq ispell-program-name "aspell"))
 
 ;;;;;;;;;;;
 ;;
