@@ -401,7 +401,7 @@ esac
 # Setup proxy server
 case $LOCATION in
   home)
-    unset http_proxy
+    export http_proxy="http://eggplant:3128"
     ;;
   htc)
     export http_proxy="http://lug.htc.honeywell.com:3128"
