@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.40 $
+;; $Revision: 1.41 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1108,14 +1108,19 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;;
 ;;;;;;;;;;;;
 (message "TAGS")
-(add-to-list 'tag-table-alist '("\\.el$" . "~/elib/"))
-(add-to-list 'tag-table-alist '("\\.emacs" . "~/elib/"))
-(add-to-list 'tag-table-alist '("" . "."))
+(eval-after-load
+    "etags"
+  (progn
+    (if (null tag-table-alist)
+	(setq tag-table-alist '()))
+    (add-to-list 'tag-table-alist '("\\.el$" . "~/elib/"))
+    (add-to-list 'tag-table-alist '("\\.emacs" . "~/elib/"))
+    (add-to-list 'tag-table-alist '("" . "."))
 
-;;(global-set-key "\M-." 'tags-search)
-(global-set-key "\M-." 'find-tag)
-(setq tags-auto-read-changed-tag-files t)
-(setq tags-build-completion-table nil)
+    ;;(global-set-key "\M-." 'tags-search)
+    ;;(global-set-key "\M-." 'find-tag)
+    (setq tags-auto-read-changed-tag-files t)
+    (setq tags-build-completion-table nil)))
 
 
 ;;;;;;;;;;;
