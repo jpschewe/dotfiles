@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.59 $
+;; $Revision: 1.60 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -56,6 +56,7 @@
       browse-url-new-window-flag t;; try to use a new window when browsing
       ;;completion-ignore-case t          ;case insensitive file matching
       find-file-compare-truenames t;; watch out for symlinks
+      ;;find-file-use-truenames t ;; always find the real filename
       ;;Manual-program "man"
       visible-bell t;; don't beep
       scroll-step 5			; set how many lines to scroll at a time      
@@ -321,7 +322,10 @@
   ;;palm pilot stuff
   (when (eq system-type 'linux)
     (add-to-list 'dired-auto-shell-command-alist '("\\.pdb$" "pilot-xfer -i"))
-    (add-to-list 'dired-auto-shell-command-alist '("\\.prc$" "pilot-xfer -i")))
+    (add-to-list 'dired-auto-shell-command-alist '("\\.prc$" "pilot-xfer -i"))
+    (add-to-list 'dired-auto-shell-command-alist '("\\.pdb$" "gpilot-install-file -l"))
+    (add-to-list 'dired-auto-shell-command-alist '("\\.prc$" "gpilot-install-file -l"))
+    )
 
   ;;images
   (let ((extensions '("ps" "jpg" "bmp" "pbm" "pgm" "ppm" "xbm" "xpm" "ras" "rast" "gif" "tif" "tiff" "png" "xwd")))
