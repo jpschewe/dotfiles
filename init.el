@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.49 $
+;; $Revision: 1.50 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1215,6 +1215,8 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (add-hook 'speedbar-load-hook		; would be too late in antlr-mode.el
 	  (lambda () (speedbar-add-supported-extension ".g")))
 (setq antlr-language "Java")
+
+(defvar c-Java-access-key)		;antlr-mode references this, but it's not defined anywhere
 (setq antlr-tab-offset-alist
       '((antlr-mode nil 2 t)
 	(java-mode "antlr" 2 nil)
@@ -1225,6 +1227,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
   (setq c-basic-offset 2)
   (setq fill-column 78)
   (setq indent-tabs-mode nil)
+  (turn-on-font-lock)
   )
 (add-hook 'antlr-mode-hook 'antlr-mode-hook-jps)
 
