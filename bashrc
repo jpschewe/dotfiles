@@ -351,14 +351,29 @@ dsd() {
   pdirs
 }
 
-#------------------------------
-# Project aliases
-#------------------------------
-alias check-schedinfra="find . \( -name '*.alt' -o -name '*.lib' -o -name '*.java' -o -name '*.template' -o -name '*.el' -o -name '*.html' -o -name '*.vm' -o -name '*.dm' \) -perm +222 -print | grep -v 'examples/newarch' | grep -v 'examples/distributed' | grep -v 'instrumented' | grep -v dome/tools/sched-infra/examples | grep -v blort"
+case $LOCATION in
+  htc)
+    #------------------------------
+    # Project aliases
+    #------------------------------
+    alias check-schedinfra="find . \( -name '*.alt' -o -name '*.lib' -o -name '*.java' -o -name '*.template' -o -name '*.el' -o -name '*.html' -o -name '*.vm' -o -name '*.dm' \) -perm +222 -print | grep -v 'examples/newarch' | grep -v 'examples/distributed' | grep -v 'instrumented' | grep -v dome/tools/sched-infra/examples | grep -v blort"
 
-alias check-ptm="find *.properties src docs web build.xml lib matlab prj.el -type f -perm +222 -print | grep -v 'vssver.scc' | grep -v .xvpics | grep -v foo | grep -v matlab.jar | grep -v web-linux.xml | grep -v ObjectModel.bak"
+    alias check-ptm="find *.properties src docs web build.xml lib matlab prj.el -type f -perm +222 -print | grep -v 'vssver.scc' | grep -v .xvpics | grep -v foo | grep -v matlab.jar | grep -v web-linux.xml | grep -v ObjectModel.bak"
 
-alias check-sydney="find src doc build.xml lib prj.el -type f -perm +222 -print | grep -v 'vssver.scc' | grep -v .xvpics | grep -v TAGS"
+    alias check-sydney="find src doc build.xml lib prj.el -type f -perm +222 -print | grep -v 'vssver.scc' | grep -v .xvpics | grep -v TAGS"
+
+    #------------------------------
+    # Check smtp servers
+    #------------------------------
+    check_smtp() {
+      for host in `host smtp.honeywell.com | grep 'has address' | awk '{print $NF}'`; do
+        echo $host
+        echo "quit" | nc $host 25
+      done
+    }
+    
+    ;;
+esac
 
 # ------------------
 # some terminal stuff
