@@ -1,0 +1,510 @@
+JDE 2.3.4
+
+***************************************************************
+*                         PLEASE READ                         *
+***************************************************************
+*                                                             *
+* This release requires cedet 1.0beta2 or later. cedet        *
+* includes semantic, eieio, speedbar, and senator, all        *
+* packages required by the JDEE. You can obtain cedet         *
+* at http://cedet.sourceforge.net                             *
+*                                                             *
+* Please note that your .emacs file must "load" cedet.el,     *
+* not "require" cedet. See the installation instructions      *
+* that come with the cedet package for more information.      *
+*                                                             *
+* This release requires version 1.2.2 (or later) of the       *
+* JDK.                                                        *
+*                                                             *
+* This release also requires avltree.el, which is part of the *
+* elib 1.0 package. You can obtain elib at the JDE web site   *
+* in compressed tar (http://jdee.sunsite.dk/elib.tar.gz)      *
+* or zip (http://sunsite.dk/jde/elib.zip) format.             *
+*                                                             *
+* JDEbug runs on Windows 2000 only if Service Pack 2 (or      *
+* later) is installed.                                        *
+*                                                             *
+* If syntax-coloring does not work, download and install      *
+* overlay-fix.el from the semantic web site.                  *
+*                                                             *
+***************************************************************
+
+* After compiling a class, the JDEE updates its class info database
+  from the directory containing the compiled class instead
+  of from the entire project classpath.
+
+  Thanks to Martin Schwamberger.
+
+* Fixed regression that caused JDEbug to issue a Lisp error
+  when launching an application.
+
+* Fixed bug in the JDEE's dynamic class loader caused by assuming 
+  that only one read operation is needed to read a class from the 
+  file system. This was causing class load errors that were
+  suppressed by exception handling in the dynamic class loader.
+
+  Thanks to Suraj Acharya.
+
+* Configured Emacs to always use pipes to interact with
+  the BeanShell. This fixes code 129 errors that occur on some 
+  Linux systems.
+
+JDE 2.3.4beta6
+
+* Moved JUnit templates to a separate package jde-junit.el and
+  added some contributed commands for starting unit tests. This
+  restructuring is preparatory to providing more systematic 
+  support for unit testing in the JDEE in future releases.
+
+* Configured the JDEE to always use pipes (rather than
+  pseudo terminals) to communicate with external processes (see
+  process-connection-type for more info). This change assumes that
+  Java processes expect to use pipes.  This change fixes a "Code 129"
+  error with XEmacs on some Linux operating systems and may fix
+  similar errors on Linux with Emacs.
+
+* Fixed Emacs interface to JDEbug so that it handles chunked 
+  responses to debugger commands.
+
+  Thanks to Brian Rumple.
+
+* If jde-run-application-class is a jar file, expand any
+  environment variables or relative path indicators in the jar 
+  file path. 
+
+  Thanks to Joshua Spiewak.
+
+* The JDEE now supports use of emacs-w3m to browse Javadoc files.
+  To use emacs-w3m, set jde-help-browser-function to 
+  w3m-browse-url.
+
+* Fixes bug that caused the generation of an extraneous slash
+  in Javadoc URLs on UNIX systems.
+
+* Adds an Import submenu to the Code Generation menu. The submenu 
+  contains all of the JDEE's import-related commands.
+
+* JDEE now allows the plugins directory to be under CVS or
+  RCS version control, i.e., to contain a directory named
+  CVS or RCS.
+
+* Fixes regressions that broke applet debugging.
+
+* Upgrades BeanShell from version 1.2.7 to version 2.0b2.
+
+* Update the class list used by completion and by code generation
+  wizards after compiling a class or building a project. This
+  should ensure that completion and the wizards work for new
+  classes and changes to existing classes after compiling
+  new or changed classes. 
+
+
+* This release includes the following enhancements to the
+  JDEE's class import wizard.
+
+  - A new customization variable: jde-import-excluded-classes. The new
+    variable replaces jde-import-excluded-packages, which the JDEE no
+    longer defines. The new variable provides the following new class
+    exclusion options.
+
+    - It allows you to use Lisp functions as well as
+      regular expressions to specify exclusion rules.
+
+    - It allows you to specify that a rule excludes all 
+      unqualified synonyms of a class that meets the
+      rule. For example, one of the default rules specifed
+      by this variable excludes java.lang.String as well
+      as any other class whose unqualified name is String.
+
+   - This release adds the jde-import-expand-imports command. 
+     This command replaces package imports, e.g.,
+
+       java.io.*
+
+     with imports of the classes specifically referenced by the current
+     buffer.
+
+  - The following commands now include a prefix argument that
+    causes all classes to be imported, regardless of the
+    setting of jde-import-excluded-classes.
+
+    - jde-import-find-and-import
+    - jde-import-all-filter
+    - jde-import-all
+
+  - This release includes a new import organization option:
+    jde-import-blank-line-between-groups.
+
+    Thanks to Martin Schwamberger for these enhancements.
+
+
+* Fixed bugs that caused inconsistent enabling of electric
+  return mode.
+
+* Fixed jde-help-show-class-member-doc to call jde-help-show-document
+  from the JDEE buffer instead of the temp buffer to ensure that JDEE
+  customizations are in effect, in particular, browse-url-browser-function. 
+
+  Thanks to Dan Katz.
+
+* Emacs 21.3.5 compatibility fix: Updated jde-compile-finish-kill-buffer 
+  to include prefix argument which is not optional in Emacs 21.3.5.
+
+  Thanks to T. V. Raman.
+
+
+JDE 2.3.4beta5
+
+* Made jde-entering-java-buffer-hook non-customizable. This 
+  variable is part  of the project-switching machinery and 
+  therefore should not itself be customizable.
+
+* Made various changes intended to make the JDEE's project-switching 
+  code more robust.
+
+* Fixed the following project file-related bugs:
+
+  - Variable that has been changed from its standard value to nil 
+    is not saved in project file.
+
+  - Variable whose customization has been erased is not removed 
+    from project file.
+
+* Fixes problem with jdb breakpoints. Opening a new java file after setting a
+  breakpoint prevents the user from removing the breakpoint.
+
+* Update makefile for compiling the JDEE Lisp code to work with
+  cedet.
+
+* Adds JDE->Documentation->Remove (jde-javadoc-remdoc-at-line)
+  command. This command removes the javadoc block for the
+  declarationa at point.
+
+  Thanks to David Ponce.
+
+JDE 2.3.4beta4
+
+* Replace main control flow abbreviation with a main
+  method template.
+
+  Thanks to Martin Schwamberger.
+
+* Make console buffer template conform the CheckStyle's default
+  rules.
+
+  Thanks to Martin Schwamberger.
+
+* The jde-import-organize command no longer permanently moves point 
+  from its current position.
+
+* Fixes the command jde-debug-where for jdb for line numbers 
+  greater than 999.
+
+* Fixes setting the correct stack depth when the thread name 
+  contains spaces or '-'.
+
+* Compatibility fix to make control flow abbreviations work
+  in XEmacs.
+
+  Thanks to Martin Schwamberger.
+
+* Adds a JDE->Code Generation->Modes menu with items for
+  enabling/disabling abbrev mode and electric return mode.
+
+* Remove extra space in generated get/set methods.
+
+  Thanks to Yoon Kyung Koo.
+
+* Adds the customization variable jde-wiz-tostring-static-members.
+  When on (the default), this variable causes jde-wiz-tostring
+  to include the values of static members in the string returned
+  by the generated toString() method.
+
+  Thanks to Yoon Kyung Koo.
+
+* Enhances jde-wiz-tostring to respect the coding style specified
+  by jde-gen-k&r.
+
+  Thanks to Yoon Kyung Koo.
+
+* JDEE's syntax hilighting is enhanced to support c-doc-face-name
+  if defined.
+
+  Thanks to David Ponce.
+
+
+JDE 2.3.4beta3
+
+* The default for jde-gen-comments (include comments in
+  generated cflow code) has been changed from to nil to 
+  facilitate Checkstyle conformity.
+
+* This release includes a new approach to generating cflow
+  constructs via abbreviations that avoids inserting the
+  abbreviations in comments and strings and thus the problems
+  that entails.
+
+  Thanks to Martin Schwamberger.
+
+* Typing main no longer expands to a main() method. A command
+  for generating a main method will be provided in a future 
+  release.
+
+* Remove dependency of the beanshell (therefore the JDEE) on
+  compilation-mode variables being defined.
+
+* Implements an electric return mode (based on jde-gen-embrace). 
+
+  This mode matches an open brace at the end of a line when you press
+  the Enter key. The variable jde-electric-return-p enables this mode,
+  which is off by default. The command jde-toggle-electric-return
+  enables you to turn the mode off and on regardless of the setting of
+  jde-electric-return-p. The command is bound to the toggle menu item
+  JDE->Code Generation->Electric Return.  The customization variable
+  jde-newline-function allows you to specify any of the standard Emacs
+  newline-and-indent functions or a custom function. The electric
+  return mode uses the selected function to create the new lines for
+  the matching closed brace and intervening content line.
+
+  Thanks to Suraj Acharya.
+
+* Adds the command jde-wiz-tostring. This method generates
+  a toString() method at point for the class at point. The
+  method returns a string that lists the current values of
+  the class's member variables. This release also provides
+  customization variables that enable you to specify the
+  size of the string buffer used to build the string,
+  the order in which the string lists the class's member
+  variables, and the separator used to separate the
+  variables. See the docstring for the command for more
+  info.
+
+  Thanks to Jeff Jensen.
+ 
+  
+
+JDE 2.3.4beta2
+
+* Removed binding of the Return key to jde-gen-embrace.
+
+* Fixed regression bugs resulting from changes to jde-expand-directory
+  command.
+
+  Thanks to Christian Schmitt.
+
+* Include sregex in the JDEE distribution for XEmacs users.
+
+* Fix regression in jdb interface. 
+
+  Thanks to Jack Donohue.
+
+JDE 2.3.4beta1
+
+* Adds jde-lib-excluded-file-names customization variable. 
+  This variable allows you to specify jar or zip files not
+  to include on the classpath from a jar file directory.
+
+  Thanks to Troy Daniels.
+
+* Adds "default" option to jde-compile-option-source. 
+
+  This option compiles the source features that the compiler
+  supports by default.
+
+* In the previous release, the Compile Server had the following 
+  problems:
+
+  - The buffer modeline always says "(Compilation: no process)" even
+    while it's compiling a file
+
+  - The buffer doesn't auto hide when there are no errors
+
+  - Even though jde-compile-jump-to-first-error is t, compilations
+    don't jump to the first error.
+
+  - Sometimes the buffer displays only part of an error message.
+
+  - On a successful compile, the buffer displays the process
+    return code: 0.
+
+  These problems occurred because the beanshell interface stopped
+  listening for compiler output after receiving the first
+  chunck.
+
+  This release fixes the problem.
+
+  Thanks to Jörg Mensmann for diagnosing and fixing this bug.
+
+
+* Added a command (jde-import-all, JDE->Code Generation->
+  Wizards->Import all, C-c C-v z) to import all classes that 
+  need to be imported into the current buffer.
+
+  Thanks to Phillip Lord.
+
+* Fixed incorrect handling of jde-javadoc-gen-args option that 
+  caused a Lisp error.
+
+  Thanks to Len Trigg for reporting this problem.
+
+* In previous releases, the Method Override Wizard did not
+  permit overriding protected methods and did permit overriding
+  final methods. This release fixes these problems.
+
+  Thanks to David Esterkin.
+
+* Now supports completion of symbols declared in a declaration
+  that declares a list of symbols, i.e., for b declared as
+
+    String a, b, c;
+
+  completion now completes:
+
+    b.get
+         ^
+
+* Typing an open brace followed by Return now causes the
+  JDEE to create an empty block with point positioned between
+  the two braces, i.e.,
+
+  void foo() {
+         
+    ^
+  }
+
+  You can turn off this behavior by removing the key binding
+  for Return from jde-key-bindings.
+
+  Thanks to Suraj Acharya.
+
+
+* Adds jde-help-wget-tries, jde-help-wget-timeout, and 
+  jde-help-wget-command-line-options variables. These variables
+  allow you to specify how the JDEE should handle situations
+  where a remote site does not respond to requests to download
+  help pages.
+
+  Thanks to Nick Sieger.
+
+* Fixes a bug that causes a (wrong-type-argument integerp nil)
+  error when entering an import statement in a new Java file. 
+
+  Thanks to David Ponce.
+
+* Fixes bug that caused setting the jde-run-option-jar variable 
+  to t to cause a lisp error: "Wrong argument (listp, null)". 
+
+  Thanks to Stephanos Piperoglou.
+
+* Updates jde-import-excluded-packages to exclude packages that 
+  start with sun and com.sun. These packages contain classes 
+  named i and packages named e, which confuses the JDEE when 
+  it tries to complete Iterator instances named i and Exception 
+  instances named e.
+
+* Adds a jde-customize-variable command. This command displays
+  a customization buffer for Emacs customization variables 
+  intended to facilitate setting JDEE customization variables.
+  The State menu in this buffer contains all the options that
+  the standard State menu plus a "Save to Project File" option.
+  This option is enabled if the variable is a JDEE variable 
+  and you have edited the displayed value for the variable.
+  Selecting this option applies the change and saves the change
+  in the current JDEE project file. Selecting the "Erase
+  Customization" option on the State menu for a variable
+  whose value differs from the default restores the
+  default setting and removes the customized setting from
+  the project file.
+
+  Note that you can use this command to customize any Emacs variable,
+  not just JDEE variables.
+
+  When used to customize JDEE groups, the customize-group command
+  displays the same State menu as the jde-customize-variable
+  command.
+
+  Note that this enhancement eliminate the need to execute the
+  jde-save-project-file command after customizing a JDEE variable.
+
+
+* In previous releases, the JDEE reset all JDEE customization
+  variables to their default values before loading a project
+  file when switching projects. In this release, the JDEE 
+  resets only variables that you have customized. This 
+  significantly reduces the time required to switch from a 
+  buffer in one project to a buffer in another project.
+
+  Thanks to Phillip Lord for suggesting this change.
+
+* Supports use of J2SDK 1.5.0.
+
+* Fixes plugin interface bug that caused Emacs to hang
+  if you tried to restart the Beanshell with more than one
+  plugin installed.
+
+* Adds jde-wiz-get-set-static-members option. If on (nonil),
+  the jde-wiz-get-set-methods command generates get/set 
+  methods for private static members of the class in 
+  the current buffer. If off, it generates get/set methods
+  only for private nonstatic members.
+
+  Thanks to Petter Måhlén.
+
+
+* Deleted spurious space in get methods generated by 
+  jde-wiz-get-set-methods command.
+
+  Thanks to Petter Måhlén.
+
+* This release highlights stack traces on XEmacs as well 
+  as Emacs.
+
+  Thanks to Len Trigg.
+
+* Fixes bug that caused the Method Override Wizard to generate
+  the wrong method in some cases.
+
+  Thanks to David Esterkin <desterkin@sciquest.com>
+
+* Fixes some of the breakpoint handling logic in the JDB front end
+  debugger. Breakpoints set on a line that does not contain code were
+  not being handled correctly.
+
+* Fixed multiple breakpoints requests that were being issued to JDB 
+  on an already existent breakpoint.
+  
+  Thanks to Jesse Byler
+
+* Adds support for gigabytes size to jde-run-option-heap-size,
+  jde-db-option-heap-size, jde-run-option-stack-size, and 
+  jde-db-option-stack-size.
+
+* Adds jde-checkstyle-finish-hook. The JDEE invokes the
+  functions specified by this variable after it finishes
+  checking the style of the current buffer. The default 
+  function scrolls the source buffer to the first error,
+  if there is an error. If not, it closes the CheckStyle
+  buffer.
+
+  Thanks to Len Trigg.
+
+* Adds a Bean item to the JDE NEW menu. The item creates
+  a skeleton Java bean in a new buffer. The equivalent
+  command is M-x jde-gen-bean-buffer.
+
+  Thanks to Paul Landes for contributing the Bean template.
+
+* Enhanced get-set method generation to generate the new 
+  member at the top of the class instead of at point as
+  previous. The template continues to create the get-set
+  methods themselves at point.
+
+  Thanks to Paul Landes.
+  
+* Setting jde-ant-working-directory now works when invoking ant 
+  via a script or a vm.
+
+  Thanks to Stan Lanning. 
+
+
+
