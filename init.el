@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.38 $
+;; $Revision: 1.39 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -167,8 +167,6 @@
 			     '("\\<\\(TODO\\)" 1 font-lock-todo-face t))
 		(add-to-list font-var
 			     '("\\<\\(NOTE\\)" 1 font-lock-todo-face t))
-		(add-to-list font-var
-			     '("\\(\\?\\?\\?+\\)" 1 font-lock-todo-face t))
 		) vars))
 
 ;;;;;;;;;;;
@@ -1110,12 +1108,10 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;;
 ;;;;;;;;;;;;
 (message "TAGS")
-(setq tag-table-alist
-      '(
-        ("\\.el$" . "~/elib/")
-        ("\\.emacs" . "~/elib/")
-        ("" . ".")
-        ))
+(add-to-list 'tag-table-alist '("\\.el$" . "~/elib/"))
+(add-to-list 'tag-table-alist '("\\.emacs" . "~/elib/"))
+(add-to-list 'tag-table-alist '("" . "."))
+
 ;;(global-set-key "\M-." 'tags-search)
 (global-set-key "\M-." 'find-tag)
 (setq tags-auto-read-changed-tag-files t)
