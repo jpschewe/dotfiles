@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.10 $
+;; $Revision: 1.11 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -1000,14 +1000,19 @@ user-mail-address, mail-default-reply-to, message-default-headers"
 
 ;;;;;;;;;;;
 ;;
-;; Gnus
+;; GNUS
 ;;
 ;;;;;;;;;;;;
 (message "Gnus")
 (autoload 'gnus "gnus" nil t)
 (setq gnus-article-save-directory "~/Mail/")
 (setq gnus-nntp-server nil)
-(setq gnus-select-method '(nntp "netnews.comcast.net"));;FIX per host
+(cond ((eq system-location 'honeywell)
+       (setq gnus-select-method '(nntp "news.phxlab.honeywell.com")))
+      ((eq system-location 'home)
+       (setq gnus-select-method '(nntp "netnews.comcast.net")))
+      (t ;;default to mtu.net and hope for the best
+       (setq gnus-select-method nil)))
 (setq gnus-secondary-select-methods '(nil))
 (setq gnus-activate-foreign-newsgroups t)
 ;;(setq gnus-read-active-file "some")
@@ -1034,9 +1039,14 @@ user-mail-address, mail-default-reply-to, message-default-headers"
 (add-hook 'gnus-article-display-hook 'gnus-article-highlight-signature)
 
 ;;HACK Something is broken right now and this fixes it
-(fset 'mailcap-parse-mailcaps 'ignore)
-(fset 'mailcap-mime-info 'ignore)
-
+(eval-after-load
+    "gnus"
+  (progn
+    (when (not (boundp 'mailcap-parse-mailcaps))
+      (fset 'mailcap-parse-mailcaps 'ignore))
+    (when (not (boundp 'mailcap-mime-info))
+      (fset 'mailcap-mime-info 'ignore))
+    t))
 
 ;;;;;;;;;;;
 ;;
@@ -1531,10 +1541,55 @@ user-mail-address, mail-default-reply-to, message-default-headers"
 ;;    (nconc Info-suffix-list '((".bz2" . "bzip2 -dc %s")))))
 ;;(add-hook 'Info-mode-hook 'setup-bzip2)
 
+;;;;;;;;;;;
+;;
 ;; LDAP
-;;(require 'eudc-ldap)
-;;(setq ldap-default-host "mn65-exuser2.htc.honeywell.com")
+;;
+;;;;;;;;;;;;
+(when (eq system-location 'honeywell)
+  (message "LDAP")
+  (require 'ldap)
+  (setq ldap-default-base "")
+  (setq ldap-default-host "mn65-exuser2.htc.honeywell.com")
+  (require 'eudcb-ldap)
+;;(require 'eudcb-bbdb)
+  (setq eudc-server ldap-default-host)
+  (setq eudc-protocol 'ldap)
+  (eudc-protocol-set 'eudc-inline-query-format
+		     '((cn)
+		       (uid)
+		       (firstname)
+		       (firstname name)
+		       (cn cn)
+		       (cn cn cn))
+		     'ldap)
+  (setq mail-ldap-expansion-format-jps '("\"%s\" <%s>" cn email))
+  (setq long-ldap-expansion-format-jps '("%s <%s> %s %s" cn email uid telephoneNumber))
+  (eudc-protocol-set 'eudc-inline-expansion-format
+		     mail-ldap-expansion-format-jps
+		     'ldap)
 
+  (defun get-user-info-jps ()
+    "Get information on a user, uses eudc-ldap"
+    (interactive)
+    (unwind-protect
+	(progn 
+	  (eudc-protocol-set 'eudc-inline-expansion-format
+			     long-ldap-expansion-format-jps
+			     'ldap)
+	  (eudc-expand-inline))
+      (eudc-protocol-set 'eudc-inline-expansion-format
+			 mail-ldap-expansion-format-jps
+			 'ldap)))
+
+  (eval-after-load
+      "message"
+    '(define-key message-mode-map (concat prefix-key-jps "c") 'eudc-expand-inline))
+  (eval-after-load
+      "sendmail"
+    '(define-key mail-mode-map (concat prefix-key-jps "c") 'eudc-expand-inline))
+  (global-set-key (concat prefix-key-jps "c") 'get-user-info-jps)
+  )
 
 ;;;;;;;;;;;
 ;;
@@ -1556,19 +1611,6 @@ user-mail-address, mail-default-reply-to, message-default-headers"
 
 ;;;;;;;;;;;
 ;;
-;; gnats
-;;
-;;;;;;;;;;;;
-(message "gnats")
-(setq gnats:addr "schedinfra-bugs@htc.honeywell.com")
-(setq gnats:alias "schedinfra")
-(setq gnats:userid "jschewe")
-(setq gnats:password "jschewe")
-;;(setq gnats:root "/net/users/gnats/schedinfra-db")
-
-
-;;;;;;;;;;;
-;;
 ;; Uniquify
 ;;
 ;; load this at the end to make sure everything it caches is up to date,
@@ -1582,6 +1624,48 @@ user-mail-address, mail-default-reply-to, message-default-headers"
 ;; don't change the name until after buffer is deleted
 ;;(add-hook 'post-command-hook 'delay-uniquify-rationalize-file-buffer-names)
 
+
+;;;;;;;;;;;
+;;
+;; zenirc
+;;
+;;;;;;;;;;;
+(when (eq system-location 'honeywell)
+  (setq zenirc-server-alist
+	'(
+	  ("oldbob.htc.honeywell.com" 6060 "circa" "Eggplant" nil)
+	  ;;("mn65-cygnus.htc.honeywell.com" 6060 "circa" "Eggplant" nil)
+	  )))
+
+;;;;;;;;;;;
+;;
+;; Allegro
+;;
+;;;;;;;;;;;
+(when (eq system-location 'honeywell)
+  (add-to-list 'completion-ignored-extensions ".fasl")
+  (add-to-list 'load-path (expand-file-name "/net/packages/allegro/acl62/xeli"))
+  (setq fi:find-tag-lock nil)
+  (require 'fi-site-init)
+  (add-hook 'fi:lisp-mode-hook
+	    (lambda ()
+	      (let ((map (current-local-map)))
+		(define-key map "\C-c."	'find-tag)
+		(define-key map "\C-c,"	'tags-loop-continue)
+		(define-key map "\e."	'fi:lisp-find-definition)
+		(define-key map "\e,"	'fi:lisp-find-next-definition))))
+  (add-hook 'fi:lisp-mode-hook (lambda () (camelCase-mode 1)))
+  (add-hook 'fi:lisp-mode-hook (lambda () (turn-on-font-lock)))
+  (add-hook 'fi:emacs-lisp-mode-hook (lambda () (camelCase-mode 1)))
+  (add-hook 'fi:emacs-lisp-mode-hook (lambda () (turn-on-font-lock)))
+;;have a way to start Allegro lisp
+  (defun start-lisp-jps()
+    "Start Allegro Lisp"
+    (interactive)
+    (fi:common-lisp)
+    )
+  (global-set-key (concat prefix-key-jps "l") 'start-lisp-jps)
+  )
 
 ;;;;;;;;;;;
 ;;
