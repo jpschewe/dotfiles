@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.57 $
+;; $Revision: 1.58 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -63,7 +63,7 @@
 
 ;;handle password prompts
 (setq comint-password-prompt-regexp
-      "\\(\\([Ee]nter \\|[Oo]ld \\|[Nn]ew \\|^\\|'s \\)[Pp]assword\\|pass ?phrase\\):\\s *\\'")
+      "\\([Ee]nter \\|[Oo]ld \\|[Nn]ew \\|^\\|'s \\|Bad \\)\\([Pp]ass\\(word\\|phrase\\(, try again\\)?\\)\\)\\|\\(\\(same\\)?pass ?phrase\\):?\\s *\\'")
  
 ;; set the title to make it easy to determine which XEmacs is running
 (let ((host (downcase (system-name))))
