@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.8 $
+;; $Revision: 1.9 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -155,7 +155,6 @@
 (defun add-special-font-lock-faces-jps (vars)
   "Add my special highlighting to each font-lock var in the given list"
   (map 'list '(lambda (font-var)
-		(message "Adding to %s" font-var)
 		(add-to-list font-var
 			     '("\\<\\(FIX\\)" 1 font-lock-warning-face t))
 		(add-to-list font-var
@@ -243,18 +242,19 @@
 (defun ksh-mode-hook-jps ()
   (setq indent-tabs-mode nil)
   (font-lock-mode)
+  (add-special-font-lock-faces-jps (list 'ksh-font-lock-keywords))
   )
 (add-hook 'ksh-mode-hook  'ksh-mode-hook-jps)
-(add-special-font-lock-faces-jps (list 'ksh-font-lock-keywords))
 
 ;;;;;;;;;;;
 ;;
 ;; sh-mode
 ;;
 ;;;;;;;;;;;;
-(message "ksh-mode")
+(message "sh-mode")
 (add-hook 'sh-mode-hook  'ksh-mode-hook-jps)
-(add-special-font-lock-faces-jps (list 'sh-font-lock-keywords 'sh-font-lock-keywords-1 'sh-font-lock-keywords-2))
+(add-hook 'sh-mode-hook '(lambda ()
+			   (add-special-font-lock-faces-jps (list 'sh-font-lock-keywords 'sh-font-lock-keywords-1 'sh-font-lock-keywords-2))))
 
 ;;;;;;;;;;;
 ;;
