@@ -133,7 +133,7 @@ alias less='less -is'
 alias cp='cp -i'
 alias mv='mv -i'
 #alias w='w -s'
-alias which='type -path'
+alias which='type'
 alias where='type -all'
 alias find-unused-unix='for h in `ypmatch HTC-HOSTS netgroup`; do ping -c 1 $h > /dev/null 2>&1 || echo $h; done'
   
