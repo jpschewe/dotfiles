@@ -399,14 +399,14 @@ case $OS in
   solaris2 | cygwin)
             case `nslookup $HOST 2> /dev/null | grep $HOST | awk '{print $2}'` in
               *.htc.honeywell.com) export http_proxy="http://mn65-eggplant.htc.honeywell.com:3128";;
-              *.mn.mtu.net) export http_proxy="http://eggplant:3128";;
+              #*.mn.mtu.net) export http_proxy="http://eggplant:3128";;
               *) unset http_proxy;;
             esac
             ;;
   linux)
          case `hostname -f` in
            *.htc.honeywell.com) export http_proxy="http://mn65-eggplant.htc.honeywell.com:3128";;
-           *.mn.mtu.net) export http_proxy="http://eggplant:3128";;
+           #*.mn.mtu.net) export http_proxy="http://eggplant:3128";;
            *) unset http_proxy;;
          esac
          ;;
