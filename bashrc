@@ -152,12 +152,12 @@ alias which='type -path'
 alias where='type -all'
 alias find-unused-unix='for h in `ypmatch HTC-HOSTS netgroup`; do ping -c 1 $h > /dev/null || echo $h; done'
   
-if [ $OS \!= "cygwin" ]; then
-  if [ -x "`type -p ypcat`" ]; then
-    alias ultras="rup -l `ypcat hosts.byaddr | grep 2/270 | egrep -v 'greenhornet|grinch' | awk '{print $2}' | sort | fmt`"
-    ypg() { ypcat $2 | grep -i $1; }
-  fi
-fi
+#if [ $OS \!= "cygwin" ]; then
+#  if [ -x "`type -p ypcat`" ]; then
+#    alias ultras="rup -l `ypcat hosts.byaddr | grep 2/270 | egrep -v 'greenhornet|grinch' | awk '{print $2}' | sort | fmt`"
+#    ypg() { ypcat $2 | grep -i $1; }
+#  fi
+#fi
 
 alias rdesktop='\rdesktop -g 1024x768 -K'
 alias mn65-rsconsole='rdesktop -u getreal mn65-rsconsole'

@@ -36,7 +36,10 @@ case $OS in
 	    ;;
   *)        append PATH /usr/etc;;
 esac
-append PATH /etc
+
+case $OS in
+  sunos4 | solaris2) append PATH /etc;;
+esac
 
 ### BSD Compatability
 case $OS in
@@ -259,14 +262,19 @@ case $OS in
                      prepend PATH "${JAVA_HOME}/bin"
                      ;;
   linux)
-         case $HOST in
-           mn65-eggplant)
-                          JAVA_HOME=/usr/java/j2sdk1.4.2
-                          ;;
-           andromeda.htc.honeywell.com)
-                                        JAVA_HOME=/usr/java/j2sdk1.4.1_01
-                                        ;;
-         esac
+         if [ -x `type -p setJava` ]; then
+           . setJava --devel Java2
+         else
+           case $HOST in
+             mn65-eggplant)
+                            JAVA_HOME=/usr/java/j2sdk1.4.2
+                            ;;
+             andromeda.htc.honeywell.com)
+                                          JAVA_HOME=/usr/java/j2sdk1.4.1_01
+                                          ;;
+           esac
+           echo "java is ${JAVA_HOME}"
+         fi
          append PATH "${JAVA_HOME}/bin"
          ;;
 esac
