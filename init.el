@@ -1829,6 +1829,61 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 	  (eq system-type 'cygwin32))
   (setq ispell-program-name "aspell"))
 
+;;; -------------------- 
+;;; -- PCL-CVS
+
+;;;; Fix parsing of commit messages that were broken with OpenCVS version 1.12.9 
+(defadvice cvs-parse-commit (around ede-pcl-cvs-parse-commit) 
+  "Fix parsing of commit messages that were broken with OpenCVS version 1.12.9" 
+  ;; don't call original - replace with my version 
+  (my-cvs-parse-commit) 
+  ) 
+ 
+(defun cvs-get-local-commit-root () 
+  "Return the current repository-local commit root.  
+That is, the cvsroot as seen on the cvs server (if remote), without hostname if any but with the module name appended"
+
+  (let ((root (cvs-get-cvsroot)) 
+        (module (cvs-get-module))) 
+    (if (and root module) 
+      (if (string-match "\\`.*:\\([^:]+\\)\\'" root) 
+          (concat (match-string 1 root) "/" module) 
+        (concat root "/" module))))) 
+ 
+(defun my-cvs-parse-commit () 
+  (let ((root (cvs-get-local-commit-root)) 
+        path base-rev subtype) 
+    (log-message "CVS" (concat "root: " root)) 
+    (cvs-or 
+ 
+     (and 
+      ;; eat obsolete "Checking in" comment - lost in OpenCVS version 1.12.9 
+      (cvs-or (cvs-match "\\(Checking in\\|Removing\\) \\(.*\\);$") t) 
+      ;; Instead, match on repository-local commit-root prefix 
+      (cvs-match (concat (regexp-quote root) "/" "\\(.*\\),v  <--  .*$") 
+                 (path 1)) 
+      (cvs-or 
+       ;; deletion 
+       (cvs-match "new revision: delete; previous revision: \\([0-9.]*\\)$" 
+                (subtype 'REMOVED) (base-rev 1)) 
+       ;; addition 
+       (cvs-match "initial revision: \\([0-9.]*\\)$" 
+                (subtype 'ADDED) (base-rev 1)) 
+       ;; update 
+       (cvs-match "new revision: \\([0-9.]*\\); previous revision: .*$" 
+                (subtype 'COMMITTED) (base-rev 1))) 
+      ;; eat obsolete "done" comment - lost in OpenCVS version 1.12.9 
+      (cvs-or (cvs-match "done$") t) 
+      ;; it's important here not to rely on the default directory management 
+      ;; because `cvs commit' might begin by a series of Examining messages 
+      ;; so the processing of the actual checkin messages might begin with 
+      ;; a `current-dir' set to something different from "" 
+      (cvs-parsed-fileinfo (cons 'UP-TO-DATE subtype) path 'trust 
+                         :base-rev base-rev)) 
+      
+     ;; useless message added before the actual addition: ignored 
+     (cvs-match "RCS file: .*\ndone$"))))
+
 ;;;;;;;;;;;
 ;;
 ;; Diminish
