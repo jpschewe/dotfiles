@@ -334,7 +334,7 @@ case $OSTYPE in
                      done
                      if [ -z "${JAVA_HOME}" -a -x /usr/sbin/update-alternatives ]; then
                        java=`/usr/sbin/update-alternatives --display javac | grep best | awk '{print $NF}'`
-                       if [ -n "${java}" ];
+                       if [ -n "${java}" ]; then
                          javadir=`dirname ${java}`/..
                          JAVA_HOME=`cd ${javadir} && pwd`
                        fi
