@@ -83,7 +83,6 @@ export HISTFILE=~/.bash_history
 export HISTSIZE=500
 export command_oriented_history=1
 export history_control=ignoredups
-export hostname_completion_file=/etc/hosts.equiv
 
 notify=
 unset MAILPATH MAILCHECK
@@ -400,12 +399,14 @@ case $OS in
   solaris2 | cygwin)
             case `nslookup $HOST 2> /dev/null | grep $HOST | awk '{print $2}'` in
               *.htc.honeywell.com) export http_proxy="http://mn65-eggplant.htc.honeywell.com:3128";;
+              *.mn.mtu.net) export http_proxy="http://netserver:3128";;
               *) unset http_proxy;;
             esac
             ;;
   linux)
          case `hostname -f` in
            *.htc.honeywell.com) export http_proxy="http://mn65-eggplant.htc.honeywell.com:3128";;
+           *.mn.mtu.net) export http_proxy="http://netserver:3128";;
            *) unset http_proxy;;
          esac
          ;;
