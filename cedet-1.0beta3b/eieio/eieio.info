@@ -1,4 +1,4 @@
-This is eieio.info, produced by makeinfo version 4.3 from eieio.texi.
+This is eieio.info, produced by makeinfo version 4.6 from eieio.texi.
 
 START-INFO-DIR-ENTRY
 * eieio: (eieio).       Objects for Emacs
@@ -45,7 +45,7 @@ File: eieio.info,  Node: Introduction,  Next: CLOS compatibility,  Prev: Top,  U
 Introduction
 ************
 
-   EIEIO is a CLOS (Common Lisp Object System) compatibility layer.  Due
+EIEIO is a CLOS (Common Lisp Object System) compatibility layer.  Due
 to restrictions in the Emacs Lisp language, CLOS cannot be completely
 supported, and a few functions have been added in place of setf.
 
@@ -151,7 +151,7 @@ File: eieio.info,  Node: CLOS compatibility,  Next: Building Classes,  Prev: Int
 CLOS compatibility
 ******************
 
-   As you read this, it is important to know that I have just recently
+As you read this, it is important to know that I have just recently
 learned some of the CLOS syntax, but have never used it myself outside
 of the EIEIO framework.  I'm primarily and Emacs Lisp hacker who wrote
 EIEIO to help myself learn some of the mechanics of Object Oriented
@@ -227,7 +227,7 @@ File: eieio.info,  Node: Building Classes,  Next: Default Superclass,  Prev: CLO
 Building Classes
 ****************
 
-   A class in EIEIO has a similar structure to that found in other
+A class in EIEIO has a similar structure to that found in other
 languages.  A new class is created with `defclass'
 
  - Function: defclass class-name superclass-list slot-list
@@ -359,6 +359,7 @@ languages.  A new class is created with `defclass'
                Only methods of the same class as this slot's definition
                may access this slot.
 
+
      Additionally, CLOS style class options are available.  These are
      various options attached to a class.  These options can occur in
      place or in addition to a documentation string.  If both occur,
@@ -436,7 +437,7 @@ File: eieio.info,  Node: Default Superclass,  Next: Making New Objects,  Prev: B
 Default Superclass
 ******************
 
-   All defined classes, if created as a superclass (With no specified
+All defined classes, if created as a superclass (With no specified
 parent class) will actually inherit from a special superclass stored in
 `eieio-default-superclass'.  This superclass is actually quite simple,
 but with it, certain default methods or attributes can be added to all
@@ -534,11 +535,11 @@ File: eieio.info,  Node: Making New Objects,  Next: Accessing Slots,  Prev: Defa
 Making New Objects
 ******************
 
-   Once we have defined our classes, it's time to create objects with
-the specified structure.  After we call `defclass' two new functions
-are created, one of which is `classname'.  Thus, from the example at
-the end of the previous chapter *Note Building Classes::, we would have
-the functions `data-object' and `data-object-p'.
+Once we have defined our classes, it's time to create objects with the
+specified structure.  After we call `defclass' two new functions are
+created, one of which is `classname'.  Thus, from the example at the
+end of the previous chapter *Note Building Classes::, we would have the
+functions `data-object' and `data-object-p'.
 
  - Function: classname object-name &rest slots
      This creates and returns a new object.  This object is not
@@ -565,10 +566,10 @@ File: eieio.info,  Node: Accessing Slots,  Next: Writing Methods,  Prev: Making 
 Accessing Slots
 ***************
 
-   There are several ways to access slot values in an object.  The
-naming convention and argument order is similar to that found in Emacs
-Lisp for referencing vectors.  The basics for referencing, setting, and
-calling methods are all accounted for.
+There are several ways to access slot values in an object.  The naming
+convention and argument order is similar to that found in Emacs Lisp for
+referencing vectors.  The basics for referencing, setting, and calling
+methods are all accounted for.
 
  - Function: oset object slot value
      This sets the value behind SLOT to VALUE in OBJECT.  `oset'
@@ -642,7 +643,7 @@ File: eieio.info,  Node: Writing Methods,  Next: Predicates,  Prev: Accessing Sl
 Writing Methods
 ***************
 
-   Writing a CLOS style method is similar to writing a function.  The
+Writing a CLOS style method is similar to writing a function.  The
 differences are that there are some extra options and there can be
 multiple implementations of a single method which interact interestingly
 with each other.
@@ -763,7 +764,7 @@ File: eieio.info,  Node: Predicates,  Next: Association Lists,  Prev: Writing Me
 Predicates and Utilities
 ************************
 
-   Now that we know how to create classes, access slots, and define
+Now that we know how to create classes, access slots, and define
 methods, it might be useful to verify that everything is doing ok.  To
 help with this a plethora of predicates have been created.
 
@@ -876,7 +877,7 @@ File: eieio.info,  Node: Association Lists,  Next: Introspection,  Prev: Predica
 Association Lists
 *****************
 
-   Lisp offers the concept of association lists, with primitives such as
+Lisp offers the concept of association lists, with primitives such as
 `assoc' used to access them.  Eieio provides a few such functions to
 help with using lists of objects easily.
 
@@ -902,7 +903,7 @@ File: eieio.info,  Node: Introspection,  Next: Signals,  Prev: Association Lists
 Introspection
 *************
 
-   Introspection permits a programmer to peek at the contents of a class
+Introspection permits a programmer to peek at the contents of a class
 without any previous knowledge of that class.  While EIEIO implements
 objects on top of vectors, and thus everything is technically visible,
 some functions have been provided.  None of these functions are a part
@@ -921,7 +922,7 @@ File: eieio.info,  Node: Signals,  Next: Base Classes,  Prev: Introspection,  Up
 Signals
 *******
 
-   There are new signal types that can be caught when using eieio.
+There are new signal types that can be caught when using eieio.
 
  - Signal: invalid-slot-name obj-or-class slot
      This signal is called when an attempt to reference a slot in an
@@ -960,7 +961,7 @@ File: eieio.info,  Node: Base Classes,  Next: Browsing,  Prev: Signals,  Up: Top
 Base Classes
 ************
 
-   Asside from `eieio-default-superclass', EIEIO comes with some
+Asside from `eieio-default-superclass', EIEIO comes with some
 additional classes that you can use.  By using multiple inheritance, it
 is possible to use several features at the same time.
 
@@ -979,7 +980,7 @@ File: eieio.info,  Node: eieio-instance-inheritor,  Next: eieio-instance-tracker
 `eieio-instance-inheritor'
 ==========================
 
-   This class is in package `eieio-base'.
+This class is in package `eieio-base'.
 
    Instance inheritance is a mechanism whereby the value of a slot in
 object instance can reference the parent instance.  If the parent's slot
@@ -1038,7 +1039,7 @@ File: eieio.info,  Node: eieio-singleton,  Next: eieio-persistent,  Prev: eieio-
 `eieio-singleton'
 =================
 
-   This class is in package `eieio-base'.
+This class is in package `eieio-base'.
 
  - Class: eieio-singleton
      Inheriting from the singleton class will guarantee that there will
@@ -1051,7 +1052,7 @@ File: eieio.info,  Node: eieio-persistent,  Next: eieio-named,  Prev: eieio-sing
 `eieio-persistent'
 ==================
 
-   This class is in package `eieio-base'.
+This class is in package `eieio-base'.
 
    If you want an object, or set of objects to be persistent, meaning
 the slot values are important to keep saved between sessions, then you
@@ -1095,7 +1096,7 @@ File: eieio.info,  Node: eieio-named,  Next: eieio-speedbar,  Prev: eieio-persis
 `eieio-named'
 =============
 
-   This class is in package `eieio-base'.
+This class is in package `eieio-base'.
 
  - Class: eieio-named
      Object with a name.  Name storage already occurs in an object.
@@ -1107,7 +1108,7 @@ File: eieio.info,  Node: eieio-speedbar,  Prev: eieio-named,  Up: Base Classes
 `eieio-speedbar'
 ================
 
-   This class is in package `eieio-speedbar'.
+This class is in package `eieio-speedbar'.
 
    If a series of class instances map to a tree structure, it is
 possible to cause your classes to be displayable in Speedbar. *Note
@@ -1192,7 +1193,7 @@ File: eieio.info,  Node: Browsing,  Next: Class Values,  Prev: Base Classes,  Up
 Browsing class trees
 ********************
 
-   To browse all the currently loaded classes in emacs, simply run the
+To browse all the currently loaded classes in emacs, simply run the
 EIEIO browser.  `M-x eieio-browse'.  This browses all the way from the
 default super-duper class eieio-default-superclass, and lists all
 children in an indented tree structure.
@@ -1223,7 +1224,7 @@ File: eieio.info,  Node: Class Values,  Next: Customizing,  Prev: Browsing,  Up:
 Class Values
 ************
 
-   Details about any class or object can be retrieved using the function
+Details about any class or object can be retrieved using the function
 `eieio-describe-class' function.  Interactively, type in the name of a
 class.  In a program, pass it a string with the name of a class, a
 class symbol, or an object.  The resulting buffer will display all slot
@@ -1238,7 +1239,7 @@ File: eieio.info,  Node: Customizing,  Next: Documentation,  Prev: Class Values,
 Customizing Objects
 *******************
 
-   In Emacs 20 a useful customization utility became available called
+In Emacs 20 a useful customization utility became available called
 `custom'.  EIEIO supports custom through two new widget types.  If a
 variable is declared as type `'object', then full editing of slots via
 the widgets is made possible.  This should be used carefully, however,
@@ -1273,10 +1274,10 @@ in-place editing.
 Widget extention
 ================
 
-   When widgets are being created, one new widget extention has been
-added, called the `:slotofchoices'.  When this occurs in a widget
-definition, all elements after it are removed, and the slot is specifies
-is queried and converted into a series of constants.
+When widgets are being created, one new widget extention has been added,
+called the `:slotofchoices'.  When this occurs in a widget definition,
+all elements after it are removed, and the slot is specifies is queried
+and converted into a series of constants.
 
      (choice (const :tag "None" nil)
              :slotofchoices morestuff)
@@ -1298,8 +1299,8 @@ File: eieio.info,  Node: Documentation,  Next: Naming Conventions,  Prev: Custom
 Documentation
 *************
 
-   It is possible to automatically create documentation for your
-classes in texinfo format by using the tools in the file `eieio-doc.el'
+It is possible to automatically create documentation for your classes in
+texinfo format by using the tools in the file `eieio-doc.el'
 
  - Command: eieiodoc-class class indexstring &optional skiplist
      This will start at the current point, and created an indented menu
@@ -1337,7 +1338,7 @@ File: eieio.info,  Node: Naming Conventions,  Next: Demo Programs,  Prev: Docume
 Naming Conventions
 ******************
 
-   The Emacs Lisp programming manual has a great chapter programming
+The Emacs Lisp programming manual has a great chapter programming
 conventions that help keep each Emacs package working nicely with the
 entire system.  *Note (elisp)Standards:: An EIEIO based program needs to
 follow these conventions, while simultaneously taking advantage of the
@@ -1367,7 +1368,7 @@ File: eieio.info,  Node: Demo Programs,  Next: Function Index,  Prev: Naming Con
 Demo Programs
 *************
 
-   There are many sample programs I have written for eieio which could
+There are many sample programs I have written for eieio which could
 become useful components of other applications, or are good stand alone
 programs providing some useful functionality.  The file, and
 functionality of these appear below:
@@ -1476,29 +1477,29 @@ Function Index
 Tag Table:
 Node: Top154
 Node: Introduction1730
-Node: CLOS compatibility5140
-Node: Building Classes8079
-Node: Default Superclass16143
-Node: Making New Objects20424
-Node: Accessing Slots21798
-Node: Writing Methods25270
-Node: Predicates29957
-Node: Association Lists34211
-Node: Introspection35299
-Node: Signals35972
-Node: Base Classes37369
-Node: eieio-instance-inheritor38097
-Node: eieio-instance-tracker39368
-Node: eieio-singleton40769
-Node: eieio-persistent41189
-Node: eieio-named43074
-Node: eieio-speedbar43392
-Node: Browsing47208
-Node: Class Values48226
-Node: Customizing48720
-Node: Documentation51210
-Node: Naming Conventions52769
-Node: Demo Programs53982
-Node: Function Index54961
+Node: CLOS compatibility5137
+Node: Building Classes8073
+Node: Default Superclass16135
+Node: Making New Objects20413
+Node: Accessing Slots21784
+Node: Writing Methods25253
+Node: Predicates29937
+Node: Association Lists34188
+Node: Introspection35273
+Node: Signals35943
+Node: Base Classes37337
+Node: eieio-instance-inheritor38062
+Node: eieio-instance-tracker39330
+Node: eieio-singleton40731
+Node: eieio-persistent41148
+Node: eieio-named43030
+Node: eieio-speedbar43345
+Node: Browsing47158
+Node: Class Values48173
+Node: Customizing48664
+Node: Documentation51148
+Node: Naming Conventions52704
+Node: Demo Programs53914
+Node: Function Index54890
 
 End Tag Table

@@ -1,4 +1,4 @@
-This is speedbar.info, produced by makeinfo version 4.3 from
+This is speedbar.info, produced by makeinfo version 4.6 from
 speedbar.texi.
 
 INFO-DIR-SECTION Emacs
@@ -72,8 +72,8 @@ File: speedbar.info,  Node: Introduction,  Next: Basic Navigation,  Up: Top
 Introduction
 ************
 
-   To start using speedbar use the command `M-x speedbar RET' or select
-it from the Tools menu in versions of Emacs with speedbar installed by
+To start using speedbar use the command `M-x speedbar RET' or select it
+from the Tools menu in versions of Emacs with speedbar installed by
 default.  This command will open a new frame to summarize the local
 files.  On X Window systems or on MS-Windows, speedbar's frame is twenty
 characters wide, and will mimic the height of the frame from which it
@@ -104,7 +104,7 @@ File: speedbar.info,  Node: Basic Navigation,  Next: File Mode,  Prev: Introduct
 Basic Navigation
 ****************
 
-   Speedbar can display different types of data, and has several display
+Speedbar can display different types of data, and has several display
 and behavior modes.  These modes all have a common behavior, menu
 system, and look.  If one mode is learned, then the other modes are easy
 to use.
@@ -122,7 +122,7 @@ File: speedbar.info,  Node: Basic Key Bindings,  Next: Basic Visuals,  Prev: Bas
 Basic Key Bindings
 ==================
 
-   These key bindings are common across all modes:
+These key bindings are common across all modes:
 
 `delete, SPC'
      Scroll up and down one page.
@@ -199,9 +199,9 @@ File: speedbar.info,  Node: Basic Visuals,  Next: Mouse Bindings,  Prev: Basic K
 Basic Visuals
 =============
 
-   Speedbar has visual cues for indicating different types of data.
-These cues are used consistently across the different speedbar modes to
-make them easier to interpret.
+Speedbar has visual cues for indicating different types of data.  These
+cues are used consistently across the different speedbar modes to make
+them easier to interpret.
 
    At a high level, in File mode, there are directory buttons, sub
 directory buttons, file buttons, tag buttons, and expansion buttons.
@@ -220,9 +220,8 @@ identifying the types of data available.
 Groups
 ......
 
-   Groups summarize information in a single line, and provide a high
-level view of more complex systems, like a directory tree, or manual
-chapters.
+Groups summarize information in a single line, and provide a high level
+view of more complex systems, like a directory tree, or manual chapters.
 
    Groups appear at different indentation levels, and are prefixed with
 a `+' in some sort of `box'.  The group name will summarize the
@@ -255,17 +254,17 @@ displayed.
 Tags
 ....
 
-   Tags are the leaf nodes of the tree system.  Tags are generally
-prefixed with a simple character, such as `>'.  Tags can only be jumped
-to using `RET' or `e'.
+Tags are the leaf nodes of the tree system.  Tags are generally prefixed
+with a simple character, such as `>'.  Tags can only be jumped to using
+`RET' or `e'.
 
 Boolean Flags
 .............
 
-   Sometimes a group or tag is given a boolean flag.  These flags
-appear as extra text characters at the end of the line.  File mode uses
-boolean flags, such as a `*' to indicate that a file has been checked
-out of a versioning system.
+Sometimes a group or tag is given a boolean flag.  These flags appear as
+extra text characters at the end of the line.  File mode uses boolean
+flags, such as a `*' to indicate that a file has been checked out of a
+versioning system.
 
    For additional flags, see *Note File Mode::, and *Note Version
 Control::.
@@ -273,17 +272,17 @@ Control::.
 Unadorned Text
 ..............
 
-   Unadorned text generally starts in column 0, without any special
-symbols prefixing them.  In Buffers mode different buffer groups are
-prefixed with a description of what the following buffers are (Files,
-scratch buffers, and invisible buffers.)
+Unadorned text generally starts in column 0, without any special symbols
+prefixing them.  In Buffers mode different buffer groups are prefixed
+with a description of what the following buffers are (Files, scratch
+buffers, and invisible buffers.)
 
    Unadorned text will generally be colorless, and not clickable.
 
 Color Cues
 ..........
 
-   Each type of Group, item indicator, and label is given a different
+Each type of Group, item indicator, and label is given a different
 color.  The colors chosen are dependent on whether the background color
 is light or dark.  Of important note is that the `current item', which
 may be a buffer or file name, is highlighted red, and underlined.
@@ -302,7 +301,7 @@ File: speedbar.info,  Node: Mouse Bindings,  Next: Displays Submenu,  Prev: Basi
 Mouse Bindings
 ==============
 
-   The mouse has become a common information navigation tool.  Speedbar
+The mouse has become a common information navigation tool.  Speedbar
 will use the mouse to navigate file systems, buffer lists, and other
 data.  The different textual cues provide buttons which can be clicked
 on (*note Basic Visuals::).  Anything that highlights can be clicked on
@@ -348,9 +347,9 @@ File: speedbar.info,  Node: Displays Submenu,  Prev: Mouse Bindings,  Up: Basic 
 Displays Submenu
 ================
 
-   You can display different data by using different display modes.
-These specialized modes make it easier to navigate the relevant pieces
-of information, such as files and directories, or buffers.
+You can display different data by using different display modes.  These
+specialized modes make it easier to navigate the relevant pieces of
+information, such as files and directories, or buffers.
 
    In the main menu, found by clicking `Mouse-3', there is a submenu
 labeled `Displays'.  This submenu lets you easily choose between
@@ -366,10 +365,10 @@ File: speedbar.info,  Node: File Mode,  Next: Buffer Mode,  Prev: Basic Navigati
 File Mode
 *********
 
-   File mode displays a summary of your current directory.  You can
-display files in the attached frame, or summarize the tags found in
-files.  You can even see if a file is checked out of a version control
-system, or has some associated object file.
+File mode displays a summary of your current directory.  You can display
+files in the attached frame, or summarize the tags found in files.  You
+can even see if a file is checked out of a version control system, or
+has some associated object file.
 
    Advanced behavior, like copying and renaming files, is also provided.
 
@@ -385,10 +384,10 @@ File: speedbar.info,  Node: Directory Display,  Next: Hidden Files,  Prev: File 
 Directory Display
 =================
 
-   There are three major sections in the display.  The first line or
-two is the root directory speedbar is currently viewing.  You can jump
-to one of the parent directories by clicking on the name of the
-directory you wish to jump to.
+There are three major sections in the display.  The first line or two is
+the root directory speedbar is currently viewing.  You can jump to one
+of the parent directories by clicking on the name of the directory you
+wish to jump to.
 
    Next, directories are listed.  A directory starts with the group
 indicator button `<+>'.  Clicking the directory name makes speedbar
@@ -467,9 +466,9 @@ File: speedbar.info,  Node: Hidden Files,  Next: File Key Bindings,  Prev: Direc
 Hidden Files
 ============
 
-   On GNU and Unix systems, a hidden file is a file whose name starts
-with a period.  They are hidden from a regular directory listing
-because the user is not generally interested in them.
+On GNU and Unix systems, a hidden file is a file whose name starts with
+a period.  They are hidden from a regular directory listing because the
+user is not generally interested in them.
 
    In speedbar, a hidden file is a file which isn't very interesting and
 might prove distracting to the user.  Any uninteresting files are
@@ -498,10 +497,10 @@ File: speedbar.info,  Node: File Key Bindings,  Prev: Hidden Files,  Up: File Mo
 File Key Bindings
 =================
 
-   File mode has key bindings permitting different file system
-operations such as copy or rename.  These commands all operate on the
-"current file".  In this case, the current file is the file at point,
-or clicked on when pulling up the menu.
+File mode has key bindings permitting different file system operations
+such as copy or rename.  These commands all operate on the "current
+file".  In this case, the current file is the file at point, or clicked
+on when pulling up the menu.
 
 `U'
      Move the entire speedbar display up one directory.
@@ -544,7 +543,7 @@ File: speedbar.info,  Node: Buffer Mode,  Next: Minor Modes,  Prev: File Mode,  
 Buffer Mode
 ***********
 
-   Buffer mode is very similar to File mode, except that instead of
+Buffer mode is very similar to File mode, except that instead of
 tracking the current directory and all files available there, the
 current list of Emacs buffers is shown.
 
@@ -576,10 +575,10 @@ File: speedbar.info,  Node: Minor Modes,  Next: Customizing,  Prev: Buffer Mode,
 Minor Display Modes
 *******************
 
-   For some buffers, a list of files and tags makes no sense.  This
-could be because files are not currently in reference (such as web
-pages), or that the files you might be interested have special
-properties (such as email folders.)
+For some buffers, a list of files and tags makes no sense.  This could
+be because files are not currently in reference (such as web pages), or
+that the files you might be interested have special properties (such as
+email folders.)
 
    In these cases, a minor display mode is needed.  A minor display mode
 will override any major display mode currently being displayed for the
@@ -599,7 +598,7 @@ File: speedbar.info,  Node: RMAIL,  Next: Info,  Prev: Minor Modes,  Up: Minor M
 RMAIL
 =====
 
-   When using RMAIL, speedbar will display two sections.  The first is a
+When using RMAIL, speedbar will display two sections.  The first is a
 layer one reply button.  Clicking here will initialize a reply buffer
 showing only this email address in the `To:' field.
 
@@ -622,10 +621,10 @@ File: speedbar.info,  Node: Info,  Next: GDB,  Prev: RMAIL,  Up: Minor Modes
 Info
 ====
 
-   When browsing Info files, all local relevant information is
-displayed in the info buffer and a topical high-level view is provided
-in speedbar.  All top-level info nodes are shown in the speedbar frame,
-and can be jumped to by clicking the name.
+When browsing Info files, all local relevant information is displayed in
+the info buffer and a topical high-level view is provided in speedbar.
+All top-level info nodes are shown in the speedbar frame, and can be
+jumped to by clicking the name.
 
    You can open these nodes with the `[+]' button to see what sub-topics
 are available.  Since these sub-topics are not examined until you click
@@ -638,10 +637,10 @@ File: speedbar.info,  Node: GDB,  Prev: Info,  Up: Minor Modes
 GDB
 ===
 
-   If you are debugging an application with GDB in Emacs, speedbar can
-show you the current stack when the current buffer is the `*gdb*'
-buffer.  Usually, it will just report that there is no stack, but when
-the application is stopped, the current stack will be shown.
+If you are debugging an application with GDB in Emacs, speedbar can show
+you the current stack when the current buffer is the `*gdb*' buffer.
+Usually, it will just report that there is no stack, but when the
+application is stopped, the current stack will be shown.
 
    You can click on any stack element and gdb will move to that stack
 level.  You can then check variables local to that level at the GDB
@@ -657,7 +656,7 @@ File: speedbar.info,  Node: Customizing,  Next: Extending,  Prev: Minor Modes,  
 Customizing
 ***********
 
-   Speedbar is highly customizable, with a plethora of control elements.
+Speedbar is highly customizable, with a plethora of control elements.
 Since speedbar is so visual and reduces so much information, this is an
 important aspect of its behavior.
 
@@ -686,7 +685,7 @@ File: speedbar.info,  Node: Frames and Faces,  Next: Tag Hierarchy Methods,  Pre
 Frames and Faces
 ================
 
-   There are several faces speedbar generates to provide a consistent
+There are several faces speedbar generates to provide a consistent
 color scheme across display types.  You can customize these faces using
 your favorite method.  They are:
 
@@ -729,7 +728,7 @@ File: speedbar.info,  Node: Tag Hierarchy Methods,  Next: Version Control,  Prev
 Tag Hierarchy Methods
 =====================
 
-   When listing tags within a file, it is possible to get an annoyingly
+When listing tags within a file, it is possible to get an annoyingly
 long list of entries.  Imenu (which generates the tag list in Emacs)
 will group some classes of items automatically.   Even here, however,
 some tag groups can be quite large.
@@ -796,7 +795,7 @@ File: speedbar.info,  Node: Version Control,  Next: Hooks,  Prev: Tag Hierarchy 
 Version Control
 ===============
 
-   When using the file mode in speedbar, information regarding a version
+When using the file mode in speedbar, information regarding a version
 control system adds small details to the display.  If a file is in a
 version control system, and is "checked out" or "locked" locally, an
 asterisk `*' appears at the end of the file name.  In addition, the
@@ -826,7 +825,7 @@ File: speedbar.info,  Node: Hooks,  Prev: Version Control,  Up: Customizing
 Hooks
 =====
 
-   There are several hooks in speedbar allowing custom behaviors to be
+There are several hooks in speedbar allowing custom behaviors to be
 added.  Available hooks are:
 
 `speedbar-visiting-file-hook'
@@ -867,7 +866,7 @@ File: speedbar.info,  Node: Extending,  Next: Index,  Prev: Customizing,  Up: To
 Extending
 *********
 
-   Speedbar can run different types of Major display modes such as Files
+Speedbar can run different types of Major display modes such as Files
 (*note File Mode::), and Buffers (*note Buffer Mode::).  It can also
 manage different minor display modes for use with buffers handling
 specialized data.
@@ -893,7 +892,7 @@ File: speedbar.info,  Node: Minor Display Modes,  Next: Major Display Modes,  Pr
 Minor Display Modes
 ===================
 
-   A "minor display mode" is a mode useful when using a specific type of
+A "minor display mode" is a mode useful when using a specific type of
 buffer.  This mode might not be useful for any other kind of data or
 mode, or may just be more useful that a files or buffers based mode when
 working with a specialized mode.
@@ -942,7 +941,7 @@ File: speedbar.info,  Node: Major Display Modes,  Next: Tagging Extensions,  Pre
 Major Display Modes
 ===================
 
-   Creating a "Major Display Mode" for speedbar requires authoring a
+Creating a "Major Display Mode" for speedbar requires authoring a
 keymap, an easy-menu segment, and writing several functions.  These
 items can be given any name, and are made the same way as in a minor
 display mode (*note Minor Display Modes::).  Once this is done, these
@@ -1056,9 +1055,9 @@ File: speedbar.info,  Node: Tagging Extensions,  Next: Creating a display,  Prev
 Tagging Extensions
 ==================
 
-   It is possible to create new methods for tagging files in speedbar.
-To do this, you need two basic functions, one function to fetch the
-tags from a buffer, the other to insert them below the filename.
+It is possible to create new methods for tagging files in speedbar.  To
+do this, you need two basic functions, one function to fetch the tags
+from a buffer, the other to insert them below the filename.
 
  - Function: my-fetch-dynamic-tags file
      Parse FILE for a list of tags.  Return the list, or `t' if there
@@ -1100,7 +1099,7 @@ File: speedbar.info,  Node: Creating a display,  Prev: Tagging Extensions,  Up: 
 Creating a display
 ==================
 
-   Rendering a display in speedbar is completely flexible.  When your
+Rendering a display in speedbar is completely flexible.  When your
 button function is called, see *Note Minor Display Modes::, and *Note
 Major Display Modes::, you have control to `insert' anything you want.
 
@@ -1291,30 +1290,30 @@ Concept Index
 Tag Table:
 Node: Top1266
 Node: Introduction3048
-Node: Basic Navigation4611
-Node: Basic Key Bindings5055
-Node: Basic Visuals7240
-Node: Mouse Bindings11124
-Node: Displays Submenu12744
-Node: File Mode13418
-Node: Directory Display14024
-Node: Hidden Files17057
-Node: File Key Bindings18501
-Node: Buffer Mode19930
-Node: Minor Modes21044
-Node: RMAIL21899
-Node: Info22792
-Node: GDB23395
-Node: Customizing24058
-Node: Frames and Faces24868
-Node: Tag Hierarchy Methods26191
-Node: Version Control28406
-Node: Hooks29748
-Node: Extending30983
-Node: Minor Display Modes32028
-Node: Major Display Modes34014
-Node: Tagging Extensions38776
-Node: Creating a display40422
-Node: Index44951
+Node: Basic Navigation4608
+Node: Basic Key Bindings5049
+Node: Basic Visuals7231
+Node: Mouse Bindings11098
+Node: Displays Submenu12715
+Node: File Mode13387
+Node: Directory Display13990
+Node: Hidden Files17020
+Node: File Key Bindings18461
+Node: Buffer Mode19887
+Node: Minor Modes20998
+Node: RMAIL21850
+Node: Info22740
+Node: GDB23339
+Node: Customizing23998
+Node: Frames and Faces24805
+Node: Tag Hierarchy Methods26125
+Node: Version Control28337
+Node: Hooks29676
+Node: Extending30908
+Node: Minor Display Modes31950
+Node: Major Display Modes33933
+Node: Tagging Extensions38692
+Node: Creating a display40336
+Node: Index44862
 
 End Tag Table

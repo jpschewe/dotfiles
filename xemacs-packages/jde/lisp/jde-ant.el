@@ -1,6 +1,6 @@
 ;; jde-ant.el --- Use Apache Ant to build your JDE projects
 
-;; $Revision: 1.2 $ $Date: 2004/11/16 11:34:21 $ 
+;; $Revision: 1.3 $ $Date: 2004/11/16 20:17:40 $ 
 
 ;;
 ;; Author: Jason Stell | jason.stell@globalone.net
@@ -400,15 +400,16 @@ classpath normalized with `jde-build-classpath'."
 			    nil
 			    t
 			    (car build-history)
-			    'build-history))))
+			    'build-history)))
 	     (list (read-from-minibuffer
 		    "Target to build: "
 		    (car build-history)
 		    nil
 		    nil
-		    'build-history))))
+		    'build-history)))
+	     ))
 	  (target 
-	   (jde-ant-escape (mapconcat 'indentity targets " ")))
+	   (jde-ant-escape (mapconcat 'identity targets " ")))
 	  (interactive-args
 	   (if jde-ant-read-args
 	       (read-from-minibuffer
@@ -417,7 +418,6 @@ classpath normalized with `jde-build-classpath'."
 		nil nil
 		'(jde-ant-interactive-args-history . 1)))))
 
-               
      ;; Setting the history for future use
      (jde-ant-add-to-history buildfile build-history)
      
@@ -728,6 +728,9 @@ Returns nil if it cannot find a project file in DIR or an ascendant directory."
 
 ;;
 ;; $Log: jde-ant.el,v $
+;; Revision 1.3  2004/11/16 20:17:40  jpschewe
+;; Correctly prompts for ant target.
+;;
 ;; Revision 1.2  2004/11/16 11:34:21  jpschewe
 ;; Got fixed version of JDEE for dialog boxes and for pipes and jde-ant.
 ;;

@@ -1,4 +1,4 @@
-This is cogre.info, produced by makeinfo version 4.3 from cogre.texi.
+This is cogre.info, produced by makeinfo version 4.6 from cogre.texi.
 
 START-INFO-DIR-ENTRY
 * cogre: (cogre).       Graphs & UML for Emacs
@@ -26,7 +26,7 @@ File: cogre.info,  Node: Getting Started,  Next: Class Diagrams,  Prev: Top,  Up
 Getting Started
 ***************
 
-   There are three basic parts to any COGRE interface.
+There are three basic parts to any COGRE interface.
 
   1. Graph The graph consists of a buffer, and all child elements in
      that graph.  The graph is treated as any other Emacs buffer.  When
@@ -61,7 +61,7 @@ File: cogre.info,  Node: Class Diagrams,  Next: Semantic Support,  Prev: Getting
 Class Diagrams
 **************
 
-   Add text here
+Add text here
 
 
 File: cogre.info,  Node: Semantic Support,  Next: Index,  Prev: Class Diagrams,  Up: Top
@@ -69,7 +69,7 @@ File: cogre.info,  Node: Semantic Support,  Next: Index,  Prev: Class Diagrams, 
 Semantic Support
 ****************
 
-   Add text here
+Add text here
 
 
 File: cogre.info,  Node: Index,  Prev: Semantic Support,  Up: Top
@@ -79,11 +79,11 @@ File: cogre.info,  Node: Index,  Prev: Semantic Support,  Up: Top
 Tag Table:
 Node: Top159
 Node: Getting Started620
-Node: Creating Nodes and Links1475
-Node: Moving Nodes1595
-Node: Customizing Nodes1717
-Node: Class Diagrams1806
-Node: Semantic Support1957
-Node: Index2102
+Node: Creating Nodes and Links1472
+Node: Moving Nodes1592
+Node: Customizing Nodes1714
+Node: Class Diagrams1803
+Node: Semantic Support1951
+Node: Index2093
 
 End Tag Table
