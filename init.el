@@ -131,12 +131,15 @@
        ;;(setq debug-mswindows-process-command-lines nil)
        )
       ((eq system-type 'linux)
-       (setq openoffice-executable "/opt/OpenOffice.org/program/soffice")
-       ;;ls is screwed up somehow on SuSE >= 8.1, so I use the one from 8.0
-       ;;[jpschewe:20040103.0958CST] 9.0 seems to have fixed this
-       ;;(setq dired-ls-program "ls")
-       )
-      )
+       (cond
+	((file-exists-p (expand-file-name "~/.ooo-1.1/soffice"))
+	 (setq openoffice-executable (expand-file-name "~/.ooo-1.1/soffice")))
+	((file-exists-p "/opt/OpenOffice.org/program/soffice")
+	 (setq openoffice-executable "/opt/OpenOffice.org/program/soffice"))
+	((file-exists-p "/usr/lib/ooo-1.1/program/soffice")
+	 (setq openoffice-executable "/usr/lib/ooo-1.1/program/soffice"))
+	)
+       ))
 
 
 ;;;;;;;;;;;
@@ -1848,58 +1851,55 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (defadvice cvs-parse-commit (around ede-pcl-cvs-parse-commit) 
   "Fix parsing of commit messages that were broken with OpenCVS version 1.12.9" 
   ;; don't call original - replace with my version 
-  (my-cvs-parse-commit) 
+  (setq ad-return-value (ede-cvs-parse-commit))
   ) 
- 
+
 (defun cvs-get-local-commit-root () 
   "Return the current repository-local commit root.  
-That is, the cvsroot as seen on the cvs server (if remote), without hostname if any but with the module name appended"
-
+That is, the cvsroot as seen on the cvs server (if remote), without hostname if any but with the module name appended" 
   (let ((root (cvs-get-cvsroot)) 
         (module (cvs-get-module))) 
     (if (and root module) 
       (if (string-match "\\`.*:\\([^:]+\\)\\'" root) 
           (concat (match-string 1 root) "/" module) 
-        (concat root "/" module))))) 
- 
-(defun my-cvs-parse-commit () 
-  (let ((root (cvs-get-local-commit-root))
-        path base-rev subtype)
-    (log-message "CVS" (concat "root: " root))
-
-    (message (concat "Matching: " (concat (regexp-quote root) "/" "\\(.*\\),v  <--  .*$")))
-    (cvs-or
- 
-     (and
-      ;; eat obsolete "Checking in" comment - lost in OpenCVS version 1.12.9
-      (cvs-or (cvs-match "\\(Checking in\\|Removing\\) \\(.*\\);$") t)
-      ;; Instead, match on repository-local commit-root prefix
-      (cvs-match (concat (regexp-quote root) "/" "\\(.*\\),v  <--  .*$")
-                 (path 1))
-      ;;(cvs-match (concat "/export/CVS-Repository/reunion" "/" "\\(.*\\),v  <--  .*$")
-      ;;           (path 1))
+        (concat root "/" module)))))
+  
+(defun ede-cvs-parse-commit () 
+  (let ((root (cvs-get-local-commit-root)) 
+        path base-rev subtype) 
+  
+    ;;(log-message "CVS" (concat "root: " root)) 
+    ;;(log-message "CVS" (concat "matching: '"  
+    ;;                           (regexp-quote root) "/" "\\(.*\\),v  <--  .*$" 
+    ;;                           "'")) 
+    (cvs-or 
+     (and 
+      ;; eat obsolete "Checking in" comment - lost in OpenCVS version 1.12.9 
+      (cvs-or (cvs-match "\\(Checking in\\|Removing\\) \\(.*\\);$") t) 
+      ;; Instead, match on repository-local commit-root prefix 
+      (cvs-match (concat (regexp-quote root) "/" "\\(.*\\),v  <--  .*$") 
+                 (path 1)) 
+      ;;(cvs-or (log-message "CVS" (concat "found: " path)) t) 
+      (cvs-or 
+       ;; deletion 
+       (cvs-match "new revision: delete; previous revision: \\([0-9.]*\\)$" 
+    (subtype 'REMOVED) (base-rev 1)) 
+       ;; addition 
+       (cvs-match "initial revision: \\([0-9.]*\\)$" 
+    (subtype 'ADDED) (base-rev 1)) 
+       ;; update 
+       (cvs-match "new revision: \\([0-9.]*\\); previous revision: .*$" 
+    (subtype 'COMMITTED) (base-rev 1))) 
+      ;; eat obsolete "done" comment - lost in OpenCVS version 1.12.9 
+      (cvs-or (cvs-match "done$") t) 
+      ;; it's important here not to rely on the default directory management 
+      ;; because `cvs commit' might begin by a series of Examining messages 
+      ;; so the processing of the actual checkin messages might begin with 
+      ;; a `current-dir' set to something different from "" 
+      (cvs-parsed-fileinfo (cons 'UP-TO-DATE subtype) path 'trust 
+      :base-rev base-rev)) 
       
-      (cvs-or
-       ;; deletion
-       (cvs-match "new revision: delete; previous revision: \\([0-9.]*\\)$"
-		  (subtype 'REMOVED) (base-rev 1))
-       ;; addition
-       (cvs-match "initial revision: \\([0-9.]*\\)$"
-		  (subtype 'ADDED) (base-rev 1))
-       ;; update
-       (cvs-match "new revision: \\([0-9.]*\\); previous revision: .*$"
-		  (subtype 'COMMITTED) (base-rev 1)))
-      ;; eat obsolete "done" comment - lost in OpenCVS version 1.12.9
-      (cvs-or (cvs-match "done$") t)
-      ;; it's important here not to rely on the default directory
-      ;; management because `cvs commit' might begin by a series of
-      ;; Examining messages so the processing of the actual checkin
-      ;; messages might begin with a `current-dir' set to something
-      ;; different from ""
-      (cvs-parsed-fileinfo (cons 'UP-TO-DATE subtype) path 'trust
-			   :base-rev base-rev))
-     
-     ;; useless message added before the actual addition: ignored
+     ;; useless message added before the actual addition: ignored 
      (cvs-match "RCS file: .*\ndone$"))))
 
 ;;;;;;;;;;;
