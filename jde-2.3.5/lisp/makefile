@@ -1,4 +1,4 @@
-# $Revision: 1.1 $ $Date: 2005/02/16 20:24:56 $ 
+# $Revision: 1.1 $ $Date$ 
 #
 # This makefile compiles the JDE lisp files.
 #
@@ -9,7 +9,7 @@
 EMACS = xemacs
 
 # Default locations of the packages required to compile the JDE.
-CEDET = ../../../cedet-1.0beta3b
+CEDET = ../../cedet-1.0beta3b
 ELIB  = /usr/share/xemacs/xemacs-packages/lisp/elib
 all:
 	test -d $(CEDET) -a -d $(ELIB)
