@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.7 $
+;; $Revision: 1.8 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -678,6 +678,11 @@
   (jde-import-organize t))
 
 (add-hook 'jde-run-mode-hook 'turn-off-font-lock)
+
+(defadvice jde-import-choose-imports (around fix-to-do-save-excursion)
+  "Fix annoying behavior that causes jde to remove my split buffers after importing a class.  Should be fixed in next version."
+  (save-window-excursion
+    (setq ad-return-value ad-do-it)))
 
 ;; Tomcat
 ;;FIX need to make sure this is configured by the OS
