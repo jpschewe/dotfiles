@@ -91,3 +91,5 @@ enable-auto-props = yes
 *.jpg = svn:mime-type=image/jpeg
 Makefile = svn:eol-style=native
 *.dom = svn:mime-type=application/dome
+*.mdl = svn:mime-type=application/rose
+*.cat = svn:mime-type=application/rose
