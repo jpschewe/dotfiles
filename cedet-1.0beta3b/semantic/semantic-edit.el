@@ -2,7 +2,7 @@
 
 ;;; Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004 Eric M. Ludlam
 
-;; X-CVS: $Id: semantic-edit.el,v 1.1 2004/09/03 20:23:58 jpschewe Exp $
+;; X-CVS: $Id: semantic-edit.el,v 1.2 2004/12/17 20:48:41 jpschewe Exp $
 
 ;; This file is not part of GNU Emacs.
 
@@ -737,8 +737,8 @@ This function is for internal use by `semantic-edits-incremental-parser'."
         ;; Add this token to our list of changed toksns
         (setq changed-tokens (cons (car tokens) changed-tokens))
         ;; Debug
-        (working-temp-message "Update Tag Table: %s"
-                              (semantic-format-tag-name (car tokens) nil t))
+        ;;(working-temp-message "Update Tag Table: %s"
+        ;;                      (semantic-format-tag-name (car tokens) nil t))
         ;; Flush change regardless of above if statement.
         )
 
