@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.62 $
+;; $Revision: 1.63 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -145,7 +145,7 @@
       font-lock-auto-fontify t
       font-lock-verbose nil;; no messages while fontifying
       lazy-lock-stealth-verbose nil;; no messages while fontifying
-      fast-lock-cache-directories '("~/.xemacs/font-lock-cache")
+      fast-lock-cache-directories '("~/.xemacs/cache")
       lazy-lock-stealth-time nil
       query-replace-highlight t
       font-menu-ignore-scaled-fonts nil
@@ -645,6 +645,8 @@
 
 (custom-set-variables
 
+ '(semanticdb-default-save-directory "~/.xemacs/cache")
+ 
  ;;'(jde-ant-home (getenv "ANT_HOME"))
  
  '(jde-auto-parse-buffer-interval 60)
@@ -697,15 +699,15 @@
 
 (add-hook 'jde-run-mode-hook 'turn-off-font-lock)
 
-(defadvice jde-import-choose-imports (around fix-to-do-save-excursion)
-  "Fix annoying behavior that causes jde to remove my split buffers after importing a class.  Should be fixed in next version."
-  (save-window-excursion
-    (setq ad-return-value ad-do-it)))
+;;(defadvice jde-import-choose-imports (around fix-to-do-save-excursion)
+;;  "Fix annoying behavior that causes jde to remove my split buffers after importing a class.  Should be fixed in next version."
+;;  (save-window-excursion
+;;    (setq ad-return-value ad-do-it)))
 
-(defadvice jde-import-organize (around fix-to-do-save-excursion)
-  "Fix annoying behavior that causes jde to remove my split buffers after importing a class.  Should be fixed in next version."
-  (save-excursion
-    (setq ad-return-value ad-do-it)))
+;;(defadvice jde-import-organize (around fix-to-do-save-excursion)
+;;  "Fix annoying behavior that causes jde to remove my split buffers after importing a class.  Should be fixed in next version."
+;;  (save-excursion
+;;    (setq ad-return-value ad-do-it)))
 
 ;; Tomcat
 (cond ((or (eq system-type 'windows-nt)
@@ -737,7 +739,7 @@
 (defun sgml-mode-hook-jps ()
   (setq indent-tabs-mode nil)
   (font-lock-mode)
-  (setq sgml-indent-data t)
+  (setq sgml-indent-data nil)
   )
 (add-hook 'sgml-mode-hook  'sgml-mode-hook-jps)
 
