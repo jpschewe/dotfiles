@@ -288,6 +288,7 @@ addpkg_matlab() {
 }
 
 ### java
+unset JAVA_HOME
 case $OSTYPE in
   cygwin)
           # eggplant-laptop gets JAVA_HOME from the windows environment
@@ -308,18 +309,18 @@ case $OSTYPE in
                      prepend PATH "${JAVA_HOME}/bin"
                      ;;
   linux | linux-gnu)
-	 setjava="`type -p setJava`"
-         if [ $setjava -a -x $setjava ]; then
-           . setJava --devel Java2
-         else
-           case $HOST in
-             andromeda*)
-                         JAVA_HOME=/usr/java/j2sdk1.4.2_04
-                         ;;
-           esac
-         fi
-         append PATH "${JAVA_HOME}/bin"
-         ;;
+                     for java_dir in \
+                       /usr/java/jdk1.5.0 \
+                       /usr/java/j2sdk1.4.2_04
+                       do
+                         if [ -z "${JAVA_HOME}" -a -e ${java_dir} ]; then
+                           JAVA_HOME=${java_dir}
+                         fi
+                     done
+                     if [ -n "${JAVA_HOME}" ]; then
+                       prepend PATH "${JAVA_HOME}/bin"
+                     fi
+                     ;;
 esac
 export JAVA_HOME
 
