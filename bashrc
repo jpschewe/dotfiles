@@ -1,4 +1,4 @@
-#!/bin/bash      # Hey EMACS, this should be in -*- sh -*- mode
+#!/bin/bash      # Hey EMACS, this should be in -*- ksh -*- mode
 #
 # FILE		.bashrc 
 # OVERVIEW	This startup is executed every time a bash is executed.
@@ -410,12 +410,24 @@ case $LOCATION in
   ;;
 esac
 
+# CIRCA
+case $LOCATION in
+  htc)
+       export CIRCA_BASENAME='JON'
+       export CIRCA_BASEPORT='50000'
+       export CIRCA_MM_HOST='localhost'
+       export CIRCA_THIS_HOST=$HOST
+       export CIRCA_CODE="/net/projects/circadia/code/jschewe"
+       ;;
+esac
+        
+if [ -f "${HOME}/.ssh/sssha" ]; then
+  . "${HOME}/.ssh/sssha"
+fi
+
 #
 # Avoid loops and such
 #
 #BASHRCREAD=true
 #export BASHRCREAD
 
-if [ -f "${HOME}/.ssh/sssha" ]; then
-  . "${HOME}/.ssh/sssha"
-fi
