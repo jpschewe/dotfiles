@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.39 $
+;; $Revision: 1.40 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -842,7 +842,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
   (progn
     (cond ((eq system-type 'windows-nt)
 	   (setq vm-primary-inbox "n:/users/jschewe/Mail/INBOX"
-		 mail-archive-file-name "n:/users/jschewe/Mail/sent"
+		 mail-archive-file-name "n:/users/jschewe/Mail/Sent"
 		 vm-folder-directory "n:/users/jschewe/Mail/"
 		 )
 	   (add-to-list 'vm-mime-attachment-auto-suffix-alist '("application/msword"  . ".doc"))
@@ -853,11 +853,11 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 	  ((or (eq system-type 'linux) (eq system-type 'usg-unix-v))
 	   (progn
 	     (setq vm-primary-inbox "~/Mail/INBOX"
-		   mail-archive-file-name "~/Mail/sent"
+		   mail-archive-file-name "~/Mail/Sent"
 		   vm-folder-directory "~/Mail/")
 	     ))
 	  (t (setq vm-primary-inbox "~/Mail/INBOX"
-		   mail-archive-file-name "~/Mail/sent"
+		   mail-archive-file-name "~/Mail/Sent"
 		   vm-folder-directory "~/Mail/"
 		   )))
     
