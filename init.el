@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.12 $
+;; $Revision: 1.13 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -805,6 +805,18 @@ user-mail-address, mail-default-reply-to, message-default-headers"
 ;;always use vm for mail
 (global-set-key "\C-xm" 'vm-mail)
 
+;;Do proper line wrapping in mail headers
+(autoload 'message-header-auto-fill "complete-message-recipient")
+(defun mail-mode-hook-jps ()
+  (setq auto-fill-function 'message-header-auto-fill)
+  (auto-save-mode nil))
+(add-hook 'mail-mode-hook 'mail-mode-hook-jps)
+(defun message-mode-hook-jps ()
+  (setq auto-fill-function 'message-header-auto-fill)
+  (auto-save-mode nil))
+(add-hook 'message-mode-hook 'message-mode-hook-jps)
+
+
 (eval-after-load "vm"
   (progn
     (cond ((eq system-type 'windows-nt)
@@ -944,18 +956,6 @@ user-mail-address, mail-default-reply-to, message-default-headers"
 ;;(add-hook 'mail-setup-hook 'bbdb-define-all-aliases)
 (add-hook 'message-setup-hook 'mail-signature)
 (add-hook 'vm-mode-hook 'font-lock-mode)
-
-(defun mail-mode-hook-jps ()
-  ;;(flyspell-mode-on)
-  ;;(define-key mail-mode-map '(tab)  'bbdb-complete-name)
-  (auto-save-mode nil))
-(add-hook 'mail-mode-hook 'mail-mode-hook-jps)
-(defun message-mode-hook-jps ()
-  ;;(flyspell-mode-on)
-;;(add-hook 'mail-send-hook 'flyspell-mode-off)
-  (define-key mail-mode-map '(tab)  'bbdb-complete-name)
-  )
-(add-hook 'message-mode-hook 'message-mode-hook-jps)
 
 ;(setq bbdb-default-area-code 763)
 ;(setq bbdb/mail-auto-create-p nil
