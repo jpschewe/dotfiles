@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.5 $
+;; $Revision: 1.6 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -11,20 +11,18 @@
 ;;set faces up front
 (custom-set-faces)
 
-;; define a variable to tell us if we're running XEmacs/Lucid Emacs
-(defvar running-xemacs (string-match "XEmacs\\|Lucid" emacs-version))
+;; define a variable to tell us where we are
+(defvar system-location 'unknown "The location that we're at.  Possible values: honeywell, home, unknown")
+(let ((host (downcase (system-name))))
+  (cond ((string-match "honeywell.com" host)
+	 (setq system-location 'honeywell))
+	((string-match "mn.mtu.net" host)
+	 (setq system-location 'home))
+	((string-match "eggplant-laptop" host)
+	 (setq system-location 'home))
+	))
 
 ;;(setq stack-trace-on-error nil)
-
-;; get the local stuff
-;(cond ((eq system-type 'windows-nt)
-;       (if (not running-xemacs)
-;	   (local-customizations '(not HTC-shell-tweaks buffer-switch gnuserv supercite))
-;	 (local-customizations '(not HTC-shell-tweaks buffer-switch gnuserv supercite)))
-;       ;;Xemacs on NT gets in trouble with file-precious-flag set
-;       (setq file-precious-flag nil)
-;       )
-;      )
 
 
 ;;Make sure XEmacs doesn't close unless I really want it to
@@ -64,7 +62,8 @@
       )
 
 ;; set the title to make it easy to determine which XEmacs is running
-(setq frame-title-format (concat "XEmacs@" (substring (system-name) 0 (search "." (system-name))) ": %b"))
+(let ((host (downcase (system-name))))
+  (setq frame-title-format (concat "XEmacs@" (substring host 0 (search "." host)) ": %b")))
 
 ;; Change all yes/no prompts to y/n
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -150,7 +149,24 @@
        
 (set-face-foreground 'font-lock-warning-face "yellow")
 (set-face-background 'font-lock-warning-face "red")
-
+(make-face 'font-lock-todo-face)
+(set-face-parent 'font-lock-todo-face 'default)
+(set-face-foreground 'font-lock-todo-face "red")
+(defun add-special-font-lock-faces-jps (vars)
+  "Add my special highlighting to each font-lock var in the given list"
+  (map 'list '(lambda (font-var)
+		(message "Adding to %s" font-var)
+		(add-to-list font-var
+			     '("\\<\\(FIX\\)" 1 font-lock-warning-face t))
+		(add-to-list font-var
+			     '("\\<\\(HACK\\)" 1 font-lock-warning-face t))
+		(add-to-list font-var
+			     '("\\<\\(TODO\\)" 1 font-lock-todo-face t))
+		(add-to-list font-var
+			     '("\\<\\(NOTE\\)" 1 font-lock-todo-face t))
+		(add-to-list font-var
+			     '("\\(\\?\\?\\?+\\)" 1 font-lock-todo-face t))
+		) vars))
 
 ;;;;;;;;;;;
 ;;
@@ -547,12 +563,8 @@
 ;;;;;;;;;;;;
 (message "Perl")
 (require 'cperl-mode)
-(add-to-list 'perl-font-lock-keywords-1
-	     '("\\<\\(FIX\\)" 1 font-lock-warning-face t))
-(add-to-list 'perl-font-lock-keywords-1
-	     '("\\<\\(HACK\\)" 1 font-lock-warning-face t))
-(add-to-list 'perl-font-lock-keywords-1
-	     '("\\<\\(TODO\\)" 1 font-lock-warning-face t))
+(add-special-font-lock-faces-jps (list 'perl-font-lock-keywords 'perl-font-lock-keywords-1 'perl-font-lock-keywords-2))
+
 (defun cperl-mode-hook-jps ()
   (setq tab-width 2)
   (setq indent-tabs-mode nil)
@@ -594,9 +606,6 @@
 (set-register ?n "System.getProperty(\"line.separator\")")
 
 (require 'jde)
-
-;;JDE seems to need this for something
-(setq system-name (system-name))
 
 ;ignore assert files from ant compilation
 (setq completion-ignored-extensions (append '(".assert") completion-ignored-extensions))
@@ -650,20 +659,7 @@
   (make-variable-buffer-local 'fill-paragraph-function)
   (setq fill-paragraph-function nil)
 
-  (add-to-list 'java-font-lock-keywords-4
-	       '("\\<\\(FIX\\)" 1 font-lock-warning-face t))
-  (add-to-list 'java-font-lock-keywords-4
-	       '("\\<\\(HACK\\)" 1 font-lock-warning-face t))
-
-  (make-face 'font-lock-todo-face)
-  (set-face-parent 'font-lock-todo-face 'default)
-  (set-face-foreground 'font-lock-todo-face "red")
-  (add-to-list 'java-font-lock-keywords-4
-	       '("\\<\\(TODO\\)" 1 font-lock-todo-face t))
-  (add-to-list 'java-font-lock-keywords-4
-	       '("\\<\\(NOTE\\)" 1 font-lock-todo-face t))
-  (add-to-list 'java-font-lock-keywords-4
-	       '("\\<\\(\\?\\?\\?\\)" 1 font-lock-todo-face t))
+  (add-special-font-lock-faces-jps (list 'java-font-lock-keywords 'java-font-lock-keywords-1 'java-font-lock-keywords-2 'java-font-lock-keywords-3 'java-font-lock-keywords-4))
   )
 (add-hook 'jde-mode-hook 'jde-mode-hook-jps)
 
@@ -676,7 +672,7 @@
 ;; Tomcat
 ;;FIX need to make sure this is configured by the OS
 (cond ((eq system-type 'windows-nt)
-       (setq catalina-home "c:/packages/Apache-Tomcat-4.0"))
+       (setq catalina-home "c:/packages/tomcat"))
       ((eq system-type 'linux)
        (setq catalina-home "/opt/jakarta/tomcat")))
 
@@ -786,6 +782,15 @@
 (message "Mail")
 (require 'vm)
 
+(defun set-user-mail-address (address)
+  "Change my email address to whatever the argument is.  Sets
+user-mail-address, mail-default-reply-to, message-default-headers"
+  (interactive)
+  (setq user-mail-address address
+	mail-default-reply-to user-mail-address
+	message-default-headers (concat "Reply-To: " user-mail-address "\n")
+	))
+
 ;;always use vm for mail
 (global-set-key "\C-xm" 'vm-mail)
 
@@ -811,32 +816,36 @@
 		   mail-archive-file-name "~/Mail/sent"
 		   vm-folder-directory "~/Mail/"
 		   )))
+    
     ;;common stuff
-    (setq user-mail-address
-	  ;;"jon.schewe@honeywell.com";;FIX need to configure based on system
-	  "jpschewe@mtu.net"
-	  ;;"jpschewe@users.sourceforge.net"
-	  user-full-name "Jon Schewe"
-	  mail-default-reply-to user-mail-address
+    (cond ((eq system-location 'honeywell)
+	   (set-user-mail-address "jon.schewe@honeywell.com"))
+	  ((eq system-location 'home)
+	   (set-user-mail-address "jpschewe@mtu.net"))
+	  (t
+	   (set-user-mail-address "jpschewe@mtu.net")))
+    
+    (setq user-full-name "Jon Schewe"
 	  mail-signature t
 	  mail-signature-file "~/.signature"
-	  message-default-headers (concat "Reply-To: " user-mail-address "\n")
 	  mail-self-blind nil
 	  vm-spool-files nil
 	  vm-crash-box-suffix ".crash"
 	  vm-spool-file-suffixes (list ".spool")
 	  vm-auto-get-new-mail 60
-	  vm-reply-ignored-addresses (list user-mail-address
-					   "schewe_jon@htc.honeywell.com"
+	  vm-reply-ignored-addresses (list "schewe_jon@htc.honeywell.com"
 					   "jschewe@htc.honeywell.com"
 					   "jon.schewe@honeywell.com"
 					   "jpschewe@mtu.net"
+					   "jpschewe@users.sourceforge.net"
 					   )
 	  vm-delete-after-saving t	; delete a message after I save it
 	  vm-mime-use-w3-for-text/html t
 	  vm-use-toolbar nil
 	  vm-mutable-frames nil
 	  vm-reply-subject-prefix "RE: "
+	  vm-forwarding-subject-format "Fw: %s"
+	  vm-forwarding-digest-type "mime" ;;rfc934, rfc1153, mime, nil
 	  vm-mime-external-content-types-alist
 	  `(
 	    ("application/msword" ,openoffice-executable)
@@ -846,8 +855,6 @@
 	    ("application/msexcel" ,openoffice-executable)
 	    ("application/pdf" "acroread")
 	    )
-	  vm-forwarding-subject-format "Fw: %s"
-	  vm-forwarding-digest-type "mime" ;;rfc934, rfc1153, mime, nil
 	  )
     
     (add-to-list 'vm-mime-default-face-charsets "Windows-1251")
@@ -867,15 +874,16 @@
     t ;;make sure eval-after-load is happy
     ))
 
+
 ;; smtp
 (load-library "smtpmail")
 (setq send-mail-function 'smtpmail-send-it)
 (setq message-send-mail-function send-mail-function)
-(cond ((string-match "honeywell.com" (system-name))
+(cond ((eq system-location 'honeywell)
        (setq smtp-server "smtp.honeywell.com"))
-      ((string-match "mn.mtu.net" (system-name))
+      ((eq system-location 'home)
        (setq smtp-server "eggplant"))
-      (T
+      (t ;;default to mtu.net and hope for the best
        (setq smtp-server "mtu.net")))
 ;;(setq smtpmail-debug-info nil) ;;show trace buffer
 ;;(setq smtpmail-code-conv-from nil)
@@ -1282,34 +1290,29 @@
 (setq make-backup-files t
       backup-by-copying t)
 
-;; XEmacs specific stuff
-(when running-xemacs
-  ;; XEmacs specific stuff
-
-  (message "Loading xemacs-init")
+(message "Loading xemacs-init")
   
-  (setq auto-save-directory (expand-file-name "~/.xemacs/auto-save/")
-	auto-save-directory-fallback auto-save-directory
-	auto-save-hash-p nil
-	;;ange-ftp-auto-save t
-	;;ange-ftp-auto-save-remotely nil
-	efs-auto-save t
-	efs-auto-save-remotely nil
-	;; now that we have auto-save-timeout, let's crank this up
-	;; for better interactive response.
-	auto-save-interval 2000
-	efs-ding-on-umask-failure nil
-	)
-  ;; We load this afterwards because it checks to make sure the
-  ;; auto-save-directory exists (creating it if not) when it's loaded.
-  (require 'auto-save)
-  (require 'efs)
-  (efs-display-ftp-activity)
+(setq auto-save-directory (expand-file-name "~/.xemacs/auto-save/")
+      auto-save-directory-fallback auto-save-directory
+      auto-save-hash-p nil
+      ;;ange-ftp-auto-save t
+      ;;ange-ftp-auto-save-remotely nil
+      efs-auto-save t
+      efs-auto-save-remotely nil
+      ;; now that we have auto-save-timeout, let's crank this up
+      ;; for better interactive response.
+      auto-save-interval 2000
+      efs-ding-on-umask-failure nil
+      )
+;; We load this afterwards because it checks to make sure the
+;; auto-save-directory exists (creating it if not) when it's loaded.
+(require 'auto-save)
+(require 'efs)
+(efs-display-ftp-activity)
 
-  (when (or (eq system-type 'usg-unix-v) (eq system-type 'linux))
-    ;;(setq gnuserv-frame t);;Use the current frame for gnuserv clients, Setting this causes gnuclient to not work correctly!
-    (gnuserv-start)
-    )
+(when (or (eq system-type 'usg-unix-v) (eq system-type 'linux))
+  ;;(setq gnuserv-frame t);;Use the current frame for gnuserv clients, Setting this causes gnuclient to not work correctly!
+  (gnuserv-start)
   )
 
 ;; dictionary and thesaurus

@@ -1,3 +1,10 @@
+2003-11-30  Jon Schewe  <jpschewe@mtu.net>
+
+	* init.el (system-location): Add the ability to tell the
+	difference between locations.
+	(add-special-font-lock-faces-jps): Make common place for adding
+	HACK, FIX, etc. font keywords.
+
 2003-11-29  Jon Schewe  <jpschewe@mtu.net>
 
 	*: Initial import
