@@ -457,7 +457,7 @@ case $LOCATION in
   htc)
     case $OSTYPE in
       cygwin)
-        ILOG_HOME=//hl-dfs/net/packages/ilog
+        ILOG_HOME=//mn65fsna1/net/packages/ilog
         append PATH ${ILOG_HOME}/ilm/current/win32
         ;;
       solaris2*)
