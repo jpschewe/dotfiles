@@ -215,7 +215,7 @@ esac
 #Xemacs
 case $OS in
   cygwin)
-          append PATH "/cygdrive/c/packages/XEmacs/XEmacs-21.4.9/i586-pc-win32"
+          append PATH "/cygdrive/c/packages/XEmacs/XEmacs-21.4.13/i586-pc-win32"
           ;;
   solaris2 | sunos4)
      #prepend PATH /net/packages/xemacs/20.4/install/sparc-sun-solaris2.4/bin
