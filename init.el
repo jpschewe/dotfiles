@@ -1,5 +1,5 @@
 ;; -*- Mode: Emacs-Lisp -*-
-;; $Revision: 1.32 $
+;; $Revision: 1.33 $
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -340,6 +340,10 @@
   (add-to-list 'dired-auto-shell-command-alist '("\\.tar.bz2$" "tar --bzip2 -xvf"))
   (add-to-list 'dired-auto-shell-command-alist '("\\.tar.bz2$" "tar --bzip2 -tf"))
 
+  ;;stuffit
+  (when (eq system-type 'linux)
+    (add-to-list 'dired-auto-shell-command-alist '("\\.sit$" "unstuff")))
+  
   ;;office documents
   (add-to-list 'dired-auto-shell-command-alist '("\\.doc$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.sxw$" openoffice-executable))
