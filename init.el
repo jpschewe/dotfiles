@@ -111,7 +111,7 @@
        ;; Prerequisit: Set the SHELL environment variable to bash before
        ;; starting emacs.  The variable shell-file-name is initialized to the
        ;; enviroment variable when emacs starts up.
-       (setq shell-file-name "c:\\packages\\cygwin\\bin\\bash.exe"
+       (setq shell-file-name "c:\\packages\\cygwin\\bin\\bash"
 	     ;; Make "M-x shell-command" use the same shell as "M-x shell"
 	     explicit-shell-file-name shell-file-name)
        
@@ -1632,10 +1632,13 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (require 'efs)
 (efs-display-ftp-activity)
 
-;;(when (or (eq system-type 'usg-unix-v) (eq system-type 'linux))
+(when (or
+       (eq system-type 'usg-unix-v)
+       (eq system-type 'linux)
+       (eq system-type 'cygwin32))
   ;;(setq gnuserv-frame t);;Use the current frame for gnuserv clients, Setting this causes gnuclient to not work correctly!
 (gnuserv-start)
-;;  )
+  )
 
 ;; dictionary and thesaurus
 (autoload 'dict "dict" nil t)
