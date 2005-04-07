@@ -385,7 +385,7 @@ esac
 case $OSTYPE in
   cygwin)
           if [ -e /cygdrive/c/packages/ant ]; then
-            ANT_HOME=/cygdrive/c/packages/ant
+            ANT_HOME=c:/packages/ant
           fi
           ;;
   linux)
