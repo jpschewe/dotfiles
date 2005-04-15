@@ -61,15 +61,6 @@
       scroll-step 5			; set how many lines to scroll at a time
       enable-local-eval t ;;don't propmt me about evals in files
       )
-
-;;handle password prompts
-;;(setq comint-password-prompt-regexp "\\([Ee]nter \\|[Oo]ld \\|[Nn]ew \\|^\\|'s \\|Bad \\)\\([Pp]ass\\(word\\|phrase\\(, try again\\)?\\)\\)\\|\\(\\(same\\)?pass ?phrase\\):?\\s *\\'")
-(setq comint-password-prompt-regexp
-;;      (concat
-;;       "^\\(\\(?:[Ee]nter\\|[Oo]ld\\|[Nn]ew\\|[Bb]ad\\|\\sw+'s\\)\\(?: same\\)? \\)?"
-       "^.*\\(?:[Pp]ass\\(?:word\\| ?phrase\\)\\).*:\\s-*\\'"
-;;     )
-       )
  
 ;; set the title to make it easy to determine which XEmacs is running
 (let ((host (downcase (system-name))))
@@ -330,6 +321,11 @@
 ;;;;;;;;;;;;
 (message "comint")
 (require 'comint)
+
+;;handle password prompts
+(setq comint-password-prompt-regexp
+       "^.*\\(?:[Pp]ass\\(?:word\\| ?phrase\\)\\).*:\\s-*\\'"
+       )
 
 (defun comint-common-hook-jps ()
   (local-set-key [up] 'comint-previous-matching-input-from-input)
