@@ -327,6 +327,8 @@
        "^.*\\(?:[Pp]ass\\(?:word\\| ?phrase\\)\\).*:\\s-*\\'"
        )
 
+(require 'comint-local)
+
 (defun comint-common-hook-jps ()
   (local-set-key [up] 'comint-previous-matching-input-from-input)
   (local-set-key [down] 'comint-next-matching-input-from-input)
