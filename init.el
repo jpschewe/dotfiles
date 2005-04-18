@@ -237,6 +237,12 @@
 ;;;;;;;;;;;;
 (autoload 'svn-status "psvn" nil t)
 (add-to-list 'completion-ignored-extensions ".svn/")
+(eval-after-load "psvn"
+  (progn
+    (define-key svn-status-mode-map "n" 'svn-status-next-line)
+    (define-key svn-status-mode-map "p" 'svn-status-previous-line)
+
+    t))
 
 
 ;;;;;;;;;;;
@@ -474,30 +480,32 @@
 
 ;; setup the template for new html files
 (eval-after-load "html-helper-mode"
-  (setq tempo-template-html-skeleton
-	'(
-	  "<?xml version='1.0' encoding='us-ascii'?>" n>
-	  "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" n>
-	  "<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>" n>
-	  "<head>" n>
-	  "<meta http-equiv='Content-Type' content='text/html; charset=us-ascii'/>" n>
-	  "<title>" (p "Document Title: " title) "</title>" n>
-	  "<link rel='stylesheet' type='text/css' href='style.css'/>" n>
-	  "</head>" n>
-	  "<body>" n>
-	  "<h1>" (s title) "</h1>" n>
-	  p
-	  >
-	  ""
-	  "<hr/>"n>
-	  "<p>" n>
-	  (html-helper-return-created-string) html-helper-timestamp-start html-helper-timestamp-end
-	  n>
-	  "</p>" n>
-	  "</body>" n>
-	  "</html>"
+  (progn
+    (setq tempo-template-html-skeleton
+	  '(
+	    "<?xml version='1.0' encoding='us-ascii'?>" n>
+	    "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" n>
+	    "<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>" n>
+	    "<head>" n>
+	    "<meta http-equiv='Content-Type' content='text/html; charset=us-ascii'/>" n>
+	    "<title>" (p "Document Title: " title) "</title>" n>
+	    "<link rel='stylesheet' type='text/css' href='style.css'/>" n>
+	    "</head>" n>
+	    "<body>" n>
+	    "<h1>" (s title) "</h1>" n>
+	    p
+	    >
+	    ""
+	    "<hr/>"n>
+	    "<p>" n>
+	    (html-helper-return-created-string) html-helper-timestamp-start html-helper-timestamp-end
+	    n>
+	    "</p>" n>
+	    "</body>" n>
+	    "</html>"
+	    )
 	  )
-	)
+    t)
   )
 
 ;;;;;;;;;;;
@@ -1346,7 +1354,8 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
     (add-to-list 'tag-table-alist '("" . "."))
 
     (setq tags-auto-read-changed-tag-files t)
-    (setq tags-build-completion-table nil)))
+    (setq tags-build-completion-table nil)
+    t))
 
 
 ;;;;;;;;;;;
