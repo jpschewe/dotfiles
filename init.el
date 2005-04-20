@@ -916,6 +916,8 @@
   (save-excursion
     (jde-import-organize t)))
 
+;; required by cedet and defined by JDE.  This makes sure it gets defined
+;; up front.
 (unless (fboundp 'subst-char-in-string)
   (defun subst-char-in-string (fromchar tochar string &optional inplace)
     "Replace FROMCHAR with TOCHAR in STRING each time it occurs.
