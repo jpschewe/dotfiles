@@ -816,14 +816,14 @@
 ;;;;;;;;;;;;
 (message "Java")
 
+;; Load JDE
+(add-to-list 'load-path (expand-file-name "~/.xemacs/jde-2.3.5/lisp"))
+(load-file "~/.xemacs/jde-2.3.5/lisp/jde-autoload.el")
+
 ;; Load CEDET
 (load-file "~/.xemacs/cedet-1.0beta3b/common/cedet.el")
 ;; Enabling SEMANTIC minor modes.  See semantic/INSTALL for more ideas.
 (semantic-load-enable-minimum-features)
-
-;; Load JDE
-(add-to-list 'load-path (expand-file-name "~/.xemacs/jde-2.3.5/lisp"))
-(load-file "~/.xemacs/jde-2.3.5/lisp/jde-autoload.el")
 
 (add-to-list 'auto-mode-alist '("\\.jass$" . jde-mode))
 (add-to-list 'auto-mode-alist '("\\.jad$" . jde-mode))
