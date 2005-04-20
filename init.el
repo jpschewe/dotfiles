@@ -238,11 +238,10 @@
 (autoload 'svn-status "psvn" nil t)
 (add-to-list 'completion-ignored-extensions ".svn/")
 (eval-after-load "psvn"
-  (progn
-    (define-key svn-status-mode-map "n" 'svn-status-next-line)
-    (define-key svn-status-mode-map "p" 'svn-status-previous-line)
-
-    t))
+  '(progn
+     (define-key svn-status-mode-map "n" 'svn-status-next-line)
+     (define-key svn-status-mode-map "p" 'svn-status-previous-line)
+     ))
 
 
 ;;;;;;;;;;;
@@ -480,7 +479,7 @@
 
 ;; setup the template for new html files
 (eval-after-load "html-helper-mode"
-  (progn
+  '(progn
     (setq tempo-template-html-skeleton
 	  '(
 	    "<?xml version='1.0' encoding='us-ascii'?>" n>
@@ -1075,7 +1074,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 
 
 ;;(eval-after-load "vm"
-;;  (progn
+;;  '(progn
 ;;    (cond ((eq system-type 'windows-nt)
 ;;	   (setq vm-primary-inbox "n:/users/jschewe/Mail/INBOX"
 ;;		 mail-archive-file-name "n:/users/jschewe/Mail/Sent"
@@ -1331,12 +1330,12 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;;HACK Something is broken right now and this fixes it
 (eval-after-load
     "gnus"
-  (progn
-    (when (not (boundp 'mailcap-parse-mailcaps))
-      (fset 'mailcap-parse-mailcaps 'ignore))
-    (when (not (boundp 'mailcap-mime-info))
-      (fset 'mailcap-mime-info 'ignore))
-    t))
+  '(progn
+     (when (not (boundp 'mailcap-parse-mailcaps))
+       (fset 'mailcap-parse-mailcaps 'ignore))
+     (when (not (boundp 'mailcap-mime-info))
+       (fset 'mailcap-mime-info 'ignore))
+     t))
 
 ;;;;;;;;;;;
 ;;
@@ -1346,16 +1345,16 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (message "TAGS")
 (eval-after-load
     "etags"
-  (progn
-    (if (not (boundp 'tag-table-alist))
-	(setq tag-table-alist '()))
-    (add-to-list 'tag-table-alist '("\\.el$" . "~/elib/"))
-    (add-to-list 'tag-table-alist '("\\.emacs" . "~/elib/"))
-    (add-to-list 'tag-table-alist '("" . "."))
+  '(progn
+     (if (not (boundp 'tag-table-alist))
+	 (setq tag-table-alist '()))
+     (add-to-list 'tag-table-alist '("\\.el$" . "~/elib/"))
+     (add-to-list 'tag-table-alist '("\\.emacs" . "~/elib/"))
+     (add-to-list 'tag-table-alist '("" . "."))
 
-    (setq tags-auto-read-changed-tag-files t)
-    (setq tags-build-completion-table nil)
-    t))
+     (setq tags-auto-read-changed-tag-files t)
+     (setq tags-build-completion-table nil)
+     t))
 
 
 ;;;;;;;;;;;
