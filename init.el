@@ -827,6 +827,7 @@
 (add-to-list 'auto-mode-alist '("\\.jass$" . jde-mode))
 (add-to-list 'auto-mode-alist '("\\.jad$" . jde-mode))
 (add-to-list 'auto-mode-alist '("\\.xjava$" . jde-mode))
+(add-to-list 'auto-mode-alist '("\\.groovy$" . jde-mode))
 
 ;;basic setup
 (setq java-home (getenv "JAVA_HOME"))
@@ -1661,6 +1662,13 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;;(message "Tramp")
 ;;(setq tramp-default-method "scp")
 
+;;;;;;;;;;;
+;;
+;; iswitchb
+;;
+;;;;;;;;;;;;
+;;make iswitchb work like switch-to-buffer
+(setq iswitchb-default-method 'samewindow)
 
 ;;;;;;;;;;;
 ;;
