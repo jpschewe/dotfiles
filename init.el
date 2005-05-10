@@ -590,6 +590,11 @@
   (add-to-list 'dired-auto-shell-command-alist '("\\.jar$" "jar -xvf"))
   (add-to-list 'dired-auto-shell-command-alist '("\\.jar$" "jar -tvf"))
 
+  ;; kde integration for html files
+  (when (eq system-type 'linux)
+    (add-to-list 'dired-auto-shell-command-alist '("\\.htm$" "kfmclient openURL"))
+    (add-to-list 'dired-auto-shell-command-alist '("\\.html$" "kfmclient openURL"))
+    )
   ;; default windows handling
   (when (or (eq system-type 'windows-nt)
 	    (eq system-type 'cygwin32))
@@ -1669,6 +1674,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;;;;;;;;;;;;
 ;;make iswitchb work like switch-to-buffer
 (setq iswitchb-default-method 'samewindow)
+(iswitchb-default-keybindings)
 
 ;;;;;;;;;;;
 ;;
