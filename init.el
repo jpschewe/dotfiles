@@ -1419,7 +1419,6 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (message "minibuffer")
 
 ;; resize the minibuffer when stuff is too big
-(autoload 'resize-minibuffer-mode "rsz-minibuf" nil t)
 (resize-minibuffer-mode 1)
 (setq resize-minibuffer-window-exactly nil)
 
