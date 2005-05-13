@@ -388,7 +388,7 @@
 	  (lambda nil  
 	    (filladapt-mode 1) 
 	    ))
-(diminish 'filladapt-mode "FA")
+(diminish 'filladapt-mode "Fa")
 
 ;;;;;;;;;;;
 ;;
