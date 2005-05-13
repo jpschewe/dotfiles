@@ -383,7 +383,11 @@
 (message "text-mode")
 ;; Turn on word-wrap in text modes
 ;;(add-hook 'text-mode-hook 'turn-on-auto-fill)
-
+(require 'filladapt)
+(add-hook 'text-mode-hook 
+	  (lambda nil  
+	    (filladapt-mode 1) 
+	    ))
 
 ;;;;;;;;;;;
 ;;
@@ -607,8 +611,12 @@
   )
 (add-hook 'dired-load-hook 'dired-load-hook-jps)
 
-(require 'dired)
-(load-library "dired-shell")
+;;(require 'dired)
+;;(load-library "dired-shell")
+
+;; hide details of files
+;;(require 'dired-details)
+;;(dired-details-install)
 
 ;;autorevert directories
 ;;(defadvice dired-internal-noselect (before my-auto-revert-dired activate)
@@ -1023,6 +1031,8 @@ Unless optional argument INPLACE is non-nil, return a new string."
 
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
+
+(add-to-list 'auto-mode-alist '("\\.xsd$" . xml-mode))
 
 ;;;;;;;;;;;
 ;;
