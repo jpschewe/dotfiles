@@ -917,6 +917,7 @@
 
 (add-hook 'jde-run-mode-hook 'turn-off-font-lock)
 
+(defvar project-header-info nil "Information about a project for the header, usually the charge number and date")
 (defun insert-project-header-info-jps ()
   (interactive)
   (insert project-header-info))
@@ -1659,9 +1660,10 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (when (or
        (eq system-type 'usg-unix-v)
        (eq system-type 'linux)
-       (eq system-type 'cygwin32))
+       ;;(eq system-type 'cygwin32)
+       )
   ;;(setq gnuserv-frame t);;Use the current frame for gnuserv clients, Setting this causes gnuclient to not work correctly!
-(gnuserv-start)
+  (gnuserv-start)
   )
 
 ;; dictionary and thesaurus
