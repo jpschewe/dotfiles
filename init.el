@@ -316,7 +316,7 @@
 ;;;;;;;;;;;;
 (message "grep")
 ;;change the default to be my perl script
-(setq grep-command "rgrep -n ")
+(setq grep-command "grep -n -R --exclude='*.svn*' ")
 
 
 ;;;;;;;;;;;
@@ -388,7 +388,6 @@
 	  (lambda nil  
 	    (filladapt-mode 1) 
 	    ))
-(diminish 'filladapt-mode "Fa")
 
 ;;;;;;;;;;;
 ;;
@@ -1969,6 +1968,7 @@ That is, the cvsroot as seen on the cvs server (if remote), without hostname if 
 (diminish 'auto-fill-function "Af")
 (diminish 'isearch-mode "IS")
 (diminish 'camelCase-mode "CC")
+(diminish 'filladapt-mode "Fa")
 
 ;;; Emacs compatibility
 (unless (boundp 'quit-window)
