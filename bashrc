@@ -418,6 +418,9 @@ case $LOCATION in
        export CIRCA_MM_HOST='localhost'
        export CIRCA_THIS_HOST=$HOST
        export CIRCA_CODE="/net/projects/circadia/code/jschewe"
+       export CORTEX_ATTACKER="mn65-cygnus"
+       export CORTEX_DEFENDER="mn65-eggplant"
+       export CORTEX_TASTER="sulu"
        ;;
 esac
         
