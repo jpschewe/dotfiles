@@ -387,6 +387,8 @@ case $OSTYPE in
           if [ -e c:/packages/ant ]; then
             ANT_HOME=c:/packages/ant
           fi
+          U_ANT_HOME=`cygpath "${ANT_HOME}"`
+          append PATH "${U_ANT_HOME}/bin"
           ;;
   linux)
          if [ -e /net/packages/java/ant/1.6.2/apache-ant-1.6.2 ]; then
@@ -408,8 +410,6 @@ esac
 if [ -n "${ANT_HOME}" ]; then
   export ANT_HOME
   export ANT_OPTS="-Xmx256M"
-  U_ANT_HOME=`cygpath "${ANT_HOME}"`
-  append PATH "${U_ANT_HOME}/bin"
 fi
 
 # Microsoft VisualStudio C/C++
