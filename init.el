@@ -122,6 +122,8 @@
        )
       ((eq system-type 'linux)
        (cond
+	((file-exists-p (expand-file-name "/usr/bin/ooffice"))
+	 (setq openoffice-executable (expand-file-name "/usr/bin/ooffice")))
 	((file-exists-p (expand-file-name "~/.ooo-1.1/soffice"))
 	 (setq openoffice-executable (expand-file-name "~/.ooo-1.1/soffice")))
 	((file-exists-p "/opt/OpenOffice.org/program/soffice")
@@ -316,7 +318,7 @@
 ;;;;;;;;;;;;
 (message "grep")
 ;;change the default to be my perl script
-(setq grep-command "grep -n -R --exclude='*.svn*' ")
+(setq grep-command "grep -n -R --exclude='*.svn*' --exclude='*CVS*' ")
 
 
 ;;;;;;;;;;;
