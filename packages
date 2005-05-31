@@ -384,7 +384,7 @@ esac
 ### ant
 case $OSTYPE in
   cygwin)
-          if [ -e /cygdrive/c/packages/ant ]; then
+          if [ -e c:/packages/ant ]; then
             ANT_HOME=c:/packages/ant
           fi
           ;;
@@ -408,7 +408,8 @@ esac
 if [ -n "${ANT_HOME}" ]; then
   export ANT_HOME
   export ANT_OPTS="-Xmx256M"
-  prepend PATH "${ANT_HOME}/bin"
+  U_ANT_HOME=`cygpath "${ANT_HOME}"`
+  append PATH "${U_ANT_HOME}/bin"
 fi
 
 # Microsoft VisualStudio C/C++
