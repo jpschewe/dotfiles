@@ -515,6 +515,13 @@ case $OSTYPE in
             ;;
 esac
 
+### OpenPBS
+case $OSTYPE in
+  linux)
+         append PATH /opt/pbs/bin
+         ;;
+esac
+
 ### HOME
 prepend PATH "${HOME}/bin"
 prepend PATH "${HOME}/bin/$OSTYPE"
