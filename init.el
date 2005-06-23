@@ -51,8 +51,6 @@
       delete-old-versions t
       version-control t
       shell-multiple-shells t;; allow multiple shell buffers
-      browse-url-browser-function 'browse-url-netscape;; use netscape
-      browse-url-new-window-flag t;; try to use a new window when browsing
       ;;completion-ignore-case t          ;case insensitive file matching
       find-file-compare-truenames t;; watch out for symlinks
       ;;find-file-use-truenames t ;; always find the real filename
@@ -61,7 +59,16 @@
       scroll-step 5			; set how many lines to scroll at a time
       enable-local-eval t ;;don't propmt me about evals in files
       )
- 
+
+;; web browser integration
+(cond ((eq system-type 'linux)
+       (setq browse-url-browser-function 'browse-url-kfm))
+       (t
+	(setq browse-url-browser-function 'browse-url-mozila)))
+(setq
+ browse-url-new-window-flag t;; try to use a new window when browsing
+ )
+
 ;; set the title to make it easy to determine which XEmacs is running
 (let ((host (downcase (system-name))))
   (setq frame-title-format (concat "XEmacs: " (user-real-login-name) "@" (substring host 0 (search "." host)) ": %b")))
@@ -768,6 +775,17 @@
       compilation-ask-about-save nil)
 (add-hook 'compilation-mode-hook 'turn-off-font-lock)
 
+;;(defadvice compile-internal (around compile-internal-jps)
+;;  "Switch to compilation buffer in other window"
+;;  (let (outbuf-jps (get-buffer-create
+;;		    (funcall (or name-function compilation-buffer-name-function
+;;				 (function (lambda (mode)
+;;					     (concat "*" (downcase mode) "*"))))
+;;			     name-of-mode))
+;;		   (setq ad-return-value ad-do-it)
+;;  (switch-to-buffer-other-window compilation-last-buffer)
+;;  )
+  
 ;;Make sure compilation mode finds the right file when instrumenting Java code
 ;;(defun compilation-filter-hook-jps ()
 ;;  (interactive)
@@ -1950,6 +1968,56 @@ That is, the cvsroot as seen on the cvs server (if remote), without hostname if 
       
      ;; useless message added before the actual addition: ignored 
      (cvs-match "RCS file: .*\ndone$"))))
+
+;;;;;;;;;;;
+;;
+;; Newsticker- RSS reader
+;;
+;;;;;;;;;;;
+
+;;my feeds
+(setq newsticker-url-list (list
+			   '("BOFH" "http://www.theregister.co.uk/odds/bofh/excerpts.rss")
+			   ))
+
+;;Included in XEmacs 21.5.6, but not my current version
+(unless (fboundp 'count-screen-lines)
+  (defun count-screen-lines (&optional beg end count-final-newline window)
+    "Return the number of screen lines in the region.
+The number of screen lines may be different from the number of actual lines,
+due to line breaking, display table, etc.
+
+Optional arguments BEG and END default to `point-min' and `point-max'
+respectively.
+
+If region ends with a newline, ignore it unless optional third argument
+COUNT-FINAL-NEWLINE is non-nil.
+
+The optional fourth argument WINDOW specifies the window used for obtaining
+parameters such as width, horizontal scrolling, and so on.  The default is
+to use the selected window's parameters.
+
+Like `vertical-motion', `count-screen-lines' always uses the current buffer,
+regardless of which buffer is displayed in WINDOW.  This makes possible to use
+`count-screen-lines' in any buffer, whether or not it is currently displayed
+in some window."
+    (unless beg
+      (setq beg (point-min)))
+    (unless end
+      (setq end (point-max)))
+    (if (= beg end)
+	0
+      (save-excursion
+	(save-restriction
+	  (widen)
+	  (narrow-to-region (min beg end)
+			    (if (and (not count-final-newline)
+				     (= ?\n (char-before (max beg end))))
+				(1- (max beg end))
+			      (max beg end)))
+	  (goto-char (point-min))
+	  (1+ (vertical-motion (buffer-size) window))))))
+  )
 
 ;;;;;;;;;;;
 ;;
