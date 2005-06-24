@@ -1974,6 +1974,8 @@ That is, the cvsroot as seen on the cvs server (if remote), without hostname if 
 ;; Newsticker- RSS reader
 ;;
 ;;;;;;;;;;;
+(autoload 'newsticker-start "newsticker" "Emacs Newsticker" t)
+(autoload 'newsticker-show-news "newsticker" "Emacs Newsticker" t)
 
 ;;my feeds
 (setq newsticker-url-list (list
