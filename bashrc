@@ -412,15 +412,15 @@ esac
 
 # CIRCA
 case $LOCATION in
-  htc)
+  htc|home)
        export CIRCA_BASENAME='JON'
        export CIRCA_BASEPORT='50000'
        export CIRCA_MM_HOST='localhost'
        export CIRCA_THIS_HOST=$HOST
        export CIRCA_CODE="/net/projects/circadia/code/jschewe"
-       export CORTEX_ATTACKER="mn65-cygnus"
-       export CORTEX_DEFENDER="mn65-eggplant"
-       export CORTEX_TASTER="sulu"
+       export CORTEX_ATTACKER="mn65-cygnus.htc.honeywell.com"
+       export CORTEX_DEFENDER="mn65-eggplant.htc.honeywell.com"
+       export CORTEX_TASTER="sulu.htc.honeywell.com"
        ;;
 esac
         
