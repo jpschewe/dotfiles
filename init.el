@@ -1980,6 +1980,7 @@ That is, the cvsroot as seen on the cvs server (if remote), without hostname if 
 ;;my feeds
 (setq newsticker-url-list (list
 			   '("BOFH" "http://www.theregister.co.uk/odds/bofh/excerpts.rss")
+			   '("Slashdot" "http://slashdot.org/index.rss")
 			   ))
 
 ;;Included in XEmacs 21.5.6, but not my current version
