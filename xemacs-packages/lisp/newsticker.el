@@ -1,6 +1,6 @@
 ;;; newsticker.el --- A Newsticker for Emacs.
 
-;; Copyright (C) 2003-2004 by Ulf Jasper
+;; Copyright (C) 2003-2005 by Ulf Jasper
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -9,10 +9,10 @@
 ;; URL:         http://www.nongnu.org/newsticker
 ;; Created:     17. June 2003
 ;; Keywords:    News, RSS
-;; Time-stamp:  "10. November 2004, 20:36:53 (ulf)"
-;; CVS-Version: $Id: newsticker.el,v 1.89 2004/11/10 19:42:12 u11 Exp $
+;; Time-stamp:  "25. Juni 2005, 18:36:16 (ulf)"
+;; CVS-Version: $Id: newsticker.el,v 1.119 2005/06/25 16:36:55 u11 Exp $
 
-(defconst newsticker-version "1.6" "Version number of newsticker.el.")
+(defconst newsticker-version "1.7" "Version number of newsticker.el.")
 
 ;; ======================================================================
 
@@ -36,102 +36,167 @@
 
 ;; Overview
 ;; --------
-;; Newsticker provides a newsticker for Emacs. A newsticker is a thing
-;; that asynchronously retrieves headlines from a list of news sites,
-;; prepares these headlines for reading, and allows for loading the
-;; corresponding articles in a web browser.
+
+;; Newsticker provides a newsticker for Emacs. A newsticker is a thing that
+;; asynchronously retrieves headlines from a list of news sites, prepares
+;; these headlines for reading, and allows for loading the corresponding
+;; articles in a web browser.
 
 ;; Headlines consist of a title and (possibly) a small description. They
-;; are contained in RSS (RDF Site Summary) files.  Newsticker should work
+;; are contained in RSS (RDF Site Summary) files. Newsticker should work
 ;; with all RSS files that follow the RDF Rich Site Summary 1.0
-;; specification (http://purl.org/rss/1.0/spec). It should also work with
-;; version 2.0 as well as other/older/alternative rss formats (like
-;; 0.9<something> or such). In other words: Newsticker is a ``RSS
-;; reader'' or ``RSS aggregator''.
+;; specification. It should also work with version 2.0 as well as
+;; other/older/alternative RSS formats (like 0.9<something> or such). In
+;; other words: Newsticker is a "RSS reader" or "RSS aggregator".
 
 ;; Newsticker provides several commands for reading headlines, navigating
-;; through them, marking them as read/unread, hiding old headlines etc.
-;; Headlines can be displayed as plain text or as rendered HTML.
+;; through them, marking them as read/unread, hiding old headlines
+;; etc. Headlines can be displayed as plain text or as rendered HTML.
 
 ;; Headlines can be displayed in the echo area, either scrolling like
 ;; messages in a stock-quote ticker, or just changing.
 
+;; Newsticker allows for automatic processing of headlines by providing
+;; hooks and (sample) functions for automatically downloading images and
+;; enclosed files (as delivered by podcasts, e.g.).
+
+
+
 ;; Requirements
 ;; ------------
-;; Newsticker can be used with GNU Emacs
-;; (http://www.gnu.org/software/emacs/emacs.html) version 21.1 or later
-;; as well as XEmacs (http://www.xemacs.org).  It requires an XML-parser
-;; (xml.el) which is part of GNU Emacs.  If you are using XEmacs you want
-;; to get the net-utils package which contains xml.el for XEmacs.
+;; Newsticker can be used with GNU Emacs version 21.1 or later as well as
+;; XEmacs. It requires an XML-parser (`xml.el') which is part of GNU
+;; Emacs. If you are using XEmacs you want to get the `net-utils' package
+;; which contains `xml.el' for XEmacs.
 
 ;; Newsticker requires a program which can retrieve files via http and
-;; prints them to stdout.  By default Newsticker will use wget
-;; (http://www.gnu.org/software/wget/wget.html) for this task.
-
+;; prints them to stdout. By default Newsticker will use wget for this
+;; task.
 
 ;; Installation
 ;; ------------
 ;; Place Newsticker in a directory where Emacs can find it. Add the
-;; following line to your Emacs startup file (~/.emacs).
-
-;;  (add-to-list 'load-path "/path/to/newsticker/")
-;;  (autoload 'newsticker-start "newsticker" "Emacs Newsticker" t)
-;;  (autoload 'newsticker-show-news "newsticker" "Emacs Newsticker" t)
+;; following line to your Emacs startup file (`~/.emacs').
+;;   (add-to-list 'load-path "/path/to/newsticker/")
+;;   (autoload 'newsticker-start "newsticker" "Emacs Newsticker" t)
+;;   (autoload 'newsticker-show-news "newsticker" "Emacs Newsticker" t)
 
 ;; Newsticker-mode supports imenu. It allows for navigating with the help
 ;; of a menu. In order to use this feature you should also add the
 ;; following.
+;;   (add-hook 'newsticker-mode-hook 'imenu-add-menubar-index)
 
-;;  (add-hook 'newsticker-mode-hook 'imenu-add-menubar-index)
-
-;; That's it.
+;; That's it. 
 
 ;; Usage
 ;; -----
-;; The command `newsticker-show-news' will display all available
-;; headlines in a special buffer (`*newsticker*').  It will also start
-;; the asynchronous download of headlines.  The modeline in the
-;; `*newsticker*' buffer informs whenever new headlines have arrived.
-;; Clicking mouse-button 2 or pressing RET in this buffer on a headline
-;; will call `browse-url' to load the corresponding news story in your
-;; favourite web browser.
+;; The command newsticker-show-news will display all available headlines in
+;; a special buffer, called `*newsticker*'. It will also start the
+;; asynchronous download of headlines. The modeline in the `*newsticker*'
+;; buffer informs whenever new headlines have arrived. Clicking
+;; mouse-button 2 or pressing RET in this buffer on a headline will call
+;; browse-url to load the corresponding news story in your favourite web
+;; browser.
 
-;; The scrolling, or flashing of headlines in the echo area, can be
-;; started with the command `newsticker-start-ticker'. It can be stopped
-;; with `newsticker-stop-ticker'.
+;; The scrolling, or flashing of headlines in the echo area, can be started
+;; with the command newsticker-start-ticker. It can be stopped with
+;; newsticker-stop-ticker.
 
 ;; If you just want to start the periodic download of headlines use the
-;; command `newsticker-start'. Calling `newsticker-stop' will stop the
-;; periodic download, but will call `newsticker-stop-ticker' as well.
+;; command newsticker-start. Calling newsticker-stop will stop the periodic
+;; download, but will call newsticker-stop-ticker as well.
 
 ;; Configuration
 ;; -------------
 ;; All Newsticker options are customizable, i.e. they can be changed with
-;; Emacs customization methods: Call the command `customize-group' and
-;; enter `newsticker' for the customization group.
+;; Emacs customization methods: Call the command customize-group and enter
+;; `newsticker' for the customization group.
 
 ;; All Newsticker options have reasonable default values, so that in most
 ;; cases it is not necessary to customize settings before starting
 ;; Newsticker for the first time.
 
-;; The most important options are the following.
+;; Newsticker options are organized in the following groups.
 
-;; * `newsticker-url-list' defines the list of headlines which are
-;;   retrieved.
-;; * `newsticker-retrieval-interval' defines how often headlines
-;;   are retrieved.
-;; * `newsticker-display-interval' and `newsticker-scroll-smoothly'
-;;   define how headlines are shown in the echo area.
+;; * newsticker-feed contains options that define which news
+;;   feeds are retrieved and how this is done.
+;;   o newsticker-url-list defines the list of headlines which are
+;;     retrieved.
+;;   o newsticker-retrieval-interval defines how often headlines are
+;;     retrieved.
+;; * newsticker-headline-processing contains options that define how the
+;;   retrieved headlines are processed.
+;;   o newsticker-keep-obsolete-items decides whether unread headlines that
+;;     have been removed from the feed are kept in the Newsticker cache.
+;; * newsticker-layout contains options that define how the buffer for
+;;   reading RSS headlines is formatted.
+;;   o newsticker-item-format defines how the title of a headline is
+;;     formatted.
+;; * newsticker-ticker contains options that define how headlines are shown
+;;   in the echo area.
+;;   o newsticker-display-interval and newsticker-scroll-smoothly define
+;;     how headlines are shown in the echo area.
+;; * newsticker-hooks contains options for hooking other Emacs commands to
+;;   newsticker functions.
+;;   o newsticker-new-item-functions allows for automatic processing of
+;;     headlines. See `newsticker-download-images', and
+;;     `newsticker-download-enclosures' for sample functions.
+;; * newsticker-miscellaneous contains other Newsticker options.
 
-;; PS: This newsticker is designed do its job silently in the
-;;     background without disturbing you.  However, it is probably
-;;     impossible to prevent such a tool from slightly attenuating your
-;;     Editor's responsiveness every once in a while.
+;; Please have a look at the customization buffers for the complete list of
+;; options.
 
-;;     Byte-compiling newsticker.el is recommended.
+;; Remarks
+;; -------
+;; This newsticker is designed do its job silently in the background
+;; without disturbing you.  However, it is probably impossible to prevent
+;; such a tool from slightly attenuating your Editor's responsiveness every
+;; once in a while.
+
+;; Byte-compiling newsticker.el is recommended.
 
 ;; ======================================================================
 ;;; History:
+
+;; 1.7 (2005-06-25)
+;;     * Tool-bar support: most important commands can be called from
+;;       tool-bar buttons.
+;;     * Auto-Narrowing introduced: *newsticker* buffer can be narrowed to
+;;       a single item (bound to key `xi') or a single feed (bound to `xf').
+;;     * Enclosure support: enclosed items are shown (see
+;;       `newsticker-enclosure-face') and can be (automatically) downloaded
+;;       (see below). For those of you who read "podcasts".
+;;     * Added variable `newsticker-auto-mark-filter' for automatically
+;;       marking items as immortal or old.
+;;     * Added hook variable `newsticker-new-item-functions' for handling
+;;       new items.  Added sample functions `newsticker-download-images',
+;;       and `newsticker-download-enclosures'.
+;;     * Added hook variable `newsticker-select-item-hook' which is run
+;;       after `newsticker-(next|previous)-(new-)?-item'.
+;;     * Added hook variable `newsticker-select-feed-hook' which is run
+;;       after `newsticker-(next|previous)-feed'.
+;;     * Added hook variable `newsticker-buffer-change-hook' which is run
+;;       after the contents or visibility of the newsticker buffer has
+;;       changed, e.g. after `newsticker-buffer-update' or
+;;       `newsticker-show-feed-desc'.
+;;     * Added command `newsticker-handle-url' for interactively launching
+;;       arbitrary programs for URLs, bound to `C-RET'.
+;;     * URLs in extra elements are clickable.
+;;     * Better support for w3, added command
+;;       `newsticker-w3m-show-inline-images' for displaying all inline
+;;       images.
+;;     * Insert an artificial headline which notifies about failed retrievals.
+;;     * Use pubDate element (RSS 2.0) instead of retrieval time when
+;;       available.
+;;     * Customizable options grouped.
+;;     * Bugfixes: `newsticker--imenu-create-index'; strip whitespace
+;;       from links; apply coding-system to extra-elements; time-comparison
+;;       for obsolete items; and others which I have forgotten.
+;;     * Workaround for another bug in xml-parse-region -- thanks to anonymous
+;;       for sending patch.
+;;     * Renamed invisible buffers ` *wget-newsticker-<feed>*' to
+;;       ` *newsticker-wget-<feed>*'.
+;;     * Tested with GNU Emacs versions 21.3 and 22.0 and XEmacs 21.something.
 
 ;; 1.6 * Support for (some) optional RSS elements: guid, dc:date. See
 ;;       `newsticker-show-all-rss-elements' `newsticker-extra-face'.
@@ -271,8 +336,6 @@
 ;;; To Do:
 
 ;; * Image handling for XEmacs (create-image does not exist)
-;; * (texi) documentation
-;; * speed
 
 ;; ======================================================================
 ;;; Code:
@@ -284,7 +347,8 @@
 ;;; Customizables
 ;; ======================================================================
 (defgroup newsticker nil
-  "Newsticker settings.")
+  "RSS aggregator."
+  :group 'applications)
 
 (defconst newsticker--raw-url-list-defaults
   '(("CNET News.com"
@@ -318,7 +382,7 @@
     ("slashdot"
     "http://slashdot.org/index.rss"
     nil
-    3600)			 ;/. will ban you if under 3600 seconds!
+    3600)                        ;/. will ban you if under 3600 seconds!
     ("Wired News"
     "http://www.wired.com/news_drop/netcenter/netcenter.rdf")
     ("Heise News (german)"
@@ -335,7 +399,7 @@ This list is fed into defcustom via `newsticker--splicer'.")
 (defun newsticker--splicer (item)
   "Convert ITEM for splicing into `newsticker-url-list-defaults'."
   (let ((result (list 'list :tag (nth 0 item) (list 'const (nth 0 item))))
-	(element (cdr item)))
+        (element (cdr item)))
     (while element
       (setq result (append result (list (list 'const (car element)))))
       (setq element (cdr element)))
@@ -348,68 +412,73 @@ This list is fed into defcustom via `newsticker--splicer'.")
   "Set newsticker-variable SYMBOL value to VALUE.
 
 Calls all necessary actions which are necessary in order to make
-the new value effective. Changing `newsticker-url-list', for example,
+the new value effective.  Changing `newsticker-url-list', for example,
 will re-start the retrieval-timers."
   (unless (condition-case nil
-	      (eq (symbol-value symbol) value)
-	    (error nil))
+              (eq (symbol-value symbol) value)
+            (error nil))
     (set symbol value)
     (cond ((eq symbol 'newsticker-sort-method)
-	   (when (fboundp 'newsticker--cache-sort)
-	     (message "Applying new sort method...")
-	     (newsticker--cache-sort)
-	     (newsticker--buffer-set-uptodate nil)
-	     (message "Applying new sort method...done")))
-	  ((memq symbol '(newsticker-url-list-defaults
-			  newsticker-url-list
-			  newsticker-retrieval-interval))
-	   (when (and (fboundp 'newsticker-running-p)
-		      (newsticker-running-p))
-	     (message "Restarting newsticker")
-	     (newsticker-stop)
-	     (newsticker-start)))
-	  ((eq symbol 'newsticker-display-interval)
-	   (when (and (fboundp 'newsticker-running-p)
-		      (newsticker-running-p))
-	     (message "Restarting ticker")
-	     (newsticker-stop-ticker)
-	     (newsticker-start-ticker)
-	     (message "")))
-	  ((memq symbol '(newsticker-hide-old-items-in-echo-area
-			  newsticker-hide-obsolete-items-in-echo-area
-			  newsticker-hide-immortal-items-in-echo-area))
-	   (when (and (fboundp 'newsticker-running-p)
-		      (newsticker-running-p))
-	     (message "Restarting newsticker")
-	     (newsticker-stop-ticker)
-	     (newsticker--ticker-text-setup)
-	     (newsticker-start-ticker)
-	     (message "")))
-	  ((memq symbol '(newsticker-hide-old-items-in-newsticker-buffer
-			  newsticker-show-descriptions-of-new-items))
-	   (when (fboundp 'newsticker--buffer-set-uptodate)
-	     (newsticker--buffer-set-uptodate nil)))
-	  ((memq symbol '(newsticker-heading-format
-			  newsticker-item-format
-			  newsticker-desc-format
-			  newsticker-date-format
-			  newsticker-statistics-format
-			  newsticker-justification
-			  newsticker-use-full-width
-			  newsticker-html-renderer
-			  newsticker-feed-face
-			  newsticker-new-item-face
-			  newsticker-old-item-face
-			  newsticker-immortal-item-face
-			  newsticker-obsolete-item-face
-			  newsticker-date-face
-			  newsticker-statistics-face
-			  ;;newsticker-default-face
-			  ))
-	   (when (fboundp 'newsticker--forget-preformatted)
-	     (newsticker--forget-preformatted)))
-	  (t
-	   (error "Ooops %s" symbol)))))
+           (when (fboundp 'newsticker--cache-sort)
+             (message "Applying new sort method...")
+             (newsticker--cache-sort)
+             (newsticker--buffer-set-uptodate nil)
+             (message "Applying new sort method...done")))
+          ((memq symbol '(newsticker-url-list-defaults
+                          newsticker-url-list
+                          newsticker-retrieval-interval))
+           (when (and (fboundp 'newsticker-running-p)
+                      (newsticker-running-p))
+             (message "Restarting newsticker")
+             (newsticker-stop)
+             (newsticker-start)))
+          ((eq symbol 'newsticker-display-interval)
+           (when (and (fboundp 'newsticker-running-p)
+                      (newsticker-running-p))
+             (message "Restarting ticker")
+             (newsticker-stop-ticker)
+             (newsticker-start-ticker)
+             (message "")))
+          ((memq symbol '(newsticker-hide-old-items-in-echo-area
+                          newsticker-hide-obsolete-items-in-echo-area
+                          newsticker-hide-immortal-items-in-echo-area))
+           (when (and (fboundp 'newsticker-running-p)
+                      (newsticker-running-p))
+             (message "Restarting newsticker")
+             (newsticker-stop-ticker)
+             (newsticker--ticker-text-setup)
+             (newsticker-start-ticker)
+             (message "")))
+          ((memq symbol '(newsticker-hide-old-items-in-newsticker-buffer
+                          newsticker-show-descriptions-of-new-items))
+           (when (fboundp 'newsticker--buffer-set-uptodate)
+             (newsticker--buffer-set-uptodate nil)))
+          ((memq symbol '(newsticker-heading-format
+                          newsticker-item-format
+                          newsticker-desc-format
+                          newsticker-date-format
+                          newsticker-statistics-format
+                          newsticker-justification
+                          newsticker-use-full-width
+                          newsticker-html-renderer
+                          newsticker-feed-face
+                          newsticker-new-item-face
+                          newsticker-old-item-face
+                          newsticker-immortal-item-face
+                          newsticker-obsolete-item-face
+                          newsticker-date-face
+                          newsticker-statistics-face
+                          ;;newsticker-default-face
+                          ))
+           (when (fboundp 'newsticker--forget-preformatted)
+             (newsticker--forget-preformatted)))
+          (t
+           (error "Ooops %s" symbol)))))
+
+;; customization group feed
+(defgroup newsticker-feed nil
+  "Settings for the RSS feeds."
+  :group 'newsticker)
 
 (defcustom newsticker-url-list-defaults
  '(("Emacs Wiki"
@@ -422,9 +491,9 @@ http://subhonker6.userland.com/rcsPublic/rssHotlist.
 
 You may add other entries in `newsticker-url-list'."
   :type `(set ,@(mapcar `newsticker--splicer
-			newsticker--raw-url-list-defaults))
+                        newsticker--raw-url-list-defaults))
   :set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-feed)
 
 (defcustom newsticker-url-list nil
   "The news feeds which you like to watch.
@@ -465,35 +534,30 @@ which apply for this feed only, overriding the value of
                                (string  :tag "Fixed Time"))
                        (choice :tag "Interval"
                                (const   :tag "Default" nil)
+                               (const   :tag "Hourly" 3600)
+                               (const   :tag "Daily" 86400)
                                (integer :tag "Interval"))
                        (choice :tag "Wget Arguments"
                                (const  :tag "Default arguments" nil)
                                (repeat :tag "Special arguments" string))))
   :set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-feed)
 
-(defcustom newsticker-scroll-smoothly
-  t
-  "Decides whether to flash or scroll news items.
-If t the news headlines are scrolled (more-or-less) smoothly in the echo
-area.  If nil one headline after another is displayed in the echo area.
-The variable `newsticker-display-interval' determines how fast this
-display moves/changes and whether headlines are shown in the echo area
-at all.  If you change `newsticker-scroll-smoothly' you should also change
-`newsticker-display-interval'."
-  :type 'boolean
-  :group 'newsticker)
+(defcustom newsticker-wget-name
+  "wget"
+  "Name of the program which is called to retrieve news from the web.
+The canonical choice is wget but you may take any other program which is
+able to return the contents of a news feed file on stdout."
+  :type 'string
+  :group 'newsticker-feed)
 
-(defcustom newsticker-display-interval
-  0.3
-  "Time interval for displaying news items (seconds).
-If equal or less than 0 no messages are shown in the echo area.  For
-smooth display (see `newsticker-scroll-smoothly') a value of 0.3 seems
-reasonable.  For non-smooth display a value of 10 is a good starting
-point."
-  :type 'number
-  :set 'newsticker--set-customvar
-  :group 'newsticker)
+(defcustom newsticker-wget-arguments
+  '("-q" "-O" "-")
+  "Arguments which are passed to wget.
+There is probably no reason to change the default settings, unless you
+are living behind a firewall."
+  :type '(repeat (string :tag "Argument"))
+  :group 'newsticker-feed)
 
 (defcustom newsticker-retrieval-interval
   3600
@@ -502,24 +566,98 @@ If this value is not positive (i.e. less than or equal to 0)
 items are retrieved only once!
 Please note that some feeds, e.g. Slashdot, will ban you if you
 make it less than 1800 seconds (30 minutes)!"
-  :type 'integer
+  :type '(choice :tag "Interval"
+                 (const   :tag "No automatic retrieval" 0)
+                 (const   :tag "Hourly" 3600)
+                 (const   :tag "Daily" 86400)
+                 (integer :tag "Interval"))
   :set 'newsticker--set-customvar
+  :group 'newsticker-feed)
+
+(defcustom newsticker-desc-comp-max
+  100
+  "Relevant length of headline descriptions.
+This value gives the maximum number of characters which will be
+taken into account when newsticker compares two headline
+descriptions."
+  :type 'integer
+  :group 'newsticker-feed)
+
+;; customization group behaviour
+(defgroup newsticker-headline-processing nil
+  "Settings for the automatic processing of RSS headlines."
   :group 'newsticker)
 
-(defcustom newsticker-wget-name
-  "wget"
-  "Name of the program which is called to retrieve news from the web.
-The canonical choice is wget but you may take any other program which is
-able to return the contents of a news feed file on stdout."
-  :type 'string
-  :group 'newsticker)
+(defcustom newsticker-automatically-mark-items-as-old
+  t
+  "Decides whether to automatically mark items as old.
+If t a new item is considered as new only after its first retrieval.  As
+soon as it is retrieved a second time, it becomes old.  If not t all
+items stay new until you mark them as old.  This is done in the
+*newsticker* buffer."
+  :type 'boolean
+  :group 'newsticker-headline-processing)
 
-(defcustom newsticker-wget-arguments
-  '("-q" "-O" "-")
-  "Arguments which are passed to wget.
-There is probably no reason to change the default settings, unless you
-are living behind a firewall."
-  :type '(repeat (string :tag "Argument"))
+(defcustom newsticker-automatically-mark-visited-items-as-old
+  t
+  "Decides whether to automatically mark visited items as old.
+If t an item is marked as old as soon as the associated link is
+visited, i.e. after pressing RET or mouse2 on the item's
+headline."
+
+  :type 'boolean
+  :group 'newsticker-headline-processing)
+
+(defcustom newsticker-keep-obsolete-items
+  t
+  "Decides whether to keep unread items which have been removed from feed.
+If t a new item, which has been removed from the feed, is kept in
+the cache until it is marked as read."
+  :type 'boolean
+  :group 'newsticker-headline-processing)
+
+(defcustom newsticker-obsolete-item-max-age
+  (* 60 60 24)
+  "Maximal age of obsolete items, in seconds.
+Obsolete items which are older than this value will be silently
+deleted at the next retrieval."
+  :type 'integer
+  :group 'newsticker-headline-processing)
+
+(defcustom newsticker-auto-mark-filter
+  nil
+  "A filter for automatically marking headlines.
+
+This is an alist of the form (FEED-NAME OLD-LIST IMMORTAL-LIST).  I.e. each
+element consists of a FEED-NAME and two lists.  Each list consists a set of
+regular expressions.  The first list contains patterns of headlines which
+will be marked as old.  The second list contains patterns of headlines which
+will be marked as immortal.
+
+This filter is checked after a new headline has been retrieved.  If
+FEED-NAME matches the name of the corresponding news feed, both sublists
+are checked: If the title of the headline matches any of the regular
+expressions in OLD-LIST, this headline is marked as old, if it matches any
+of the expressions in IMMORTAL-LIST it is marked as immortal.
+
+If, for example, `newsticker-auto-mark-filter' looks like
+ \((slashdot (\"^Forget me!$\") (\"^Read me$\" \"important\")))
+then all articles from slashdot are marked as old if they have the title
+\"Forget me!\".  All articles which have the title \"Read me\" and all
+articles which contain the string \"important\" in their title are marked
+as immortal."
+  :type '(repeat (list :tag "Feed filter rule"
+                       (string :tag "Feed name")
+                       ;;(choice ,@(mapcar (lambda (i)
+                         ;;                  (list :tag (car i) (car i)))
+                           ;;              newsticker-url-list))
+                       (repeat :tag "Mark as old" string)
+                       (repeat :tag "Mark as immortal" string)))
+  :group 'newsticker-headline-processing)
+
+;; customization group layout
+(defgroup newsticker-layout nil
+  "Settings for layout of the RSS reader."
   :group 'newsticker)
 
 (defcustom newsticker-sort-method
@@ -534,74 +672,11 @@ The following sort methods are available:
   the first time.  The most recent item is put at top,
 * `sort-by-title' will put the items in an alphabetical order."
   :type '(choice
-	  (const :tag "Keep original order" sort-by-original-order)
-	  (const :tag "Sort by time"        sort-by-time)
-	  (const :tag "Sort by title"       sort-by-title))
+          (const :tag "Keep original order" sort-by-original-order)
+          (const :tag "Sort by time"        sort-by-time)
+          (const :tag "Sort by title"       sort-by-title))
   :set 'newsticker--set-customvar
-  :group 'newsticker)
-
-(defcustom newsticker-automatically-mark-items-as-old
-  t
-  "Decides whether to automatically mark items as old.
-If t a new item is considered as new only after its first retrieval.  As
-soon as it is retrieved a second time, it becomes old.  If not t all
-items stay new until you mark them as old.  This is done in the
-*newsticker* buffer."
-  :type 'boolean
-  :group 'newsticker)
-
-(defcustom newsticker-automatically-mark-visited-items-as-old
-  t
-  "Decides whether to automatically mark visited items as old.
-If t an item is marked as old as soon as the associated link is
-visited, i.e. after pressing RET or mouse2 on the item's
-headline."
-
-  :type 'boolean
-  :group 'newsticker)
-
-(defcustom newsticker-keep-obsolete-items
-  t
-  "Decides whether to keep unread items which have been removed from feed.
-If t a new item, which has been removed from the feed, is kept in
-the cache until it is marked as read."
-  :type 'boolean
-  :group 'newsticker)
-
-(defcustom newsticker-obsolete-item-max-age
-  (* 60 60 24)
-  "Maximal age of obsolete items, in seconds.
-Obsolete items which are older than this value will be silently
-deleted at the next retrieval."
-  :type 'integer
-  :group 'newsticker)
-  
-(defcustom newsticker-hide-immortal-items-in-echo-area
-  t
-  "Decides whether to show immortal/non-expiring news items in the ticker.
-If t the echo area will not show immortal items.  See also
-`newsticker-hide-old-items-in-echo-area."
-  :type 'boolean
-  :set 'newsticker--set-customvar
-  :group 'newsticker)
-
-(defcustom newsticker-hide-old-items-in-echo-area
-  t
-  "Decides whether to show only the newest news items in the ticker.
-If t the echo area will show only new items, i.e. only items which have
-been added between the last two retrievals."
-  :type 'boolean
-  :set 'newsticker--set-customvar
-  :group 'newsticker)
-
-(defcustom newsticker-hide-obsolete-items-in-echo-area
-  t
-  "Decides whether to show obsolete items items in the ticker.
-If t the echo area will not show obsolete items.  See also
-`newsticker-hide-old-items-in-echo-area."
-  :type 'boolean
-  :set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-layout)
 
 (defcustom newsticker-hide-old-items-in-newsticker-buffer
   nil
@@ -611,7 +686,7 @@ will show up in the *newsticker* buffer.  Otherwise old as well as new
 items will be visible."
   :type 'boolean
   :set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-layout)
 
 (defcustom newsticker-show-descriptions-of-new-items
   t
@@ -620,31 +695,8 @@ If set to t old items will be folded and new items will be
 unfolded.  Otherwise old as well as new items will be folded."
   :type 'boolean
   :set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-layout)
 
-(defcustom newsticker-start-hook
-  nil
-  "Hook run when starting newsticker.
-This hook is run at the very end of `newsticker-start'."
-  :options '(newsticker-start-ticker)
-  :type 'hook
-  :group 'newsticker)
-
-(defcustom newsticker-stop-hook
-  nil
-  "Hook run when stopping newsticker.
-This hook is run at the very end of `newsticker-stop'."
-  :options nil
-  :type 'hook
-  :group 'newsticker)
-
-(defcustom newsticker-cache-filename
-  "~/.newsticker-cache"
-  "Name of the newsticker cache file."
-  :type 'string
-  :group 'newsticker)
-
-;; layout related things
 (defcustom newsticker-heading-format
   "%l
 %t %d %s"
@@ -660,7 +712,7 @@ The following printf-like specifiers can be used:
 %t  The title of the feed, i.e. its name."
   :type 'string
   :set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-layout)
 
 (defcustom newsticker-item-format
   "%t %d"
@@ -670,10 +722,12 @@ The following printf-like specifiers can be used:
 %l  The logo (image) of the feed.  Most RSS feeds provide a small
     image as logo.  Newsticker can display them, if Emacs can --
     see `image-types' for a list of supported image types.
+%L  The logo (image) of the feed.  If the logo is not available
+    the title of the feed is used.
 %t  The title of the item."
   :type 'string
   :set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-layout)
 
 (defcustom newsticker-desc-format
   "%d %c"
@@ -683,7 +737,7 @@ The following printf-like specifiers can be used:
 %d  The date the item was (first) retrieved.  See `newsticker-date-format'."
   :type 'string
   :set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-layout)
 
 (defcustom newsticker-date-format
   "(%A, %H:%M)"
@@ -691,7 +745,7 @@ The following printf-like specifiers can be used:
 See `format-time-string' for a list of valid specifiers."
   :type 'string
   :set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-layout)
 
 (defcustom newsticker-statistics-format
   "[%n + %i + %o + %O = %a]"
@@ -704,8 +758,14 @@ The following printf-like specifiers can be used:
 %O  The number of obsolete items in the feed."
   :type 'string
   :set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-layout)
 
+(defcustom newsticker-show-all-rss-elements
+  t
+  "Show all RSS elements."
+  :type 'boolean
+  ;;:set 'newsticker--set-customvar
+  :group 'newsticker-layout)
 
 ;; image related things
 (defcustom newsticker-enable-logo-manipulations
@@ -713,15 +773,9 @@ The following printf-like specifiers can be used:
   "If non-nil newsticker manipulates logo images.
 This enables the following image properties: heuristic mask for all
 logos, and laplace-conversion for images without new items."
-:type 'boolean
-:group 'newsticker)
+  :type 'boolean
+  :group 'newsticker-layout)
 
-
-(defcustom newsticker-imagecache-dirname
-  "~/.newsticker-images"
-  "Name of the directory where newsticker stores cached images."
-  :type 'string
-  :group 'newsticker)
 
 ;; rendering
 (defcustom newsticker-justification
@@ -732,13 +786,13 @@ item descriptions.  However, if an item description contains HTML
 text and `newsticker-html-renderer' is non-nil, filling is not
 done."
   :type '(choice :tag "Justification"
-		 (const :tag "No filling" nil)
-		 (const :tag "Left"       left)
-		 (const :tag "Right"      right)
-		 (const :tag "Center"     center)
-		 (const :tag "Full"       full))
+                 (const :tag "No filling" nil)
+                 (const :tag "Left"       left)
+                 (const :tag "Right"      right)
+                 (const :tag "Center"     center)
+                 (const :tag "Full"       full))
   :set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-layout)
 
 (defcustom newsticker-use-full-width
   t
@@ -747,7 +801,7 @@ If non-nil newsticker sets `fill-column' so that the whole
 window is used when filling.  See also `newsticker-justification'."
   :type 'boolean
   :set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-layout)
 
 (defcustom newsticker-html-renderer
   nil
@@ -757,32 +811,33 @@ HTML-like tags in item descriptions.  Possible functions are, for
 example, `w3m-region', `w3-region', and (if you have htmlr.el installed)
 `newsticker-htmlr-render'.
 
-In order to make sure that the HTML renderer is loaded when you run
-newsticker, you should add the following statements to your .emacs:
+In order to make sure that the HTML renderer is loaded when you
+run newsticker, you should add one of the following statements to
+your .emacs.  If you use w3m,
 
   (autoload 'w3m-region \"w3m\"
     \"Render region in current buffer and replace with result.\" t)
 
-or
+or, if you use w3,
 
   (require 'w3-auto)
 
-or
-
-  (autoload 'htmlr-reset  \"htmlr\" \"HTML rendering in Elisp\")
-
-or
+or, if you use htmlr
 
   (require 'htmlr)"
   :type '(choice :tag "Function"
-		 (const :tag "None" nil)
-		 (const :tag "w3" w3-region)
-		 (const :tag "w3m" w3m-region)
-		 (const :tag "htmlr" newsticker-htmlr-render))
+                 (const :tag "None" nil)
+                 (const :tag "w3" w3-region)
+                 (const :tag "w3m" w3m-region)
+                 (const :tag "htmlr" newsticker-htmlr-render))
   :set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-layout)
+
 
 ;; faces
+(defgroup newsticker-faces nil
+  "Settings for the faces of the RSS reader."
+  :group 'newsticker-layout)
 
 (defface newsticker-feed-face
   '((((class color) (background dark))
@@ -793,7 +848,7 @@ or
               :foreground "black")))
   "Face for news feeds."
   ;;:set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-faces)
 
 (defface newsticker-new-item-face
   '((((class color) (background dark))
@@ -802,7 +857,7 @@ or
      (:bold t :foreground "blue")))
   "Face for old news items."
   ;;:set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-faces)
 
 (defface newsticker-old-item-face
   '((((class color) (background dark))
@@ -811,7 +866,7 @@ or
      (:bold t)))
   "Face for old news items."
   ;;:set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-faces)
 
 (defface newsticker-immortal-item-face
   '((((class color) (background dark))
@@ -820,7 +875,7 @@ or
      (:italic t :foreground "blue")))
   "Face for immortal news items."
   ;;:set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-faces)
 
 (defface newsticker-obsolete-item-face
   '((((class color) (background dark))
@@ -829,7 +884,7 @@ or
      (:bold t :foreground "blue2" :underline t)))
   "Face for old news items."
   ;;:set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-faces)
 
 (defface newsticker-date-face
   '((((class color) (background dark))
@@ -838,7 +893,7 @@ or
      (:italic t)))
   "Face for newsticker dates."
   ;;:set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-faces)
 
 (defface newsticker-statistics-face
   '((((class color) (background dark))
@@ -847,7 +902,16 @@ or
      (:italic t)))
   "Face for newsticker dates."
   ;;:set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-faces)
+
+(defface newsticker-enclosure-face
+  '((((class color) (background dark))
+     (:bold t :background "orange"))
+    (((class color) (background light))
+     (:bold t :background "orange")))
+  "Face for enclosed elements."
+  ;;:set 'newsticker--set-customvar
+  :group 'newsticker-faces)
 
 (defface newsticker-extra-face
   '((((class color) (background dark))
@@ -856,7 +920,7 @@ or
      (:italic t :foreground "gray50" :height 0.8)))
   "Face for newsticker dates."
   ;;:set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-faces)
 
 ;; (defface newsticker-default-face
 ;;   '((((class color) (background dark))
@@ -865,14 +929,164 @@ or
 ;;      (:inherit default)))
 ;;   "Face for the description of news items."
 ;;   ;;:set 'newsticker--set-customvar
-;;   :group 'newsticker)
+;;   :group 'newsticker-faces)
 
-(defcustom newsticker-desc-comp-max
-  100
-  "Maximum number of characters which will be taken into account
-  when newsticker compares two item descriptions."
-  :type 'integer
+
+;; customization group ticker
+(defgroup newsticker-ticker nil
+  "Settings for the RSS ticker."
   :group 'newsticker)
+
+(defcustom newsticker-display-interval
+  0.3
+  "Time interval for displaying news items in the echo area (seconds).
+If equal or less than 0 no messages are shown in the echo area.  For
+smooth display (see `newsticker-scroll-smoothly') a value of 0.3 seems
+reasonable.  For non-smooth display a value of 10 is a good starting
+point."
+  :type 'number
+  :set 'newsticker--set-customvar
+  :group 'newsticker-ticker)
+
+(defcustom newsticker-scroll-smoothly
+  t
+  "Decides whether to flash or scroll news items.
+If t the news headlines are scrolled (more-or-less) smoothly in the echo
+area.  If nil one headline after another is displayed in the echo area.
+The variable `newsticker-display-interval' determines how fast this
+display moves/changes and whether headlines are shown in the echo area
+at all.  If you change `newsticker-scroll-smoothly' you should also change
+`newsticker-display-interval'."
+  :type 'boolean
+  :group 'newsticker-ticker)
+
+(defcustom newsticker-hide-immortal-items-in-echo-area
+  t
+  "Decides whether to show immortal/non-expiring news items in the ticker.
+If t the echo area will not show immortal items.  See also
+`newsticker-hide-old-items-in-echo-area."
+  :type 'boolean
+  :set 'newsticker--set-customvar
+  :group 'newsticker-ticker)
+  
+(defcustom newsticker-hide-old-items-in-echo-area
+  t
+  "Decides whether to show only the newest news items in the ticker.
+If t the echo area will show only new items, i.e. only items which have
+been added between the last two retrievals."
+  :type 'boolean
+  :set 'newsticker--set-customvar
+  :group 'newsticker-ticker)
+
+(defcustom newsticker-hide-obsolete-items-in-echo-area
+  t
+  "Decides whether to show obsolete items items in the ticker.
+If t the echo area will not show obsolete items.  See also
+`newsticker-hide-old-items-in-echo-area."
+  :type 'boolean
+  :set 'newsticker--set-customvar
+  :group 'newsticker-ticker)
+
+(defgroup newsticker-hooks nil
+  "Settings for newsticker hooks."
+  :group 'newsticker)
+
+(defcustom newsticker-start-hook
+  nil
+  "Hook run when starting newsticker.
+This hook is run at the very end of `newsticker-start'."
+  :options '(newsticker-start-ticker)
+  :type 'hook
+  :group 'newsticker-hooks)
+
+(defcustom newsticker-stop-hook
+  nil
+  "Hook run when stopping newsticker.
+This hook is run at the very end of `newsticker-stop'."
+  :options nil
+  :type 'hook
+  :group 'newsticker-hooks)
+
+(defcustom newsticker-new-item-functions
+  nil
+  "List of functions run after a new headline has been retrieved.
+Each function is called with the following three arguments:
+FEED  the name of the corresponding news feed,
+TITLE the title of the headline,
+DESC  the decoded description of the headline.
+
+See `newsticker-download-images', and
+`newsticker-download-enclosures' for sample functions.
+
+Please note that these functions are called only once for a
+headline after it has been retrieved for the first time."
+  :type 'hook
+  :options '(newsticker-download-images
+             newsticker-download-enclosures)
+  :group 'newsticker-hooks)
+
+(defcustom newsticker-select-item-hook
+  'newsticker--buffer-make-item-completely-visible
+  "List of functions run after a headline has been selected.
+Each function is called after one of `newsticker-next-item',
+`newsticker-next-new-item', `newsticker-previous-item',
+`newsticker-previous-new-item' has been called.
+
+The default value 'newsticker--buffer-make-item-completely-visible
+assures that the current item is always completely visible."
+  :type 'hook
+  :options '(newsticker--buffer-make-item-completely-visible)
+  :group 'newsticker-hooks)
+
+(defcustom newsticker-select-feed-hook
+  'newsticker--buffer-make-item-completely-visible
+  "List of functions run after a feed has been selected.
+Each function is called after one of `newsticker-next-feed', and
+`newsticker-previous-feed' has been called.
+
+The default value 'newsticker--buffer-make-item-completely-visible
+assures that the current feed is completely visible."
+  :type 'hook
+  :options '(newsticker--buffer-make-item-completely-visible)
+  :group 'newsticker-hooks)
+
+(defcustom newsticker-buffer-change-hook
+  'newsticker-w3m-show-inline-images
+  "List of functions run after the newsticker buffer has been updated.
+Each function is called after `newsticker-buffer-update' has been called.
+
+The default value '`newsticker-w3m-show-inline-images' loads inline
+images."
+  :type 'hook
+  :group 'newsticker-hooks)
+
+(defcustom newsticker-narrow-hook
+  'newsticker-w3m-show-inline-images
+  "List of functions run after narrowing in newsticker buffer has changed.
+Each function is called after
+`newsticker-toggle-auto-narrow-to-feed' or
+`newsticker-toggle-auto-narrow-to-item' has been called.
+
+The default value '`newsticker-w3m-show-inline-images' loads inline
+images."
+  :type 'hook
+  :group 'newsticker-hooks)
+
+(defgroup newsticker-miscellaneous nil
+  "Miscellaneous newsticker settings."
+  :group 'newsticker)
+
+(defcustom newsticker-cache-filename
+  "~/.newsticker-cache"
+  "Name of the newsticker cache file."
+  :type 'string
+  :group 'newsticker-miscellaneous)
+
+(defcustom newsticker-imagecache-dirname
+  "~/.newsticker-images"
+  "Name of the directory where newsticker stores cached images."
+  :type 'string
+  :group 'newsticker-miscellaneous)
 
 ;; debugging
 (defcustom newsticker-debug
@@ -880,23 +1094,16 @@ or
   "Enables some features needed for debugging newsticker.el.
 
 If set to t newsticker.el will print lots of debugging messages, and the
-buffers *wget-newsticker-<feed>* will not be closed."
+buffers *newsticker-wget-<feed>* will not be closed."
   :type 'boolean
   ;;:set 'newsticker--set-customvar
-  :group 'newsticker)
-
-(defcustom newsticker-show-all-rss-elements
-  t
-  "Show all RSS elements."
-  :type 'boolean
-  ;;:set 'newsticker--set-customvar
-  :group 'newsticker)
+  :group 'newsticker-miscellaneous)
 
 ;; ======================================================================
 ;;; Compatibility section, XEmacs, Emacs
 ;; ======================================================================
 (unless (fboundp 'time-add)
-  (require 'time-date)
+  (require 'time-date);;FIXME
   (defun time-add (t1 t2)
     (seconds-to-time (+ (time-to-seconds t1) (time-to-seconds t2)))))
 
@@ -915,16 +1122,16 @@ buffers *wget-newsticker-<feed>* will not be closed."
 See documentation for `buffer-invisibility-spec' for the kind of elements
 that can be added."
     (if (eq buffer-invisibility-spec t)
-	(setq buffer-invisibility-spec (list t)))
+        (setq buffer-invisibility-spec (list t)))
     (setq buffer-invisibility-spec
-	  (cons arg buffer-invisibility-spec))))
+          (cons arg buffer-invisibility-spec))))
 
 ;; copied from subr.el
 (unless (fboundp 'remove-from-invisibility-spec)
   (defun remove-from-invisibility-spec (arg)
     "Remove elements from `buffer-invisibility-spec'."
     (if (consp buffer-invisibility-spec)
-	(setq buffer-invisibility-spec (delete arg buffer-invisibility-spec)))))
+        (setq buffer-invisibility-spec (delete arg buffer-invisibility-spec)))))
 
 ;; ======================================================================
 ;;; Internal variables
@@ -971,16 +1178,965 @@ formatted contents of the item's description and title.  This
 speeds things up if HTML rendering is used, which is rather
 slow.")
 
+(defvar newsticker--auto-narrow-to-feed nil
+  "Automatically narrow to current news feed.
+If non-nil only the items of the current news feed are visible.")
+
+(defvar newsticker--auto-narrow-to-item nil
+  "Automatically narrow to current news item.
+If non-nil only the current headline is visible.")
+
+(defconst newsticker--error-headline
+  "[COULD NOT DOWNLOAD HEADLINES!]"
+  "Title of error headline which will be inserted if news retrieval fails.")
+
+;; ======================================================================
+;;; Toolbar
+;; ======================================================================
+(defconst newsticker--next-item-image
+  (if (fboundp 'create-image)
+      (create-image "/* XPM */
+static char * next_xpm[] = {
+\"24 24 42 1\",
+\" 	c None\",
+\".	c #000000\",
+\"+	c #7EB6DE\",
+\"@	c #82BBE2\",
+\"#	c #85BEE4\",
+\"$	c #88C1E7\",
+\"%	c #8AC3E8\",
+\"&	c #87C1E6\",
+\"*	c #8AC4E9\",
+\"=	c #8CC6EA\",
+\"-	c #8CC6EB\",
+\";	c #88C2E7\",
+\">	c #8BC5E9\",
+\",	c #8DC7EB\",
+\"'	c #87C0E6\",
+\")	c #8AC4E8\",
+\"!	c #8BC5EA\",
+\"~	c #8BC4E9\",
+\"{	c #88C1E6\",
+\"]	c #89C3E8\",
+\"^	c #86BFE5\",
+\"/	c #83BBE2\",
+\"(	c #82BBE1\",
+\"_	c #86C0E5\",
+\":	c #87C0E5\",
+\"<	c #83BCE2\",
+\"[	c #81B9E0\",
+\"}	c #81BAE1\",
+\"|	c #78B0D9\",
+\"1	c #7BB3DB\",
+\"2	c #7DB5DD\",
+\"3	c #7DB6DD\",
+\"4	c #72A9D4\",
+\"5	c #75ACD6\",
+\"6	c #76AED7\",
+\"7	c #77AFD8\",
+\"8	c #6BA1CD\",
+\"9	c #6EA4CF\",
+\"0	c #6FA6D1\",
+\"a	c #6298C6\",
+\"b	c #659BC8\",
+\"c	c #5C91C0\",
+\"                        \",
+\"                        \",
+\"       .                \",
+\"       ..               \",
+\"       .+.              \",
+\"       .@#.             \",
+\"       .#$%.            \",
+\"       .&*=-.           \",
+\"       .;>,,,.          \",
+\"       .;>,,,=.         \",
+\"       .')!==~;.        \",
+\"       .#{]*%;^/.       \",
+\"       .(#_':#<.        \",
+\"       .+[@</}.         \",
+\"       .|1232.          \",
+\"       .4567.           \",
+\"       .890.            \",
+\"       .ab.             \",
+\"       .c.              \",
+\"       ..               \",
+\"       .                \",
+\"                        \",
+\"                        \",
+\"                        \"};
+"
+                 'xpm t)
+   "Image for the next item button."))
+
+(defconst newsticker--previous-item-image
+  (if (fboundp 'create-image)
+      (create-image "/* XPM */
+static char * previous_xpm[] = {
+\"24 24 39 1\",
+\" 	c None\",
+\".	c #000000\",
+\"+	c #7BB3DB\",
+\"@	c #83BCE2\",
+\"#	c #7FB8DF\",
+\"$	c #89C2E7\",
+\"%	c #86BFE5\",
+\"&	c #83BBE2\",
+\"*	c #8CC6EA\",
+\"=	c #8BC4E9\",
+\"-	c #88C2E7\",
+\";	c #85BEE4\",
+\">	c #8DC7EB\",
+\",	c #89C3E8\",
+\"'	c #8AC4E8\",
+\")	c #8BC5EA\",
+\"!	c #88C1E6\",
+\"~	c #8AC4E9\",
+\"{	c #8AC3E8\",
+\"]	c #86C0E5\",
+\"^	c #87C0E6\",
+\"/	c #87C0E5\",
+\"(	c #82BBE2\",
+\"_	c #81BAE1\",
+\":	c #7FB7DF\",
+\"<	c #7DB6DD\",
+\"[	c #7DB5DD\",
+\"}	c #7CB4DC\",
+\"|	c #79B1DA\",
+\"1	c #76ADD7\",
+\"2	c #77AFD8\",
+\"3	c #73AAD4\",
+\"4	c #70A7D1\",
+\"5	c #6EA5D0\",
+\"6	c #6CA2CE\",
+\"7	c #689ECB\",
+\"8	c #6399C7\",
+\"9	c #6095C4\",
+\"0	c #5C90C0\",
+\"                        \",
+\"                        \",
+\"                .       \",
+\"               ..       \",
+\"              .+.       \",
+\"             .@#.       \",
+\"            .$%&.       \",
+\"           .*=-;.       \",
+\"          .>>*,%.       \",
+\"         .>>>*,%.       \",
+\"        .')**=-;.       \",
+\"       .;!,~{-%&.       \",
+\"        .;]^/;@#.       \",
+\"         .(@&_:+.       \",
+\"          .<[}|1.       \",
+\"           .2134.       \",
+\"            .567.       \",
+\"             .89.       \",
+\"              .0.       \",
+\"               ..       \",
+\"                .       \",
+\"                        \",
+\"                        \",
+\"                        \"};
+"
+                 'xpm t)
+   "Image for the previous item button."))
+
+(defconst newsticker--previous-feed-image
+  (if (fboundp 'create-image)
+      (create-image "/* XPM */
+static char * prev_feed_xpm[] = {
+\"24 24 52 1\",
+\" 	c None\",
+\".	c #000000\",
+\"+	c #70A7D2\",
+\"@	c #75ADD6\",
+\"#	c #71A8D3\",
+\"$	c #79B1DA\",
+\"%	c #7BB3DB\",
+\"&	c #7DB5DD\",
+\"*	c #83BBE2\",
+\"=	c #7EB6DE\",
+\"-	c #78B0D9\",
+\";	c #7FB7DE\",
+\">	c #88C2E7\",
+\",	c #85BEE4\",
+\"'	c #80B9E0\",
+\")	c #80B8DF\",
+\"!	c #8CC6EA\",
+\"~	c #89C3E8\",
+\"{	c #86BFE5\",
+\"]	c #81BAE1\",
+\"^	c #7CB4DC\",
+\"/	c #7FB8DF\",
+\"(	c #8DC7EB\",
+\"_	c #7BB3DC\",
+\":	c #7EB7DE\",
+\"<	c #8BC4E9\",
+\"[	c #8AC4E9\",
+\"}	c #8AC3E8\",
+\"|	c #87C0E6\",
+\"1	c #87C0E5\",
+\"2	c #83BCE2\",
+\"3	c #75ACD6\",
+\"4	c #7FB7DF\",
+\"5	c #77AED8\",
+\"6	c #71A8D2\",
+\"7	c #70A7D1\",
+\"8	c #76ADD7\",
+\"9	c #6CA2CE\",
+\"0	c #699FCC\",
+\"a	c #73AAD4\",
+\"b	c #6BA1CD\",
+\"c	c #669CC9\",
+\"d	c #6298C5\",
+\"e	c #689ECB\",
+\"f	c #6499C7\",
+\"g	c #6095C3\",
+\"h	c #5C91C0\",
+\"i	c #5E93C2\",
+\"j	c #5B90C0\",
+\"k	c #588CBC\",
+\"l	c #578CBC\",
+\"m	c #5589BA\",
+\"                        \",
+\"                        \",
+\"     ...          .     \",
+\"     .+.         ..     \",
+\"     .@.        .#.     \",
+\"     .$.       .%@.     \",
+\"     .&.      .*=-.     \",
+\"     .;.     .>,'%.     \",
+\"     .).    .!~{]^.     \",
+\"     ./.   .(!~{]_.     \",
+\"     .:.  .!!<>,'%.     \",
+\"     .&. .~[}>{*=-.     \",
+\"     .$.  .|1,2/%@.     \",
+\"     .3.   .*]4%56.     \",
+\"     .7.    .^$8#9.     \",
+\"     .0.     .a7bc.     \",
+\"     .d.      .efg.     \",
+\"     .h.       .ij.     \",
+\"     .k.        .l.     \",
+\"     .m.         ..     \",
+\"     ...          .     \",
+\"                        \",
+\"                        \",
+\"                        \"};
+"
+                 'xpm t)
+   "Image for the previous feed button."))
+
+(defconst newsticker--next-feed-image
+  (if (fboundp 'create-image)
+      (create-image "/* XPM */
+static char * next_feed_xpm[] = {
+\"24 24 57 1\",
+\" 	c None\",
+\".	c #000000\",
+\"+	c #6CA2CE\",
+\"@	c #75ADD6\",
+\"#	c #71A8D3\",
+\"$	c #79B1DA\",
+\"%	c #7EB7DE\",
+\"&	c #7DB5DD\",
+\"*	c #81BAE1\",
+\"=	c #85BEE4\",
+\"-	c #78B0D9\",
+\";	c #7FB7DE\",
+\">	c #83BCE3\",
+\",	c #87C1E6\",
+\"'	c #8AC4E9\",
+\")	c #7BB3DB\",
+\"!	c #80B8DF\",
+\"~	c #88C2E7\",
+\"{	c #8BC5E9\",
+\"]	c #8DC7EB\",
+\"^	c #7CB4DC\",
+\"/	c #7FB8DF\",
+\"(	c #84BDE3\",
+\"_	c #7BB3DC\",
+\":	c #83BCE2\",
+\"<	c #87C0E6\",
+\"[	c #8AC4E8\",
+\"}	c #8BC5EA\",
+\"|	c #8CC6EA\",
+\"1	c #88C1E6\",
+\"2	c #89C3E8\",
+\"3	c #8AC3E8\",
+\"4	c #7EB6DE\",
+\"5	c #82BBE1\",
+\"6	c #86C0E5\",
+\"7	c #87C0E5\",
+\"8	c #75ACD6\",
+\"9	c #7AB2DA\",
+\"0	c #81B9E0\",
+\"a	c #82BBE2\",
+\"b	c #71A8D2\",
+\"c	c #70A7D1\",
+\"d	c #74ACD6\",
+\"e	c #699FCC\",
+\"f	c #6EA5D0\",
+\"g	c #72A9D4\",
+\"h	c #669CC9\",
+\"i	c #6298C5\",
+\"j	c #679DCA\",
+\"k	c #6BA1CD\",
+\"l	c #6095C3\",
+\"m	c #5C91C0\",
+\"n	c #5F94C2\",
+\"o	c #5B90C0\",
+\"p	c #588CBC\",
+\"q	c #578CBC\",
+\"r	c #5589BA\",
+\"                        \",
+\"                        \",
+\"     .          ...     \",
+\"     ..         .+.     \",
+\"     .@.        .#.     \",
+\"     .$%.       .@.     \",
+\"     .&*=.      .-.     \",
+\"     .;>,'.     .).     \",
+\"     .!=~{].    .^.     \",
+\"     ./(~{]].   ._.     \",
+\"     .%:<[}||.  .).     \",
+\"     .&*=12'3~. .-.     \",
+\"     .$45=6<7.  .@.     \",
+\"     .8940a:.   .b.     \",
+\"     .cd-)&.    .+.     \",
+\"     .efg8.     .h.     \",
+\"     .ijk.      .l.     \",
+\"     .mn.       .o.     \",
+\"     .p.        .q.     \",
+\"     ..         .r.     \",
+\"     .          ...     \",
+\"                        \",
+\"                        \",
+\"                        \"};
+"
+                 'xpm t)
+   "Image for the next feed button."))
+
+(defconst newsticker--mark-read-image
+  (if (fboundp 'create-image)
+      (create-image "/* XPM */
+static char * mark_read_xpm[] = {
+\"24 24 44 1\",
+\" 	c None\",
+\".	c #C20000\",
+\"+	c #BE0000\",
+\"@	c #C70000\",
+\"#	c #CE0000\",
+\"$	c #C90000\",
+\"%	c #BD0000\",
+\"&	c #CB0000\",
+\"*	c #D10000\",
+\"=	c #D70000\",
+\"-	c #D30000\",
+\";	c #CD0000\",
+\">	c #C60000\",
+\",	c #D40000\",
+\"'	c #DA0000\",
+\")	c #DE0000\",
+\"!	c #DB0000\",
+\"~	c #D60000\",
+\"{	c #D00000\",
+\"]	c #DC0000\",
+\"^	c #E00000\",
+\"/	c #E40000\",
+\"(	c #E10000\",
+\"_	c #DD0000\",
+\":	c #D80000\",
+\"<	c #E50000\",
+\"[	c #E70000\",
+\"}	c #E60000\",
+\"|	c #E20000\",
+\"1	c #E90000\",
+\"2	c #E80000\",
+\"3	c #E30000\",
+\"4	c #DF0000\",
+\"5	c #D90000\",
+\"6	c #CC0000\",
+\"7	c #C10000\",
+\"8	c #C30000\",
+\"9	c #BF0000\",
+\"0	c #B90000\",
+\"a	c #BC0000\",
+\"b	c #BB0000\",
+\"c	c #B80000\",
+\"d	c #B50000\",
+\"e	c #B70000\",
+\"                        \",
+\"                        \",
+\"                        \",
+\"    .              +    \",
+\"   +@#            $.%   \",
+\"    &*=          -;>    \",
+\"     ,')        !~{     \",
+\"      ]^/      (_:      \",
+\"       (<[    }|)       \",
+\"        <[1  2<|        \",
+\"         }222[<         \",
+\"          }}}<          \",
+\"          333|          \",
+\"         _4^4)]         \",
+\"        ~:'  5=-        \",
+\"       6{-    *#$       \",
+\"      7>$      @89      \",
+\"     0a+        %bc     \",
+\"    ddc          edd    \",
+\"   ddd            ddd   \",
+\"    d              d    \",
+\"                        \",
+\"                        \",
+\"                        \"};
+"
+                 'xpm t)
+   "Image for the next feed button."))
+
+(defconst newsticker--mark-immortal-image
+  (if (fboundp 'create-image)
+      (create-image "/* XPM */
+static char * mark_immortal_xpm[] = {
+\"24 24 93 2\",
+\"  	c None\",
+\". 	c #171717\",
+\"+ 	c #030303\",
+\"@ 	c #000000\",
+\"# 	c #181818\",
+\"$ 	c #090909\",
+\"% 	c #FFC960\",
+\"& 	c #FFCB61\",
+\"* 	c #FFCB62\",
+\"= 	c #FFC961\",
+\"- 	c #FFC75F\",
+\"; 	c #FFC65E\",
+\"> 	c #FFCA61\",
+\", 	c #FFCD63\",
+\"' 	c #FFCF65\",
+\") 	c #FFD065\",
+\"! 	c #FFCE64\",
+\"~ 	c #FFC35C\",
+\"{ 	c #FFC45D\",
+\"] 	c #FFD166\",
+\"^ 	c #FFD267\",
+\"/ 	c #FFD368\",
+\"( 	c #FFD167\",
+\"_ 	c #FFC05A\",
+\": 	c #010101\",
+\"< 	c #040404\",
+\"[ 	c #FFCC62\",
+\"} 	c #FFD569\",
+\"| 	c #FFD56A\",
+\"1 	c #FFC860\",
+\"2 	c #FFC25B\",
+\"3 	c #FFBB56\",
+\"4 	c #020202\",
+\"5 	c #060606\",
+\"6 	c #FFC15B\",
+\"7 	c #FFC85F\",
+\"8 	c #FFD469\",
+\"9 	c #FFD66A\",
+\"0 	c #FFBC57\",
+\"a 	c #1B1B1B\",
+\"b 	c #070707\",
+\"c 	c #FFBA55\",
+\"d 	c #FFB451\",
+\"e 	c #FFB954\",
+\"f 	c #FFB350\",
+\"g 	c #FFB652\",
+\"h 	c #FFBE58\",
+\"i 	c #FFCD64\",
+\"j 	c #FFD066\",
+\"k 	c #FFC059\",
+\"l 	c #FFB14E\",
+\"m 	c #0B0B0B\",
+\"n 	c #FFBB55\",
+\"o 	c #FFC15A\",
+\"p 	c #FFB552\",
+\"q 	c #FFAD4B\",
+\"r 	c #080808\",
+\"s 	c #FFAF4C\",
+\"t 	c #FFB853\",
+\"u 	c #FFA948\",
+\"v 	c #050505\",
+\"w 	c #FFB04E\",
+\"x 	c #FFB753\",
+\"y 	c #FFBC56\",
+\"z 	c #FFC55D\",
+\"A 	c #FFC55E\",
+\"B 	c #FFC45C\",
+\"C 	c #FFBD57\",
+\"D 	c #FFB854\",
+\"E 	c #FFB34F\",
+\"F 	c #FFAB4A\",
+\"G 	c #FFA545\",
+\"H 	c #FFAA49\",
+\"I 	c #FFB04D\",
+\"J 	c #FFB551\",
+\"K 	c #FFBF58\",
+\"L 	c #FFB24F\",
+\"M 	c #FFAC4A\",
+\"N 	c #FFA646\",
+\"O 	c #FFA344\",
+\"P 	c #FFA848\",
+\"Q 	c #FFB14F\",
+\"R 	c #FFAF4D\",
+\"S 	c #FFA546\",
+\"T 	c #FFA243\",
+\"U 	c #FFA445\",
+\"V 	c #FFAE4C\",
+\"W 	c #FFA444\",
+\"X 	c #FFA142\",
+\"Y 	c #FF9F41\",
+\"Z 	c #0A0A0A\",
+\"` 	c #FF9E40\",
+\" .	c #FF9F40\",
+\"                                                \",
+\"                                                \",
+\"                                                \",
+\"                  . + @ @ + #                   \",
+\"              $ @ % & * * = - + +               \",
+\"            @ ; > , ' ) ' ! * - ~ @             \",
+\"          @ { > ! ] ^ / / ( ' * ; _ :           \",
+\"        < _ ; [ ) / } | } / ] , 1 2 3 4         \",
+\"        5 6 7 , ] 8 9 9 9 } ^ ! = ~ 0 a         \",
+\"      b c 6 - , ] 8 9 9 9 } ^ ! % ~ 0 d 5       \",
+\"      : e _ ; * ) / 8 } } / ] , 1 2 3 f 5       \",
+\"      : g h { = i j ^ / ^ ] ! * ; k e l m       \",
+\"      : f n o ; > , ' ) ' ! * - 2 0 p q r       \",
+\"      : s g 0 6 ; % > * * = - ~ h t l u r       \",
+\"      v u w x y k ~ z A z B o C D E F G b       \",
+\"        5 H I J e 0 h K h C c x L M N .         \",
+\"        4 O P q Q d g x g J L R H S T <         \",
+\"          @ T U P F q V q M H N W X +           \",
+\"            @ Y T O W G G W O X Y @             \",
+\"              4 Z ` Y Y Y  .` 4 4               \",
+\"                  5 : : @ @ Z                   \",
+\"                                                \",
+\"                                                \",
+\"                                                \"};
+"
+                 'xpm t)
+   "Image for the next feed button."))
+
+
+(defconst newsticker--narrow-image
+  (if (fboundp 'create-image)
+      (create-image "/* XPM */
+static char * narrow_xpm[] = {
+\"24 24 48 1\",
+\" 	c None\",
+\".	c #000000\",
+\"+	c #969696\",
+\"@	c #9E9E9E\",
+\"#	c #A4A4A4\",
+\"$	c #AAAAAA\",
+\"%	c #AEAEAE\",
+\"&	c #B1B1B1\",
+\"*	c #B3B3B3\",
+\"=	c #B4B4B4\",
+\"-	c #B2B2B2\",
+\";	c #AFAFAF\",
+\">	c #ABABAB\",
+\",	c #A6A6A6\",
+\"'	c #A0A0A0\",
+\")	c #989898\",
+\"!	c #909090\",
+\"~	c #73AAD4\",
+\"{	c #7AB2DA\",
+\"]	c #7FB8DF\",
+\"^	c #84BDE3\",
+\"/	c #88C2E7\",
+\"(	c #8BC5E9\",
+\"_	c #8DC7EB\",
+\":	c #8CC6EA\",
+\"<	c #89C3E8\",
+\"[	c #86BFE5\",
+\"}	c #81BAE1\",
+\"|	c #7BB3DC\",
+\"1	c #75ACD6\",
+\"2	c #6DA4CF\",
+\"3	c #979797\",
+\"4	c #A3A3A3\",
+\"5	c #A8A8A8\",
+\"6	c #ADADAD\",
+\"7	c #ACACAC\",
+\"8	c #A9A9A9\",
+\"9	c #A5A5A5\",
+\"0	c #9A9A9A\",
+\"a	c #929292\",
+\"b	c #8C8C8C\",
+\"c	c #808080\",
+\"d	c #818181\",
+\"e	c #838383\",
+\"f	c #848484\",
+\"g	c #858585\",
+\"h	c #868686\",
+\"i	c #828282\",
+\"                        \",
+\"                        \",
+\"                        \",
+\"   ..................   \",
+\"   .+@#$%&*=*-;>,')!.   \",
+\"   ..................   \",
+\"                        \",
+\"                        \",
+\"   ..................   \",
+\"   .~{]^/(___:<[}|12.   \",
+\"   ..................   \",
+\"                        \",
+\"                        \",
+\"   ..................   \",
+\"   .!3@45>666789'0ab.   \",
+\"   ..................   \",
+\"                        \",
+\"                        \",
+\"   ..................   \",
+\"   .cccdefghhgficccc.   \",
+\"   ..................   \",
+\"                        \",
+\"                        \",
+\"                        \"};
+"
+                 'xpm t)
+   "Image for the next feed button."))
+
+(defconst newsticker--get-all-image
+  (if (fboundp 'create-image)
+      (create-image "/* XPM */
+static char * get_all_xpm[] = {
+\"24 24 70 1\",
+\" 	c None\",
+\".	c #000000\",
+\"+	c #F3DA00\",
+\"@	c #F5DF00\",
+\"#	c #F7E300\",
+\"$	c #F9E700\",
+\"%	c #FAEA00\",
+\"&	c #FBEC00\",
+\"*	c #FBED00\",
+\"=	c #FCEE00\",
+\"-	c #FAEB00\",
+\";	c #F9E800\",
+\">	c #F8E500\",
+\",	c #F6E000\",
+\"'	c #F4DB00\",
+\")	c #F1D500\",
+\"!	c #EFD000\",
+\"~	c #B7CA00\",
+\"{	c #BFD100\",
+\"]	c #C5D700\",
+\"^	c #CBDB00\",
+\"/	c #CFDF00\",
+\"(	c #D2E200\",
+\"_	c #D4E400\",
+\":	c #D3E300\",
+\"<	c #D0E000\",
+\"[	c #CCDD00\",
+\"}	c #C7D800\",
+\"|	c #C1D300\",
+\"1	c #BACC00\",
+\"2	c #B1C500\",
+\"3	c #A8BC00\",
+\"4	c #20A900\",
+\"5	c #22AF00\",
+\"6	c #24B500\",
+\"7	c #26B900\",
+\"8	c #27BC00\",
+\"9	c #27BE00\",
+\"0	c #28BF00\",
+\"a	c #27BD00\",
+\"b	c #26BA00\",
+\"c	c #25B600\",
+\"d	c #23B100\",
+\"e	c #21AB00\",
+\"f	c #1FA400\",
+\"g	c #1C9B00\",
+\"h	c #21AA00\",
+\"i	c #24B300\",
+\"j	c #25B800\",
+\"k	c #25B700\",
+\"l	c #24B400\",
+\"m	c #23B000\",
+\"n	c #1FA500\",
+\"o	c #1D9E00\",
+\"p	c #20A800\",
+\"q	c #21AC00\",
+\"r	c #23B200\",
+\"s	c #22AD00\",
+\"t	c #1D9F00\",
+\"u	c #20A700\",
+\"v	c #1EA100\",
+\"w	c #1C9C00\",
+\"x	c #1DA000\",
+\"y	c #1B9800\",
+\"z	c #1A9600\",
+\"A	c #1A9700\",
+\"B	c #1A9500\",
+\"C	c #199200\",
+\"D	c #189100\",
+\"E	c #178C00\",
+\"                        \",
+\"                        \",
+\"                        \",
+\"                        \",
+\"   ...................  \",
+\"   .+@#$%&*=*&-;>,')!.  \",
+\"   ...................  \",
+\"                        \",
+\"   ...................  \",
+\"   .~{]^/(___:<[}|123.  \",
+\"   ...................  \",
+\"                        \",
+\"   ...................  \",
+\"    .45678909abcdefg.   \",
+\"     .h5icj7jklmeno.    \",
+\"      .pq5drrmshft.     \",
+\"       .fu4h4pnvw.      \",
+\"        .oxvxtwy.       \",
+\"         .zAAzB.        \",
+\"          .CCD.         \",
+\"           .E.          \",
+\"            .           \",
+\"                        \",
+\"                        \"};
+"
+                 'xpm t)
+   "Image for the next feed button."))
+
+
+(defconst newsticker--update-image
+  (if (fboundp 'create-image)
+      (create-image "/* XPM */
+static char * update_xpm[] = {
+\"24 24 37 1\",
+\" 	c None\",
+\".	c #076D00\",
+\"+	c #0A8600\",
+\"@	c #0A8800\",
+\"#	c #098400\",
+\"$	c #087200\",
+\"%	c #087900\",
+\"&	c #098500\",
+\"*	c #098100\",
+\"=	c #087600\",
+\"-	c #097E00\",
+\";	c #097F00\",
+\">	c #0A8700\",
+\",	c #0A8C00\",
+\"'	c #097C00\",
+\")	c #098300\",
+\"!	c #0A8900\",
+\"~	c #0A8E00\",
+\"{	c #0B9200\",
+\"]	c #087700\",
+\"^	c #076E00\",
+\"/	c #076C00\",
+\"(	c #076B00\",
+\"_	c #076A00\",
+\":	c #076900\",
+\"<	c #076800\",
+\"[	c #066700\",
+\"}	c #066500\",
+\"|	c #066400\",
+\"1	c #066300\",
+\"2	c #066600\",
+\"3	c #066200\",
+\"4	c #076700\",
+\"5	c #065E00\",
+\"6	c #066100\",
+\"7	c #065F00\",
+\"8	c #066000\",
+\"                        \",
+\"                        \",
+\"                        \",
+\"    .    +@@@+#         \",
+\"    $% &@      +*       \",
+\"    =-#          ;      \",
+\"    %*>,          '     \",
+\"    ')!~{          =    \",
+\"                   ]$   \",
+\"   ^                ^   \",
+\"   .                .   \",
+\"   /                (   \",
+\"   _                :   \",
+\"   <                [   \",
+\"   }                |   \",
+\"   [[                   \",
+\"    1          $.:23    \",
+\"     3          4}35    \",
+\"      6          655    \",
+\"       76      85 55    \",
+\"        5555555    5    \",
+\"                        \",
+\"                        \",
+\"                        \"};
+"
+                 'xpm t)
+   "Image for the update button."))
+
+(defconst newsticker--browse-image
+  (if (fboundp 'create-image)
+      (create-image "/* XPM */
+static char * visit_xpm[] = {
+\"24 24 39 1\",
+\" 	c None\",
+\".	c #000000\",
+\"+	c #FFFFFF\",
+\"@	c #00E63D\",
+\"#	c #00E83E\",
+\"$	c #00E73D\",
+\"%	c #00E93E\",
+\"&	c #00E63C\",
+\"*	c #00E53C\",
+\"=	c #00E23B\",
+\"-	c #00E33B\",
+\";	c #00E83D\",
+\">	c #00E13A\",
+\",	c #00DD38\",
+\"'	c #00DE38\",
+\")	c #00E23A\",
+\"!	c #00E43C\",
+\"~	c #00DF39\",
+\"{	c #00DB37\",
+\"]	c #00D634\",
+\"^	c #00D734\",
+\"/	c #00E039\",
+\"(	c #00DC37\",
+\"_	c #00D835\",
+\":	c #00D332\",
+\"<	c #00CD2F\",
+\"[	c #00DB36\",
+\"}	c #00D433\",
+\"|	c #00CF30\",
+\"1	c #00DA36\",
+\"2	c #00D936\",
+\"3	c #00D533\",
+\"4	c #00D131\",
+\"5	c #00CE2F\",
+\"6	c #00CC2F\",
+\"7	c #00CA2D\",
+\"8	c #00C62B\",
+\"9	c #00C52A\",
+\"0	c #00BE27\",
+\"                        \",
+\"                        \",
+\"            .           \",
+\"           .+.          \",
+\"          .+++.         \",
+\"         .++.++.        \",
+\"        .++.@.++.       \",
+\"       .++.##$.++.      \",
+\"      .++.%%%#&.++.     \",
+\"     .++.$%%%#*=.++.    \",
+\"    .++.-@;##$*>,.++.   \",
+\"   .++.')!&@@*=~{].++.  \",
+\"  .++.^{~>---)/(_:<.++. \",
+\"   .++.^[,~/~'(_}|.++.  \",
+\"    .++.]_1[12^:|.++.   \",
+\"     .++.:}33:45.++.    \",
+\"      .++.<5567.++.     \",
+\"       .++.889.++.      \",
+\"        .++.0.++.       \",
+\"         .++.++.        \",
+\"          .+++.         \",
+\"           .+.          \",
+\"            .           \",
+\"                        \"};
+"
+                 'xpm t)
+   "Image for the browse button."))
+
+
+(defvar newsticker-tool-bar-map
+  (if (featurep 'xemacs)
+      nil
+    (let ((tool-bar-map (make-sparse-keymap)))
+      (define-key tool-bar-map [newsticker-sep-1]
+        (list 'menu-item "--double-line"))
+      (define-key tool-bar-map [newsticker-browse-url]
+        (list 'menu-item "newsticker-browse-url" 'newsticker-browse-url
+              :visible t
+              :help "Browse URL for item at point"
+              :image newsticker--browse-image))
+      (define-key tool-bar-map [newsticker-buffer-force-update]
+        (list 'menu-item "newsticker-buffer-force-update"
+              'newsticker-buffer-force-update
+              :visible t
+              :help "Update newsticker buffer"
+              :image newsticker--update-image
+              :enable '(not newsticker--buffer-uptodate-p)))
+      (define-key tool-bar-map [newsticker-get-all-news]
+        (list 'menu-item "newsticker-get-all-news" 'newsticker-get-all-news
+              :visible t
+              :help "Get news for all feeds"
+              :image newsticker--get-all-image))
+      (define-key tool-bar-map [newsticker-mark-item-at-point-as-read]
+        (list 'menu-item "newsticker-mark-item-at-point-as-read"
+              'newsticker-mark-item-at-point-as-read
+              :visible t
+              :image newsticker--mark-read-image
+              :help "Mark current item as read"
+              :enable '(newsticker-item-not-old-p)))
+      (define-key tool-bar-map [newsticker-mark-item-at-point-as-immortal]
+        (list 'menu-item "newsticker-mark-item-at-point-as-immortal"
+              'newsticker-mark-item-at-point-as-immortal
+              :visible t
+              :image newsticker--mark-immortal-image
+              :help "Mark current item as immortal"
+              :enable '(newsticker-item-not-immortal-p)))
+      (define-key tool-bar-map [newsticker-toggle-auto-narrow-to-feed]
+        (list 'menu-item "newsticker-toggle-auto-narrow-to-feed"
+              'newsticker-toggle-auto-narrow-to-feed
+              :visible t
+              :help "Toggle visibility of other feeds"
+              :image newsticker--narrow-image))
+      (define-key tool-bar-map [newsticker-next-feed]
+        (list 'menu-item "newsticker-next-feed" 'newsticker-next-feed
+              :visible t
+              :help "Go to next feed"
+              :image newsticker--next-feed-image
+              :enable '(newsticker-next-feed-available-p)))
+      (define-key tool-bar-map [newsticker-next-item]
+        (list 'menu-item "newsticker-next-item" 'newsticker-next-item
+              :visible t
+              :help "Go to next item"
+              :image newsticker--next-item-image
+              :enable '(newsticker-next-item-available-p)))
+      (define-key tool-bar-map [newsticker-previous-item]
+        (list 'menu-item "newsticker-previous-item" 'newsticker-previous-item
+              :visible t
+              :help "Go to previous item"
+              :image newsticker--previous-item-image
+              :enable '(newsticker-previous-item-available-p)))
+      (define-key tool-bar-map [newsticker-previous-feed]
+        (list 'menu-item "newsticker-previous-feed" 'newsticker-previous-feed
+              :visible t
+              :help "Go to previous feed"
+              :image newsticker--previous-feed-image
+              :enable '(newsticker-previous-feed-available-p)))
+      ;; standard icons / actions
+      (tool-bar-add-item "close"
+                         'newsticker-close-buffer
+                         'newsticker-close-buffer
+                         :help "Close newsticker buffer")
+      (tool-bar-add-item "preferences"
+                         'newsticker-customize
+                         'newsticker-customize
+                         :help "Customize newsticker")
+      tool-bar-map)))
+
 ;; ======================================================================
 ;;; Newsticker mode
 ;; ======================================================================
-(makunbound 'newsticker-mode)
+
 (define-derived-mode newsticker-mode fundamental-mode
   "NewsTicker"
   "Viewing RSS news feeds in Emacs."
-;;  (set (make-local-variable 'tool-bar-map) newsticker-tool-bar-map)
+  (set (make-local-variable 'tool-bar-map) newsticker-tool-bar-map)
   (set (make-local-variable 'imenu-sort-function) nil)
+  (set (make-local-variable 'scroll-conservatively) 999)
   (setq imenu-create-index-function 'newsticker--imenu-create-index)
+  (setq imenu-default-goto-function 'newsticker--imenu-goto)
   (setq buffer-read-only t)
   (auto-fill-mode -1) ;; turn auto-fill off!
   (font-lock-mode -1) ;; turn off font-lock!!
@@ -1006,14 +2162,16 @@ slow.")
 (define-key newsticker-mode-map " "  'scroll-up)
 (define-key newsticker-mode-map "q"  'newsticker-close-buffer)
 (define-key newsticker-mode-map "p"  'newsticker-previous-item)
+(define-key newsticker-mode-map "P"  'newsticker-previous-new-item)
+(define-key newsticker-mode-map "F" 'newsticker-previous-feed)
 (define-key newsticker-mode-map "\t" 'newsticker-next-item)
 (define-key newsticker-mode-map "n"  'newsticker-next-item)
+(define-key newsticker-mode-map "N"  'newsticker-next-new-item)
+(define-key newsticker-mode-map "f"  'newsticker-next-feed)
 (define-key newsticker-mode-map "M"  'newsticker-mark-all-items-as-read)
 (define-key newsticker-mode-map "m"
   'newsticker-mark-all-items-at-point-as-read)
 (define-key newsticker-mode-map "o"  'newsticker-mark-item-at-point-as-read)
-(define-key newsticker-mode-map "P"  'newsticker-previous-new-item)
-(define-key newsticker-mode-map "N"  'newsticker-next-new-item)
 (define-key newsticker-mode-map "G"  'newsticker-get-all-news)
 (define-key newsticker-mode-map "g"  'newsticker-get-news-at-point)
 (define-key newsticker-mode-map "u"  'newsticker-buffer-update)
@@ -1023,15 +2181,20 @@ slow.")
 (define-key newsticker-mode-map "i"
   'newsticker-mark-item-at-point-as-immortal)
 
+(define-key newsticker-mode-map "xf" 'newsticker-toggle-auto-narrow-to-feed)
+(define-key newsticker-mode-map "xi" 'newsticker-toggle-auto-narrow-to-item)
+
 ;; maps for the clickable portions
-(defvar newsticker--heading-keymap (make-sparse-keymap)
+(defvar newsticker--url-keymap (make-sparse-keymap)
   "Key map for click-able headings in the newsticker buffer.")
-(define-key newsticker--heading-keymap [mouse-2]
+(define-key newsticker--url-keymap [mouse-2]
   'newsticker-mouse-browse-url)
-(define-key newsticker--heading-keymap "\n"
+(define-key newsticker--url-keymap "\n"
   'newsticker-browse-url)
-(define-key newsticker--heading-keymap "\C-m"
+(define-key newsticker--url-keymap "\C-m"
   'newsticker-browse-url)
+(define-key newsticker--url-keymap [(control return)]
+  'newsticker-handle-url)
 
 ;; newsticker menu
 (defvar newsticker-menu (make-sparse-keymap "Newsticker"))
@@ -1078,22 +2241,6 @@ slow.")
 (define-key newsticker-mode-map [menu-bar Newsticker]
   (cons "Newsticker" newsticker-menu))
 
-;; tool-bar
-;; (makunbound 'newsticker-tool-bar-map)
-;; (defvar newsticker-tool-bar-map
-;;   (let ((tool-bar-map (make-sparse-keymap)))
-;;     (tool-bar-add-item-from-menu 'newsticker-previous-item "left_arrow"
-;; 				 newsticker-mode-map)
-;;     (tool-bar-add-item-from-menu 'newsticker-next-item "right_arrow"
-;; 				 newsticker-mode-map)
-;;     (tool-bar-add-item-from-menu 'newsticker-mark-item-at-point-as-read
-;; 				 "cancel" newsticker-mode-map)
-;;     (tool-bar-add-item-from-menu 'newsticker-get-news-at-point "show"
-;; 				 newsticker-mode-map)
-;;     (tool-bar-add-item-from-menu 'newsticker-close-buffer
-;; 				 "exit" newsticker-mode-map)
-;;     tool-bar-map))
-
 
 ;; ======================================================================
 ;;; shortcuts
@@ -1123,7 +2270,7 @@ slow.")
   "Return pre-formatted title of ITEM."
   (nth 7 item))
 (defsubst newsticker--extra (item)
-  "Return extra atributes of ITEM."
+  "Return extra attributes of ITEM."
   (nth 8 item))
 (defsubst newsticker--guid (item)
   "Return guid of ITEM."
@@ -1131,7 +2278,11 @@ slow.")
     (if (stringp guid)
         guid
       (car (xml-node-children guid)))))
-
+(defsubst newsticker--enclosure (item)
+  "Return enclosure element of ITEM in the form \(...FIXME...\)or nil."
+  (let ((enclosure (assoc 'enclosure (newsticker--extra item))))
+    (if enclosure
+        (xml-node-attributes enclosure))))
 
 ;; ======================================================================
 ;;; User fun
@@ -1154,31 +2305,38 @@ Run `newsticker-start-hook' if newsticker was not running already."
           (goto-char (point-min))
           (condition-case nil
               (setq newsticker--cache (read buf))
-            (error (setq newsticker--cache nil))))))
+            (error
+             (message "Error while reading newsticker cache file!")
+             (setq newsticker--cache nil))))))
     ;; start retrieval timers -- for sake of simplicity we will start
     ;; one timer for each feed
     (mapc (lambda (item)
-	    (let* ((feed-name (car item))
-		   (start-time (nth 2 item))
-		   (interval (or (nth 3 item)
-				 newsticker-retrieval-interval))
-		   (timer (assoc (car item)
-				 newsticker--retrieval-timer-list)))
-	      (if timer
-		  (or do-not-complain-if-running
-		      (message "Timer for %s is running already!"
-			       feed-name))
-		(newsticker--debug-msg "Starting timer for %s: %s, %d"
-				       feed-name start-time interval)
-		;; do not repeat retrieval if interval not positive
-		(if (<= interval 0)
-		    (setq interval nil))
-		(setq timer (run-at-time start-time interval
-					 'newsticker-get-news feed-name))
-		(if interval
-		    (add-to-list 'newsticker--retrieval-timer-list
-				 (cons feed-name timer))))))
-	  (append newsticker-url-list-defaults newsticker-url-list))
+            (let* ((feed-name (car item))
+                   (start-time (nth 2 item))
+                   (interval (or (nth 3 item)
+                                 newsticker-retrieval-interval))
+                   (timer (assoc (car item)
+                                 newsticker--retrieval-timer-list)))
+              (if timer
+                  (or do-not-complain-if-running
+                      (message "Timer for %s is running already!"
+                               feed-name))
+                (newsticker--debug-msg "Starting timer for %s: %s, %d"
+                                       feed-name start-time interval)
+                ;; do not repeat retrieval if interval not positive
+                (if (<= interval 0)
+                    (setq interval nil))
+                ;; Suddenly XEmacs doesn't like start-time 0
+                (if (or (not start-time)
+                        (and (numberp start-time) (= start-time 0)))
+                    (setq start-time 1))
+                (message "start-time %s" start-time)
+                (setq timer (run-at-time start-time interval
+                                         'newsticker-get-news feed-name))
+                (if interval
+                    (add-to-list 'newsticker--retrieval-timer-list
+                                 (cons feed-name timer))))))
+          (append newsticker-url-list-defaults newsticker-url-list))
     (unless running
       (run-hooks 'newsticker-start-hook)
       (message "Newsticker started!"))))
@@ -1189,22 +2347,23 @@ Start display timer for the actual ticker if wanted and not
 running already."
   (interactive)
   (if (and (> newsticker-display-interval 0)
-	   (not newsticker--display-timer))
+           (not newsticker--display-timer))
       (setq newsticker--display-timer
-	    (run-at-time newsticker-display-interval
-			 newsticker-display-interval
-			 'newsticker--display-tick))))
+            (run-at-time newsticker-display-interval
+                         newsticker-display-interval
+                         'newsticker--display-tick))))
   
 (defun newsticker-stop ()
   "Stop the newsticker and the newsticker-ticker.
 Cancel the timers for display and retrieval.  Run `newsticker-stop-hook'
 if newsticker has been running."
   (interactive)
+  (newsticker--cache-update t)
   (newsticker-stop-ticker)
   (when (newsticker-running-p)
     (mapc (lambda (name-and-timer)
-	    (cancel-timer (cdr name-and-timer)))
-	  newsticker--retrieval-timer-list)
+            (cancel-timer (cdr name-and-timer)))
+          newsticker--retrieval-timer-list)
     (setq newsticker--retrieval-timer-list nil)
     (run-hooks 'newsticker-stop-hook)
     (message "Newsticker stopped!")))
@@ -1215,7 +2374,6 @@ if newsticker has been running."
   (when newsticker--display-timer
     (cancel-timer newsticker--display-timer)
     (setq newsticker--display-timer nil)))
-
 
 ;; the functions we need for retrieval and display
 (defun newsticker-show-news ()
@@ -1238,15 +2396,16 @@ Unless FORCE is t this is donly only if necessary, i.e. when the
   ;; bring cache data into proper order....
   (newsticker--cache-sort)
   ;; fill buffer
-  (save-current-buffer
+  (save-excursion
     (let ((buf (get-buffer "*newsticker*")))
       (if buf
-	  (set-buffer buf)
-        (set-buffer (get-buffer-create "*newsticker*"))
+          (switch-to-buffer buf)
+        (switch-to-buffer (get-buffer-create "*newsticker*"))
         (newsticker--buffer-set-uptodate nil)))
    (when (or force
-	     (not newsticker--buffer-uptodate-p))
+             (not newsticker--buffer-uptodate-p))
      (message "Preparing newsticker buffer...")
+     (setq buffer-undo-list t)
      (let ((inhibit-read-only t))
        (set-buffer-modified-p nil)
        (erase-buffer)
@@ -1258,7 +2417,7 @@ Unless FORCE is t this is donly only if necessary, i.e. when the
        (set-buffer-file-coding-system 'utf-8)
 
        (if newsticker-use-full-width
-	   (set (make-local-variable 'fill-column) (1- (window-width))))
+           (set (make-local-variable 'fill-column) (1- (window-width))))
        (newsticker--buffer-insert-all-items)
 
        ;; FIXME: needed for methods buffer in ecb
@@ -1272,7 +2431,8 @@ Unless FORCE is t this is donly only if necessary, i.e. when the
             (newsticker-show-new-item-desc))
        )
      (message ""))
-   (newsticker--buffer-set-uptodate t)))
+   (newsticker--buffer-set-uptodate t)
+   (run-hooks 'newsticker-buffer-change-hook)))
 
 (defun newsticker-get-all-news ()
   "Launch retrieval of news from all configured newsticker sites.
@@ -1280,8 +2440,8 @@ This does NOT start the retrieval timers."
   (interactive)
   ;; launch retrieval of news
   (mapc (lambda (item)
-	  (newsticker-get-news (car item)))
-	(append newsticker-url-list-defaults newsticker-url-list)))
+          (newsticker-get-news (car item)))
+        (append newsticker-url-list-defaults newsticker-url-list)))
 
 (defun newsticker-get-news-at-point ()
   "Launch retrieval of news for the feed point is in.
@@ -1293,41 +2453,66 @@ This does NOT start the retrieval timers."
         (newsticker--debug-msg "Getting news for %s" (symbol-name feed))
         (newsticker-get-news (symbol-name feed)))))
 
-
 (defun newsticker-add-url (url name)
   "Add given URL under given NAME to `newsticker-url-list'.
 If URL is nil it is searched at point."
   (interactive
    (list
     (read-string "URL: "
-		 (save-excursion
-		   (end-of-line)
-		   (and
-		    (re-search-backward
-		     "http://"
-		     (if (> (point) (+ (point-min) 100))
-			 (- (point) 100)
-		       (point-min))
-		     t)
-		    (re-search-forward
-		     "http://[-a-zA-Z0-9&/_.]*"
-		     (if (< (point) (- (point-max) 200))
-			 (+ (point) 200)
-		       (point-max))
-		     t)
-		    (buffer-substring-no-properties (match-beginning 0)
-						    (match-end 0)))))
+                 (save-excursion
+                   (end-of-line)
+                   (and
+                    (re-search-backward
+                     "http://"
+                     (if (> (point) (+ (point-min) 100))
+                         (- (point) 100)
+                       (point-min))
+                     t)
+                    (re-search-forward
+                     "http://[-a-zA-Z0-9&/_.]*"
+                     (if (< (point) (- (point-max) 200))
+                         (+ (point) 200)
+                       (point-max))
+                     t)
+                    (buffer-substring-no-properties (match-beginning 0)
+                                                    (match-end 0)))))
     (read-string "Name: ")))
   (add-to-list 'newsticker-url-list (list name url nil nil nil))
   (customize-variable 'newsticker-url-list))
 
+(defun newsticker-w3m-show-inline-images ()
+  "Show inline images in visible text ranges.
+In-line images in invisible text ranges are hidden.  This function
+calls `w3m-toggle-inline-image'.  It works only if
+`newsticker-html-renderer' is set to `w3m-region'"
+  (interactive)
+  (if (eq newsticker-html-renderer 'w3m-region)
+      (let ((inhibit-read-only t))
+        (save-excursion
+          (save-restriction
+            (widen)
+            (goto-char (point-min))
+            (let ((pos (point)))
+              (while pos
+                (setq pos (next-single-property-change pos 'w3m-image))
+                (when pos
+                  (goto-char pos)
+                  (when (get-text-property pos 'w3m-image)
+                    (let ((invis (memq (get-text-property (1- (point))
+                                                          'invisible)
+                                       buffer-invisibility-spec)))
+                      (if invis
+                          (w3m-remove-image
+                           pos (next-single-property-change pos 'w3m-image))
+                        (w3m-toggle-inline-image t))))))))))))
+  
 ;; ======================================================================
 ;;; keymap stuff
 ;; ======================================================================
 (defun newsticker-close-buffer ()
   "Close the newsticker buffer."
   (interactive)
-  (newsticker--cache-save)
+  (newsticker--cache-update t)
   (bury-buffer))
 
 (defun newsticker-next-new-item (&optional do-not-wrap-at-eob)
@@ -1336,6 +2521,7 @@ If no new item is found behind point, search is continued at
 beginning of buffer unless optional argument DO-NOT-WRAP-AT-EOB
 is non-nil."
   (interactive)
+  (widen)
   (let ((go-ahead t))
     (while go-ahead
       (unless (newsticker--buffer-goto '(item) 'new)
@@ -1347,8 +2533,8 @@ is non-nil."
       (unless (memq (get-text-property (point) 'invisible)
 		    buffer-invisibility-spec)
 	;; this item is invisible -- continue search
-	(setq go-ahead nil))))
-  (newsticker--buffer-make-item-completely-visible)
+        (setq go-ahead nil))))
+  (run-hooks 'newsticker-select-item-hook)
   (point))
 
 (defun newsticker-previous-new-item (&optional do-not-wrap-at-bob)
@@ -1357,16 +2543,17 @@ If no new item is found before point, search is continued at
 beginning of buffer unless optional argument DO-NOT-WRAP-AT-BOB
 is non-nil."
   (interactive)
+  (widen)
   (let ((go-ahead t))
     (while go-ahead
       (unless (newsticker--buffer-goto '(item) 'new t)
-        (unless do-not-wrap-at-bob
-          (goto-char (point-max))
-          (newsticker--buffer-goto '(item) 'new t)))
+	(unless do-not-wrap-at-bob
+	  (goto-char (point-max))
+	  (newsticker--buffer-goto '(item) 'new t)))
       (unless (memq (get-text-property (point) 'invisible)
 		    buffer-invisibility-spec)
 	(setq go-ahead nil))))
-  (newsticker--buffer-make-item-completely-visible)
+  (run-hooks 'newsticker-select-item-hook)
   (point))
 
 (defun newsticker-next-item (&optional do-not-wrap-at-eob)
@@ -1376,19 +2563,18 @@ If no item is found below point, search is continued at beginning
 of buffer unless optional argument DO-NOT-WRAP-AT-EOB is
 non-nil."
   (interactive)
+  (widen)
   (let ((go-ahead t))
     (while go-ahead
-      (unless (newsticker--buffer-goto '(item feed))
+      (unless (newsticker--buffer-goto '(item))
 	;; found nothing -- wrap
 	(unless do-not-wrap-at-eob
-	  (goto-char (point-min))
-	  ;;(newsticker-next-item t)
-          )
+	  (goto-char (point-min)))
 	(setq go-ahead nil))
       (unless (memq (get-text-property (point) 'invisible)
 		    buffer-invisibility-spec)
 	(setq go-ahead nil))))
-  (newsticker--buffer-make-item-completely-visible)
+  (run-hooks 'newsticker-select-item-hook)
   (point))
 
 (defun newsticker-previous-item (&optional do-not-wrap-at-bob)
@@ -1398,16 +2584,37 @@ If no item is found before point, search is continued at
 beginning of buffer unless optional argument DO-NOT-WRAP-AT-BOB
 is non-nil."
   (interactive)
+  (widen)
   (let ((go-ahead t))
     (when (bobp)
       (unless do-not-wrap-at-bob
-        (goto-char (point-max))))
+	(goto-char (point-max))))
     (while go-ahead
-      (newsticker--buffer-goto '(item feed) nil t)
-      (unless (memq (get-text-property (point) 'invisible)
-		    buffer-invisibility-spec)
-	(setq go-ahead nil))))
-  (newsticker--buffer-make-item-completely-visible)
+      (if (newsticker--buffer-goto '(item) nil t)
+          (unless (memq (get-text-property (point) 'invisible)
+                        buffer-invisibility-spec)
+            (setq go-ahead nil))
+        (goto-char (point-min))
+        (setq go-ahead nil))))
+  (run-hooks 'newsticker-select-item-hook)
+  (point))
+
+(defun newsticker-next-feed ()
+  "Go to next news feed.
+Return new buffer position."
+  (interactive)
+  (widen)
+  (newsticker--buffer-goto '(feed))
+  (run-hooks 'newsticker-select-feed-hook)
+  (point))
+
+(defun newsticker-previous-feed ()
+  "Go to previous news feed.
+Return new buffer position."
+  (interactive)
+  (widen)
+  (newsticker--buffer-goto '(feed) nil t)
+  (run-hooks 'newsticker-select-feed-hook)
   (point))
 
 (defun newsticker-mark-all-items-at-point-as-read ()
@@ -1422,7 +2629,7 @@ is non-nil."
         (message "Marking all items as read for %s" (symbol-name feed))
         (newsticker--cache-replace-age newsticker--cache feed 'new 'old)
         (newsticker--cache-replace-age newsticker--cache feed 'obsolete 'old)
-        (newsticker--cache-save)
+        (newsticker--cache-update)
         (newsticker--buffer-set-uptodate nil)
         (newsticker--ticker-text-setup)
         (newsticker-buffer-update)
@@ -1440,42 +2647,46 @@ not get changed."
             (y-or-n-p
              "Buffer is not up to date -- really mark this item as read? "))
     (let ((feed (get-text-property (point) 'feed))
-	  (item nil))
+          (item nil))
       (when feed
-	(save-excursion
-	  (newsticker--buffer-beginning-of-item)
-	  (let ((inhibit-read-only t)
-		(age (get-text-property (point) 'nt-age))
-		(title (get-text-property (point) 'nt-title))
-		(guid (get-text-property (point) 'nt-guid))
-		(nt-desc (get-text-property (point) 'nt-desc))
-		(pos (next-single-property-change (point) 'nt-type)))
-	    (when (or (eq age 'new)
-		      (eq age 'obsolete)
-		      (and (eq age 'immortal)
-			   (not respect-immortality)))
-	      ;; find item
-	      (setq item (newsticker--cache-contains newsticker--cache
-						     feed title nt-desc
-						     nil nil guid))
-	      ;; mark as old
-	      (when item
-		(setcar (nthcdr 4 item) 'old))
-	      ;; clean up ticker
-	      (if (or (and (eq age 'new)
-			   newsticker-hide-immortal-items-in-echo-area)
-		      (and (memq age '(old immortal))
-			   (not
-			    (eq newsticker-hide-old-items-in-newsticker-buffer
-				newsticker-hide-immortal-items-in-echo-area))))
-		  (newsticker--ticker-text-remove feed title))
-	      ;; set faces etc.
-	      (put-text-property (point) pos 'nt-age 'old)
-	      (newsticker--buffer-set-faces (point) pos)
-	      (newsticker-hide-entry)
-	      (set-buffer-modified-p nil))))
-	(if item
-	    (newsticker-next-item t))))))
+        (save-excursion
+          (newsticker--buffer-beginning-of-item)
+          (let ((inhibit-read-only t)
+                (age (get-text-property (point) 'nt-age))
+                (title (get-text-property (point) 'nt-title))
+                (guid (get-text-property (point) 'nt-guid))
+                (nt-desc (get-text-property (point) 'nt-desc))
+                (pos (next-single-property-change (point) 'nt-type)))
+            (when (or (eq age 'new)
+                      (eq age 'obsolete)
+                      (and (eq age 'immortal)
+                           (not respect-immortality)))
+              ;; find item
+              (setq item (newsticker--cache-contains newsticker--cache
+                                                     feed title nt-desc
+                                                     nil nil guid))
+              ;; mark as old
+              (when item
+                (setcar (nthcdr 4 item) 'old))
+              ;; clean up ticker
+              (if (or (and (eq age 'new)
+                           newsticker-hide-immortal-items-in-echo-area)
+                      (and (memq age '(old immortal))
+                           (not
+                            (eq newsticker-hide-old-items-in-newsticker-buffer
+                                newsticker-hide-immortal-items-in-echo-area))))
+                  (newsticker--ticker-text-remove feed title))
+              ;; set faces etc.
+              (save-excursion
+                (save-restriction
+                  (widen)
+                  (put-text-property (point) pos 'nt-age 'old)
+                  (newsticker--buffer-set-faces (point) pos)
+                  ;;(newsticker-hide-entry)
+                  ))
+              (set-buffer-modified-p nil))))
+        ;; move forward
+        (newsticker-next-item t)))))
 
 (defun newsticker-mark-item-at-point-as-immortal ()
   "Mark item at point as read."
@@ -1484,45 +2695,47 @@ not get changed."
             (y-or-n-p
              "Buffer is not up to date -- really mark this item as read? "))
     (let ((feed (get-text-property (point) 'feed))
-	  (item nil))
+          (item nil))
       (when feed
-	(save-excursion
-	  (newsticker--buffer-beginning-of-item)
-	  (let ((inhibit-read-only t)
-		(oldage (get-text-property (point) 'nt-age))
-		(title (get-text-property (point) 'nt-title))
-		(guid (get-text-property (point) 'nt-guid))
-		(pos (next-single-property-change (point) 'nt-type)))
-	    (let ((newage 'immortal))
-	      (if (eq oldage 'immortal)
-		  (setq newage 'old))
-	      (setq item (newsticker--cache-contains newsticker--cache
-						     feed title nil nil nil
-						     guid))
-	      ;; change age
-	      (when item
-		(setcar (nthcdr 4 item) newage))
-	      (if (or (and (eq newage 'immortal)
-			   newsticker-hide-immortal-items-in-echo-area)
-		      (and (eq newage 'obsolete)
-			   newsticker-hide-obsolete-items-in-echo-area)
-		      (and (eq oldage 'immortal)
-			   (not
-			    (eq newsticker-hide-old-items-in-newsticker-buffer
-				newsticker-hide-immortal-items-in-echo-area))))
-		  (newsticker--ticker-text-remove feed title)
-		(newsticker--ticker-text-setup))
-	      (put-text-property (point) pos 'nt-age newage)
-	      (if (eq newage 'immortal)
-		  (put-text-property (point) pos 'nt-age 'immortal)
-		(put-text-property (point) pos 'nt-age 'old))
-	      (newsticker--buffer-set-faces (point) pos)
-	      (when (eq newage 'old)
-		(newsticker-hide-entry)
-		(set-buffer-modified-p nil)))))
-	(if item
-	    (newsticker-next-item t))))))
-  
+        (save-excursion
+          (newsticker--buffer-beginning-of-item)
+          (let ((inhibit-read-only t)
+                (oldage (get-text-property (point) 'nt-age))
+                (title (get-text-property (point) 'nt-title))
+                (guid (get-text-property (point) 'nt-guid))
+                (pos (next-single-property-change (point) 'nt-type)))
+            (let ((newage 'immortal))
+              (if (eq oldage 'immortal)
+                  (setq newage 'old))
+              (setq item (newsticker--cache-contains newsticker--cache
+                                                     feed title nil nil nil
+                                                     guid))
+              ;; change age
+              (when item
+                (setcar (nthcdr 4 item) newage))
+              (if (or (and (eq newage 'immortal)
+                           newsticker-hide-immortal-items-in-echo-area)
+                      (and (eq newage 'obsolete)
+                           newsticker-hide-obsolete-items-in-echo-area)
+                      (and (eq oldage 'immortal)
+                           (not
+                            (eq newsticker-hide-old-items-in-newsticker-buffer
+                                newsticker-hide-immortal-items-in-echo-area))))
+                  (newsticker--ticker-text-remove feed title)
+                (newsticker--ticker-text-setup))
+              (save-excursion
+                (save-restriction
+                  (widen)
+                  (put-text-property (point) pos 'nt-age newage)
+                  (if (eq newage 'immortal)
+                      (put-text-property (point) pos 'nt-age 'immortal)
+                    (put-text-property (point) pos 'nt-age 'old))
+                  (newsticker--buffer-set-faces (point) pos)
+                  (when (eq newage 'old)
+                    ;;(newsticker-hide-entry)
+                    (set-buffer-modified-p nil)))))))
+          (if item
+            (newsticker-next-item t))))))
 
 (defun newsticker-mark-all-items-as-read ()
   "Mark all items as read and clear ticker contents."
@@ -1533,7 +2746,7 @@ not get changed."
     (newsticker--cache-replace-age newsticker--cache 'any 'new 'old)
     (newsticker--buffer-set-uptodate nil)
     (newsticker--ticker-text-setup)
-    (newsticker--cache-save)
+    (newsticker--cache-update)
     (newsticker-buffer-update)))
 
 (defun newsticker-hide-old-item-desc ()
@@ -1616,14 +2829,14 @@ not get changed."
   (save-excursion
     (newsticker--buffer-beginning-of-item)
     (let* ((inhibit-read-only t)
-	   (pos0 (newsticker--buffer-beginning-of-item))
-	   (pos1 (newsticker--buffer-goto '(desc)))
-	   (pos2 (newsticker--buffer-end-of-item))
-	   (pos3 (progn
-		   (backward-char 1)
-		   (newsticker--buffer-beginning-of-item))))
+           (pos0 (newsticker--buffer-beginning-of-item))
+           (pos1 (newsticker--buffer-goto '(desc)))
+           (pos2 (newsticker--buffer-end-of-item))
+           (pos3 (progn
+                   (backward-char 1)
+                   (newsticker--buffer-beginning-of-item))))
       (and pos1 pos2 (= pos0 pos3)
-	   (put-text-property (1- pos1) (1- pos2) 'invisible 'explicit))))
+           (put-text-property (1- pos1) (1- pos2) 'invisible 'explicit))))
   (newsticker--buffer-redraw))
 
 (defun newsticker-show-entry ()
@@ -1631,12 +2844,89 @@ not get changed."
   (interactive)
   (save-excursion
     (let* ((pos1 (newsticker--buffer-beginning-of-item))
-	   (pos2 (newsticker--buffer-end-of-item))
-	   (inhibit-read-only t))
+           (pos2 (newsticker--buffer-end-of-item))
+           (inhibit-read-only t))
       (and pos1 pos2
-	   (put-text-property (max (point-min) (1- pos1))
+           (put-text-property (max (point-min) (1- pos1))
                               (1- pos2) 'invisible nil))))
   (newsticker--buffer-redraw))
+
+(defun newsticker-toggle-auto-narrow-to-feed ()
+  "Toggle narrowing to current news feed.
+If auto-narrowing is active, only news item of the current feed
+are visible."
+  (interactive)
+  (setq newsticker--auto-narrow-to-item nil)
+  (setq newsticker--auto-narrow-to-feed (not newsticker--auto-narrow-to-feed))
+  (widen)
+  (run-hooks 'newsticker-narrow-hook))
+
+(defun newsticker-toggle-auto-narrow-to-item ()
+  "Toggle narrowing to current news item.
+If auto-narrowing is active, only one item of the current feed
+is visible."
+  (interactive)
+  (setq newsticker--auto-narrow-to-feed nil)
+  (setq newsticker--auto-narrow-to-item (not newsticker--auto-narrow-to-item))
+  (widen)
+  (run-hooks 'newsticker-narrow-hook))
+
+(defun newsticker-customize ()
+  "Open the newsticker customization group."
+  (interactive)
+  (customize-group "newsticker"))
+
+(defun newsticker-next-feed-available-p ()
+  "Return t if position is before last feed, nil otherwise."
+  (save-excursion
+    (let ((p (point)))
+      (newsticker--buffer-goto '(feed))
+      (not (= p (point))))))
+
+(defun newsticker-previous-feed-available-p ()
+  "Return t if position is behind first feed, nil otherwise."
+  (save-excursion
+    (let ((p (point)))
+      (newsticker--buffer-goto '(feed) nil t)
+      (not (= p (point))))))
+
+(defun newsticker-next-item-available-p ()
+  "Return t if position is before last feed, nil otherwise."
+  (save-excursion
+    (catch 'result
+      (while (< (point) (point-max))
+        (unless (newsticker--buffer-goto '(item))
+          (throw 'result nil))
+        (unless (memq (get-text-property (point) 'invisible)
+                      buffer-invisibility-spec)
+          (throw 'result t))))))
+
+(defun newsticker-previous-item-available-p ()
+  "Return t if position is behind first item, nil otherwise."
+  (save-excursion
+    (catch 'result
+      (while (> (point) (point-min))
+        (unless (newsticker--buffer-goto '(item) nil t)
+          (throw 'result nil))
+        (unless (memq (get-text-property (point) 'invisible)
+                      buffer-invisibility-spec)
+          (throw 'result t))))))
+
+(defun newsticker-item-not-old-p ()
+  "Return t if there is an item at point which is not old, nil otherwise."
+    (when (get-text-property (point) 'feed)
+      (save-excursion
+        (newsticker--buffer-beginning-of-item)
+        (let ((age (get-text-property (point) 'nt-age)))
+          (and (memq  age '(new immortal obsolete)) t)))))
+
+(defun newsticker-item-not-immortal-p ()
+  "Return t if there is an item at point which is not immortal, nil otherwise."
+    (when (get-text-property (point) 'feed)
+      (save-excursion
+        (newsticker--buffer-beginning-of-item)
+        (let ((age (get-text-property (point) 'nt-age)))
+          (and (memq  age '(new old obsolete)) t)))))
 
 ;; ======================================================================
 ;;; local stuff
@@ -1662,18 +2952,18 @@ empty."
 FEED-NAME must be a string which occurs as the label (i.e. the first element)
 in an element of `newsticker-url-list' or `newsticker-url-list-defaults'."
   (newsticker--debug-msg "%s: Getting news for %s"
-			 (format-time-string "%A, %H:%M" (current-time))
-			 feed-name)
-  (let* ((buffername (concat "*wget-newsticker-" feed-name "*"))
+                         (format-time-string "%A, %H:%M" (current-time))
+                         feed-name)
+  (let* ((buffername (concat " *newsticker-wget-" feed-name "*"))
          (item (or (assoc feed-name newsticker-url-list)
                    (assoc feed-name newsticker-url-list-defaults)
                    (error
                     "Cannot get news for %s: Check newsticker-url-list"
-		    feed-name)))
+                    feed-name)))
          (url (cadr item))
          (wget-arguments (or (car (cdr (cdr (cdr (cdr item)))))
                              newsticker-wget-arguments)))
-    (save-current-buffer
+    (save-excursion
       (set-buffer (get-buffer-create buffername))
       (erase-buffer)
       ;; throw an error if there is an old wget-process around
@@ -1681,25 +2971,25 @@ in an element of `newsticker-url-list' or `newsticker-url-list-defaults'."
           (error "Another wget-process is running for %s" feed-name))
       ;; start wget
       (let* ((args (append wget-arguments (list url)))
-	     (proc (apply 'start-process feed-name buffername
-			  newsticker-wget-name args)))
-	(set-process-coding-system proc 'no-conversion 'no-conversion)
-	(set-process-sentinel proc 'newsticker--sentinel)))))
+             (proc (apply 'start-process feed-name buffername
+                          newsticker-wget-name args)))
+        (set-process-coding-system proc 'no-conversion 'no-conversion)
+        (set-process-sentinel proc 'newsticker--sentinel)))))
 
   
 (defun newsticker-mouse-browse-url (event)
   "Call `browse-url' for the link of the item at which the EVENT occurred."
   (interactive "e")
-  (save-current-buffer
-    (set-buffer (window-buffer (posn-window (event-end event))))
+  (save-excursion
+    (switch-to-buffer (window-buffer (posn-window (event-end event))))
     (let ((url (get-text-property (posn-point (event-end event))
                                   'nt-link)))
       (when url
         (browse-url url)
-	(save-excursion
-	  (goto-char (posn-point (event-end event)))
-	  (if newsticker-automatically-mark-visited-items-as-old
-	      (newsticker-mark-item-at-point-as-read t)))))))
+        (save-excursion
+          (goto-char (posn-point (event-end event)))
+          (if newsticker-automatically-mark-visited-items-as-old
+              (newsticker-mark-item-at-point-as-read t)))))))
 
 (defun newsticker-browse-url ()
   "Call `browse-url' for the link of the item at point."
@@ -1708,7 +2998,24 @@ in an element of `newsticker-url-list' or `newsticker-url-list-defaults'."
     (when url
       (browse-url url)
       (if newsticker-automatically-mark-visited-items-as-old
-	  (newsticker-mark-item-at-point-as-read t)))))
+          (newsticker-mark-item-at-point-as-read t)))))
+
+(defvar newsticker-open-url-history
+  '("wget" "xmms" "realplay")
+  "...")
+
+(defun newsticker-handle-url ()
+  "Ask for a program to open the link of the item at point."
+  (interactive)
+  (let ((url (get-text-property (point) 'nt-link)))
+    (when url
+      (let ((prog (read-string "Open url with: " nil
+                               'newsticker-open-url-history)))
+        (when prog
+          (message "%s %s" prog url)
+          (start-process prog prog prog url)
+      (if newsticker-automatically-mark-visited-items-as-old
+          (newsticker-mark-item-at-point-as-read t)))))))
 
 (defun newsticker--sentinel (process event)
   "Sentinel for extracting news titles from an RDF buffer.
@@ -1717,12 +3024,29 @@ Argument EVENT tells what has happened to the process."
   (let* ((p-status (process-status process))
          (exit-status (process-exit-status process))
          (time (current-time))
-	 (something-was-added nil))
+         (name (process-name process))
+         (name-symbol (intern name))
+         (something-was-added nil))
     ;; catch known errors (zombie processes, rubbish-xml etc.
     ;; if an error occurs the news feed is not updated!
     (catch 'oops
       (unless (and (eq p-status 'exit)
                    (= exit-status 0))
+        (setq newsticker--cache
+              (newsticker--cache-add
+               newsticker--cache
+               name-symbol
+               newsticker--error-headline
+               (format
+                (concat "%s: Newsticker could not retrieve news from %s.\n"
+                        "Return status: `%s'\n"
+                        "Command was `%s'")
+                (format-time-string "%A, %H:%M" (current-time))
+                name event (process-command process))
+               ""
+               (current-time)
+               'new
+               0 nil))
         (message "%s: Error while retrieving news from %s"
                  (format-time-string "%A, %H:%M" (current-time))
                  (process-name process))
@@ -1737,23 +3061,32 @@ Argument EVENT tells what has happened to the process."
                 (goto-char (point-min))
                 (while (re-search-forward ">[ \t\r\n]+<" nil t)
                   (replace-match "><" nil t))
-		;; and another brutal workaround (20031105)!  For some
-		;; reason the xml parser does not like the colon in the
-		;; doctype name "rdf:RDF"
+                ;; and another brutal workaround (20031105)!  For some
+                ;; reason the xml parser does not like the colon in the
+                ;; doctype name "rdf:RDF"
                 (goto-char (point-min))
                 (if (re-search-forward "<!DOCTYPE[ \t\n]+rdf:RDF" nil t)
                   (replace-match "<!DOCTYPE rdfColonRDF" nil t))
-		;; finally.... ~##^Â°!!!!!
+                ;; finally.... ~##^Â°!!!!!
                 (goto-char (point-min))
                 (while (search-forward "\r\n" nil t)
                   (replace-match "\n" nil t))
-		;; still more brutal workarounds (20040309)!  The xml
-		;; parser does not like doctype rss
+                ;; still more brutal workarounds (20040309)!  The xml
+                ;; parser does not like doctype rss
                 (goto-char (point-min))
                 (if (re-search-forward "<!DOCTYPE[ \t\n]+rss[ \t\n]*>" nil t)
                   (replace-match "" nil t))
-		;;
-		(set-buffer-modified-p nil)
+                ;; And another one (20050618)! (Fixed in GNU Emacs 22.0.50.18)
+                ;; Remove comments to avoid this xml-parsing bug:
+                ;; "XML files can have only one toplevel tag"
+                (goto-char (point-min))
+                (while (search-forward "<!--" nil t)
+                  (let ((start (match-beginning 0)))
+                    (unless (search-forward "-->" nil t)
+                      (error "Can't find end of comment"))
+                    (delete-region start (point)))) 
+                ;;
+                (set-buffer-modified-p nil)
                 (goto-char (point-min))
                 (if (re-search-forward "encoding=\"\\([^\"]+\\)\""
                                        nil t)
@@ -1768,9 +3101,7 @@ Argument EVENT tells what has happened to the process."
                          (throw 'oops nil)))))
              (topnode (car node-list))
              (channelnode (car (xml-get-children topnode 'channel)))
-	     (imageurl nil)
-	     (name (process-name process))
-             (name-symbol (intern name))
+             (imageurl nil)
              (position 0))
         ;; mark all items as obsolete
         (newsticker--cache-replace-age newsticker--cache
@@ -1786,14 +3117,14 @@ Argument EVENT tells what has happened to the process."
         (if (eq (xml-node-name topnode) 'rss)
             ;; this is RSS 0.91 or something similar
             ;; all items are inside the channel node
-	    (setq topnode channelnode))
-	(setq imageurl
-	      (car (xml-node-children
-		    (car (xml-get-children
-			  (car (xml-get-children
-				topnode
-				'image))
-			  'url)))))
+            (setq topnode channelnode))
+        (setq imageurl
+              (car (xml-node-children
+                    (car (xml-get-children
+                          (car (xml-get-children
+                                topnode
+                                'image))
+                          'url)))))
         (let ((title (or (car (xml-node-children (car (xml-get-children
                                                        channelnode 'title))))
                          "[untitled]"))
@@ -1808,27 +3139,32 @@ Argument EVENT tells what has happened to the process."
                                                       'description))))
                         "[No description available]"))
               (old-item nil))
-	  ;; check coding system
-	  (setq coding-system
-		(condition-case nil
-		    (check-coding-system coding-system)
-		  (coding-system-error
-		   (message "newsticker.el: %s %s %s %s"
-			    "ignoring coding system "
-			    coding-system
-			    " for "
-			    name)
-		   nil)))
-	  ;; apply coding system
-	  (when coding-system
-	    (setq title (newsticker--decode-coding-string title coding-system))
-	    (if desc
-		(setq desc (newsticker--decode-coding-string desc coding-system)))
-	    (setq link (newsticker--decode-coding-string link coding-system)))
+          ;; check coding system
+          (setq coding-system
+                (condition-case nil
+                    (check-coding-system coding-system)
+                  (coding-system-error
+                   (message "newsticker.el: %s %s %s %s"
+                            "ignoring coding system "
+                            coding-system
+                            " for "
+                            name)
+                   nil)))
+          ;; apply coding system
+          (when coding-system
+            (setq title (newsticker--decode-coding-string title coding-system))
+            (if desc
+                (setq desc (newsticker--decode-coding-string desc
+                                                             coding-system)))
+            (setq link (newsticker--decode-coding-string link coding-system)))
           ;; decode numeric entities
           (setq title (newsticker--decode-numeric-entities title))
           (setq desc  (newsticker--decode-numeric-entities desc))
           (setq link  (newsticker--decode-numeric-entities link))
+          ;; remove whitespace from title, desc, and link
+          (setq title (newsticker--remove-whitespace title))
+          (setq desc (newsticker--remove-whitespace desc))
+          (setq link (newsticker--remove-whitespace link))
 
           ;; handle the feed itself
           (unless (newsticker--cache-contains newsticker--cache
@@ -1836,69 +3172,85 @@ Argument EVENT tells what has happened to the process."
                                               desc link 'feed)
             (setq something-was-added t))
           (setq newsticker--cache
-                (newsticker--cache-add newsticker--cache name-symbol
-                                       title desc link time 'feed position 
-                                       'feed time nil nil
-                                       (xml-node-children channelnode)))
+                (newsticker--cache-add
+                 newsticker--cache name-symbol
+                 title desc link time 'feed position
+                 (xml-node-children channelnode)
+                 'feed time))
           ;; gather all items for this feed
           (mapc (lambda (node)
-		  (when (eq (xml-node-name node) 'item)
-		    (setq position (1+ position))
-		    (setq title (or (car (xml-node-children
-					  (car (xml-get-children
-						node 'title))))
-				    "[untitled]"))
-		    (setq link (or (car (xml-node-children
-					 (car (xml-get-children
-					       node 'link))))
-				   ""))
-		    (setq desc (or
+                  (when (eq (xml-node-name node) 'item)
+                    (setq position (1+ position))
+                    (setq title (or (car (xml-node-children
+                                          (car (xml-get-children
+                                                node 'title))))
+                                    "[untitled]"))
+                    (setq link (or (car (xml-node-children
+                                         (car (xml-get-children
+                                               node 'link))))
+                                   ""))
+                    (setq desc (or
                                 (car (xml-node-children
                                       (car (xml-get-children
                                             node 'content:encoded))))
                                 (car (xml-node-children
                                       (car (xml-get-children
                                             node 'description))))))
-		    ;; use dc:date value if present
-		    (setq time (or (newsticker--decode-iso8601-date
-				    (car (xml-node-children
-					  (car (xml-get-children
-						node 'dc:date)))))
-				   time))
-		    ;; It happened that the title or description
-		    ;; contained evil HTML code that confused the
-		    ;; xml parser.  Therefore:
-		    (unless (stringp title)
-		      (setq title (prin1-to-string title)))
-		    (unless (or (stringp desc) (not desc))
-		      (setq desc (prin1-to-string desc)))
+                    ;; use pubDate value if present
+                    (setq time (or (newsticker--decode-rfc822-date
+                                    (car (xml-node-children
+                                          (car (xml-get-children
+                                                node 'pubDate)))))
+                                   time))
+                    ;; use dc:date value if present
+                    (setq time (or (newsticker--decode-iso8601-date
+                                    (car (xml-node-children
+                                          (car (xml-get-children
+                                                node 'dc:date)))))
+                                   time))
+                    ;; It happened that the title or description
+                    ;; contained evil HTML code that confused the
+                    ;; xml parser.  Therefore:
+                    (unless (stringp title)
+                      (setq title (prin1-to-string title)))
+                    (unless (or (stringp desc) (not desc))
+                      (setq desc (prin1-to-string desc)))
                     ;; ignore items with empty title AND empty desc
                     (when (or (> (length title) 0)
-			      (> (length desc) 0))
+                              (> (length desc) 0))
                       ;; apply coding system
                       (when coding-system
-                        (setq title (newsticker--decode-coding-string title coding-system))
+                        (setq title (newsticker--decode-coding-string
+                                     title coding-system))
                         (if desc
                             (setq desc (newsticker--decode-coding-string desc
                                                              coding-system)))
-                        (setq link (newsticker--decode-coding-string link coding-system)))
+                        (setq link (newsticker--decode-coding-string
+                                    link coding-system)))
                       ;; decode numeric entities
                       (setq title (newsticker--decode-numeric-entities title))
                       (when desc
                         (setq desc  (newsticker--decode-numeric-entities desc)))
                       (setq link (newsticker--decode-numeric-entities link))
-                      ;; remove whitespace from title and desc
+                      ;; remove whitespace from title, desc, and link
                       (setq title (newsticker--remove-whitespace title))
                       (setq desc (newsticker--remove-whitespace desc))
+                      (setq link (newsticker--remove-whitespace link))
                       ;; add data to cache
                       ;; do we have this item already?
-                      (setq old-item
-                            (newsticker--cache-contains newsticker--cache
-                                                        name-symbol title
-                                                        desc link nil))
+                      (let* ((tguid (assoc 'guid (xml-node-children node)))
+                             (guid (if (stringp tguid)
+                                       tguid
+                                     (car (xml-node-children tguid)))))
+                        ;;(message "guid=%s" guid) 
+                        (setq old-item
+                              (newsticker--cache-contains newsticker--cache
+                                                          name-symbol title
+                                                          desc link nil guid)))
                       ;; add this item, or mark it as old, or do nothing
                       (let ((age1 'new)
-                            (age2 'old))
+                            (age2 'old)
+                            (item-new-p nil))
                         (if old-item
                             (let ((prev-age (newsticker--age old-item)))
                               (unless
@@ -1909,50 +3261,59 @@ Argument EVENT tells what has happened to the process."
                               (if (eq prev-age 'immortal)
                                   (setq age2 'immortal)))
                           ;; item was not there
+                          (setq item-new-p t)
                           (setq something-was-added t))
                         (setq newsticker--cache
                               (newsticker--cache-add
                                newsticker--cache name-symbol title desc link
-                               time age1 position
-                               age2 nil nil nil (xml-node-children node)))))))
-		(xml-get-children topnode 'item)))
+                               time age1 position (xml-node-children node)
+                               age2))
+                        (when item-new-p
+                          (let ((item (newsticker--cache-contains
+                                       newsticker--cache
+                                       name-symbol title
+                                       desc link nil)))
+                            (if newsticker-auto-mark-filter
+                                (newsticker--run-auto-mark-filter name item))
+                            (run-hook-with-args
+                             'newsticker-new-item-functions name item)))))))
+                (xml-get-children topnode 'item)))
         ;; Remove those old items from cache which have been removed from
         ;; the feed
         (newsticker--cache-replace-age newsticker--cache
-				       name-symbol 'obsolete-old 'deleteme)
+                                       name-symbol 'obsolete-old 'deleteme)
         (newsticker--cache-remove newsticker--cache name-symbol
                                   'deleteme)
         ;; Remove those new items from cache which have been removed from
         ;; the feed.  Or keep them as `obsolete'
-	(if (not newsticker-keep-obsolete-items)
-	    (newsticker--cache-remove newsticker--cache
-				      name-symbol 'obsolete-new)
-	  (setq newsticker--cache
-		(newsticker--cache-mark-expired
-		 newsticker--cache name-symbol 'obsolete 'obsolete-expired
-		 newsticker-obsolete-item-max-age))
-	  (newsticker--cache-remove newsticker--cache
-				    name-symbol 'obsolete-expired)
-	  (newsticker--cache-replace-age newsticker--cache
-					 name-symbol 'obsolete-new
-					 'obsolete))
-	;; bring cache data into proper order....
+        (if (not newsticker-keep-obsolete-items)
+            (newsticker--cache-remove newsticker--cache
+                                      name-symbol 'obsolete-new)
+          (setq newsticker--cache
+                (newsticker--cache-mark-expired
+                 newsticker--cache name-symbol 'obsolete 'obsolete-expired
+                 newsticker-obsolete-item-max-age))
+          (newsticker--cache-remove newsticker--cache
+                                    name-symbol 'obsolete-expired)
+          (newsticker--cache-replace-age newsticker--cache
+                                         name-symbol 'obsolete-new
+                                         'obsolete))
+        ;; bring cache data into proper order....
         ;; (newsticker--cache-sort)
-	;; setup scrollable text
-	(newsticker--ticker-text-setup)
-        ;; do not save here -- too expensive
-	;; (newsticker--cache-save)
-	(setq newsticker--latest-update-time (current-time))
-	(when something-was-added
-	  ;; FIXME: should we care about removed items as well?
-	  (newsticker--buffer-set-uptodate nil))
-	;; kill the process buffer if wanted
-	(unless newsticker-debug
-	  (kill-buffer (process-buffer process)))
-	;; launch retrieval of image
-	(when (and imageurl
-		   (string-match "%l" newsticker-heading-format))
-	  (newsticker--image-get name imageurl))))))
+        ;; setup scrollable text
+        (newsticker--ticker-text-setup)
+        (setq newsticker--latest-update-time (current-time))
+        (when something-was-added
+          ;; FIXME: should we care about removed items as well?
+          (newsticker--cache-update)
+          (newsticker--buffer-set-uptodate nil))
+        ;; kill the process buffer if wanted
+        (unless newsticker-debug
+          (kill-buffer (process-buffer process)))
+        ;; launch retrieval of image
+        (when (and imageurl
+                   (string-match "%l" newsticker-heading-format))
+          (newsticker--image-get name imageurl))))))
   
 (defun newsticker--display-tick ()
   "Called from the display timer.
@@ -1996,28 +3357,28 @@ there is another message displayed or the minibuffer is active."
            (l (length s-text)))
       ;; don't show anything if there is nothing to show
       (unless (< (length s-text) 1)
-	;; repeat the ticker string if it is shorter than frame width
+        ;; repeat the ticker string if it is shorter than frame width
         (while (< (length s-text) width)
           (setq s-text (concat s-text s-text)))
-	;; get the width of the printed string
+        ;; get the width of the printed string
         (setq l (length s-text))
         (cond ((< i (- l width))
-	       (setq subtext (substring s-text i (+ i width))))
+               (setq subtext (substring s-text i (+ i width))))
               (t
                (setq subtext (concat
                               (substring s-text i l)
                               (substring s-text 0 (- width (- l i)))))))
-	;; Take care of multibyte strings, for which (string-width) is
-	;; larger than (length).
-	;; Actually, such strings may be smaller than (frame-width)
-	;; because return values of (string-width) are too large:
-	;; (string-width "<japanese character>") => 2
-	(let ((t-width (1- (length subtext))))
-	  (while (> (string-width subtext) width)
-	    (setq subtext (substring subtext 0 t-width))
-	    (setq t-width (1- t-width))))
-	;; show the ticker text and save current position
-	(message subtext)
+        ;; Take care of multibyte strings, for which (string-width) is
+        ;; larger than (length).
+        ;; Actually, such strings may be smaller than (frame-width)
+        ;; because return values of (string-width) are too large:
+        ;; (string-width "<japanese character>") => 2
+        (let ((t-width (1- (length subtext))))
+          (while (> (string-width subtext) width)
+            (setq subtext (substring subtext 0 t-width))
+            (setq t-width (1- t-width))))
+        ;; show the ticker text and save current position
+        (message subtext)
         (setq newsticker--prev-message subtext)
         (setq newsticker--item-position (1+ i))
         (when (>= newsticker--item-position l)
@@ -2027,25 +3388,32 @@ there is another message displayed or the minibuffer is active."
 ;;; misc
 ;; ======================================================================
 (defun newsticker--decode-coding-string (string coding-system)
-  "Wrapper around decode-coding-string."
+  "Wrapper around `decode-coding-string'.
+This functions passes the arguments STRING and CODING-SYSTEM to
+`decode-coding-string'.  If the decoding is successful the
+decoded string is returned, otherwise the unmodified input string
+is returned."
   (condition-case nil
       (decode-coding-string string coding-system)
     (error
-     (message "CANNOT DECODE ENCODED STRING!"))))
+     (message "Cannot decode encoded string `%s'" string)
+     string)))
 
-(defun newsticker--decode-numeric-entities (s)
+(defun newsticker--decode-numeric-entities (string)
   "Decode SGML numeric entities by their respective utf characters.
-Example: \"...&#42;...\" gets replaced by \"...*...\"."
+This function replaces numeric entities in the input STRING and
+returns the modified string.  For example \"&#42;\" gets replaced
+by \"*\"."
   (let ((start 0))
-    (while (string-match "&#\\([0-9]+\\);" s start)
+    (while (string-match "&#\\([0-9]+\\);" string start)
       (condition-case nil
-          (setq s (replace-match
-                   (string (read (substring s (match-beginning 1)
-					    (match-end 1))))
-                   nil nil s))
+          (setq string (replace-match
+                        (string (read (substring string (match-beginning 1)
+                                                 (match-end 1))))
+                        nil nil string))
         (error nil))
       (setq start (1+ (match-beginning 0))))
-    s))
+    string))
 
 (defun newsticker--remove-whitespace (string)
   "Remove leading and trailing whitespace from STRING."
@@ -2053,72 +3421,69 @@ Example: \"...&#42;...\" gets replaced by \"...*...\"."
   ;; endlessly...
   (when string
     (replace-regexp-in-string
-     "[ \t\n]+$" ""
-     (replace-regexp-in-string "^[ \t\n]+" "" string))))
+     "[ \t\r\n]+$" ""
+     (replace-regexp-in-string "^[ \t\r\n]+" "" string))))
 
 (defun newsticker--forget-preformatted ()
   "Forget all cached pre-formatted data.
 Remove the pre-formatted from `newsticker--cache'."
   (mapc (lambda (feed)
-	  (mapc (lambda (item)
-		  (if (nthcdr 7 item)
-		      (setcar (nthcdr 7 item) nil))
-		  (if (nthcdr 6 item)
-		      (setcar (nthcdr 6 item) nil)))
-		(cdr feed)))
-	newsticker--cache)
+          (mapc (lambda (item)
+                  (if (nthcdr 7 item)
+                      (setcar (nthcdr 7 item) nil))
+                  (if (nthcdr 6 item)
+                      (setcar (nthcdr 6 item) nil)))
+                (cdr feed)))
+        newsticker--cache)
   (newsticker--buffer-set-uptodate nil))
 
 (defun newsticker--debug-msg (string &rest args)
-  "Print messages if echo area is clean.
+  "Print newsticker debug messages.
 This function calls `message' with arguments STRING and ARGS, if
-`newsticker-debug' is non-nil and if the minibuffer is in not
-active."
+`newsticker-debug' is non-nil."
   (and newsticker-debug
-       (not (active-minibuffer-window))
-       (not (current-message))
+       ;;(not (active-minibuffer-window))
+       ;;(not (current-message))
        (apply 'message string args)))
 
 (defun newsticker--decode-iso8601-date (iso8601-string)
-
   "Return ISO8601-STRING in format like `decode-time'.
 Converts from ISO-8601 to Emacs representation.  If ISO8601-STRING
-Examples: 
+Examples:
 2004-09-17T05:09:49+00:00
 2004-09-17T05:09+00:00
 2004-09-17T05:09:49
 2004-09-17T05:09
 2004-09-17
 2004-09
-2004
-"
+2004"
   (if iso8601-string
-      (when (string-match 
-	     (concat
-	      "\\([0-9]\\{4\\}\\)"
+      (when (string-match
+             (concat
+              "\\([0-9]\\{4\\}\\)"
               "\\(-\\([0-9]\\{2\\}\\)"
               "\\(-\\([0-9]\\{2\\}\\)"
-	      "\\(T"
-	      "\\([0-9]\\{2\\}\\):\\([0-9]\\{2\\}\\)"
-	      "\\(:\\([0-9]\\{2\\}\\)\\)?"
-	      "\\(\\([-+Z]\\)\\(\\([0-9]\\{2\\}\\):\\([0-9]\\{2\\}\\)\\)?\\)?"
-	      "\\)?\\)?\\)?")
-	     iso8601-string)
-	(let ((year (read (match-string 1 iso8601-string)))
-	      (month (read (match-string 3 iso8601-string)))
-	      (day (read (match-string 5 iso8601-string)))
-	      (hour (read (or (match-string 7 iso8601-string)
-			      "0")))
-	      (minute (read (or (match-string 8 iso8601-string)
-				"0")))
-	      (second (read (or (match-string 10 iso8601-string)
-				"0")))
-	      (sign (match-string 12 iso8601-string))
-	      (offset-hour (read (or (match-string 14 iso8601-string)
-				     "0")))
-	      (offset-minute (read (or (match-string 15 iso8601-string)
-				       "0")))
-	      (second 0))
+              "\\(T"
+              "\\([0-9]\\{2\\}\\):\\([0-9]\\{2\\}\\)"
+              "\\(:\\([0-9]\\{2\\}\\)\\)?"
+              "\\(\\([-+Z]\\)\\(\\([0-9]\\{2\\}\\):\\([0-9]\\{2\\}\\)\\)?\\)?"
+              "\\)?\\)?\\)?")
+             iso8601-string)
+        (let ((year (read (match-string 1 iso8601-string)))
+              (month (read (match-string 3 iso8601-string)))
+              (day (read (match-string 5 iso8601-string)))
+              (hour (read (or (match-string 7 iso8601-string)
+                              "0")))
+              (minute (read (or (match-string 8 iso8601-string)
+                                "0")))
+              ;;(second (read (or (match-string 10 iso8601-string)
+              ;; "0")))
+              (sign (match-string 12 iso8601-string))
+              (offset-hour (read (or (match-string 14 iso8601-string)
+                                     "0")))
+              (offset-minute (read (or (match-string 15 iso8601-string)
+                                       "0")))
+              (second 0))
           (cond ((string= sign "+")
                  (setq hour (- hour offset-hour))
                  (setq minute (- minute offset-minute)))
@@ -2128,12 +3493,65 @@ Examples:
           ;; if UTC subtract current-time-zone offset
           ;;(setq second (+ (car (current-time-zone)) second)))
 
-	  (condition-case nil
-	      (encode-time second minute hour day month year t)
-	    (error
-	     (message "Cannot decode \"%s\"" iso8601-string)
-	     nil))))
+          (condition-case nil
+              (encode-time second minute hour day month year t)
+            (error
+             (message "Cannot decode \"%s\"" iso8601-string)
+             nil))))
     nil))
+
+(defun newsticker--decode-rfc822-date (rfc822-string)
+  "Return RFC822-STRING in format like `decode-time'.
+Converts from RFC822 to Emacs representation.
+Examples:
+Sat, 07 Sep 2002 00:00:01 GMT
+07 Sep 2002 00:00:01 GMT"
+  (if rfc822-string
+      (when (string-match
+             (concat
+              "\\s-*"
+              ;; week day
+              "\\(\\(Mon\\|Tue\\|Wed\\|Thu\\|Fri\\|Sat\\|Sun\\)\\s-*,?\\)\\s-+"
+              ;; day
+              "\\([0-9]\\{1,2\\}\\)\\s-+"
+              ;; month
+              "\\(Jan\\|Feb\\|Mar\\|Apr\\|May\\|Jun\\|Jul\\|Aug\\|"
+              "Sep\\|Oct\\|Nov\\|Dec\\)\\s-+"
+              ;; year
+              "\\([0-9]\\{2,4\\}\\)\\s-+"
+              ;; hour
+              "\\([0-9]\\{2\\}\\)"
+              ;; minute
+              ":\\([0-9]\\{2\\}\\)"
+              ;; second
+              "\\(:\\([0-9]\\{2\\}\\)\\)?"
+              ;; zone -- fixme
+              "\\(\\s-+.*\\)?")
+             rfc822-string)
+        (let ((day (read (match-string 3 rfc822-string)))
+              (month-name (match-string 4 rfc822-string))
+              (month 0)
+              (year (read (match-string 5 rfc822-string)))
+              (hour (read (match-string 6 rfc822-string)))
+              (minute (read (match-string 7 rfc822-string)))
+              (second (read (or (match-string 9 rfc822-string)
+                                "0")))
+              ;;(zone (match-string 10 rfc822-string))
+              )
+          (condition-case error-data
+              (let ((i 1))
+                (mapc (lambda (m)
+                        (if (string= month-name m)
+                            (setq month i))
+                        (setq i (1+ i)))
+                      '("Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug"
+                        "Sep" "Oct" "Nov" "Dec"))
+                (encode-time second minute hour day month year t))
+            (error
+             (message "Cannot decode \"%s\": %s %s" rfc822-string
+                      (car error-data) (cdr error-data))
+             nil))))
+      nil))
 
 
 ;; ======================================================================
@@ -2142,17 +3560,17 @@ Examples:
 (defun newsticker--image-get (feed-name url)
   "Get image of the news site FEED-NAME from URL."
   (newsticker--debug-msg "%s: Getting image for %s"
-			 (format-time-string "%A, %H:%M" (current-time))
-			 feed-name)
-  (let* ((buffername (concat "*wget-newsticker-image-" feed-name "*"))
+                         (format-time-string "%A, %H:%M" (current-time))
+                         feed-name)
+  (let* ((buffername (concat " *newsticker-wget-image-" feed-name "*"))
          (item (or (assoc feed-name newsticker-url-list)
                    (assoc feed-name newsticker-url-list-defaults)
                    (error
                     "Cannot get news for %s: Check newsticker-url-list"
-		    feed-name)))
+                    feed-name)))
          (wget-arguments (or (car (cdr (cdr (cdr (cdr item)))))
                              newsticker-wget-arguments)))
-    (save-current-buffer
+    (save-excursion
       (set-buffer (get-buffer-create buffername))
       (erase-buffer)
       ;; throw an error if there is an old wget-process around
@@ -2169,9 +3587,7 @@ Examples:
   "Sentinel for image-retrieving PROCESS caused by EVENT."
   (let* ((p-status (process-status process))
          (exit-status (process-exit-status process))
-	 (feed-name (process-name process))
-	 (feed-name-symbol (intern feed-name))
-         (time (current-time)))
+         (feed-name (process-name process)))
     ;; catch known errors (zombie processes, rubbish-xml etc.
     ;; if an error occurs the news feed is not updated!
     (catch 'oops
@@ -2182,42 +3598,43 @@ Examples:
                  feed-name)
         (throw 'oops nil))
       (let (image-name)
-	(save-current-buffer
-	  (set-buffer (process-buffer process))
-	  (setq image-name (concat newsticker-imagecache-dirname "/"
-				   feed-name))
-	  (set-buffer-file-coding-system 'no-conversion)
-	  ;; make sure the cache dir exists
-	  (unless (file-directory-p newsticker-imagecache-dirname)
-	    (make-directory newsticker-imagecache-dirname))
-	  ;; write and close buffer
-	  (let ((require-final-newline nil)
-		(backup-inhibited t))
-	    (write-file image-name))
-	  (set-buffer-modified-p nil)
-	  (kill-buffer (current-buffer)))))))
+        (save-excursion
+          (set-buffer (process-buffer process))
+          (setq image-name (concat newsticker-imagecache-dirname "/"
+                                   feed-name))
+          (set-buffer-file-coding-system 'no-conversion)
+          ;; make sure the cache dir exists
+          (unless (file-directory-p newsticker-imagecache-dirname)
+            (make-directory newsticker-imagecache-dirname))
+          ;; write and close buffer
+          (let ((require-final-newline nil)
+                (backup-inhibited t)
+                (coding-system-for-write 'no-conversion))
+            (write-region nil nil image-name nil 'quiet))
+          (set-buffer-modified-p nil)
+          (kill-buffer (current-buffer)))))))
 
 (defun newsticker--image-read (feed-name-symbol disabled)
   "Read the cached image for FEED-NAME-SYMBOL from disk.
 If DISABLED is non-nil the image will be converted to a disabled look
-\(unless newsticker-enable-logo-manipulations is not t\). 
+\(unless `newsticker-enable-logo-manipulations' is not t\).
 Return the image."
   (let ((image-name (concat newsticker-imagecache-dirname "/"
-			    (symbol-name feed-name-symbol)))
-	(img nil))
+                            (symbol-name feed-name-symbol)))
+        (img nil))
     (when (file-exists-p image-name)
       (condition-case error-data
-	  (setq img (create-image
-		     image-name nil nil
-		     :conversion (and newsticker-enable-logo-manipulations 
+          (setq img (create-image
+                     image-name nil nil
+                     :conversion (and newsticker-enable-logo-manipulations
                                       disabled
-				      'disabled)
-		     :mask (and newsticker-enable-logo-manipulations
-				'heuristic)
-		     :ascent 70))
-	(error
-	 (message "Error: cannot create image: %s"
-		  (cadr error-data)))))
+                                      'disabled)
+                     :mask (and newsticker-enable-logo-manipulations
+                                'heuristic)
+                     :ascent 70))
+        (error
+         (message "Error: cannot create image: %s"
+                  (cadr error-data)))))
     img))
 
 ;; ======================================================================
@@ -2228,21 +3645,25 @@ Return the image."
   (save-excursion
     (goto-char (point-min))
     (let ((index-alist nil)
-	  (feed-list nil)
-	  (go-ahead t))
-      (while (newsticker--buffer-goto '(item feed))
-	(let ((type  (get-text-property (point) 'nt-type))
-	      (title (get-text-property (point) 'nt-title)))
-	  (cond ((eq type 'feed)
-		 ;; we're on a feed heading
-		 (when feed-list
-		   (if index-alist
-		       (nconc index-alist (list feed-list))
-		     (setq index-alist (list feed-list))))
-		 (setq feed-list (list title)))
-		(t
-		 (nconc feed-list
-			(list (cons title (point))))))))
+          (feed-list nil)
+          (go-ahead t))
+      (while go-ahead
+        (let ((type  (get-text-property (point) 'nt-type))
+              (title (get-text-property (point) 'nt-title)))
+          (cond ((eq type 'feed)
+                 ;; we're on a feed heading
+                 (when feed-list
+                   (if index-alist
+                       (nconc index-alist (list feed-list))
+                     (setq index-alist (list feed-list))))
+                 (setq feed-list (list title)))
+                (t
+                 (nconc feed-list
+                        (list (cons title (point)))))))
+	(setq go-ahead (newsticker--buffer-goto '(item feed))))
+      (if index-alist
+	  (nconc index-alist (list feed-list))
+	(setq index-alist (list feed-list)))
       index-alist)))
 
 (defun newsticker--imenu-goto (name pos &rest args)
@@ -2251,13 +3672,12 @@ ARGS are ignored."
   (goto-char pos)
   (newsticker-show-entry))
 
-
 ;; ======================================================================
 ;;; buffer stuff
 ;; ======================================================================
 (defun newsticker--buffer-set-uptodate (value)
-  "Sets the uptodate-status of the newsticker buffer to VALUE.
-The modeline is changed accordingly."
+  "Set the uptodate-status of the newsticker buffer to VALUE.
+The mode-line is changed accordingly."
   (setq newsticker--buffer-uptodate-p value)
   (let ((b (get-buffer "*newsticker*")))
     (when b
@@ -2265,13 +3685,16 @@ The modeline is changed accordingly."
        (set-buffer b)
        (if value
            (setq mode-name "Newsticker -- up to date -- ")
-         (setq mode-name "Newsticker -- NEED UPDATE -- "))))))
-
+         (setq mode-name "Newsticker -- NEED UPDATE -- ")))
+      (sit-for 0))))
 
 (defun newsticker--buffer-redraw ()
   "Sometimes (CVS) Emacs forgets to update the window..."
-  (when (fboundp 'force-window-update)
-    (force-window-update (current-buffer))))
+  (if (fboundp 'force-window-update)
+      (force-window-update (current-buffer))
+    (redraw-frame (selected-frame)))
+  (run-hooks 'newsticker-buffer-change-hook)
+  (sit-for 0))
 
 (defun newsticker--buffer-insert-all-items ()
   "Insert all cached newsticker items into the current buffer.
@@ -2279,42 +3702,36 @@ Keeps order of feeds as given in `newsticker-url-list' and
 `newsticker-url-list-defaults'."
   (goto-char (point-min))
   (mapc (lambda (url-item)
-	  (let* ((feed-name-symbol (intern (car url-item)))
-		 (feed (assoc feed-name-symbol newsticker--cache))
-		 (items (cdr feed))
-		 (pos (point)))
-	    (when feed
-	      ;; insert the feed description
-	      (mapc (lambda (item)
-		      (when (eq (newsticker--age item) 'feed)
-			(newsticker--buffer-insert-item item
-							feed-name-symbol)))
-		    items)
-	      ;;insert the items
-	      (mapc (lambda (item)
-		      (if (memq (newsticker--age item) '(new immortal old
-							     obsolete))
-			  (newsticker--buffer-insert-item item
+          (let* ((feed-name (car url-item))
+                 (feed-name-symbol (intern feed-name))
+                 (feed (assoc feed-name-symbol newsticker--cache))
+                 (items (cdr feed))
+                 (pos (point)))
+            (when feed
+              ;; insert the feed description
+              (mapc (lambda (item)
+                      (when (eq (newsticker--age item) 'feed)
+                        (newsticker--buffer-insert-item item
+                                                        feed-name-symbol)))
+                    items)
+              ;;insert the items
+              (mapc (lambda (item)
+                      (if (memq (newsticker--age item) '(new immortal old
+                                                             obsolete))
+                          (newsticker--buffer-insert-item item
                                                           feed-name-symbol)))
-		    items)
-	      (put-text-property pos (point) 'feed (car feed))
-	      ;; insert empty line between feeds
-	      (let ((p (point)))
-		(insert "\n")
-		(put-text-property p (point) 'hard t)))))
-	(append newsticker-url-list newsticker-url-list-defaults))
+                    items)
+              (put-text-property pos (point) 'feed (car feed))
+              
+              ;; insert empty line between feeds
+              (let ((p (point)))
+                (insert "\n")
+                (put-text-property p (point) 'hard t)))))
+        (append newsticker-url-list newsticker-url-list-defaults))
   
-  ;; fill if necessary
-;;   (when newsticker-justification
-;;     (let ((use-hard-newlines t))
-;;       ;; set margin
-;;       ;; (set-left-margin (point-min) (point-max) 2)
-;;       (fill-region (point-min) (point-max) newsticker-justification)))
-
   (newsticker--buffer-set-faces (point-min) (point-max))
   (goto-char (point-min)))
-
-
+  
 (defun newsticker--buffer-insert-item (item &optional feed-name-symbol)
   "Insert a news item in the current buffer.
 Insert the string PREFIX and a formatted representation of the
@@ -2328,39 +3745,39 @@ well."
   ;; insert the description
   (newsticker--buffer-do-insert-text item 'desc feed-name-symbol))
 
-
 (defun newsticker--buffer-do-insert-text (item type feed-name-symbol)
   "Actually insert contents of news item, format it, render it and all that.
 ITEM is a news item, TYPE tells which part of the item shall be inserted,
 FEED-NAME-SYMBOL tells to which feed this item belongs."
   (let* ((pos (point))
-	 (format newsticker-desc-format)
-	 (pos-date-start nil)
-	 (pos-date-end nil)
-	 (pos-stat-start nil)
-	 (pos-stat-end nil)
-	 (pos-text-start nil)
-	 (pos-text-end nil)
+         (format newsticker-desc-format)
+         (pos-date-start nil)
+         (pos-date-end nil)
+         (pos-stat-start nil)
+         (pos-stat-end nil)
+         (pos-text-start nil)
+         (pos-text-end nil)
          (pos-extra-start nil)
          (pos-extra-end nil)
-	 (age (newsticker--age item))
-	 (preformatted-contents (newsticker--preformatted-contents item))
-	 (preformatted-title (newsticker--preformatted-title item)))
+         (pos-enclosure-start nil)
+         (pos-enclosure-end nil)
+         (age (newsticker--age item))
+         (preformatted-contents (newsticker--preformatted-contents item))
+         (preformatted-title (newsticker--preformatted-title item)))
     (cond ((and preformatted-contents
-		(not (eq (aref preformatted-contents 0) ?\n));; we must NOT have a
-						       ;; line break!
-		(eq type 'desc))
+                (not (eq (aref preformatted-contents 0) ?\n));; we must
+                                                       ;; NOT have a line
+                                                       ;; break!
+                (eq type 'desc))
            (insert preformatted-contents)
-	   (add-text-properties pos (point) (list 'nt-type type
-                                                  ;;'nt-face type
+           (add-text-properties pos (point) (list 'nt-type type
                                                   'nt-age  age)))
           ((and preformatted-title
-		(not (eq (aref preformatted-title 0) ?\n));; we must NOT have a
-						    ;; line break!
+                (not (eq (aref preformatted-title 0) ?\n));; we must NOT have a
+                                                    ;; line break!
                 (eq type 'item))
            (insert preformatted-title)
-	   (add-text-properties pos (point) (list 'nt-type type
-                                                  ;;'nt-face type
+           (add-text-properties pos (point) (list 'nt-type type
                                                   'nt-age  age)))
           (t
            ;; item was not formatted before.
@@ -2369,7 +3786,7 @@ FEED-NAME-SYMBOL tells to which feed this item belongs."
                (setq format newsticker-item-format)
              (if (eq type 'feed)
                  (setq format newsticker-heading-format)))
-	   
+           
            (while (> (length format) 0)
              (let ((prefix (if (> (length format) 1)
                                (substring format 0 2)
@@ -2395,8 +3812,10 @@ FEED-NAME-SYMBOL tells to which feed this item belongs."
                                              (= (newsticker--stat-num-items
                                                  feed-name-symbol 'new) 0))
                                             (t
-                                             (not (eq (newsticker--age item) 'new))))))
-                        (let ((img (newsticker--image-read feed-name-symbol disabled)))
+                                             (not (eq (newsticker--age item)
+                                                      'new))))))
+                        (let ((img (newsticker--image-read feed-name-symbol
+                                                           disabled)))
                           (when img
                             (newsticker--insert-image img (car item)))))
                       (setq format (substring format 2)))
@@ -2406,13 +3825,20 @@ FEED-NAME-SYMBOL tells to which feed this item belongs."
                                              (= (newsticker--stat-num-items
                                                  feed-name-symbol 'new) 0))
                                             (t
-                                             (not (eq (newsticker--age item) 'new))))))
-                        (let ((img (newsticker--image-read feed-name-symbol disabled)))
+                                             (not (eq (newsticker--age item)
+                                                      'new))))))
+                        (let ((img (newsticker--image-read feed-name-symbol
+                                                           disabled)))
                           (if img
                               (newsticker--insert-image img (car item))
                             (when (car item)
                               (setq pos-text-start (point-marker))
-                              (insert (car item))
+			      (if (eq (newsticker--age item) 'feed)
+				  (insert (newsticker--title item))
+				;; FIXME: This is not the "real" title!
+				(insert (format "%s"
+						(car (newsticker--cache-get-feed
+						      feed-name-symbol)))))
                               (setq pos-text-end (point-marker))))))
                       (setq format (substring format 2)))
                      ((string= "%s" prefix)
@@ -2420,7 +3846,7 @@ FEED-NAME-SYMBOL tells to which feed this item belongs."
                       (setq pos-stat-start (point-marker))
                       (if (eq (newsticker--age item) 'feed)
                           (insert (newsticker--buffer-statistics
-				   feed-name-symbol)))
+                                   feed-name-symbol)))
                       (setq pos-stat-end (point-marker))
                       (setq format (substring format 2)))
                      ((string= "%t" prefix)
@@ -2444,46 +3870,63 @@ FEED-NAME-SYMBOL tells to which feed this item belongs."
                       (setq format (substring format (match-beginning 2)))))))
     
            ;; decode HTML if possible...
-	   (let ((is-rendered-HTML nil))
-	     (when (and newsticker-html-renderer pos-text-start pos-text-end)
-	       (condition-case error-data
-		   (save-excursion
-		     ;; check whether it is necessary to call html renderer
-		     ;; (regexp inspired by htmlr.el)
-		     (goto-char pos-text-start)
-		     (when (re-search-forward
-			    "</?[A-Za-z1-6]*\\|&#?[A-Za-z0-9]+;" pos-text-end t)
+           (let ((is-rendered-HTML nil))
+             (when (and newsticker-html-renderer pos-text-start pos-text-end)
+               (condition-case error-data
+                   (save-excursion
+                     ;; check whether it is necessary to call html renderer
+                     ;; (regexp inspired by htmlr.el)
+                     (goto-char pos-text-start)
+                     (when (re-search-forward
+                            "</?[A-Za-z1-6]*\\|&#?[A-Za-z0-9]+;" pos-text-end t)
                        ;; (message "%s" (newsticker--title item))
-		       (funcall newsticker-html-renderer pos-text-start
-				pos-text-end)
-		       ;; FIXME: compiler warning about free variable
-		       ;; w3m-minor-mode-map
-                       (if (eq newsticker-html-renderer 'w3m-region)
-                           (add-text-properties pos (point-max)
-                                            (list 'keymap w3m-minor-mode-map)))
-		       (setq is-rendered-HTML t)))
-		 (error
-		  (message "Error: HTML rendering failed: %s, %s"
-			   (car error-data) (cdr error-data)))))
-	     (when (and newsticker-justification
-			(not is-rendered-HTML))
-	       (let ((use-hard-newlines t))
-		 (fill-region pos (point-max) newsticker-justification))))
+                       (let ((w3m-fill-column (if newsticker-use-full-width
+                                                  -1 fill-column))
+                             (w3-maximum-line-length
+                              (if newsticker-use-full-width nil fill-column)))
+                         (save-excursion
+                           (funcall newsticker-html-renderer pos-text-start
+                                    pos-text-end)))
+                       ;; FIXME: compiler warning about free variable
+                       ;; w3m-minor-mode-map
+                       (cond ((eq newsticker-html-renderer 'w3m-region)
+                              (add-text-properties pos (point-max)
+                                                   (list 'keymap
+                                                         w3m-minor-mode-map)))
+                             ((eq newsticker-html-renderer 'w3-region)
+                              (add-text-properties pos (point-max)
+                                                   (list 'keymap w3-mode-map))))
+                       (setq is-rendered-HTML t)))
+                 (error
+                  (message "Error: HTML rendering failed: %s, %s"
+                           (car error-data) (cdr error-data)))))
+             (when (and newsticker-justification
+                        (not is-rendered-HTML))
+               (condition-case nil
+                   (let ((use-hard-newlines t))
+                     (fill-region pos (point-max) newsticker-justification))
+                 (error nil))))
 
-	   ;; remove leading and trailing newlines
-	   (goto-char pos)
+             ;; remove leading and trailing newlines
+           (goto-char pos)
            (unless (= 0 (skip-chars-forward " \t\r\n"))
              (delete-region pos (point)))
-	   (goto-char (point-max))
-	   (let ((end (point)))
-	     (unless (= 0 (skip-chars-backward " \t\r\n" (1+ pos)))
-	       (delete-region (point) end)))
-	   (goto-char (point-max))
+           (goto-char (point-max))
+           (let ((end (point)))
+             (unless (= 0 (skip-chars-backward " \t\r\n" (1+ pos)))
+               (delete-region (point) end)))
+           (goto-char (point-max))
 
            ;; closing newline
-	   (unless nil ;;(eq pos (point))
-	     (insert "\n")
-	     (put-text-property (1- (point)) (point) 'hard t))
+           (unless nil ;;(eq pos (point))
+             (insert "\n")
+             (put-text-property (1- (point)) (point) 'hard t))
+
+           ;; insert enclosure element
+           (when (eq type 'desc)
+             (setq pos-enclosure-start (point))
+             (newsticker--buffer-insert-enclosure item)
+             (setq pos-enclosure-end (point)))
 
            ;; show extra elements
            (when (and newsticker-show-all-rss-elements
@@ -2492,10 +3935,13 @@ FEED-NAME-SYMBOL tells to which feed this item belongs."
              (setq pos-extra-start (point))
              (mapc (lambda (extra-element)
                      (unless (memq (car extra-element)
-                                   '(items link title description content:encoded
-                                           dc:subject dc:date item guid))
-                       (insert (format "%s:\t%s\n" (car extra-element)
-                                       (nth 2 extra-element)))))
+                                   '(items link title description
+                                           content:encoded
+                                           dc:subject dc:date item guid
+                                           pubDate
+                                           enclosure))
+                       (newsticker--buffer-print-extra-element
+                        extra-element)))
                    (newsticker--extra item))
              (setq pos-extra-end (point)))
 
@@ -2504,36 +3950,89 @@ FEED-NAME-SYMBOL tells to which feed this item belongs."
              (add-text-properties pos (1- (point))
                                   (list 'mouse-face 'highlight
                                         'nt-link (newsticker--link item)
-                                        'help-echo "mouse-2: visit item"
-                                        'keymap newsticker--heading-keymap
+                                        'help-echo
+                                        (format "mouse-2: visit item (%s)"
+                                                (newsticker--link item))
+                                        'keymap newsticker--url-keymap
                                         ))
              (add-text-properties pos (point)
                                   (list 'nt-title (newsticker--title item)
-					'nt-desc (newsticker--desc item))))
+                                        'nt-desc (newsticker--desc item))))
     
-           (add-text-properties pos (point) (list 'nt-type type
-                                                  'nt-face type
-                                                  'nt-age  age
-                                                  'nt-guid (newsticker--guid item)))
+           (add-text-properties pos (point)
+                                (list 'nt-type type
+                                      'nt-face type
+                                      'nt-age  age
+                                      'nt-guid (newsticker--guid item)))
            (when (and pos-date-start pos-date-end)
              (put-text-property pos-date-start pos-date-end 'nt-face 'date))
            (when (and pos-stat-start pos-stat-end)
              (put-text-property pos-stat-start pos-stat-end 'nt-face 'stat))
            (when (and pos-extra-start pos-extra-end)
              (put-text-property pos-extra-start pos-extra-end 'nt-face 'extra))
+           (when (and pos-enclosure-start pos-enclosure-end
+                      (> pos-enclosure-end pos-enclosure-start))
+             (put-text-property pos-enclosure-start (1- pos-enclosure-end)
+                                'nt-face 'enclosure))
 
+           ;; left margin
+           ;;(unless (memq type '(feed item))
+           ;;(set-left-margin pos (1- (point)) 1))
+           
            ;; save rendered stuff
            (cond ((eq type 'desc)
-                  (if (nthcdr 6 item)
-                      (setcar (nthcdr 6 item) (buffer-substring pos (point)))
-                    (setcdr (nthcdr 5 item) (list
-					     (buffer-substring pos (point))))))
-                 ((eq type 'item)
-                  (if (nthcdr 7 item)
-                      (setcar (nthcdr 7 item) (buffer-substring pos (point)))
-                    (setcdr (nthcdr 6 item) (list
-					     (buffer-substring pos (point)))))))
-           ))))
+		  ;; preformatted contents
+		  (newsticker--cache-set-preformatted-contents
+		   item (buffer-substring pos (point))))
+		  ((eq type 'item)
+		   ;; preformatted title
+		   (newsticker--cache-set-preformatted-title
+		    item (buffer-substring pos (point)))))))))
+
+(defun newsticker--buffer-print-extra-element (extra-element)
+  "Insert EXTRA-ELEMENT in a pretty form into the current buffer."
+  (insert (format "%s:\t" (car extra-element)))
+  (let (;;(attributes (cadr extra-element)) ;FIXME!!!!
+        (contents (cddr extra-element)))
+    (cond ((listp contents)
+           (mapc (lambda (i)
+                   (if (and (stringp i)
+                            (string-match "^http://.*" i))
+                       (let ((pos (point)))
+                         (insert i " ") ; avoid self-reference from the
+                                        ; nt-link thing
+                         (add-text-properties
+                          pos (point)
+                          (list 'mouse-face 'highlight
+                                'nt-link i
+                                'help-echo
+                                (format "mouse-2: visit (%s)" i)
+                                'keymap newsticker--url-keymap)))
+                         (insert (format "%s" i))))
+                 contents))
+          (t
+           (insert (format "%s" contents))))
+    (insert "\n")))
+
+(defun newsticker--buffer-insert-enclosure (item)
+  "Insert enclosure element of an RSS ITEM into the current buffer."
+  (let ((enclosure (newsticker--enclosure item))
+        (beg (point)))
+    (when enclosure
+      (let ((url (cdr (assoc 'url enclosure)))
+            (length (cdr (assoc 'length enclosure)))
+            (type (cdr (assoc 'type enclosure))))
+        (insert (format "Enclosed file (%s, %1.2f kBytes)" type
+                        (/ (string-to-number length) 1024)))
+        (add-text-properties beg (point)
+                             (list 'mouse-face 'highlight
+                                   'nt-link url
+                                   'help-echo (format
+                                               "mouse-2: visit (%s)" url)
+                                   'keymap newsticker--url-keymap
+                                   'nt-face 'enclosure
+                                   'nt-type 'desc))
+        (insert "\n")))))
 
 (defun newsticker--buffer-statistics (feed-name-symbol)
   "Return a statistic string for the feed given by FEED-NAME-SYMBOL.
@@ -2563,21 +4062,21 @@ Scans the buffer between START and END."
     ;;(put-text-property start end 'face 'newsticker-default-face)
     (goto-char start)
     (let ((pos1 start)
-	  (pos2 1)
-	  (nt-face (get-text-property start 'nt-face))
-	  (nt-age (get-text-property start 'nt-age)))
+          (pos2 1)
+          (nt-face (get-text-property start 'nt-face))
+          (nt-age (get-text-property start 'nt-age)))
       (when nt-face
-	(setq pos2 (next-single-property-change (point) 'nt-face))
-	(newsticker--set-face-properties pos1 pos2 nt-face nt-age)
-	(setq nt-face (get-text-property pos2 'nt-face))
-	(setq pos1 pos2))
+        (setq pos2 (next-single-property-change (point) 'nt-face))
+        (newsticker--set-face-properties pos1 pos2 nt-face nt-age)
+        (setq nt-face (get-text-property pos2 'nt-face))
+        (setq pos1 pos2))
       (while (and (setq pos2 (next-single-property-change pos1 'nt-face))
-		  (<= pos2 end)
-		  (> pos2 pos1))
-	(newsticker--set-face-properties pos1 pos2 nt-face nt-age)
-	(setq nt-face (get-text-property pos2 'nt-face))
-	(setq nt-age (get-text-property pos2 'nt-age))
-	(setq pos1 pos2))))
+                  (<= pos2 end)
+                  (> pos2 pos1))
+        (newsticker--set-face-properties pos1 pos2 nt-face nt-age)
+        (setq nt-face (get-text-property pos2 'nt-face))
+        (setq nt-age (get-text-property pos2 'nt-age))
+        (setq pos1 pos2))))
   (newsticker--buffer-set-invisibility start end))
 
 (defun newsticker--buffer-set-invisibility (start end)
@@ -2589,53 +4088,52 @@ Scans the buffer between START and END."
     ;; let's go
     (goto-char start)
     (let ((pos1 start)
-	  (pos2 1)
-	  (nt-type (get-text-property start 'nt-type))
-	  (nt-age (get-text-property start 'nt-age)))
+          (pos2 1)
+          (nt-type (get-text-property start 'nt-type))
+          (nt-age (get-text-property start 'nt-age)))
       (when nt-type
-	(setq pos2 (next-single-property-change (point) 'nt-type))
-	(setq nt-type (get-text-property pos2 'nt-type))
-	(setq pos1 pos2))
+        (setq pos2 (next-single-property-change (point) 'nt-type))
+        (setq nt-type (get-text-property pos2 'nt-type))
+        (setq pos1 pos2))
       (while (and (setq pos2 (next-single-property-change pos1 'nt-type))
-		  (<= pos2 end)
-		  (> pos2 pos1))
+                  (<= pos2 end)
+                  (> pos2 pos1))
         ;; must shift one char to the left in order to handle inivisible
         ;; newlines, motion in invisible text areas and all that correctly
-	(put-text-property (1- pos1) (1- pos2)
-			   'invisible
-			   (intern (concat (symbol-name nt-type)
-					   "-"
-					   (symbol-name nt-age))))
-	(setq nt-type (get-text-property pos2 'nt-type))
-	(setq nt-age (get-text-property pos2 'nt-age))
-	(setq pos1 pos2)))))
+        (put-text-property (1- pos1) (1- pos2)
+                           'invisible
+                           (intern (concat (symbol-name nt-type)
+                                           "-"
+                                           (symbol-name nt-age))))
+        (setq nt-type (get-text-property pos2 'nt-type))
+        (setq nt-age (get-text-property pos2 'nt-age))
+        (setq pos1 pos2)))))
 
 (defun newsticker--set-face-properties (pos1 pos2 nt-face age)
   "Set the face for the text between the positions POS1 and POS2.
 The face is chosen according the values of NT-FACE and AGE."
   (let ((face (cond ((eq nt-face 'feed)
-		     'newsticker-feed-face)
-		    ((eq nt-face 'item)
-		     (cond ((eq age 'new)
-			    'newsticker-new-item-face)
-			   ((eq age 'old)
-			    'newsticker-old-item-face)
-			   ((eq age 'immortal)
-			    'newsticker-immortal-item-face)
-			   ((eq age 'obsolete)
-			    'newsticker-obsolete-item-face)))
-		    ((eq nt-face 'date)
-		     'newsticker-date-face)
-		    ((eq nt-face 'stat)
-		     'newsticker-statistics-face)
-		    ((eq nt-face 'extra)
-		     'newsticker-extra-face)
-;; 		    (t
-;; 		     'newsticker-default-face)
-		    )))
+                     'newsticker-feed-face)
+                    ((eq nt-face 'item)
+                     (cond ((eq age 'new)
+                            'newsticker-new-item-face)
+                           ((eq age 'old)
+                            'newsticker-old-item-face)
+                           ((eq age 'immortal)
+                            'newsticker-immortal-item-face)
+                           ((eq age 'obsolete)
+                            'newsticker-obsolete-item-face)))
+                    ((eq nt-face 'date)
+                     'newsticker-date-face)
+                    ((eq nt-face 'stat)
+                     'newsticker-statistics-face)
+                    ((eq nt-face 'extra)
+                     'newsticker-extra-face)
+                    ((eq nt-face 'enclosure)
+                     'newsticker-enclosure-face))))
     (when face
-      (put-text-property pos1 pos2 'face face))))
-	 
+      (put-text-property pos1 (max pos1 pos2) 'face face))))
+         
 (defun newsticker--insert-image (img string)
   "Insert IMG with STRING at point.
 This is a work-around for a strange behavior of Emacs versions before
@@ -2665,29 +4163,58 @@ Renders the HTML code in the region POS1 to POS2 using htmlr."
        (htmlr-reset)
        ;; something omitted here...
        (while (< (point) (point-max))
-	 (htmlr-step))
+         (htmlr-step))
        ;; end original htmlr-render
        (newsticker--remove-whitespace (buffer-string))))))
-
 
 ;; ======================================================================
 ;;; Functions working on the *newsticker* buffer
 ;; ======================================================================
 (defun newsticker--buffer-make-item-completely-visible ()
   "Scroll buffer until current item is completely visible."
+  (switch-to-buffer (get-buffer-create "*newsticker*"))
+  (when newsticker--auto-narrow-to-feed
+    (let* ((min (or (save-excursion (newsticker--buffer-beginning-of-feed))
+                    (point-min)))
+           (max (or (save-excursion (newsticker--buffer-end-of-feed))
+                    (point-max))))
+      (narrow-to-region min max)))
+  (when newsticker--auto-narrow-to-item
+    (let* ((min (or (save-excursion (newsticker--buffer-beginning-of-item))
+                    (point-min)))
+           (max (or (save-excursion (newsticker--buffer-end-of-item))
+                    (point-max))))
+      (narrow-to-region min max)))
   (sit-for 0)
-  (save-excursion
-    (let ((nt (count-screen-lines (point-min) (window-start)))
-	  (nb (count-screen-lines (point-min) (window-end)))
-	  (ns (count-screen-lines (point-min) (point)))
-	  (ne (save-excursion
-		(1+ 
-		 (count-screen-lines (point-min)
-				     (newsticker--buffer-end-of-item))))))
-      (when (< nb ne)
-	;;(message "nt=%d, nb=%d, ns=%d, ne=%d -- %d" nt nb ns ne
-	;; (min (- ns nt) (- ne ns)))
-	(scroll-up (min (- ns nt) (- ne ns)))))))
+  (let* ((min (count-lines
+               (point-min)
+               (or (save-excursion (newsticker--buffer-beginning-of-item))
+                   (point-min))))
+         (max (count-lines
+               (point-min)
+               (or (save-excursion (newsticker--buffer-end-of-item))
+                   (point-max))))
+         (start (count-lines (point-min) (window-start)))
+         (end (count-lines (point-min) (min (point-max) (window-end)))))
+    (if (>= max end)
+        (let ((d1 (- end start))
+              (d2 (1+ (- max min))))
+          (recenter (- (min d1 d2)))
+          ;;(save-excursion (scroll-up (min d1 d2)))
+          (sit-for 0))))
+  ;; smooth scrolling:
+;;   (let* ((min (save-excursion (newsticker--buffer-beginning-of-item)))
+;;            (max (save-excursion (newsticker--buffer-end-of-item)))
+;;            (go-ahead t))
+;;       (save-excursion
+;;         (while (and go-ahead
+;;                     (not (pos-visible-in-window-p max)))
+;;           (scroll-up 1)
+;;           (sit-for 0)
+;;           (if (not (pos-visible-in-window-p min))
+;;               (setq go-ahead nil))))
+;;       (sit-for 0)))
+  )
 
 (defun newsticker--buffer-goto (types &optional age backwards)
   "Search next occurrence of TYPES in current buffer.
@@ -2696,25 +4223,26 @@ not point is left unchanged.  If optional parameter AGE is not
 nil, the type AND the age must match.  If BACKWARDS is t, search
 backwards."
   (let ((pos (save-excursion
-               (catch 'found
-                 (let ((tpos (point)))
-                   (while (setq tpos
-                                (if backwards
-                                    (if (eq tpos (point-min))
-                                        nil
-                                      (or (previous-single-property-change
-                                           tpos 'nt-type)
-                                          (point-min)))
-                                  (next-single-property-change
-                                   tpos 'nt-type)))
-                     (and (memq (get-text-property tpos 'nt-type) types)
-			  (or (not age)
-			      (eq (get-text-property tpos 'nt-age) age))
-			  (throw 'found tpos))))))))
+	       (save-restriction
+		 (widen)
+		 (catch 'found
+		   (let ((tpos (point)))
+		     (while (setq tpos
+				  (if backwards
+				      (if (eq tpos (point-min))
+					  nil
+					(or (previous-single-property-change
+					     tpos 'nt-type)
+					    (point-min)))
+				    (next-single-property-change
+				     tpos 'nt-type)))
+		       (and (memq (get-text-property tpos 'nt-type) types)
+			    (or (not age)
+				(eq (get-text-property tpos 'nt-age) age))
+			    (throw 'found tpos)))))))))
     (when pos
       (goto-char pos))
     pos))
-
 
 (defun newsticker--buffer-hideshow (mark-age onoff )
   "Hide or show items of type MARK-AGE.
@@ -2729,17 +4257,37 @@ Return new position."
   (if (bobp)
       (point)
     (let ((type (get-text-property (point) 'nt-type))
-	  (typebefore (get-text-property (1- (point)) 'nt-type)))
+          (typebefore (get-text-property (1- (point)) 'nt-type)))
       (if (and (memq type '(item feed))
-		   (not (eq type typebefore)))
-	  (point)
-	(newsticker--buffer-goto '(item feed) nil t)
-	(point)))))
+                   (not (eq type typebefore)))
+          (point)
+        (newsticker--buffer-goto '(item feed) nil t)
+        (point)))))
+
+(defun newsticker--buffer-beginning-of-feed ()
+  "Move point to the beginning of the feed at point.
+Return new position."
+  (if (bobp)
+      (point)
+    (let ((type (get-text-property (point) 'nt-type))
+          (typebefore (get-text-property (1- (point)) 'nt-type)))
+      (if (and (memq type '(feed))
+                   (not (eq type typebefore)))
+          (point)
+        (newsticker--buffer-goto '(feed) nil t)
+        (point)))))
 
 (defun newsticker--buffer-end-of-item ()
   "Move point to the end of the item at point.
 Take care: end of item is at the end of its last line!"
   (when (newsticker--buffer-goto '(item feed nil))
+    (point)))
+
+(defun newsticker--buffer-end-of-feed ()
+  "Move point to the end of the last item of the feed at point.
+Take care: end of item is at the end of its last line!"
+  (when (newsticker--buffer-goto '(feed nil))
+    (backward-char 1)
     (point)))
 
 ;; ======================================================================
@@ -2756,134 +4304,168 @@ Take care: end of item is at the end of its last line!"
     (mapc
      (lambda (feed)
        (let ((feed-name (symbol-name (car feed))))
-	 (let ((num-new (newsticker--stat-num-items (car feed) 'new))
-	       (num-old (newsticker--stat-num-items (car feed) 'old))
-	       (num-imm (newsticker--stat-num-items (car feed) 'immortal))
-	       (num-obs (newsticker--stat-num-items (car feed) 'obsolete)))
-	   (when (or (> num-new 0)
-		     (and (> num-old 0)
-			  (not newsticker-hide-old-items-in-echo-area))
-		     (and (> num-imm 0)
-			  (not newsticker-hide-immortal-items-in-echo-area))
-		     (and (> num-obs 0)
-			  (not newsticker-hide-obsolete-items-in-echo-area)))
-	     (setq have-something t)
-	     (mapc
-	      (lambda (item)
-		(let ((title ;(or (newsticker--preformatted-title item)
-				 (newsticker--title item)
-                                 ;)
-                                 )
-		      (age (newsticker--age item)))
-		  (when
-		      (or (eq age 'new)
-			  (and (eq age 'old)
-			       (not newsticker-hide-old-items-in-echo-area))
-			  (and (eq age 'obsolete)
-			       (not
-				newsticker-hide-obsolete-items-in-echo-area))
-			  (and (eq age 'immortal)
-			       (not
-				newsticker-hide-immortal-items-in-echo-area)))
-		    (setq title (newsticker--remove-whitespace title))
-		    ;; add to flash list
-		    (add-to-list 'newsticker--item-list
-				 (concat feed-name ": " title) t)
-		    ;; and to the scrollable text
-		    (setq newsticker--scrollable-text
-			  (concat newsticker--scrollable-text
-				  " " feed-name ": " title " +++")))))
-	      (cdr feed))))))
+         (let ((num-new (newsticker--stat-num-items (car feed) 'new))
+               (num-old (newsticker--stat-num-items (car feed) 'old))
+               (num-imm (newsticker--stat-num-items (car feed) 'immortal))
+               (num-obs (newsticker--stat-num-items (car feed) 'obsolete)))
+           (when (or (> num-new 0)
+                     (and (> num-old 0)
+                          (not newsticker-hide-old-items-in-echo-area))
+                     (and (> num-imm 0)
+                          (not newsticker-hide-immortal-items-in-echo-area))
+                     (and (> num-obs 0)
+                          (not newsticker-hide-obsolete-items-in-echo-area)))
+             (setq have-something t)
+             (mapc
+              (lambda (item)
+                (let ((title (replace-regexp-in-string
+                              "[\r\n]+" " "
+                              (newsticker--title item)))
+                      (age (newsticker--age item)))
+                  (unless (string= title newsticker--error-headline)
+                    (when
+                        (or (eq age 'new)
+                            (and (eq age 'old)
+                                 (not newsticker-hide-old-items-in-echo-area))
+                            (and (eq age 'obsolete)
+                                 (not
+                                  newsticker-hide-obsolete-items-in-echo-area))
+                            (and (eq age 'immortal)
+                                 (not
+                                  newsticker-hide-immortal-items-in-echo-area)))
+                      (setq title (newsticker--remove-whitespace title))
+                      ;; add to flash list
+                      (add-to-list 'newsticker--item-list
+                                   (concat feed-name ": " title) t)
+                      ;; and to the scrollable text
+                      (setq newsticker--scrollable-text
+                            (concat newsticker--scrollable-text
+                                    " " feed-name ": " title " +++"))))))
+                (cdr feed))))))
      newsticker--cache)
     (when have-something
       (setq newsticker--scrollable-text
-	    (concat "+++ "
-		    (format-time-string "%A, %H:%M"
-					newsticker--latest-update-time)
-		    " ++++++" newsticker--scrollable-text)))))
+            (concat "+++ "
+                    (format-time-string "%A, %H:%M"
+                                        newsticker--latest-update-time)
+                    " ++++++" newsticker--scrollable-text)))))
 
 (defun newsticker--ticker-text-remove (feed title)
   "Remove the item of FEED with TITLE from the ticker text."
   ;; reset scrollable text
   (setq newsticker--item-position 0)
-  (let ((feed-name (symbol-name feed)))
+  (let ((feed-name (symbol-name feed))
+        (t-title (replace-regexp-in-string "[\r\n]+" " " title)))
     ;; remove from flash list
-    (setq newsticker--item-list (remove (concat feed-name ": " title)
-					newsticker--item-list))
+    (setq newsticker--item-list (remove (concat feed-name ": " t-title)
+                                        newsticker--item-list))
     ;; and from the scrollable text
     (setq newsticker--scrollable-text
-	  (replace-regexp-in-string
-	   (regexp-quote (concat " " feed-name ": " title " +++"))
-	   ""
-	   newsticker--scrollable-text))))
-
+          (replace-regexp-in-string
+           (regexp-quote (concat " " feed-name ": " t-title " +++"))
+           ""
+           newsticker--scrollable-text))
+    (if (string-match (concat "^\\+\\+\\+ [A-Z][a-z]+, "
+                              "[012]?[0-9]:[0-9][0-9] \\+\\+\\+\\+\\+\\+$")
+                              newsticker--scrollable-text)
+        (setq newsticker--scrollable-text ""))))
 
 ;; ======================================================================
 ;;; manipulation of cached data
 ;; ======================================================================
+(defun newsticker--cache-set-preformatted-contents (item contents)
+  "Set preformatted contents of ITEM to CONTENTS."
+  (if (nthcdr 6 item)
+      (setcar (nthcdr 6 item) contents)
+    (setcdr (nthcdr 5 item) (list contents))))
+
+(defun newsticker--cache-set-preformatted-title (item title)
+  "Set preformatted title of ITEM to TITLE."
+  (if (nthcdr 7 item)
+      (setcar (nthcdr 7 item) title)
+    (setcdr (nthcdr 6 item) title)))
+
 (defun newsticker--cache-replace-age (data feed old-age new-age)
   "Mark all items in DATA in FEED which carry age OLD-AGE with NEW-AGE.
 If FEED is 'any it applies to all feeds.  If OLD-AGE is 'any,
 all marks are replaced by NEW-AGE.  Removes all pre-formatted contents."
   (mapc (lambda (a-feed)
-	  (when (or (eq feed 'any)
-		    (eq (car a-feed) feed))
-	    (let ((items (cdr a-feed)))
-	      (mapc (lambda (item)
-		      (when (or (eq old-age 'any)
-				(eq (newsticker--age item) old-age))
-			(setcar (nthcdr 4 item) new-age)
+          (when (or (eq feed 'any)
+                    (eq (car a-feed) feed))
+            (let ((items (cdr a-feed)))
+              (mapc (lambda (item)
+                      (when (or (eq old-age 'any)
+                                (eq (newsticker--age item) old-age))
+                        (setcar (nthcdr 4 item) new-age)
                         (if (nthcdr 7 item)
                             (setcar (nthcdr 7 item) nil))
                         (if (nthcdr 6 item)
                             (setcar (nthcdr 6 item) nil))))
-		    items))))
-	data)
+                    items))))
+        data)
   data)
 
 (defun newsticker--cache-mark-expired (data feed old-age new-age time)
-  "Mark all expired obsolete entries from DATA in the feed FEED."
-  (let ((exp-time (time-add (current-time) (seconds-to-time time))))
-    (mapc
-     (lambda (a-feed)
-       (when (or (eq feed 'any)
-		 (eq (car a-feed) feed))
-	 (let ((items (cdr a-feed)))
-	   (mapc
-	    (lambda (item)
-	      (when (and (eq (newsticker--age item) old-age)
-			 (time-less-p (newsticker--time item) exp-time))
-		(setcar (nthcdr 4 item) new-age)))
-	    items))))
-     data)
-    data))
+  "Mark all expired entries.
+This function sets the age entries in DATA in the feed FEED.  If
+an item's age is OLD-AGE it is set to NEW-AGE if the item is
+older than TIME."
+  (mapc
+   (lambda (a-feed)
+     (when (or (eq feed 'any)
+               (eq (car a-feed) feed))
+       (let ((items (cdr a-feed)))
+         (mapc
+          (lambda (item)
+            (when (eq (newsticker--age item) old-age)
+              (let ((exp-time (time-add (newsticker--time item)
+                                        (seconds-to-time time))))
+                (when (time-less-p exp-time (current-time))
+                  (newsticker--debug-msg
+                   "Item `%s' from %s has expired on %s"
+                   (newsticker--title item)
+                   (format-time-string "%Y-%02m-%d, %H:%M" 
+                                       (newsticker--time item))
+                   (format-time-string "%Y-%02m-%d, %H:%M" exp-time))
+                  (setcar (nthcdr 4 item) new-age)))))
+          items))))
+   data)
+  data)
 
 (defun newsticker--cache-contains (data feed title desc link age
-					&optional guid)
-  "Check DATA whether FEED contains an item with TITLE, DESC, LINK, and AGE.
+                                        &optional guid)
+  "Check DATA whether FEED contains an item with the given properties.
+This function returns the contained item or nil if it is not
+contained.
+The properties which are checked are TITLE, DESC, LINK, AGE, and
+GUID.  In general all properties must match in order to return a
+certain item, except for the following cases.
 
 If AGE equals 'feed the TITLE, DESCription and LINK do not
 matter. If DESC is nil it is ignored as well.  If
 `newsticker-desc-comp-max' is non-nil, only the first
 `newsticker-desc-comp-max' characters of DESC are taken into
-account.  Return the item or nil."
+account.
+
+If GUID is non-nil it is sufficient to match this value, and the
+other properties are ignored."
   (condition-case nil
       (catch 'found
-	(when (and desc newsticker-desc-comp-max
-		   (> (length desc) newsticker-desc-comp-max))
-	  (setq desc (substring desc 0 newsticker-desc-comp-max)))
+        (when (and desc newsticker-desc-comp-max
+                   (> (length desc) newsticker-desc-comp-max))
+          (setq desc (substring desc 0 newsticker-desc-comp-max)))
         (mapc
-	 (lambda (this-feed)
-	   (when (eq (car this-feed) feed)
-	     (mapc (lambda (anitem)
-		     (when (or
+         (lambda (this-feed)
+           (when (eq (car this-feed) feed)
+             (mapc (lambda (anitem)
+                     (when (or
                             ;; global unique id can match
                             (and guid
                                  (string= guid (newsticker--guid anitem)))
                             ;; or title, desc, etc.
                             (and
-                             (or (not (eq age 'feed))
-                                 (eq (newsticker--age anitem) 'feed))
+                             ;;(or (not (eq age 'feed))
+			     ;;  (eq (newsticker--age anitem) 'feed))
                              (string= (newsticker--title anitem)
                                       title)
                              (or (not link)
@@ -2899,61 +4481,57 @@ account.  Return the item or nil."
                                               desc)
                                    (string= (newsticker--desc anitem)
                                             desc)))))
-		       (throw 'found anitem)))
-		   (cdr this-feed))))
-	 data)
-	nil)
+                       (throw 'found anitem)))
+                   (cdr this-feed))))
+         data)
+        nil)
     (error nil)))
 
 (defun newsticker--cache-add (data feed-name-symbol title desc link time age
-				   position
-				   &optional updated-age updated-time
-				   preformatted-contents
-				   preformatted-title
-                                   extra-elements)
+                                   position extra-elements
+                                   &optional updated-age updated-time
+                                   preformatted-contents
+                                   preformatted-title)
   "Add another item to cache data.
 Add to DATA in the FEED-NAME-SYMBOL an item with TITLE, DESC,
-LINK, TIME, AGE, and POSITION.  If this item is contained
-already, its mark is set to UPDATED-AGE, its time is set to
-UPDATED-TIME, and its pre-formatted contents is set to
+LINK, TIME, AGE, POSITION, and EXTRA-ELEMENTS.  If this item is
+contained already, its mark is set to UPDATED-AGE, its time is
+set to UPDATED-TIME, and its pre-formatted contents is set to
 PREFORMATTED-CONTENTS and PREFORMATTED-TITLE.  Returns the age
 which the item got."
   (let ((item (newsticker--cache-contains data feed-name-symbol title
-					  desc link age)))
+                                          desc link age)))
     (if item
       ;; does exist already -- change age, update time and position
-	(progn
-	  (if (nthcdr 5 item)
-	      (setcar (nthcdr 5 item) position)
-	    (setcdr (nthcdr 4 item) (list position)))
-	  (setcar (nthcdr 4 item) updated-age)
-	  (if updated-time
-	      (setcar (nthcdr 3 item) updated-time))
-	  ;; replace cached pre-formatted contents
-	  (if (nthcdr 6 item)
-	      (setcar (nthcdr 6 item) preformatted-contents)
-	    (setcdr (nthcdr 5 item) preformatted-contents))
-	  (if (nthcdr 7 item)
-	      (setcar (nthcdr 7 item) preformatted-title)
-	    (setcdr (nthcdr 6 item) preformatted-title))
-	  )
+        (progn
+          (if (nthcdr 5 item)
+              (setcar (nthcdr 5 item) position)
+            (setcdr (nthcdr 4 item) (list position)))
+          (setcar (nthcdr 4 item) updated-age)
+          (if updated-time
+              (setcar (nthcdr 3 item) updated-time))
+          ;; replace cached pre-formatted contents
+	  (newsticker--cache-set-preformatted-contents
+	   item preformatted-contents)
+	  (newsticker--cache-set-preformatted-title
+	   item preformatted-title))
       ;; did not exist or age equals 'feed-name-symbol
       (catch 'found
         (mapc (lambda (this-feed)
-		(when (eq (car this-feed) feed-name-symbol)
-		  (setcdr this-feed (nconc (cdr this-feed)
-					   (list (list title desc link
-						       time age position
-						       preformatted-contents
-						       preformatted-title
+                (when (eq (car this-feed) feed-name-symbol)
+                  (setcdr this-feed (nconc (cdr this-feed)
+                                           (list (list title desc link
+                                                       time age position
+                                                       preformatted-contents
+                                                       preformatted-title
                                                        extra-elements))))
-		  (throw 'found this-feed)))
-	      data)
+                  (throw 'found this-feed)))
+              data)
         ;; the feed is not contained
         (add-to-list 'data (list feed-name-symbol
-				 (list title desc link time age position
-				       preformatted-contents
-				       preformatted-title
+                                 (list title desc link time age position
+                                       preformatted-contents
+                                       preformatted-title
                                        extra-elements))
                      t))))
   data)
@@ -2980,7 +4558,7 @@ well."
                   ;;(message "%s" (car item))
                   (if (eq age (newsticker--age item))
                       ;; remove this item
-                      (progn 
+                      (progn
                         ;;(message "Removing item %s" (car item))
                         (if prev-pos
                             (setcdr prev-pos (cdr item-pos))
@@ -3005,89 +4583,94 @@ well."
   "Compare two news items ITEM1 and ITEM2 by comparing their time values."
   (catch 'result
     (let ((age1  (newsticker--age item1))
-	  (age2  (newsticker--age item2)))
+          (age2  (newsticker--age item2)))
       (if (not (eq age1 age2))
-	  (cond ((eq age1 'obsolete)
-		 (throw 'result nil))
-		((eq age2 'obsolete)
-		 (throw 'result t)))))
+          (cond ((eq age1 'obsolete)
+                 (throw 'result nil))
+                ((eq age2 'obsolete)
+                 (throw 'result t)))))
     (let* ((time1 (newsticker--time item1))
-	   (time2 (newsticker--time item2)))
+           (time2 (newsticker--time item2)))
       (cond ((< (nth 0 time1) (nth 0 time2))
-	     nil)
-	    ((> (nth 0 time1) (nth 0 time2))
-	     t)
-	    ((< (nth 1 time1) (nth 1 time2))
-	     nil)
-	    ((> (nth 1 time1) (nth 1 time2))
-	     t)
-	    ((< (or (nth 2 time1) 0) (or (nth 2 time2) 0))
-	     nil)
-	    ((> (or (nth 2 time1) 0) (or (nth 2 time2) 0))
-	     t)
-	    (t
-	     nil)))))
+             nil)
+            ((> (nth 0 time1) (nth 0 time2))
+             t)
+            ((< (nth 1 time1) (nth 1 time2))
+             nil)
+            ((> (nth 1 time1) (nth 1 time2))
+             t)
+            ((< (or (nth 2 time1) 0) (or (nth 2 time2) 0))
+             nil)
+            ((> (or (nth 2 time1) 0) (or (nth 2 time2) 0))
+             t)
+            (t
+             nil)))))
 
 (defun newsticker--cache-item-compare-by-title (item1 item2)
   "Compare ITEM1 and ITEM2 by comparing their titles."
   (catch 'result
     (let ((age1  (newsticker--age item1))
-	  (age2  (newsticker--age item2)))
+          (age2  (newsticker--age item2)))
       (if (not (eq age1 age2))
-	  (cond ((eq age1 'obsolete)
-		 (throw 'result nil))
-		((eq age2 'obsolete)
-		 (throw 'result t)))))
+          (cond ((eq age1 'obsolete)
+                 (throw 'result nil))
+                ((eq age2 'obsolete)
+                 (throw 'result t)))))
     (string< (newsticker--title item1) (newsticker--title item2))))
 
 (defun newsticker--cache-item-compare-by-position (item1 item2)
   "Compare ITEM1 and ITEM2 by comparing their original positions."
   (catch 'result
     (let ((age1  (newsticker--age item1))
-	  (age2  (newsticker--age item2)))
+          (age2  (newsticker--age item2)))
       (if (not (eq age1 age2))
-	  (cond ((eq age1 'obsolete)
-		 (throw 'result nil))
-		((eq age2 'obsolete)
-		 (throw 'result t)))))
+          (cond ((eq age1 'obsolete)
+                 (throw 'result nil))
+                ((eq age2 'obsolete)
+                 (throw 'result t)))))
     (< (or (newsticker--pos item1) 0) (or (newsticker--pos item2) 0))))
 
 (defun newsticker--cache-sort ()
   "Sort the newsticker cache data."
   (let ((sort-fun (cond ((eq newsticker-sort-method 'sort-by-time)
-			 'newsticker--cache-item-compare-by-time)
-			((eq newsticker-sort-method 'sort-by-title)
-			 'newsticker--cache-item-compare-by-title)
-			((eq newsticker-sort-method 'sort-by-original-order)
-			 'newsticker--cache-item-compare-by-position))))
+                         'newsticker--cache-item-compare-by-time)
+                        ((eq newsticker-sort-method 'sort-by-title)
+                         'newsticker--cache-item-compare-by-title)
+                        ((eq newsticker-sort-method 'sort-by-original-order)
+                         'newsticker--cache-item-compare-by-position))))
     (mapc (lambda (feed-list)
-	    (setcdr feed-list (sort (cdr feed-list)
-				    sort-fun)))
-	  newsticker--cache)))
+            (setcdr feed-list (sort (cdr feed-list)
+                                    sort-fun)))
+          newsticker--cache)))
   
-(defun newsticker--cache-save ()
-  "Save cache data."
-  ;; FIXME: prevent from printing "Wrote ..." message?!
-  (save-current-buffer
+(defun newsticker--cache-update (&optional save)
+  "Update newsticker cache file.
+If optional argument SAVE is not nil the cache file is saved to disk."
+  (save-excursion
     (let ((coding-system-for-write 'utf-8)
-	  (buf (find-file-noselect newsticker-cache-filename)))
+          (buf (find-file-noselect newsticker-cache-filename)))
       (when buf
-	(set-buffer buf)
-	(erase-buffer)
-	(insert ";; -*- coding: utf-8 -*-\n")
-	(insert (prin1-to-string newsticker--cache))
-	(save-buffer)))
-    ;; FIXME?: clear echo area from write-region's output
-    ))
-  
+        (set-buffer buf)
+        (setq buffer-undo-list t)
+        (erase-buffer)
+        (insert ";; -*- coding: utf-8 -*-\n")
+        (insert (prin1-to-string newsticker--cache))
+        (when save
+          (save-buffer))))))
+
+(defun newsticker--cache-get-feed (feed)
+  "Return the cached data for the feed FEED.
+FEED is a symbol!"
+  (assoc feed newsticker--cache))
+
 ;; ======================================================================
 ;;; Statistics
 ;; ======================================================================
 (defun newsticker--stat-num-items (feed &optional age)
   "Return number of items in the given FEED which have the given AGE.
 If AGE is nil, the total number items is returned."
-  (let ((items (cdr (assoc feed newsticker--cache)))
-	(num 0))
+  (let ((items (cdr (newsticker--cache-get-feed feed)))
+        (num 0))
     (while items
       (if age
           (if (eq (newsticker--age (car items)) age)
@@ -3096,7 +4679,6 @@ If AGE is nil, the total number items is returned."
               (setq num (1+ num))))
       (setq items (cdr items)))
     num))
-
 
 ;; ======================================================================
 ;;; OPML
@@ -3108,29 +4690,107 @@ Export subscriptions to a buffer in OPML Format."
   (with-current-buffer (get-buffer-create "*OPML Export*")
     (set-buffer-file-coding-system 'utf-8)
     (insert (concat
-	     "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-	     "<!-- OPML generated by Emacs newsticker.el -->\n"
-	     "<opml version=\"1.0\">\n"
-	     "  <head>\n"
-	     "    <title>mySubscriptions</title>\n"
-	     "    <dateCreated>" (format-time-string "%a, %d %b %Y %T %z")
-	     "</dateCreated>\n"
-	     "    <ownerEmail>" user-mail-address "</ownerEmail>\n"
-	     "    <ownerName>" (user-full-name) "</ownerName>\n"
-	     "  </head>\n"
-	     "  <body>\n"))
+             "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+             "<!-- OPML generated by Emacs newsticker.el -->\n"
+             "<opml version=\"1.0\">\n"
+             "  <head>\n"
+             "    <title>mySubscriptions</title>\n"
+             "    <dateCreated>" (format-time-string "%a, %d %b %Y %T %z")
+             "</dateCreated>\n"
+             "    <ownerEmail>" user-mail-address "</ownerEmail>\n"
+             "    <ownerName>" (user-full-name) "</ownerName>\n"
+             "  </head>\n"
+             "  <body>\n"))
     (mapc (lambda (sub)
-	    (insert "    <outline text=\"")
-	    (insert (newsticker--title sub))
-	    (insert "\" xmlUrl=\"")
-	    (insert (cadr sub))
-	    (insert "\"/>\n"))
-	  (append newsticker-url-list newsticker-url-list-defaults))
+            (insert "    <outline text=\"")
+            (insert (newsticker--title sub))
+            (insert "\" xmlUrl=\"")
+            (insert (cadr sub))
+            (insert "\"/>\n"))
+          (append newsticker-url-list newsticker-url-list-defaults))
     (insert "  </body>\n</opml>\n"))
   (pop-to-buffer "*OPML Export*")
   (when (fboundp 'sgml-mode)
     (sgml-mode)))
 
+;; ======================================================================
+;;; Auto marking
+;; ======================================================================
+(defun newsticker--run-auto-mark-filter (feed item)
+  "Automatically mark an item as old or immortal.
+This function checks the variable `newsticker-auto-mark-filter'
+for an entry that matches FEED and ITEM."
+ (let ((case-fold-search t))
+    (mapc (lambda (filter)
+            (let ((filter-feed (car filter))
+                  (old-list (nth 1 filter))
+                  (imm-list (nth 2 filter)))
+            (when (string-match filter-feed feed)
+              (newsticker--do-run-auto-mark-filter item 'old old-list)
+              (newsticker--do-run-auto-mark-filter item 'immortal imm-list))))
+          newsticker-auto-mark-filter)))
+
+(defun newsticker--do-run-auto-mark-filter (item age list)
+  "Actually compare ITEM AGE LIST against `newsticker-auto-mark-filter'."
+  (mapc (lambda (pattern)
+          (when (string-match pattern (newsticker--title item))
+            (setcar (nthcdr 4 item) age)))
+        list))
+
+
+;; ======================================================================
+;;; hook samples
+;; ======================================================================
+(defun newsticker-new-item-functions-sample (feed item)
+  "Demonstrate the use of the `newsticker-new-item-functions' hook.
+This function just prints out the values of the FEED and title of the ITEM."
+  (message (concat "newsticker-new-item-functions-sample: feed=`%s', "
+                   "title=`%s'")
+           feed (newsticker--title item)))
+
+(defun newsticker-download-images (feed item)
+  "Download the first image.
+If FEED equals \"imagefeed\" download the first image URL found
+in the description=contents of ITEM to the directory
+\"~/tmp/newsticker/FEED/TITLE\" where TITLE is the title of the item."
+  (when (string= feed "imagefeed")
+    (let ((title (newsticker--title item))
+          (desc (newsticker--desc item)))
+      (when (string-match "<img src=\"\\(http://[^ \"]+\\)\"" desc)
+        (let ((url (substring desc (match-beginning 1) (match-end 1)))
+              (temp-dir (concat "~/tmp/newsticker/" feed "/" title))
+              (org-dir default-directory))
+          (unless (file-directory-p temp-dir)
+            (make-directory temp-dir t))
+          (cd temp-dir)
+          (message "Getting image %s" url)
+          (apply 'start-process "wget-image"
+                 " *newsticker-wget-download-images*"
+                 newsticker-wget-name
+                 (list url))
+          (cd org-dir))))))
+
+(defun newsticker-download-enclosures (feed item)
+  "In all FEEDs download the enclosed object of the news ITEM.
+The object is saved to the directory \"~/tmp/newsticker/FEED/TITLE\", which
+is created if it does not exist. TITLE is the title of the news
+item. Argument FEED is ignored.
+This function is suited for adding it to `newsticker-new-item-functions'."
+  (let ((title (newsticker--title item))
+        (enclosure (newsticker--enclosure item)))
+    (when enclosure
+      (let ((url (cdr (assoc 'url enclosure)))
+            (temp-dir (concat "~/tmp/newsticker/" feed "/" title))
+            (org-dir default-directory))
+        (unless (file-directory-p temp-dir)
+          (make-directory temp-dir t))
+        (cd temp-dir)
+        (message "Getting enclosure %s" url)
+        (apply 'start-process "wget-enclosure"
+               " *newsticker-wget-download-enclosures*"
+               newsticker-wget-name
+               (list url))
+        (cd org-dir)))))
 
 
 (provide 'newsticker)
