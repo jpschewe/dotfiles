@@ -1212,11 +1212,11 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 (setq send-mail-function 'smtpmail-send-it)
 (setq message-send-mail-function send-mail-function)
 (cond ((eq system-location 'htc)
-       (setq smtp-server "lug.htc.honeywell.com"))
+       (setq smtpmail-smtp-server "lug.htc.honeywell.com"))
       ((eq system-location 'home)
-       (setq smtp-server "eggplant"))
+       (setq smtpmail-smtp-server "eggplant"))
       (t;;default to mtu.net and hope for the best
-       (setq smtp-server "mtu.net")))
+       (setq smtpmail-smtp-server "mtu.net")))
 ;;(setq smtpmail-debug-info nil) ;;show trace buffer
 ;;(setq smtpmail-code-conv-from nil)
 
