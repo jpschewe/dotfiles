@@ -150,9 +150,16 @@ If scan reaches end of buffer, return that position."
 
 ;; Install gui options on XEmacs versions that can understand them
 (when (and (featurep 'widget)
-	   (>= emacs-major-version 21)
-	   (>= emacs-minor-version 4)
-	   (>= emacs-patch-level 10))
+	   (or
+	    (> emacs-major-version 21)
+	    (and
+	     (= emacs-major-version 21)
+	     (or
+	      (> emacs-minor-version 4)
+	      (and
+	       (= emacs-minor-version 4)
+	       (and (not (null emacs-patch-level))
+		    (>= emacs-patch-level 10)))))))
   (require 'efc-xemacs))
 
 ;; Redefine toolbar-debug and toolbar-compile so that clicking the
