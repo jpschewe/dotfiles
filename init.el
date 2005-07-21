@@ -853,7 +853,7 @@
 (load-file "~/.xemacs/jde-2.3.5/lisp/jde-autoload.el")
 
 ;; Load CEDET
-(load-file "~/.xemacs/cedet-1.0beta3b/common/cedet.el")
+(load-file "~/.xemacs/cedet/common/cedet.el")
 ;; Enabling SEMANTIC minor modes.  See semantic/INSTALL for more ideas.
 (semantic-load-enable-minimum-features)
 
