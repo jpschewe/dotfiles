@@ -577,6 +577,20 @@
   (add-to-list 'dired-auto-shell-command-alist '("\\.sxi$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.rtf$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.sxd$" openoffice-executable))
+
+  ;; new formats for 2.0
+  (add-to-list 'dired-auto-shell-command-alist '("\\.odt$" openoffice-executable))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.ott$" openoffice-executable))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.odm$" openoffice-executable))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.oth$" openoffice-executable))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.ods$" openoffice-executable))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.ots$" openoffice-executable))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.odg$" openoffice-executable))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.otg$" openoffice-executable))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.odp$" openoffice-executable))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.otp$" openoffice-executable))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.odf$" openoffice-executable))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.odb$" openoffice-executable))
   
   ;;Protege
   (add-to-list 'dired-auto-shell-command-alist '("\\.prj$" "protege"))
@@ -1817,7 +1831,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
   (setq ldap-default-base "")
   (setq ldap-default-host "mn65ex557.htc.honeywell.com")
   (require 'eudcb-ldap)
-;;(require 'eudcb-bbdb)
+  ;;(require 'eudcb-bbdb)
   (setq eudc-server ldap-default-host)
   (setq eudc-protocol 'ldap)
   (eudc-protocol-set 'eudc-inline-query-format
@@ -1847,12 +1861,6 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 			 mail-ldap-expansion-format-jps
 			 'ldap)))
 
-  (eval-after-load
-      "message"
-    '(define-key message-mode-map (concat prefix-key-jps "c") 'eudc-expand-inline))
-  (eval-after-load
-      "sendmail"
-    '(define-key mail-mode-map (concat prefix-key-jps "c") 'eudc-expand-inline))
   (global-set-key (concat prefix-key-jps "c") 'get-user-info-jps)
   )
 
