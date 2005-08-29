@@ -506,19 +506,43 @@ case $OSTYPE in
 esac
 
 ### Allegro lisp
-case $OSTYPE in
-  linux)
-         append PATH /usr/local/acl/acl62
-         ;;
-  solaris2*)
-            append PATH /net/packages/allegro/acl62
-            ;;
+case $LOCATION in
+  htc)
+       case $OSTYPE in
+         linux)
+                #append PATH /usr/local/acl/acl62
+                append PATH /net/packages/allegro/acl70/linux
+                ;;
+         solaris2*)
+                    #append PATH /net/packages/allegro/acl62
+                    append PATH /net/packages/allegro/acl70/solaris
+                    ;;
+       esac
+       ;;
+  home)
+        case $OSTYPE in
+          linux)
+                 append PATH /usr/local/acl70
+                 ;;
+        esac
+        ;;
 esac
 
 ### OpenPBS
 case $OSTYPE in
   linux)
          append PATH /opt/pbs/bin
+         ;;
+esac
+
+### Clearcase
+case $OSTYPE in
+  linux)
+         case $LOCATION in
+           htc)
+                append PATH /usr/local/clearcase
+                ;;
+         esac
          ;;
 esac
 
