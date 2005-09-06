@@ -29,6 +29,9 @@ case $OSTYPE in
            *.htc.honeywell.com)
                 LOCATION=htc
                 ;;
+           *.treknet.net)
+                LOCATION=htc
+                ;;
            *.mn.mtu.net) 
                 LOCATION=home
                 ;;
@@ -417,7 +420,7 @@ case $LOCATION in
        export CIRCA_BASEPORT='50000'
        export CIRCA_MM_HOST='localhost'
        export CIRCA_THIS_HOST=$HOST
-       export CIRCA_CODE="/net/projects/circadia/code/jschewe"
+       export CIRCA_CODE="/net/projects/cortex/code/jschewe"
        export CORTEX_ATTACKER="mn65-cygnus.htc.honeywell.com"
        export CORTEX_DEFENDER="mn65-eggplant.htc.honeywell.com"
        export CORTEX_TASTER="sulu.htc.honeywell.com"
