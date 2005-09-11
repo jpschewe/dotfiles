@@ -24,6 +24,7 @@ case $OSTYPE in
          append PATH /opt/kde3/bin
          append PATH /opt/gnome/bin
          append PATH /usr/games
+         append PATH /usr/bin/X11
          ;;
 esac
 
