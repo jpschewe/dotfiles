@@ -24,22 +24,23 @@ case $OSTYPE in
                 ;;
             esac
             ;;
-  linux)
-         case `hostname -f` in
-           *.htc.honeywell.com)
-                LOCATION=htc
-                ;;
-           *.treknet.net)
-                LOCATION=htc
-                ;;
-           *.mn.mtu.net) 
-                LOCATION=home
-                ;;
-           *) 
-                LOCATION=unknown
-                ;;
-         esac
-         ;;
+  linux*)
+          OSTYPE=linux
+          case `hostname -f` in
+            *.htc.honeywell.com)
+                                 LOCATION=htc
+                                 ;;
+            *.treknet.net)
+                           LOCATION=htc
+                           ;;
+            *.mn.mtu.net) 
+                          LOCATION=home
+                          ;;
+            *) 
+               LOCATION=unknown
+               ;;
+          esac
+          ;;
   *)
      LOCATION=unknown
      ;;
