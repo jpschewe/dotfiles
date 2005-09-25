@@ -94,7 +94,7 @@ export PILOTPORT=/dev/pilot
 export PILOTRATE=115200
 
 
-if [ -x "`type -p less`" ]; then
+if [ -x "`type -ap less`" ]; then
   PAGER="less -is"
 else
   PAGER="more"
