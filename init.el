@@ -480,6 +480,17 @@
 
 ;;;;;;;;;;;
 ;;
+;; LaTex
+;;
+;;;;;;;;;;;;
+(message "LaTex")
+(defun latex-mode-hook-jps ()
+  (auto-fill-mode 1)
+  )
+(add-hook 'latex-mode-hook 'latex-mode-hook-jps)
+ 
+;;;;;;;;;;;
+;;
 ;; HTML
 ;;
 ;;;;;;;;;;;;
@@ -559,8 +570,8 @@
   
   ;;bzip
   (add-to-list 'dired-auto-shell-command-alist '("\\.bz2$" "bunzip2"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.tar.bz2$" "tar --bzip2 -xvf"))
   (add-to-list 'dired-auto-shell-command-alist '("\\.tar.bz2$" "tar --bzip2 -tf"))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.tar.bz2$" "tar --bzip2 -xvf"))
 
   ;;stuffit
   (when (eq system-type 'linux)
@@ -869,7 +880,7 @@
 ;; Load CEDET
 (load-file "~/.xemacs/cedet/common/cedet.el")
 ;; Enabling SEMANTIC minor modes.  See semantic/INSTALL for more ideas.
-(semantic-load-enable-minimum-features)
+;;(semantic-load-enable-minimum-features)
 
 (add-to-list 'auto-mode-alist '("\\.jass$" . jde-mode))
 (add-to-list 'auto-mode-alist '("\\.jad$" . jde-mode))
@@ -1512,6 +1523,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
   (setq fill-column 78)
   (setq indent-tabs-mode nil)
   (turn-on-font-lock)
+  (camelCase-mode 1)
   )
 (add-hook 'antlr-mode-hook 'antlr-mode-hook-jps)
 
