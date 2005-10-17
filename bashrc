@@ -114,7 +114,8 @@ alias brc=". '$BRC'"
 # cvs aliases here
 #alias gnu-cvs='cvs -d /net/packages/gnu/CVS-Repository'
 #alias gnu-cvs-status='gnu-cvs status |& egrep -i status | egrep -v Up-to-date'
-alias cvs-stat='cvs status | egrep ^File | grep -v Up-to-date'
+#alias cvs-stat='cvs status | egrep ^File | grep -v Up-to-date'
+alias cvs-stat="cvs -n update 2>&1 | grep -v '^cvs update:'"
 alias cvsup='cvs update -d -R'
 
 # other stuff here
