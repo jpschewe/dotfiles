@@ -8,6 +8,44 @@
 #  return 0
 #fi
 
+test -z "$UID"  &&  UID=`id -ur 2> /dev/null`
+test -z "$EUID" && EUID=`id -u  2> /dev/null`
+test -z "$USER" && USER=`id -un 2> /dev/null`
+test -z "$HOST" && HOST=`hostname -s 2> /dev/null`
+test -z "$CPU"  &&  CPU=`uname -m 2> /dev/null`
+test -z "$HOSTNAME" && HOSTNAME=`hostname 2> /dev/null`
+test -z "$LOGNAME"  && LOGNAME=$USER
+if [ -z "$CPU" ]; then
+  case "$CPU" in
+    i?86) HOSTTYPE=i386   ;;
+    *)    HOSTTYPE=${CPU} ;;
+  esac
+fi
+if [ -z "$OSTYPE" ]; then
+  OSTYPE=`uname -s 2> /dev/null | tr A-Z a-z`
+fi
+# I added OSDIST since suse hardcoded MACHTYPE to be ${CPU}-suse-${OSTYPE}
+if [ -z "$OSDIST" ]; then
+  if [ -f /etc/fedora-release ]; then
+    OSDIST="redhat"
+  elif [ -f /etc/SuSE-release ]; then 
+    OSDIST="suse"
+  elif [ -f /etc/debian_version ]; then 
+    OSDIST="debian"
+  else 
+    OSDIST="$OSTYPE"
+  fi
+fi
+if [ -z "$MACHTYPE" ]; then
+  if [ "$OSDIST" = "$OSTYPE" ]; then 
+    MACHTYPE=${CPU}-${OSTYPE}
+  else
+    MACHTYPE=${CPU}-${OSDIST}-${OSTYPE}
+  fi
+fi
+# Do NOT export UID, EUID, USER, MAIL, and LOGNAME
+export HOST CPU HOSTNAME HOSTTYPE OSTYPE MACHTYPE OSDIST
+
 # define location
 export HOST=`/bin/hostname`
 case $OSTYPE in
