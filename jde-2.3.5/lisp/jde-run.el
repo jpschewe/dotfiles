@@ -1,5 +1,5 @@
 ;; jde-run.el --- runs the Java app in the current buffer.
-;; $Revision: 1.1 $ $Date: 2005/02/16 20:24:56 $
+;; $Revision: 1.1 $ $Date$
 
 ;; Author: Paul Kinnucan <paulk@mathworks.com>
 ;; Maintainer: Paul Kinnucan
@@ -592,17 +592,18 @@ panel to specifying the applet document."
 		     "Name of main class."))
     "Class of Java virtual machines.")
 
+;; JPS added stringp guards
 (defmethod jde-run-classpath-arg ((this jde-run-vm))
   "Returns the classpath argument for this vm."
   (let ((classpath
 	 (if jde-run-option-classpath
-	      (if (string= jde-run-option-classpath "global")
+	      (if (and (stringp jde-run-option-classpath) (string= jde-run-option-classpath "global"))
 		  jde-global-classpath
-		(unless (string= jde-run-option-classpath "none")
+		(unless (and (stringp jde-run-option-classpath) (string= jde-run-option-classpath "none"))
 		  jde-run-option-classpath))))
 	(symbol
 	 (if (and jde-run-option-classpath
-		  (string= jde-run-option-classpath "global"))
+		  (and (stringp jde-run-option-classpath) (string= jde-run-option-classpath "global")))
 	     'jde-global-classpath
 	   'jde-run-option-classpath)))
     (if classpath
