@@ -61,12 +61,14 @@
       )
 
 ;; web browser integration
-(cond ((eq system-type 'linux)
-       (setq browse-url-browser-function 'browse-url-kfm))
-       (t
-	(setq browse-url-browser-function 'browse-url-mozila)))
+;;(cond ((eq system-type 'linux)
+;;       (setq browse-url-browser-function 'browse-url-kfm))
+;;       (t
+;;	(setq browse-url-browser-function 'browse-url-mozila)))
 (setq
  browse-url-new-window-flag t;; try to use a new window when browsing
+ browse-url-mozilla-new-window-is-tab t ;; use tabs with mozilla
+ browse-url-browser-function 'browse-url-mozila
  )
 
 ;; set the title to make it easy to determine which XEmacs is running
@@ -1732,6 +1734,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;;make iswitchb work like switch-to-buffer
 (setq iswitchb-default-method 'samewindow)
 (iswitchb-default-keybindings)
+;;(global-set-key "\C-xb" 'switch-to-buffer)
 
 ;;;;;;;;;;;
 ;;
