@@ -47,7 +47,7 @@
 
 (defvar stardate_el-RCS-id)
 (setq stardate_el-RCS-id
-      "$Header: /export/CVS-Repository/emacs/xemacs-packages/lisp/stardate.el,v 1.1 2003/11/29 21:05:17 jpschewe Exp $")
+      "$Header: stardate.el,v 1.2 88/03/09 09:44:01 eichin Exp $")
 
 (defconst month-day-alist 
   '(("Jan"."01") ("Feb"."02") ("Mar"."03") ("Apr"."04") ("May"."05")

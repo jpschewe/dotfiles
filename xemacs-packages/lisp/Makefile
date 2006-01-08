@@ -7,3 +7,6 @@ all: camelCase
 .PHONY: camelCase
 camelCase:
 	make -C camelCase
+
+clean:
+	rm -f *.elc
