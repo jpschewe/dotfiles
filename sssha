@@ -88,8 +88,15 @@ sssha_add_keys () {
   local key
   local -a keys
   for key in "$@"; do
-    (ssh-add -l | egrep "[ /]$key " > /dev/null) \
-      || keys[${#keys[*]}]="$key"
+    # get the fingerprint for the public key; ssh-keygen should search
+    # for the public key given the private key, and if the public key
+    # is not found, we'll have to assume the key is not in the agent.
+    # If we get a fingerprint, add the key if not already in the agent.
+    fingerprint=`ssh-keygen -f ${key} -l 2>/dev/null | awk '{print $2}'`
+    if [ "$?" = "0" ] && [ -n "$fingerprint" ] && \
+       ! (ssh-add -l | egrep "$fingerprint" > /dev/null); then
+      keys[${#keys[*]}]="$key"
+    fi
   done
 
   # return if no keys to add
