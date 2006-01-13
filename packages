@@ -307,7 +307,7 @@ case $OSTYPE in
           append PATH "${UJAVA_HOME}/jre/bin"
           ;;
   solaris2* | sunos4)
-                     JAVA_HOME=/net/packages/java/jdk/1.4.1_01/solaris-sparc-32bit
+                     JAVA_HOME=/net/packages/java/jdk/1.5.0/solaris-sparc
                      prepend PATH "${JAVA_HOME}/bin"
                      ;;
   linux | linux-gnu)
@@ -335,6 +335,8 @@ case $OSTYPE in
                      ;;
 esac
 export JAVA_HOME
+JDK_HOME=${JAVA_HOME}
+export JDK_HOME
 
 #AssertMate
 case $OSTYPE in
