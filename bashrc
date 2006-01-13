@@ -468,7 +468,11 @@ case $LOCATION in
 esac
         
 if [ -f "${HOME}/.ssh/sssha" ]; then
-  . "${HOME}/.ssh/sssha"
+  case $HOST in
+    mn65-eggplant | workstation)
+                                 . "${HOME}/.ssh/sssha"
+                                 ;;
+  esac
 fi
 
 #
