@@ -114,9 +114,9 @@ fi
 # Standard OS Compiler
 case $OSTYPE in
   solaris2*)
-            prepend PATH /opt/SUNWspro/bin
+            prepend PATH /net/packages/suncompilers/studiocc_8_sparc/SUNWspro/bin
 	    prepend PATH /usr/ccs/bin
-            append PATH /usr/local/flexlm/licenses
+            append PATH /net/packages/usr-local/flexlm/licenses
 	    export LM_LICENSE_FILE=5280@gyro:5280@axis:5280@servo
             #/usr/local/flexlm/licenses/license.dat
             ;;
