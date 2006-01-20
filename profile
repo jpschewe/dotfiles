@@ -1,3 +1,11 @@
+# Hey EMACS, this should be in -*- sh -*- mode
+
+# This file is read each time a login shell is started.
+# All other interactive shells will only read .bashrc
+
+# From SUSE's default profile
+test -z "$PROFILEREAD" && . /etc/profile
+
 # Source my .bashrc, but hack to only do it once...
 # $BRC is set in .bashrc
 test -z "$BRC" && source "${HOME}/.bashrc"

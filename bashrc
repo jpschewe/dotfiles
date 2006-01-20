@@ -466,7 +466,13 @@ case $LOCATION in
        export CORTEX_TASTER="sulu.htc.honeywell.com"
        ;;
 esac
-        
+
+case $LOCATION in
+  htc)
+       alias sudo='/net/packages/usr-local/bin/sudo'
+       ;;
+esac
+
 if [ -f "${HOME}/.ssh/sssha" ]; then
   case $HOST in
     mn65-eggplant | workstation)
