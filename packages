@@ -378,9 +378,9 @@ case $OSTYPE in
   cygwin)
           if [ -e c:/packages/ant ]; then
             ANT_HOME=c:/packages/ant
+            U_ANT_HOME=`cygpath "${ANT_HOME}"`
+            append PATH "${U_ANT_HOME}/bin"
           fi
-          U_ANT_HOME=`cygpath "${ANT_HOME}"`
-          append PATH "${U_ANT_HOME}/bin"
           ;;
   linux)
          if [ -e /net/packages/java/ant/1.6.2/apache-ant-1.6.2 ]; then
@@ -405,15 +405,15 @@ if [ -n "${ANT_HOME}" ]; then
 fi
 
 # Microsoft VisualStudio C/C++
-case $OSTYPE in
-  cygwin)
-          append PATH "c:/Program Files/Microsoft Visual Studio/VC98/Bin"
-          append PATH "c:/Program Files/Microsoft Visual Studio/VC98/Lib"
-          append PATH "c:/Program Files/Microsoft Visual Studio/Common/MSDev98/Bin"
-          export LIB=`cygpath -w "/ProgramFiles/Microsoft Visual Studio/VC98/Lib"`
-          export INCLUDE=`cygpath -w "/ProgramFiles/Microsoft Visual Studio/VC98/Include"`
-          ;;
-esac
+#case $OSTYPE in
+#  cygwin)
+#          append PATH "c:/Program Files/Microsoft Visual Studio/VC98/Bin"
+#          append PATH "c:/Program Files/Microsoft Visual Studio/VC98/Lib"
+#          append PATH "c:/Program Files/Microsoft Visual Studio/Common/MSDev98/Bin"
+#          export LIB=`cygpath -w "/ProgramFiles/Microsoft Visual Studio/VC98/Lib"`
+#          export INCLUDE=`cygpath -w "/ProgramFiles/Microsoft Visual Studio/VC98/Include"`
+#          ;;
+#esac
 
 ## ipso
 #case $OSTYPE in
