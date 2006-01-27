@@ -21,12 +21,13 @@ if [ -z "$CPU" ]; then
     *)    HOSTTYPE=${CPU} ;;
   esac
 fi
+
 if [ -z "$OSTYPE" ]; then
   OSTYPE=`uname -s 2> /dev/null | tr A-Z a-z`
 fi
 # I added OSDIST since suse hardcoded MACHTYPE to be ${CPU}-suse-${OSTYPE}
 if [ -z "$OSDIST" ]; then
-  if [ -f /etc/fedora-release ]; then
+  if [ -f /etc/fedora-release -o -f /etc/redhat-release ]; then
     OSDIST="redhat"
   elif [ -f /etc/SuSE-release ]; then 
     OSDIST="suse"
@@ -87,7 +88,7 @@ export LOCATION
 
 if [ $OSTYPE = "cygwin" ]; then
   #set in NT directly export CYGWIN="tty nosmbntsec" #title doesn't seem to help either, binmode will break getenv in emacs, ntea will break permissions for ls
-  alias uptime='finger @localhost | grep UpTime'
+  #alias uptime='finger @localhost | grep UpTime'
   export SHELL="/bin/bash"
   export TMP="/tmp"
   export TEMP="/tmp"
@@ -425,6 +426,8 @@ case $OSTYPE in
   sunos4 | solaris2)
      ### procmail on sunos and solaris
      append MANPATH /net/packages/procmail/3.10/man
+     ### gnu-misc
+     append MANPATH ${GNU_MISC_DIR}/share/man
      ;;
   *)
      ;;
@@ -467,10 +470,12 @@ case $LOCATION in
        ;;
 esac
 
-case $LOCATION in
-  htc)
-       alias sudo='/net/packages/usr-local/bin/sudo'
-       ;;
+case $OSTYPE in
+  solaris*)
+            if [ ! -x /usr/bin/sudo -a -x /net/packages/usr-local/bin/sudo ]; then
+              alias sudo='/net/packages/usr-local/bin/sudo'
+            fi
+            ;;
 esac
 
 if [ -f "${HOME}/.ssh/sssha" ]; then
