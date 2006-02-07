@@ -111,9 +111,13 @@
        ;; Prerequisit: Set the SHELL environment variable to bash before
        ;; starting emacs.  The variable shell-file-name is initialized to the
        ;; enviroment variable when emacs starts up.
-       (setq shell-file-name "c:\\packages\\cygwin\\bin\\bash"
-	     ;; Make "M-x shell-command" use the same shell as "M-x shell"
-	     explicit-shell-file-name shell-file-name)
+       (cond
+	((file-exists-p (expand-file-name "c:\\packages\\cygwin\\bin\\bash"))
+	 (setq shell-file-name "c:\\packages\\cygwin\\bin\\bash"))
+	((file-exists-p (expand-file-name "c:\\cygwin\\bin\\bash"))
+	 (setq shell-file-name "c:\\cygwin\\bin\\bash")))
+       ;; Make "M-x shell-command" use the same shell as "M-x shell"
+       (setq explicit-shell-file-name shell-file-name)
        
        ;; Use -i to force .bashrc file to be run, otherwise aliases defined
        ;; in you .bashrc file will not be available.
