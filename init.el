@@ -1460,8 +1460,8 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
       display-time-echo-area nil
       )
 ;;(setq display-time-form-list '(time-text load-text mail-text))
-(setq display-time-form-list '(date time-text load-text))
-;;(display-time)
+(setq display-time-form-list '(load-text))
+(display-time)
 ;;(display-time-stop)
 
 
