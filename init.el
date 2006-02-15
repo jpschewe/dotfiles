@@ -60,6 +60,9 @@
       enable-local-eval t ;;don't propmt me about evals in files
       )
 
+;; turn off file locking
+(setq inhibit-clash-detection t)
+
 ;; web browser integration
 ;;(cond ((eq system-type 'linux)
 ;;       (setq browse-url-browser-function 'browse-url-kfm))
@@ -648,6 +651,9 @@
   
   (setq dired-compression-method 'gzip)
   (set-default 'dired-omit-files t)
+
+  ;; don't refresh dired buffers all of the time
+  (setq dired-refresh-automatically nil)
   )
 (add-hook 'dired-load-hook 'dired-load-hook-jps)
 
@@ -1844,44 +1850,44 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;; LDAP
 ;;
 ;;;;;;;;;;;;
-(when (eq system-location 'htc)
-  (message "LDAP")
-  (require 'ldap)
-  (setq ldap-default-base "")
-  (setq ldap-default-host "mn65ex557.htc.honeywell.com")
-  (require 'eudcb-ldap)
-  ;;(require 'eudcb-bbdb)
-  (setq eudc-server ldap-default-host)
-  (setq eudc-protocol 'ldap)
-  (eudc-protocol-set 'eudc-inline-query-format
-		     '((cn)
-		       (uid)
-		       (firstname)
-		       (firstname name)
-		       (cn cn)
-		       (cn cn cn))
-		     'ldap)
-  (setq mail-ldap-expansion-format-jps '("\"%s\" <%s>" cn email))
-  (setq long-ldap-expansion-format-jps '("%s <%s> %s %s" cn email uid telephoneNumber))
-  (eudc-protocol-set 'eudc-inline-expansion-format
-		     mail-ldap-expansion-format-jps
-		     'ldap)
-
-  (defun get-user-info-jps ()
-    "Get information on a user, uses eudc-ldap"
-    (interactive)
-    (unwind-protect
-	(progn 
-	  (eudc-protocol-set 'eudc-inline-expansion-format
-			     long-ldap-expansion-format-jps
-			     'ldap)
-	  (eudc-expand-inline))
-      (eudc-protocol-set 'eudc-inline-expansion-format
-			 mail-ldap-expansion-format-jps
-			 'ldap)))
-
-  (global-set-key (concat prefix-key-jps "c") 'get-user-info-jps)
-  )
+;;(when (eq system-location 'htc)
+;;  (message "LDAP")
+;;  (require 'ldap)
+;;  (setq ldap-default-base "")
+;;  (setq ldap-default-host "mn65ex557.htc.honeywell.com")
+;;  (require 'eudcb-ldap)
+;;  ;;(require 'eudcb-bbdb)
+;;  (setq eudc-server ldap-default-host)
+;;  (setq eudc-protocol 'ldap)
+;;  (eudc-protocol-set 'eudc-inline-query-format
+;;		     '((cn)
+;;		       (uid)
+;;		       (firstname)
+;;		       (firstname name)
+;;		       (cn cn)
+;;		       (cn cn cn))
+;;		     'ldap)
+;;  (setq mail-ldap-expansion-format-jps '("\"%s\" <%s>" cn email))
+;;  (setq long-ldap-expansion-format-jps '("%s <%s> %s %s" cn email uid telephoneNumber))
+;;  (eudc-protocol-set 'eudc-inline-expansion-format
+;;		     mail-ldap-expansion-format-jps
+;;		     'ldap)
+;;
+;;  (defun get-user-info-jps ()
+;;    "Get information on a user, uses eudc-ldap"
+;;    (interactive)
+;;    (unwind-protect
+;;	(progn 
+;;	  (eudc-protocol-set 'eudc-inline-expansion-format
+;;			     long-ldap-expansion-format-jps
+;;			     'ldap)
+;;	  (eudc-expand-inline))
+;;      (eudc-protocol-set 'eudc-inline-expansion-format
+;;			 mail-ldap-expansion-format-jps
+;;			 'ldap)))
+;;
+;;  (global-set-key (concat prefix-key-jps "c") 'get-user-info-jps)
+;;  )
 
 ;;;;;;;;;;;
 ;;
