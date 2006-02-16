@@ -622,7 +622,9 @@
   ;;adobe
   (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "acroread"))
   (when (eq system-type 'linux)
-    (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "kghostview")))
+    (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "kghostview"))
+    (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "xpdf"))
+    (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "gv")))
 
   ;;Postscript
   (when (eq system-type 'linux)
