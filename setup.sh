@@ -11,7 +11,7 @@ mypath=$PWD
 /bin/ln -sf "${mypath}/profile" "${HOME}/.profile"
 
 # ask about ssh
-echo -n "Would you like to hae ssh-agent start up on login? (y/N) "
+echo -n "Would you like to have ssh-agent start up on login? (y/N) "
 answer=''
 read answer
 if [ "x${answer}" = "xy" ]; then
