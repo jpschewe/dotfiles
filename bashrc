@@ -417,7 +417,18 @@ export CYBERPANEL
 CYPSP="${HOME}/projects/argus/ScenarioPlayer"
 export CYPSP
 
-MANPATH=`substpath PATH bin man`
+MANPATH1=`substpath PATH bin man`
+MANPATH2=`substpath PATH bin share/man`
+if [ -z "${MANPATH1}" ]; then
+  MANPATH=${MANPATH2}
+else
+  if [ -z "${MANPATH2}" ]; then
+    MANPATH=${MANPATH1}
+  else
+    MANPATH=${MANPATH1}:${MANPATH2}
+  fi
+fi
+
 export MANPATH
 case $OSTYPE in
   linux) 

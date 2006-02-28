@@ -57,7 +57,9 @@ case $OSTYPE in
   cygwin) X11HOME=/usr/X11R6 
           append PATH ${X11HOME}/bin
           ;;
-  solaris2* | sunos4)      X11HOME=/net/packages/X11/X11R6.1/install/sparc-sun-solaris2.5/;;
+  solaris2* | sunos4)
+                      X11HOME=/net/packages/X11/X11R6.1/install/sparc-sun-solaris2.5
+                      ;;
   linux) X11HOME=/usr/X11R6;;
 esac
 
@@ -82,53 +84,68 @@ esac
 
 #-----------------------------------------------------------------------------
 
-if [ \! $OSTYPE = "cygwin" -a \! $OSTYPE = "linux" ]; then
-  ### psutils
-  append PATH /net/packages/psutils/1.16/install/sparc-sun-solaris2.5/bin
+case $OSTYPE in
+  solaris*)
+            ### psutils
+            append PATH /net/packages/psutils/1.16/install/sparc-sun-solaris2.5/bin
 
-  ### Ispell
-  append PATH /net/packages/ispell/3.1.20/install/sparc-sun-solaris2.5//bin
+            ### Ispell
+            append PATH /net/packages/ispell/3.1.20/install/sparc-sun-solaris2.5/bin
 
-  ### GNU misc
-  GNU_MISC_DIR=/net/packages/gnu-misc/2006-January/install/sparc-sun-solaris2.6
-  prepend PATH ${GNU_MISC_DIR}/bin
+            ### GNU misc
+            #GNU_MISC_DIR=/net/packages/gnu-misc/1999-April/install/sparc-sun-solaris2.6
+            #prepend PATH ${GNU_MISC_DIR}/bin
+            ## GNU gcc
+            ##export GCC_PATH=/net/packages/gnu-gcc/2.8.0/solaris2.5.1/
+            #case `uname -r` in
+            #  5.8)
+            #       export GCC_PATH=/net/packages/gnu-gcc/2006-January/install/sparc-sun-solaris2.6
+            #       ;;
+            #  *)
+            #     export GCC_PATH=/net/packages/gnu-gcc/2006-January/install/sparc-sun-solaris2.6
+            #     ;;
+            #esac
+            #prepend PATH		${GCC_PATH}/bin
+            prepend PATH /net/packages/gnu/2006-February/install/sparc-sun-solaris2.6/bin
 
-  ### PERL
-  prepend PATH /net/packages/perl/builds/5.8.1/sparc-sun-solaris2.8/bin
+            ### GNU
+            #GNU=/net/packages/gnu/2006-February/install/sparc-sun-solaris2.6
+            #prepend PATH ${GNU}/bin
+            
+            ### PERL
+            case `uname -r` in
+              5.6)
+                   prepend PATH /net/packages/perl/builds/5.004/sparc-sun-solaris2.5.1/bin
+                   ;;
+              *)
+                 if [ ! -x /usr/bin/perl ]; then
+                   prepend PATH /net/packages/perl/builds/5.005/sparc-sun-solaris2.6/bin
+                 fi
+                 ;;
+            esac
 
-  ### tcl-tk
-  append PATH /net/packages/tcl-tk/8.0.5/solaris2.6/bin
-  TCL_LIBRARY=/net/packages/tcl-tk/8.0.5/solaris2.6/lib/tcl8.0
-  TK_LIBRARY=/net/packages/tcl-tk/8.0.5/solaris2.6/lib/tk8.0
-  export TCL_LIBRARY TK_LIBRARY
+            ### tcl-tk
+            append PATH /net/packages/tcl-tk/8.0.5/solaris2.6/bin
+            TCL_LIBRARY=/net/packages/tcl-tk/8.0.5/solaris2.6/lib/tcl8.0
+            TK_LIBRARY=/net/packages/tcl-tk/8.0.5/solaris2.6/lib/tk8.0
+            export TCL_LIBRARY TK_LIBRARY
 
-  # GNU gcc
-  #export GCC_PATH=/net/packages/gnu-gcc/2.8.0/solaris2.5.1/
-  case `uname -r` in
-    5.8)
-         export GCC_PATH=/net/packages/gnu-gcc/2002-July/install/sparc-sun-solaris2.8
-         ;;
-    *)
-       export GCC_PATH=/net/packages/gnu-gcc/2002-July/install/sparc-sun-solaris2.6
-       ;;
-  esac
-  prepend PATH		${GCC_PATH}/bin
-
-  ### SPI
-  #export SPI_DIR=/net/projects/spi/developers/jschewe/DiagDisp/
-  #append PATH ${SPI_DIR}/bin/sun4
-  #append MANPATH ${SPI_DIR}/man
-fi
+            ### SPI
+            #export SPI_DIR=/net/projects/spi/developers/jschewe/DiagDisp/
+            #append PATH ${SPI_DIR}/bin/sun4
+            #append MANPATH ${SPI_DIR}/man
+            ;;
+esac
 
 # Standard OS Compiler
 case $OSTYPE in
   solaris2*)
-            prepend PATH /net/packages/suncompilers/studiocc_8_sparc/SUNWspro/bin
-	    prepend PATH /usr/ccs/bin
-            append PATH /net/packages/usr-local/flexlm/licenses
-	    export LM_LICENSE_FILE=5280@gyro:5280@axis:5280@servo
-            #/usr/local/flexlm/licenses/license.dat
-            ;;
+             prepend PATH /net/packages/suncompilers/studiocc_11_sparc/SUNWspro/bin
+             prepend PATH /usr/ccs/bin
+             append PATH /net/packages/usr-local/flexlm/licenses
+             export LM_LICENSE_FILE=5280@gyro:5280@axis:5280@servo
+             #/usr/local/flexlm/licenses/license.dat
+             ;;
 esac 
 
 ### Procmail
@@ -136,14 +153,6 @@ case $OSTYPE in
   solaris2*) append PATH /net/packages/procmail/3.10/bin.solaris2*
             ;;
 esac 
-
-### AssertMate
-if [ $OSTYPE = "cygwin" ]; then
-  ASSERT_HOME="c:/packages/AssertMate"
-  export ASSERT_HOME
-  ASSERTMATE="${ASSERT_HOME}/class/RSTclasses.zip"
-  export ASSERTMATE
-fi
 
 #------------------------------------------------------------------------------
 # TeX
@@ -237,7 +246,8 @@ case $OSTYPE in
           #prepend PATH /ProgramFiles/CVS\ for\ NT
           ;;
   solaris2*)
-            append PATH /net/packages/gnu-cm/1999-12/install/sparc-sun-solaris2*.6/bin
+            #append PATH /net/packages/gnu-cm/1999-12/install/sparc-sun-solaris2*.6/bin
+             ;;
 esac
 
 ### subversion
@@ -347,13 +357,6 @@ export JAVA_HOME
 JDK_HOME=${JAVA_HOME}
 export JDK_HOME
 
-#AssertMate
-case $OSTYPE in
-  cygwin)
-          append PATH "/cygdrive/c/packages/AssertMate/bin"
-          ;;
-esac
-
 ### unzip & Motif
 #case $OSTYPE in
    #solaris2*) append LD_LIBRARY_PATH /usr/dt/lib;;
@@ -388,12 +391,11 @@ case $OSTYPE in
           if [ -e c:/packages/ant ]; then
             ANT_HOME=c:/packages/ant
             U_ANT_HOME=`cygpath "${ANT_HOME}"`
-            append PATH "${U_ANT_HOME}/bin"
           fi
           ;;
   linux)
-         if [ -e /net/packages/java/ant/1.6.2/apache-ant-1.6.2 ]; then
-           ANT_HOME=/net/packages/java/ant/1.6.2/apache-ant-1.6.2
+         if [ -e /net/packages/java/ant/1.6.5/apache-ant-1.6.5 ]; then
+           ANT_HOME=/net/packages/java/ant/1.6.5/apache-ant-1.6.5
          elif [ -e /usr/local/apache-ant-1.6.2 ]; then
            ANT_HOME=/usr/local/apache-ant-1.6.2
          elif [ -e /usr/share/ant ]; then
@@ -403,14 +405,15 @@ case $OSTYPE in
          fi
          ;;
   *)
-     if [ -e /net/packages/java/ant/1.6.2/apache-ant-1.6.2 ]; then
-       ANT_HOME=/net/packages/java/ant/1.6.2/apache-ant-1.6.2
+     if [ -e /net/packages/java/ant/1.6.5/apache-ant-1.6.5 ]; then
+       ANT_HOME=/net/packages/java/ant/1.6.5/apache-ant-1.6.5
      fi
      ;;
 esac
 if [ -n "${ANT_HOME}" ]; then
   export ANT_HOME
   export ANT_OPTS="-Xmx256M"
+  prepend PATH ${ANT_HOME}/bin
 fi
 
 # Microsoft VisualStudio C/C++
@@ -554,6 +557,13 @@ case $OSTYPE in
                 ;;
          esac
          ;;
+esac
+
+### bzip
+case $OSTYPE in
+  solaris2*)
+             append PATH /net/packages/bzip2/1.0.3/install/sparc-sun-solaris2.6/bin
+             ;;
 esac
 
 ### HOME

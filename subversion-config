@@ -85,7 +85,7 @@ enable-auto-props = yes
 *.c = svn:eol-style=native
 *.cpp = svn:eol-style=native
 *.h = svn:eol-style=native
-*.java = svn:eol-style=native
+*.java = svn:eol-style=native;svn:keywords=Author Date Rev LastChangedBy Id
 *.sh = svn:eol-style=native;svn:executable
 *.txt = svn:eol-style=native
 *.png = svn:mime-type=image/png
