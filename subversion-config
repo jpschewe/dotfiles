@@ -66,7 +66,7 @@
 # log-encoding = latin1
 ### Set use-commit-times to make checkout/update/switch/revert
 ### put last-committed timestamps on every file touched.
-# use-commit-times = yes
+use-commit-times = yes
 ### Set enable-auto-props to 'yes' to enable automatic properties
 ### for 'svn add' and 'svn import', it defaults to 'no'.
 ### Automatic properties are defined in the section 'auto-props'.
@@ -80,20 +80,20 @@ enable-auto-props = yes
 ### Note that auto-props functionality must be enabled, which
 ### is typically done by setting the 'enable-auto-props' option.
 [auto-props]
-*.xml = svn:eol-style=native
-*.el = svn:eol-style=native
-*.c = svn:eol-style=native
-*.cpp = svn:eol-style=native
-*.h = svn:eol-style=native
-*.java = svn:eol-style=native;svn:keywords=Author Date Rev LastChangedBy Id
-*.jsp = svn:eol-style=native
-*.html = svn:eol-style=native;svn:mime-type=text/html
-*.pdf = svn:mime-type=application/pdf
-*.sh = svn:eol-style=native;svn:executable
-*.txt = svn:eol-style=native
-*.png = svn:mime-type=image/png
-*.jpg = svn:mime-type=image/jpeg
-Makefile = svn:eol-style=native
-*.dom = svn:mime-type=application/dome
-*.mdl = svn:mime-type=application/rose
+*.c = svn:mime-type=text/x-c-source;svn:eol-style=native
 *.cat = svn:mime-type=application/rose
+*.cpp = svn:mime-type=text/x-cpp-source;svn:eol-style=native
+*.dom = svn:mime-type=application/dome
+*.el = svn:mime-type=text/x-emacs-lisp;svn:eol-style=native
+*.h = svn:mime-type=text/x-c-header;svn:eol-style=native
+*.html = svn:mime-type=text/html;svn:eol-style=native
+*.java = svn:mime-type=text/x-java-source;svn:eol-style=native;svn:keywords=Author Date Rev LastChangedBy Id
+*.jpg = svn:mime-type=image/jpeg
+*.jsp = svn:mime-type=text/x-jsp-source;svn:eol-style=native
+*.mdl = svn:mime-type=application/rose
+*.pdf = svn:mime-type=application/pdf
+*.png = svn:mime-type=image/png
+*.sh = svn:mime-type=text/plain;svn:eol-style=native;svn:executable
+*.txt = svn:mime-type=text/plain;svn:eol-style=native
+*.xml = svn:mime-type=text/xml;svn:eol-style=native
+Makefile = svn:mime-type=text/plain;svn:eol-style=native
