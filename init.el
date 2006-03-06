@@ -579,8 +579,8 @@
   
   ;;bzip
   (add-to-list 'dired-auto-shell-command-alist '("\\.bz2$" "bunzip2"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.tar.bz2$" "tar --bzip2 -tf"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.tar.bz2$" "tar --bzip2 -xvf"))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.tar.bz2$" "tar -jtf"))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.tar.bz2$" "tar -jxvf"))
 
   ;;stuffit
   (when (eq system-type 'linux)
