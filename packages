@@ -517,18 +517,18 @@ case $LOCATION in
          linux)
                 case `uname -m` in
                   x86_64)
-                        append PATH /net/packages/allegro/acl70/linux
+                        append PATH /net/packages/allegro/acl80/linux
                         #append PATH /net/packages/allegro/acl70/linux.64
                           ;;
                   i*86)
                         #append PATH /usr/local/acl/acl62
-                        append PATH /net/packages/allegro/acl70/linux
+                        append PATH /net/packages/allegro/acl80/linux
                         ;;
                 esac
                 ;;
          solaris2*)
                     #append PATH /net/packages/allegro/acl62
-                    append PATH /net/packages/allegro/acl70/solaris
+                    append PATH /net/packages/allegro/acl80/solaris
                     ;;
        esac
        ;;
