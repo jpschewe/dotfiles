@@ -71,7 +71,7 @@
 (setq
  browse-url-new-window-flag t;; try to use a new window when browsing
  browse-url-mozilla-new-window-is-tab t ;; use tabs with mozilla
- browse-url-browser-function 'browse-url-mozila
+ browse-url-browser-function 'browse-url-firefox
  )
 
 ;; set the title to make it easy to determine which XEmacs is running
@@ -588,7 +588,7 @@
   
   ;;office documents
   (add-to-list 'dired-auto-shell-command-alist '("\\.doc$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.DOC$" openoffice-executable))
+  (add-to-listg 'dired-auto-shell-command-alist '("\\.DOC$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.sxw$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.xls$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.sxc$" openoffice-executable))
@@ -623,12 +623,15 @@
   (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "acroread"))
   (when (eq system-type 'linux)
     (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "kghostview"))
+    (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "gpdf"))
     (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "xpdf"))
     (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "gv")))
 
   ;;Postscript
   (when (eq system-type 'linux)
-    (add-to-list 'dired-auto-shell-command-alist '("\\.ps$" "kghostview")))
+    (add-to-list 'dired-auto-shell-command-alist '("\\.ps$" "kghostview"))
+    (add-to-list 'dired-auto-shell-command-alist '("\\.ps$" "gv"))
+    )
   
   ;;dos/windows executables
   (when (or (eq system-type 'windows-nt)
@@ -636,14 +639,9 @@
     (add-to-list 'dired-auto-shell-command-alist '("\\.exe$" "*f")))
 
   ;;java
-  (add-to-list 'dired-auto-shell-command-alist '("\\.jar$" "jar -xvf"))
   (add-to-list 'dired-auto-shell-command-alist '("\\.jar$" "jar -tvf"))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.jar$" "jar -xvf"))
 
-  ;; kde integration for html files
-  (when (eq system-type 'linux)
-    (add-to-list 'dired-auto-shell-command-alist '("\\.htm$" "kfmclient openURL"))
-    (add-to-list 'dired-auto-shell-command-alist '("\\.html$" "kfmclient openURL"))
-    )
   ;; default windows handling
   (when (or (eq system-type 'windows-nt)
 	    (eq system-type 'cygwin32))
