@@ -490,6 +490,11 @@ case $OSTYPE in
             ;;
 esac
 
+# SOSCOE
+if [ -f /etc/profile.d/soscoe.sh ];
+  . /etc/profile.d/soscoe.sh
+fi
+
 if [ -f "${HOME}/.ssh/sssha" ]; then
   case $HOST in
     mn65-eggplant | workstation)
