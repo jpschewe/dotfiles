@@ -147,7 +147,7 @@ fi
 #------------------------------
 
 export BRC="$HOME/.bashrc"	# also used for test in .profile
-alias brc=". '$BRC'"
+alias brc="unset SOSCOECHKFLG ; . '$BRC'"
 #alias brc='unset BASHRCREAD ; . "${HOME}/.bashrc"'
 
 # cvs aliases here
@@ -491,7 +491,7 @@ case $OSTYPE in
 esac
 
 # SOSCOE
-if [ -f /etc/profile.d/soscoe.sh ];
+if [ -f /etc/profile.d/soscoe.sh ]; then
   . /etc/profile.d/soscoe.sh
 fi
 
