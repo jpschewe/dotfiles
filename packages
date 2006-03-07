@@ -257,13 +257,6 @@ case $OSTYPE in
     ;;
 esac
 
-#enscript
-case $OSTYPE in
-  cygwin)
-          export ENSCRIPT_LIBRARY="c:/packages/enscript"
-          ;;
-esac
-
 #Xemacs
 case $OSTYPE in
   cygwin)
@@ -403,17 +396,19 @@ case $OSTYPE in
          elif [ -e /opt/jakarta/ant ]; then
            ANT_HOME=/opt/jakarta/ant
          fi
+         U_ANT_HOME=${ANT_HOME}
          ;;
   *)
      if [ -e /net/packages/java/ant/1.6.5/apache-ant-1.6.5 ]; then
        ANT_HOME=/net/packages/java/ant/1.6.5/apache-ant-1.6.5
+       U_ANT_HOME=${ANT_HOME}
      fi
      ;;
 esac
 if [ -n "${ANT_HOME}" ]; then
   export ANT_HOME
   export ANT_OPTS="-Xmx256M"
-  prepend PATH ${ANT_HOME}/bin
+  prepend PATH ${U_ANT_HOME}/bin
 fi
 
 # Microsoft VisualStudio C/C++
