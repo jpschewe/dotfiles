@@ -494,6 +494,8 @@ esac
 if [ -f /etc/profile.d/soscoe.sh ]; then
   unset SOSCOECHKFLG
   . /etc/profile.d/soscoe.sh
+  #SOSCOE_SYSMGR_LAUNCHPOINT=/soscoe/coreservices/etc
+  #export SOSCOE_SYSMGR_LAUNCHPOINT
   /soscoe/coreservices/tools/SoscoeUtil/soscoeAppDisplay.sh
 fi
 
