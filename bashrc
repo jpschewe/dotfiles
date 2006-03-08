@@ -494,6 +494,7 @@ esac
 if [ -f /etc/profile.d/soscoe.sh ]; then
   unset SOSCOECHKFLG
   . /etc/profile.d/soscoe.sh
+  /soscoe/coreservices/tools/SoscoeUtil/soscoeAppDisplay.sh
 fi
 
 if [ -f "${HOME}/.ssh/sssha" ]; then
