@@ -490,6 +490,18 @@ case $OSTYPE in
             ;;
 esac
 
+# X-Windows
+if [ -d "$X11DIR" ]; then
+  export X11INC_DIR=${X11DIR}/include
+  export X11LIB_DIR=${X11DIR}/lib
+  if [ -z "$DISPLAY" ]; then
+    export DISPLAY="`who -m --lookup | sed -e 's/.*(\(.*\))/\1/'`:0.0"
+    if [ -z "$DISPLAY" ]; then
+      export DISPLAY=":0.0"
+    fi
+  fi
+fi
+
 # SOSCOE
 if [ -f /etc/profile.d/soscoe.sh ]; then
   unset SOSCOECHKFLG
