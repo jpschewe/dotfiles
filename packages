@@ -389,6 +389,8 @@ case $OSTYPE in
   linux)
          if [ -e /net/packages/java/ant/1.6.5/apache-ant-1.6.5 ]; then
            ANT_HOME=/net/packages/java/ant/1.6.5/apache-ant-1.6.5
+         elif [ -e /usr/local/apache-ant-1.6.5 ]; then
+           ANT_HOME=/usr/local/apache-ant-1.6.5
          elif [ -e /usr/local/apache-ant-1.6.2 ]; then
            ANT_HOME=/usr/local/apache-ant-1.6.2
          elif [ -e /usr/share/ant ]; then
