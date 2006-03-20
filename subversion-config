@@ -96,4 +96,5 @@ enable-auto-props = yes
 *.sh = svn:mime-type=text/plain;svn:eol-style=native;svn:executable
 *.txt = svn:mime-type=text/plain;svn:eol-style=native
 *.xml = svn:mime-type=text/xml;svn:eol-style=native
+*.xsd = svn:mime-type=text/xml;svn:eol-style=native
 Makefile = svn:mime-type=text/plain;svn:eol-style=native
