@@ -7,7 +7,7 @@
 ;; Version:  1.0
 ;; Keywords: revert
 ;; X-URL:    http://nwv.www.media.mit.edu/people/nwv/projects/revbufs/
-;; X-RCS:    $Id: revbufs.el,v 1.1 2003/11/29 21:05:17 jpschewe Exp $ GMT
+;; X-RCS:    $Id: revbufs.el 2 2003-11-29 21:05:18Z jpschewe $ GMT
 
 ;; This file is NOT part of GNU Emacs.
 

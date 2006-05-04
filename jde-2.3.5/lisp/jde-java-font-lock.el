@@ -7,7 +7,7 @@
 ;;             Paul Kinnucan <paulk@mathworks.com>
 ;; Created: September 28 1998
 ;; Keywords: java, tools
-;; VC: $Id: jde-java-font-lock.el,v 1.1 2005/02/16 20:24:57 jpschewe Exp $
+;; VC: $Id: jde-java-font-lock.el 89 2005-02-16 20:24:59Z jpschewe $
 
 ;; This file is not part of Emacs
 

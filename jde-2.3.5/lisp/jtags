@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# $Id: jtags,v 1.1 2005/02/16 20:24:56 jpschewe Exp $
+# $Id: jtags 89 2005-02-16 20:24:59Z jpschewe $
 #
 # Usage:     jtags [-h | srcdir]
 #

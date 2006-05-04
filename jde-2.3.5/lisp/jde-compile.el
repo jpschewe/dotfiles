@@ -1,5 +1,5 @@
 ;;; jde-compile.el -- Integrated Development Environment for Java.
-;; $Revision: 1.1 $ $Date: 2005/02/16 20:24:58 $ 
+;; $Revision: 1.1 $ $Date: 2005-02-16 14:24:59 -0600 (Wed, 16 Feb 2005) $ 
 
 ;; Author: Paul Kinnucan <paulk@mathworks.com>
 ;; Maintainer: Paul Kinnucan

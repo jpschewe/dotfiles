@@ -7,7 +7,7 @@
 ;; Created: 16 Feb 2001
 ;; Version: 1.0.5
 ;; Keywords: extensions
-;; VC: $Id: jde-tree-widget.el,v 1.1 2005/02/16 20:24:56 jpschewe Exp $
+;; VC: $Id: jde-tree-widget.el 119 2005-04-20 15:20:35Z jpschewe $
 
 ;; This file is not part of Emacs
 

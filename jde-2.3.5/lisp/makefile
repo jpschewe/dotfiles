@@ -1,4 +1,4 @@
-# $Revision: 1.1 $ $Date$ 
+# $Revision: 1.1 $ $Date: 2005-02-17 06:29:41 -0600 (Thu, 17 Feb 2005) $ 
 #
 # This makefile compiles the JDE lisp files.
 #

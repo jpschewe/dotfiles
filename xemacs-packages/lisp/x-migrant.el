@@ -4,7 +4,7 @@
 
 ;; Author: Bryan O'Sullivan <bos@serpentine.com>
 
-;; $Id: x-migrant.el,v 1.1 2004/09/03 20:23:52 jpschewe Exp $
+;; $Id: x-migrant.el 65 2004-09-03 20:24:00Z jpschewe $
 
 ;; x-migrant.el ("this file") is free software; you can redistribute
 ;; it and/or modify it under the terms of the GNU General Public

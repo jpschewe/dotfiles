@@ -1,5 +1,5 @@
 ;; JDE-XREF.EL --- Class cross-reference commands for the JDEE.
-;; $Revision: 1.1 $ $Date: 2005/02/16 20:24:56 $
+;; $Revision: 1.1 $ $Date: 2005-04-20 10:20:35 -0500 (Wed, 20 Apr 2005) $
 ;;
 ;; Copyright (C) 2002, 2003 Andrew Hyatt
 ;;
@@ -26,7 +26,7 @@
 ;; LCD Archive Entry:
 ;; jde-xref|Andrew Hyatt|
 ;; |Java class cross-referencing commands for the JDEE
-;; |$Date: 2005/02/16 20:24:56 $|$Revision: 1.1 $|~/packages/jde-xref.el
+;; |$Date: 2005-04-20 10:20:35 -0500 (Wed, 20 Apr 2005) $|$Revision: 1.1 $|~/packages/jde-xref.el
 
 ;;; Commentary:
 

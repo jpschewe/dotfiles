@@ -7,7 +7,7 @@
 ;; Created: 22 Jan 1997
 ;; Keywords: mail
 ;; location: http://www.anc.ed.ac.uk/~stephen/emacs/
-;; RCS: $Id: mspools.el,v 1.1 2003/11/29 21:05:18 jpschewe Exp $
+;; RCS: $Id: mspools.el 2 2003-11-29 21:05:18Z jpschewe $
 
 ;; This file is part of GNU Emacs.
 

@@ -1,5 +1,5 @@
 ;; @(#) extra-java-font-lock.el -- extra highlighting for java
-;; @(#) $Id: extra-java-font-lock.el,v 1.1 2003/11/29 21:05:18 jpschewe Exp $
+;; @(#) $Id: extra-java-font-lock.el 2 2003-11-29 21:05:18Z jpschewe $
 
 ;; This file is not part of Emacs
 
@@ -11,7 +11,7 @@
 ;; LCD Archive Entry:
 ;; extra-java-font-lock|David Ponce|david.ponce@wanadoo.fr|
 ;; extra highlighting for java|
-;; $Date: 2003/11/29 21:05:18 $|$Revision: 1.1 $|~/misc/extra-java-font-lock.el|
+;; $Date: 2003-11-29 15:05:18 -0600 (Sat, 29 Nov 2003) $|$Revision: 1.1 $|~/misc/extra-java-font-lock.el|
 
 ;; COPYRIGHT NOTICE
 ;;

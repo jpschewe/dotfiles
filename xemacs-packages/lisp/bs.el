@@ -6,7 +6,7 @@
 ;;; Author: Olaf Sylvester <Olaf.Sylvester@netsurf.de>
 ;;; Web site: http://home.netsurf.de/olaf.sylvester/emacs
 ;;; Keywords: extensions
-;;; Version: $Id: bs.el,v 1.1 2003/11/29 21:05:18 jpschewe Exp $
+;;; Version: $Id: bs.el 2 2003-11-29 21:05:18Z jpschewe $
 
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by

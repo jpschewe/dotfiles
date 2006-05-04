@@ -5,7 +5,7 @@
 ;;
 ;; Author: Andrew J Cosgriff <ajc@bing.wattle.id.au>
 ;; Created: Wed Aug 18 22:31:35 1999
-;; Version: $Id: pilot-memo.el,v 1.1 2003/11/29 21:05:17 jpschewe Exp $
+;; Version: $Id: pilot-memo.el 2 2003-11-29 21:05:18Z jpschewe $
 ;; Keywords: palm pilot memo
 ;;
 ;; This program is free software; you can redistribute it and/or modify

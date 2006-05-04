@@ -1,5 +1,5 @@
 ;; JDE-PARSE-CLASS.EL --- Parse a Java class file.
-;; $Revision: 1.1 $ $Date: 2005/02/16 20:24:56 $
+;; $Revision: 1.1 $ $Date: 2005-04-20 10:20:35 -0500 (Wed, 20 Apr 2005) $
 ;;
 ;; Copyright (C) 2002, 2004 Andrew Hyatt
 ;;
@@ -26,7 +26,7 @@
 ;; LCD Archive Entry:
 ;; jde-parse-class|Andrew Hyatt|
 ;; |Parse a Java class file to get xref info for the JDEE.
-;; |$Date: 2005/02/16 20:24:56 $|$Revision: 1.1 $|~/packages/jde-parse-class.el
+;; |$Date: 2005-04-20 10:20:35 -0500 (Wed, 20 Apr 2005) $|$Revision: 1.1 $|~/packages/jde-parse-class.el
 
 ;;; Commentary:
 

@@ -310,12 +310,23 @@
 ;;
 ;;;;;;;;;;;;
 (message "Printing")
-(setq lpr-command "kprinter"
-      lpr-switches '("--stdin");;(list "-r" "-G" "-b\"- jschewe -\"")
-      lpr-add-switches t ; add -J title
-      lpr-page-header-switches '("-F" "-l 58") ; be compatible with linux pr
-      ps-print-header-frame nil		; save some toner
-      )
+(setq
+ ;; kprinter
+ ;;lpr-command "kprinter"
+ ;;lpr-switches '("--stdin") ;;(list "-r" "-G" "-b\"- jschewe -\"")
+ ;;lpr-page-header-switches '("-F" "-l 58") ; be compatible with linux pr
+
+ ;; enscript
+ lpr-command "enscript"
+ lpr-switches (list "-r" "-G" "-b\"- jschewe -\"")
+ lpr-add-switches t			; add -J title
+ lpr-page-header-program nil
+
+ ;; lpr for ps
+ ps-print-header-frame nil		; save some toner
+ ps-lpr-command "lpr"
+ ps-lpr-switches nil
+ )
 
 
 ;;;;;;;;;;;
@@ -588,7 +599,7 @@
   
   ;;office documents
   (add-to-list 'dired-auto-shell-command-alist '("\\.doc$" openoffice-executable))
-  (add-to-listg 'dired-auto-shell-command-alist '("\\.DOC$" openoffice-executable))
+  (add-to-list 'dired-auto-shell-command-alist '("\\.DOC$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.sxw$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.xls$" openoffice-executable))
   (add-to-list 'dired-auto-shell-command-alist '("\\.sxc$" openoffice-executable))
@@ -2097,3 +2108,25 @@ in some window."
 (reset-user-mail-address)
 
 (setq minibuffer-max-depth nil)
+
+;;JPS not yet ;; save a list of open files in ~/.emacs.desktop
+;;JPS not yet ;; save the desktop file automatically if it already exists
+;;JPS not yet (setq desktop-save 'if-exists)
+;;JPS not yet (desktop-save-mode 1)
+;;JPS not yet 
+;;JPS not yet ;; save a bunch of variables to the desktop file
+;;JPS not yet ;; for lists specify the len of the maximal saved data also
+;;JPS not yet (setq desktop-globals-to-save
+;;JPS not yet       (append '((extended-command-history . 30)
+;;JPS not yet                 (file-name-history        . 100)
+;;JPS not yet                 (grep-history             . 30)
+;;JPS not yet                 (compile-history          . 30)
+;;JPS not yet                 (minibuffer-history       . 50)
+;;JPS not yet                 (query-replace-history    . 60)
+;;JPS not yet                 (read-expression-history  . 60)
+;;JPS not yet                 (regexp-history           . 60)
+;;JPS not yet                 (regexp-search-ring       . 20)
+;;JPS not yet                 (search-ring              . 20)
+;;JPS not yet                 (shell-command-history    . 50)
+;;JPS not yet                 tags-file-name
+;;JPS not yet                 register-alist)))

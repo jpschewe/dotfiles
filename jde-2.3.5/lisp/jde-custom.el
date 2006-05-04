@@ -1,5 +1,5 @@
 ;;; jde-custom.el -- Integrated Development Environment for Java.
-;; $Revision: 1.1 $ $Date: 2005/02/16 20:24:58 $ 
+;; $Revision: 1.1 $ $Date: 2005-04-20 10:20:35 -0500 (Wed, 20 Apr 2005) $ 
 
 ;; Author: Paul Kinnucan <paulk@mathworks.com>
 ;; Maintainer: Paul Kinnucan

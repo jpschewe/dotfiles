@@ -1,5 +1,5 @@
 ;; jde-package.el -- Java package statement generator
-;; $Id: jde-package.el,v 1.1 2005/02/16 20:24:56 jpschewe Exp $
+;; $Id: jde-package.el 119 2005-04-20 15:20:35Z jpschewe $
 
 ;; Copyright (C) 1998, 2000, 2001, 2002 by David Ponce
 

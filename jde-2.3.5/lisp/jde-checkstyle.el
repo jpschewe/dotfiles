@@ -1,5 +1,5 @@
 ;;; JDE-CHECKSTYLE.EL --- Checkstyle interface for JDE
-;; $Revision: 1.1 $ $Date: 2005/02/16 20:24:58 $
+;; $Revision: 1.1 $ $Date: 2005-02-16 14:24:59 -0600 (Wed, 16 Feb 2005) $
 
 ;; Copyright (C) 2001, 2002, 2003, 2004 Markus Mohnen and Paul Kinnucan
 
@@ -28,7 +28,7 @@
 ;; LCD Archive Entry:
 ;; jde-checkstyle|Markus Mohnen|
 ;; |Checkstyle interface for JDE
-;; |$Date: 2005/02/16 20:24:58 $|$Revision: 1.1 $|~/packages/jde-checkstyle.el
+;; |$Date: 2005-02-16 14:24:59 -0600 (Wed, 16 Feb 2005) $|$Revision: 1.1 $|~/packages/jde-checkstyle.el
 
 ;;; Commentary:
 

@@ -1,5 +1,5 @@
 ;;; jde-stat.el -- Integrated Development Environment for Java.
-;; $Revision: 1.1 $ $Date: 2005/02/16 20:24:56 $ 
+;; $Revision: 1.1 $ $Date: 2005-04-20 10:20:35 -0500 (Wed, 20 Apr 2005) $ 
 
 ;; Author: Stephane Nicolas <s.nicolas@videotron.ca>
 ;; Maintainer: Paul Kinnucan

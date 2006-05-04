@@ -22,7 +22,7 @@
 
 ;;; Commentary:
 
-;; $Id: re-builder.el,v 1.1 2003/11/29 21:05:17 jpschewe Exp $
+;; $Id: re-builder.el 2 2003-11-29 21:05:18Z jpschewe $
 
 ;; When I have to come up with regular expressions that are more
 ;; complex than simple string matchers, especially if they contain sub

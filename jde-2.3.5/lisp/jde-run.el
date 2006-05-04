@@ -1,5 +1,5 @@
 ;; jde-run.el --- runs the Java app in the current buffer.
-;; $Revision: 1.1 $ $Date$
+;; $Revision: 1.1 $ $Date: 2006-01-04 21:16:41 -0600 (Wed, 04 Jan 2006) $
 
 ;; Author: Paul Kinnucan <paulk@mathworks.com>
 ;; Maintainer: Paul Kinnucan

@@ -7,7 +7,7 @@
 ;; Keywords: extensions
 ;; Created: 1997-10-03
 
-;; $Id: vm-vcard.el,v 1.1 2003/11/29 21:05:17 jpschewe Exp $
+;; $Id: vm-vcard.el 2 2003-11-29 21:05:18Z jpschewe $
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by

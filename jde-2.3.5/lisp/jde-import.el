@@ -11,7 +11,7 @@
 ;; Created: 15 Nov 2000
 ;; Version: $Revision: 1.1 $
 ;; Keywords: java, tools
-;; VC: $Id: jde-import.el,v 1.1 2005/02/16 20:24:57 jpschewe Exp $
+;; VC: $Id: jde-import.el 89 2005-02-16 20:24:59Z jpschewe $
 
 ;; This file is not part of Emacs
 
