@@ -193,8 +193,19 @@ case $OSTYPE in
      alias ls='ls -F'
      ;;
 esac
-alias v='ls -l'
-alias ll='ls -l'
+
+ls -hl / > /dev/null 2>&1
+if [ $? == 0 ]; then
+  alias ll='ls -hl'
+else
+  alias ll='ls -l'
+fi
+df -h > /dev/null 2>&1
+if [ $? == 0 ]; then
+  alias df='df -h'
+fi
+
+alias v='ll'
 alias d='ls -s'
 alias bc='bc -l'
 alias lsdir='ls -lA | grep "^d"'
