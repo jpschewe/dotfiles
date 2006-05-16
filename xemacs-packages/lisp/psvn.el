@@ -2,7 +2,7 @@
 ;; Copyright (C) 2002-2006 by Stefan Reichoer
 
 ;; Author: Stefan Reichoer, <stefan@xsteve.at>
-;; $Id: psvn.el 19439 2006-04-20 20:37:09Z xsteve $
+;; $Id: psvn.el 19648 2006-05-15 20:03:59Z xsteve $
 
 ;; psvn.el is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@
 ;; At the moment the following commands are implemented:
 ;;
 ;; M-x svn-status: run 'svn -status -v'
-;; M-x svn-examine (like psvn.el cvs-examine) is alias for svn-status
+;; M-x svn-examine (like pcl-cvs cvs-examine) is alias for svn-status
 ;;
 ;; and show the result in the svn-status-buffer-name buffer (normally: *svn-status*).
 ;; If svn-status-verbose is set to nil, only "svn status" without "-v"
@@ -525,6 +525,8 @@ This is nil if the log entry is for a new commit.")
 ;; already implied by "-function" suffix
 (defvar svn-status-get-specific-revision-file-info)
 (defvar svn-status-last-output-buffer-name)
+(defvar svn-status-pre-run-svn-buffer nil)
+(defvar svn-status-update-list nil)
 (defvar svn-transient-buffers)
 (defvar svn-ediff-windows)
 (defvar svn-ediff-result)
@@ -732,8 +734,9 @@ To bind this to a different key, customize `svn-status-prefix-key'.")
   (define-key svn-global-keymap (kbd "l") 'svn-status-show-svn-log)
   (define-key svn-global-keymap (kbd "u") 'svn-status-update-cmd)
   (define-key svn-global-keymap (kbd "=") 'svn-status-show-svn-diff)
+  (define-key svn-global-keymap (kbd "b") 'svn-status-blame)
   (define-key svn-global-keymap (kbd "c") 'svn-status-commit)
-  (define-key svn-global-keymap (kbd "b") 'svn-status-switch-to-status-buffer)
+  (define-key svn-global-keymap (kbd "S") 'svn-status-switch-to-status-buffer)
   (define-key svn-global-keymap (kbd "o") 'svn-status-pop-to-status-buffer))
 
 (defvar svn-status-diff-mode-map ()
@@ -975,7 +978,8 @@ can edit ARGLIST before running svn."
                 ;; never opens a pseudoterminal.
                 (apply 'call-process svn-exe nil proc-buf nil arglist))
               (setq svn-status-mode-line-process-status "")
-              (svn-status-update-mode-line)))))
+              (svn-status-update-mode-line)))
+          (setq svn-status-pre-run-svn-buffer (current-buffer))))
     (error "You can only run one svn process at once!")))
 
 (defun svn-process-sentinel-fixup-path-seperators ()
@@ -1008,6 +1012,11 @@ can edit ARGLIST before running svn."
                     (insert svn-status-update-previous-process-output)
                     (goto-char (point-min))
                     (setq svn-status-update-previous-process-output nil))
+                  (when svn-status-update-list
+                    ;; (message "Using svn-status-update-list: %S" svn-status-update-list)
+                    (save-excursion
+                      (svn-status-update-with-command-list svn-status-update-list))
+                    (setq svn-status-update-list nil))
                   (when svn-status-display-new-status-buffer
                     (set-window-configuration svn-status-initial-window-configuration)
                     (if (svn-had-user-input-since-asynch-run)
@@ -1027,6 +1036,10 @@ can edit ARGLIST before running svn."
                   (svn-status-parse-info-result))
                  ((eq svn-process-cmd 'blame)
                   (svn-status-show-process-output 'blame t)
+                  (when svn-status-pre-run-svn-buffer
+                    (with-current-buffer svn-status-pre-run-svn-buffer
+                      (unless (eq major-mode 'svn-status-mode)
+                        (goto-line (line-number-at-pos) (get-buffer svn-status-last-output-buffer-name)))))
                   (message "svn blame finished"))
                  ((eq svn-process-cmd 'commit)
                   (svn-process-sentinel-fixup-path-seperators)
@@ -1040,6 +1053,7 @@ can edit ARGLIST before running svn."
                   (message "svn commit finished"))
                  ((eq svn-process-cmd 'update)
                   (svn-status-show-process-output 'update t)
+                  (setq svn-status-update-list (svn-status-parse-update-output))
                   (svn-status-update)
                   (message "svn update finished"))
                  ((eq svn-process-cmd 'add)
@@ -1877,6 +1891,8 @@ When called with the prefix argument 0, use the full path name."
            (setq tag-string " <deleted>"))
           ((equal action 'replaced)
            (setq tag-string " <replaced>"))
+          ((equal action 'updated)
+           (setq tag-string " <updated>"))
           ((equal action 'propset)
            ;;(setq tag-string " <propset>")
            (svn-status-line-info->set-propmark line-info svn-status-file-modified-after-save-flag))
@@ -1978,6 +1994,43 @@ Return a list that is suitable for `svn-status-update-with-command-list'"
       result)))
 ;; (svn-status-parse-ar-output)
 ;; (svn-status-update-with-command-list (svn-status-parse-ar-output))
+
+(defun svn-status-parse-update-output ()
+  "Parse the output of svn update.
+Return a list that is suitable for `svn-status-update-with-command-list'"
+  (save-excursion
+    (set-buffer "*svn-process*")
+    (let ((action)
+          (name)
+          (skip)
+          (result))
+      (goto-char (point-min))
+      (while (< (point) (point-max))
+        (cond ((= (svn-point-at-eol) (svn-point-at-bol)) ;skip blank lines
+               (setq skip t))
+              ((looking-at "Updated to")
+               (setq skip t))
+              ((looking-at "At revision")
+               (setq skip t))
+              ((looking-at "U")
+               (setq action 'updated))
+              ((looking-at "A")
+               (setq action 'added))
+              ((looking-at "D")
+               (setq skip t))
+               ;;(setq action 'deleted)) ;;deleted files are not displayed in the svn status output.
+              (t ;; this should never be needed(?)
+               (setq action 'unknown)))
+        (unless skip ;found an interesting line
+          (forward-char 3)
+          (setq name (buffer-substring-no-properties (point) (svn-point-at-eol)))
+          (setq result (cons (list name action)
+                             result))
+          (setq skip nil))
+        (forward-line 1))
+      result)))
+;; (svn-status-parse-update-output)
+;; (svn-status-update-with-command-list (svn-status-parse-update-output))
 
 (defun svn-status-parse-property-output ()
   "Parse the output of svn propset.
@@ -2220,6 +2273,12 @@ non-interactive use."
     ""))
 
 (defun svn-status-toggle-edit-cmd-flag (&optional reset)
+  "Allow the user to edit the parameters for the next svn command.
+This command toggles between
+* editing the next command parameters (EditCmd)
+* editing all all command parameters (EditCmd#)
+* don't edit the command parameters ()
+The string in parentheses is shown in the status line to show the state."
   (interactive)
   (cond ((or reset (eq svn-status-edit-svn-command 'sticky))
          (setq svn-status-edit-svn-command nil))
@@ -2310,6 +2369,17 @@ See `svn-status-marked-files' for what counts as selected."
 
 (defun svn-status-get-file-list-names (use-marked-files)
   (mapcar 'svn-status-line-info->filename (svn-status-get-file-list use-marked-files)))
+
+(defun svn-status-get-file-information ()
+  "Find out about the file under point.
+The result may be parsed with the various `svn-status-line-info->...' functions.
+When called from a *svn-status* buffer, do the same as `svn-status-get-file-information'.
+When called from a file buffer provide a structure that contains the filename."
+  (cond ((eq major-mode 'svn-status-mode)
+         (svn-status-get-file-information))
+        (t
+         ;; a fake strukture that contains the buffername for the current buffer
+         (list '(nil nil) 32 nil (buffer-file-name (current-buffer)) 0 0 "" nil nil nil nil))))
 
 (defun svn-status-select-line ()
     "Return information about the file under point.
@@ -2408,10 +2478,12 @@ Then move to that line."
                                        (file-name-as-directory file-name))))
          (newcursorpos-fname)
          (i-fname)
+         (first-line t)
          (current-line svn-start-of-file-list-line-number))
     (while st-info
-      (when (svn-status-line-info->is-visiblep (car st-info))
-        (setq current-line (1+ current-line)))
+      (when (or (svn-status-line-info->is-visiblep (car st-info)) first-line)
+        (setq current-line (1+ current-line))
+        (setq first-line nil))
       (setq i-fname (svn-status-line-info->filename (car st-info)))
       (when (or (string= file-name i-fname)
                 (string-match sub-file-regexp i-fname))
@@ -2678,12 +2750,13 @@ See `svn-status-marked-files' for what counts as selected."
 
 (defun svn-status-blame (revision)
   "Run `svn blame' on the current file.
-When called with a prefix argument, ask the user for the REVISION to use."
+When called with a prefix argument, ask the user for the REVISION to use.
+When called from a file buffer, go to the current line in the resulting blame output."
   (interactive "P")
   (when current-prefix-arg
     (setq revision (svn-status-read-revision-string "Blame for version: " "BASE")))
   (unless revision (setq revision "BASE"))
-  (svn-run t t 'blame "blame" "-r" revision (svn-status-line-info->filename (svn-status-get-line-information))))
+  (svn-run t t 'blame "blame" "-r" revision (svn-status-line-info->filename (svn-status-get-file-information))))
 
 (defun svn-status-show-svn-diff (arg)
   "Run `svn diff' on the current file.
@@ -2934,12 +3007,14 @@ When called with a prefix argument add the command line switch --force."
           (svn-run t t 'rm "rm" "--force" "--targets" svn-status-temp-arg-file)
         (svn-run t t 'rm "rm" "--targets" svn-status-temp-arg-file)))))
 
-(defun svn-status-update-cmd ()
-  "Run svn update."
-  (interactive)
-  (message "Running svn-update for %s" default-directory)
-  ;TODO: use file names also
-  (svn-run t t 'update "update"))
+(defun svn-status-update-cmd (arg)
+  "Run svn update.
+When called with a prefix argument, ask the user for the revision to update to."
+  (interactive "P")
+  (let ((rev (when arg (svn-status-read-revision-string (format "Directory: %s: Run svn update -r " default-directory)))))
+    (message "Running svn-update for %s" default-directory)
+    ;;TODO: use file names also??
+    (svn-run t t 'update "update" (when rev (list "-r" rev)))))
 
 (defun svn-status-commit ()
   "Commit selected files.
