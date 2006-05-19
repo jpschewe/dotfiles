@@ -567,7 +567,10 @@
 
   ;;initialize to empty
   (setq dired-auto-shell-command-alist nil)
-	    
+
+  (when (or (eq system-type 'linux) (eq system-type 'cygwin32) (eq system-type windows-nt))
+    (setq dired-listing-switches "-alh"))
+  
   ;;palm pilot stuff
   (when (eq system-type 'linux)
     (add-to-list 'dired-auto-shell-command-alist '("\\.pdb$" "pilot-xfer -i"))
@@ -581,12 +584,10 @@
     ;;gimp
     (when (eq system-type 'linux)
       (map 'list '(lambda (ext)
-		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "gimp"))) extensions))
-    ;;display
-    (when (eq system-type 'linux)
-      (map 'list '(lambda (ext)
-		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "display"))) extensions))
-    )
+		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "gimp"))
+		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "display"))
+		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "gtumb")))
+	   extensions)))
   
   ;;bzip
   (add-to-list 'dired-auto-shell-command-alist '("\\.bz2$" "bunzip2"))
