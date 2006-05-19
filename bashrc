@@ -529,6 +529,11 @@ if [ -f "${HOME}/.ssh/sssha" ]; then
                                  ;;
   esac
 fi
+if [ -f /usr/lib/ssh/gnome-ssh-askpass ]; then
+  SSH_ASKPASS=/usr/lib/ssh/gnome-ssh-askpass
+elif [ -f /usr/lib/ssh/ssh-askpass ]; then
+  SSH_ASKPASS=/usr/lib/ssh/ssh-askpass
+fi
 
 #
 # Avoid loops and such
