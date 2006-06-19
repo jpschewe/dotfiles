@@ -514,7 +514,7 @@ if [ -d "$X11DIR" ]; then
 fi
 
 # SOSCOE
-if [ -f /etc/profile.d/soscoe.sh ]; then
+if [ -f /etc/profile.d/soscoe.sh -a -n "$PS1" ]; then
   unset SOSCOECHKFLG
   . /etc/profile.d/soscoe.sh
   #SOSCOE_SYSMGR_LAUNCHPOINT=/soscoe/coreservices/etc
