@@ -535,6 +535,17 @@ elif [ -f /usr/lib/ssh/ssh-askpass ]; then
   SSH_ASKPASS=/usr/lib/ssh/ssh-askpass
 fi
 
+# latex stuff
+if [ -x ~musliner/bin/go ]; then
+  alias go='~musliner/bin/go'
+fi
+#export TEXINPUTS=.:$HOME/tex:$HOME/tex/prologs:/net/users/musliner/src/latex2html/texinputs::
+#export BIBINPUTS=.:$HOME/tex:$HOME/src/bibdata:~musliner/goldman/refs::
+#export BSTINPUTS=.:$HOME/tex:$HOME/src/bibdata:~musliner/goldman/bin/bibtools::
+#export TEXCONFIG=.:$HOME/tex::
+#append PATH /net/packages/usr-local/tex/current/bin
+
+
 #
 # Avoid loops and such
 #
