@@ -272,20 +272,20 @@ case $OSTYPE in
      ;;
 esac
 # make sure XEmacs generates an error log
-xemacs () {
-  if [ ! -d ~/.xemacs ]; then
-    mkdir -p ~/.xemacs
-  fi
-  
-  if [ x"$DISPLAY" != x"" ]; then
-    if [ -e ~/.xemacs/${HOST}-errors ]; then
-      mv -f ~/.xemacs/${HOST}-errors ~/.xemacs/${HOST}-errors.old
-    fi
-    command xemacs $* > ~/.xemacs/${HOST}-errors 2>&1
-  else
-    command xemacs $*
-  fi
-}
+#xemacs () {
+#  if [ ! -d ~/.xemacs ]; then
+#    mkdir -p ~/.xemacs
+#  fi
+#  
+#  if [ x"$DISPLAY" != x"" ]; then
+#    if [ -e ~/.xemacs/${HOST}-errors ]; then
+#      mv -f ~/.xemacs/${HOST}-errors ~/.xemacs/${HOST}-errors.old
+#    fi
+#    command xemacs $* > ~/.xemacs/${HOST}-errors 2>&1
+#  else
+#    command xemacs $*
+#  fi
+#}
 
 # Matlab
 addpkg_matlab() {

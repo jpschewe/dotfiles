@@ -524,7 +524,7 @@ fi
 
 if [ -f "${HOME}/.ssh/sssha" ]; then
   case $HOST in
-    mn65-eggplant | workstation)
+    mn65-eggplant | workstation | jon)
                                  . "${HOME}/.ssh/sssha"
                                  ;;
   esac
