@@ -513,6 +513,36 @@ if [ -d "$X11DIR" ]; then
   fi
 fi
 
+if [ -f /usr/lib/ssh/gnome-ssh-askpass ]; then
+  SSH_ASKPASS=/usr/lib/ssh/gnome-ssh-askpass
+elif [ -f /usr/lib64/ssh/gnome-ssh-askpass ]; then
+  SSH_ASKPASS=/usr/lib64/ssh/gnome-ssh-askpass
+elif [ -f /usr/lib/ssh/ssh-askpass ]; then
+  SSH_ASKPASS=/usr/lib/ssh/ssh-askpass
+elif [ -f /usr/lib64/ssh/ssh-askpass ]; then
+  SSH_ASKPASS=/usr/lib64/ssh/ssh-askpass
+fi
+
+#if [ -f "${HOME}/.ssh/sssha" ]; then
+if [ -x /usr/bin/keychain ]; then
+  if [ $TERM = "emacs" ]; then
+    keychain="/usr/bin/keychain --nocolor"
+  else
+    keychain="/usr/bin/keychain"
+  fi
+  case $HOST in
+    mn65-eggplant | workstation | jon)
+                                  ${keychain} id_dsa #787F9455 #18DCD341
+                                  [[ -f $HOME/.keychain/$HOSTNAME-sh ]] && \
+                                    source $HOME/.keychain/$HOSTNAME-sh
+                                  [[ -f $HOME/.keychain/$HOSTNAME-sh-gpg ]] && \
+                                    source  $HOME/.keychain/$HOSTNAME-sh-gpg
+
+                                 #. "${HOME}/.ssh/sssha"
+                                 ;;
+  esac
+fi
+
 # SOSCOE
 if tty -s && [ -f /etc/profile.d/soscoe.sh ]; then
   unset SOSCOECHKFLG
@@ -520,19 +550,6 @@ if tty -s && [ -f /etc/profile.d/soscoe.sh ]; then
   #SOSCOE_SYSMGR_LAUNCHPOINT=/soscoe/coreservices/etc
   #export SOSCOE_SYSMGR_LAUNCHPOINT
   /soscoe/coreservices/tools/SoscoeUtil/soscoeAppDisplay.sh
-fi
-
-if [ -f "${HOME}/.ssh/sssha" ]; then
-  case $HOST in
-    mn65-eggplant | workstation | jon)
-                                 . "${HOME}/.ssh/sssha"
-                                 ;;
-  esac
-fi
-if [ -f /usr/lib/ssh/gnome-ssh-askpass ]; then
-  SSH_ASKPASS=/usr/lib/ssh/gnome-ssh-askpass
-elif [ -f /usr/lib/ssh/ssh-askpass ]; then
-  SSH_ASKPASS=/usr/lib/ssh/ssh-askpass
 fi
 
 # latex stuff

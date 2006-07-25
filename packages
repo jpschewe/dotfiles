@@ -327,6 +327,7 @@ case $OSTYPE in
                       /usr/java/jdk1.5.0_01 \
                       /usr/java/jdk1.5.0 \
                       /usr/java/j2sdk1.4.2_04 \
+                      /usr/lib64/jvm/java \
                       /usr/lib/jvm/java \
                       /usr/lib/java
                      do
