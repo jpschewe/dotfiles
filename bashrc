@@ -87,7 +87,9 @@ esac
 export LOCATION
 
 if [ $OSTYPE = "cygwin" ]; then
-  #set in NT directly export CYGWIN="tty nosmbntsec" #title doesn't seem to help either, binmode will break getenv in emacs, ntea will break permissions for ls
+  # set in NT directly export CYGWIN="tty nosmbntsec"
+  # title doesn't seem to help either, binmode will break getenv in emacs, ntea will break permissions for ls
+  # set to server to run postgres 
   #alias uptime='finger @localhost | grep UpTime'
   export SHELL="/bin/bash"
   export TMP="/tmp"
