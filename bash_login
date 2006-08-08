@@ -5,7 +5,7 @@
 #
 
 # Always load the interactive bash stuff first.
-source "${HOME}/.bashrc"
+test -z "$BRC" && source "${HOME}/.bashrc"
 
 # be informative
 echo -n "`hostname`($TERM):"; uptime
