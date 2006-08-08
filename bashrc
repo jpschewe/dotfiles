@@ -8,6 +8,8 @@
 #  return 0
 #fi
 
+echo "Top of bashrc"
+
 test -z "$UID"  &&  UID=`id -ur 2> /dev/null`
 test -z "$EUID" && EUID=`id -u  2> /dev/null`
 test -z "$USER" && USER=`id -un 2> /dev/null`
