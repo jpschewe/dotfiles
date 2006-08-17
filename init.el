@@ -114,11 +114,13 @@
        ;; Prerequisit: Set the SHELL environment variable to bash before
        ;; starting emacs.  The variable shell-file-name is initialized to the
        ;; enviroment variable when emacs starts up.
-       (cond
-	((file-exists-p (expand-file-name "c:\\packages\\cygwin\\bin\\bash"))
-	 (setq shell-file-name "c:\\packages\\cygwin\\bin\\bash"))
-	((file-exists-p (expand-file-name "c:\\cygwin\\bin\\bash"))
-	 (setq shell-file-name "c:\\cygwin\\bin\\bash")))
+       (if (eq system-type 'windows-nt) ;; seems to mess up the cygwin version of xemacs
+	   (cond
+	    ((file-exists-p (expand-file-name "c:\\packages\\cygwin\\bin\\bash.exe"))
+	     (setq shell-file-name "c:\\packages\\cygwin\\bin\\bash.exe"))
+	    ((file-exists-p (expand-file-name "c:\\cygwin\\bin\\bash.exe"))
+	     (setq shell-file-name "c:\\cygwin\\bin\\bash.exe"))))
+       
        ;; Make "M-x shell-command" use the same shell as "M-x shell"
        (setq explicit-shell-file-name shell-file-name)
        
@@ -1030,13 +1032,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;  "Fix process type to be pipes for java"
 ;;  (let ((process-connection-type nil))
 ;;    (setq ad-return-value ad-do-it)))
-
-;; Tomcat
-(cond ((or (eq system-type 'windows-nt)
-	   (eq system-type 'cygwin32))
-       (setq catalina-home "c:/packages/tomcat"))
-      ((eq system-type 'linux)
-       (setq catalina-home "/opt/jakarta/tomcat")))
 
 (defun insert-class-name-jps ()
   (interactive)
