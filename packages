@@ -26,6 +26,9 @@ case $OSTYPE in
          append PATH /usr/games
          append PATH /usr/bin/X11
          ;;
+  cygwin)
+          append PATH /usr/local/bin
+          ;;
 esac
 
 ### Standard OS Networking
@@ -262,7 +265,7 @@ case $OSTYPE in
   cygwin)
     case $HOST in
       eggplant-laptop)
-          prepend PATH "/cygdrive/c/packages/XEmacs/XEmacs-21.4.13/i586-pc-win32"
+	  prepend PATH "/cygdrive/c/packages/xemacs/XEmacs-21.4.19/i586-pc-win32"
           ;;
     esac
       ;;
