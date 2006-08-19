@@ -107,6 +107,13 @@
        (setq directory-sep-char ?/)
 
        (setq openoffice-executable "c:/packages/OpenOffice/program/soffice.exe")
+
+       (eval-after-load "compile"
+	 '(progn
+	    ;; make xemacs handle the spaces in filenames
+	    (add-to-list 'compilation-error-regexp-alist '("\\(\\([a-zA-Z]:\\)?[^:(\t\n]+\\):[ \t]*\\([0-9]+\\)[: \t]" 1 3))
+	    ))
+
        
        ;;----------------------------------------------------------------------------
        ;; Cygnus bash as subshell
