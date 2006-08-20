@@ -22,7 +22,7 @@
 	 (setq system-location 'home))
 	))
 
-;;(setq stack-trace-on-error nil)
+;;(setq stack-trace-on-error t)
 
 
 ;;Make sure XEmacs doesn't close unless I really want it to
@@ -329,7 +329,7 @@
  lpr-command "enscript"
  lpr-switches (list "-r" "-G" "-b\"- jschewe -\"")
  lpr-add-switches t			; add -J title
- lpr-page-header-program nil
+ lpr-page-header-program "pr"
 
  ;; lpr for ps
  ps-print-header-frame nil		; save some toner
@@ -354,7 +354,7 @@
 ;;;;;;;;;;;;
 (message "grep")
 ;;change the default to be my perl script
-(setq grep-command "grep -n -R --exclude='*.svn*' --exclude='*CVS*' ")
+(setq grep-command "grep -n -R --exclude='*CVS*' --exclude='*.svn*' ")
 
 
 ;;;;;;;;;;;
@@ -595,7 +595,7 @@
       (map 'list '(lambda (ext)
 		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "gimp"))
 		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "display"))
-		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "gtumb")))
+		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "gthumb")))
 	   extensions)))
   
   ;;bzip
