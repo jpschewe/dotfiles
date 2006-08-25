@@ -513,11 +513,11 @@
 ;;
 ;;;;;;;;;;;;
 (message "LaTex")
-(defun latex-mode-hook-jps ()
+(defun tex-mode-hook-jps ()
   (auto-fill-mode 1)
   )
-(add-hook 'latex-mode-hook 'latex-mode-hook-jps)
- 
+(add-hook 'tex-mode-hook 'tex-mode-hook-jps)
+
 ;;;;;;;;;;;
 ;;
 ;; HTML
@@ -778,11 +778,13 @@
   ;;(c-toggle-hungry-state t)
   ;;(turn-on-auto-fill)
 
-  ;; keybindings for both C and C++.  We can put these in c-mode-map
-  ;; because c++-mode-map inherits it
   (define-key c-mode-map "\C-m" 'newline-and-indent)
   (define-key c-mode-map "\C-cc" 'compile)
   (define-key c-mode-map "\C-cr" 'replace-string)
+
+  (define-key c++-mode-map "\C-m" 'newline-and-indent)
+  (define-key c++-mode-map "\C-cc" 'compile)
+  (define-key c++-mode-map "\C-cr" 'replace-string)
 
   ;; setup some compile stuff
   (add-hook 'c-mode-hook
