@@ -354,7 +354,8 @@
 ;;;;;;;;;;;;
 (message "grep")
 ;;change the default to be my perl script
-(setq grep-command "grep -n -R --exclude='*CVS*' --exclude='*.svn*' ")
+;;(setq grep-command "grep -n -R --exclude='*CVS*' --exclude='*.svn*' ")
+(setq grep-find-command "find . \\( -name .svn -prune \\) -o \\( -name CVS -prune \\) -o -type f -print0 | xargs -0 grep -n ")
 
 
 ;;;;;;;;;;;
