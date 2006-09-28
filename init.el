@@ -92,9 +92,6 @@
 ;; move the mouse if it gets in the way
 ;;(mouse-avoidance-mode 'exile)
 
-;;make sure cache directory exists
-(make-directory-path "~/.xemacs/cache")
-
 ;;;;;;;;;;;
 ;;
 ;; System specific
@@ -285,11 +282,17 @@
       font-lock-auto-fontify t
       font-lock-verbose nil;; no messages while fontifying
       lazy-lock-stealth-verbose nil;; no messages while fontifying
-      fast-lock-cache-directories '("~/.xemacs/cache")
       lazy-lock-stealth-time nil
       query-replace-highlight t
       font-menu-ignore-scaled-fonts nil
       )
+
+;;make sure cache directory exists
+(let ((cache-dir (concat "/tmp/" user-login-name "/xemacs-cache")))
+  (make-directory-path cache-dir)
+  (setq fast-lock-cache-directories (list cache-dir)))
+
+
 (require 'font-lock)
 (setq font-lock-support-mode 'fast-lock-mode)
 (add-hook 'font-lock-mode-hook 'turn-on-fast-lock)
