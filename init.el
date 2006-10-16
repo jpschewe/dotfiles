@@ -675,8 +675,10 @@
 
   
   (setq dired-compression-method 'gzip)
-  (set-default 'dired-omit-files t)
-
+  (set 'dired-omit-files t)
+  ;; allow one to see log files in omit mode
+  (setq dired-omit-extensions (delete ".o" dired-omit-extensions))
+   
   ;; don't refresh dired buffers all of the time
   (setq dired-refresh-automatically nil)
   )
@@ -957,7 +959,7 @@
 
 (custom-set-variables
 
- '(semanticdb-default-save-directory "~/.xemacs/cache")
+ '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
  
  ;;'(jde-ant-home (getenv "ANT_HOME"))
  
