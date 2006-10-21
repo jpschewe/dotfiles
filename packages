@@ -305,6 +305,7 @@ case $OSTYPE in
   cygwin)
           if [ -z "${JAVA_HOME}" ]; then
             for java_dir in \
+             "c:/packages/jdk1.5.0_09" \
              "c:/packages/jdk1.5.0_01" \
              "c:/packages/jdk-1.5.0_06" \
              "c:/packages/jdk-1.4.1_01" \
