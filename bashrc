@@ -532,7 +532,11 @@ if [ -x /usr/bin/keychain ]; then
   if [ $TERM = "emacs" ]; then
     keychain="/usr/bin/keychain --nocolor"
   else
-    keychain="/usr/bin/keychain"
+    if tty -s; then
+      keychain="/usr/bin/keychain -q"
+    else
+      keychain="/usr/bin/keychain"
+    fi
   fi
   case $HOST in
     mn65-eggplant | workstation | jon)
