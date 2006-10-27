@@ -675,14 +675,18 @@
 
   
   (setq dired-compression-method 'gzip)
-  (set 'dired-omit-files t)
   ;; allow one to see log files in omit mode
   (setq dired-omit-extensions (delete ".log" dired-omit-extensions))
-   
+  
   ;; don't refresh dired buffers all of the time
   (setq dired-refresh-automatically nil)
   )
 (add-hook 'dired-load-hook 'dired-load-hook-jps)
+
+(defun dired-mode-hook-jps ()
+  (set 'dired-omit-files t)
+)
+(add-hook 'dired-mode-hook 'dired-mode-hook-jps)
 
 ;;(require 'dired)
 ;;(load-library "dired-shell")
