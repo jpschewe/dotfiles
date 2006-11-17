@@ -806,7 +806,7 @@
 			      
 			      (make-local-variable 'compile-command)  
 			      (setq compile-command
-				    (concat "gmake -j2 "
+				    (concat "make "
 					    buffer-file-name))))))
 
   (c-set-offset 'class-close -2)
