@@ -72,7 +72,7 @@
 # log-encoding = latin1
 ### Set use-commit-times to make checkout/update/switch/revert
 ### put last-committed timestamps on every file touched.
-use-commit-times = yes
+#use-commit-times = yes
 ### Set no-unlock to prevent 'svn commit' from automatically
 ### releasing locks on files.
 # no-unlock = yes

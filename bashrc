@@ -379,8 +379,21 @@ case $LOCATION in
         echo "quit" | nc $host 25
       done
     }
-    
+
     ;;
+esac
+
+case $LOCATION in
+  htc)
+    REPLYTO=jon.schewe@honeywell.com
+	 export REPLYTO
+    MAIL=${HOME}/.Mail-imap/INBOX   
+	 export MAIL
+  ;;
+  home)
+      REPLYTO=jpschewe@mtu.net
+	   export REPLYTO
+  ;;
 esac
 
 # ------------------
