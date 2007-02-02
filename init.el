@@ -294,6 +294,7 @@
 
 
 (require 'font-lock)
+(require 'font-lock-fix)
 (setq font-lock-support-mode 'fast-lock-mode)
 (add-hook 'font-lock-mode-hook 'turn-on-fast-lock)
 ;;(add-hook 'font-lock-mode-hook 'turn-on-lazy-lock)
@@ -650,7 +651,7 @@
     (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "kghostview"))
     (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "gpdf"))
     (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "xpdf"))
-    (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "gv")))
+    )
 
   ;;Postscript
   (when (eq system-type 'linux)
@@ -920,11 +921,11 @@
 (message "Java")
 
 ;; Load JDE
-(add-to-list 'load-path (expand-file-name "~/.xemacs/jde-2.3.5/lisp"))
-(load-file "~/.xemacs/jde-2.3.5/lisp/jde-autoload.el")
+;;(add-to-list 'load-path (expand-file-name "~/.xemacs/jde-2.3.5/lisp"))
+;;(load-file "~/.xemacs/jde-2.3.5/lisp/jde-autoload.el")
 
 ;; Load CEDET
-(load-file "~/.xemacs/cedet/common/cedet.el")
+;;(load-file "~/.xemacs/cedet/common/cedet.el")
 ;;(load-file "~/.xemacs/cedet-1.0pre3/common/cedet.el")
 ;; Enabling SEMANTIC minor modes.  See semantic/INSTALL for more ideas.
 ;;(semantic-load-enable-minimum-features)
