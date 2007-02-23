@@ -301,9 +301,9 @@ whence() {
 }
 
 # Modified from SuSE
-startx ()  {
-  /usr/X11R6/bin/startx ${1+"$@"} 2>&1 | tee "${HOME}/.X-${HOST}.err"
-}
+#startx ()  {
+#  /usr/X11R6/bin/startx ${1+"$@"} 2>&1 | tee "${HOME}/.X-${HOST}.err"
+#}
 
 
 # directory management
