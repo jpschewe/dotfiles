@@ -539,6 +539,7 @@ elif [ -f /usr/lib/ssh/ssh-askpass ]; then
 elif [ -f /usr/lib64/ssh/ssh-askpass ]; then
   SSH_ASKPASS=/usr/lib64/ssh/ssh-askpass
 fi
+export SSH_ASKPASS
 
 #if [ -f "${HOME}/.ssh/sssha" ]; then
 if [ -x /usr/bin/keychain ]; then
