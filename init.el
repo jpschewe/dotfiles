@@ -169,7 +169,7 @@
 (global-set-key (concat prefix-key-jps "d") 'delete-region)
 (global-set-key (concat prefix-key-jps "s") 'switch-to-shell-jps)
 (global-set-key (concat prefix-key-jps "m") 'shell)
-(global-set-key (concat prefix-key-jps "g") 'gnus)
+;;(global-set-key (concat prefix-key-jps "g") 'gnus)
 (global-set-key (concat prefix-key-jps "n") 'rename-buffer)
 (global-set-key (concat prefix-key-jps "r") 'revert-buffer-jps)
 (global-set-key (concat prefix-key-jps "b") 'bury-buffer)
@@ -769,6 +769,9 @@
 (message "c-mode")
 (defun c-mode-common-hook-jps ()
   (setq indent-tabs-mode nil);; no tabs in source code
+
+  (camelCase-mode 1)
+  
   ;; customize cc-mode
   ;;(c-set-offset 'substatement-open 
   ;;		  )
