@@ -4,6 +4,8 @@
 # OVERVIEW	This startup is executed every time a bash is executed.
 #
 
+# testing svn:externals
+
 #if [ -n "$BASHRCREAD" ]; then
 #  return 0
 #fi
