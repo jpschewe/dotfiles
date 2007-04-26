@@ -294,7 +294,7 @@
 
 
 (require 'font-lock)
-(require 'font-lock-fix)
+;;(require 'font-lock-fix)
 (setq font-lock-support-mode 'fast-lock-mode)
 (add-hook 'font-lock-mode-hook 'turn-on-fast-lock)
 ;;(add-hook 'font-lock-mode-hook 'turn-on-lazy-lock)
@@ -793,6 +793,8 @@
   ;;(c-toggle-hungry-state t)
   ;;(turn-on-auto-fill)
 
+  (camelCase-mode 1)
+  
   (define-key c-mode-map "\C-m" 'newline-and-indent)
   (define-key c-mode-map "\C-cc" 'compile)
   (define-key c-mode-map "\C-cr" 'replace-string)
@@ -800,7 +802,10 @@
   (define-key c++-mode-map "\C-m" 'newline-and-indent)
   (define-key c++-mode-map "\C-cc" 'compile)
   (define-key c++-mode-map "\C-cr" 'replace-string)
-
+  
+  ;; make parens show the text before the paren in the minibuffer
+  (setq paren-backwards-message t)
+  
   ;; setup some compile stuff
   (add-hook 'c-mode-hook
 	    '(lambda () (or (file-exists-p "makefile") (file-exists-p "Makefile")
@@ -1765,8 +1770,12 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;; Tramp
 ;;
 ;;;;;;;;;;;;
-;;(message "Tramp")
+(message "Tramp")
 ;;(setq tramp-default-method "scp")
+
+;; TRAMP gets confused by my prompt some times, so make sure it's
+;; simple for THIS Emacs process, and therefore subprocesses.
+(setenv "PS1" "tramp@\h> ")
 
 ;;;;;;;;;;;
 ;;
