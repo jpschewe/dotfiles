@@ -127,13 +127,16 @@ unset MAIL
 
 export EDITOR='vim'
 
+# turn on core files
+ulimit -c unlimited
+
 #-------------------------------
 # GENERAL ENVIRONMENT VARIALBLES
 #-------------------------------
 #export GNU_HOST='grinch.htc.honeywell.com'
 #export GNU_SECURE="${HOME}/.gnu_hosts"
 
-export PILOTPORT=/dev/pilot
+export PILOTPORT=:usb
 export PILOTRATE=115200
 
 
