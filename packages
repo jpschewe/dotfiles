@@ -294,7 +294,7 @@ esac
 addpkg_matlab() {
   case $LOCATION in
     htc)
-         append PATH "/net/packages/matlab/6.5/bin"
+         append PATH "/net/packages/matlab/7.1/bin"
          ;;
   esac
 }
