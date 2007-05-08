@@ -6,6 +6,7 @@ mypath=$PWD
 
 /bin/ln -sf "${mypath}/addpath" "${HOME}/.addpath"
 /bin/ln -sf "${mypath}/bash_login" "${HOME}/.bash_login"
+/bin/ln -sf "${mypath}/bash_logout" "${HOME}/.bash_logout"
 /bin/ln -sf "${mypath}/bashrc" "${HOME}/.bashrc"
 /bin/ln -sf "${mypath}/packages" "${HOME}/.packages"
 /bin/ln -sf "${mypath}/profile" "${HOME}/.profile"
