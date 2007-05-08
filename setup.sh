@@ -24,4 +24,7 @@ fi
 
 # subversion
 /bin/mkdir -p "${HOME}/.subversion"
+if [ -f "${HOME}/.subversion/config" ]; then
+  /bin/mv "${HOME}/.subversion/config" "${HOME}/.subversion/config.old"
+fi
 /bin/ln -fs "${mypath}/subversion-config" "${HOME}/.subversion/config"
