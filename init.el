@@ -2007,21 +2007,22 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;; zenirc
 ;;
 ;;;;;;;;;;;
-(when (eq system-location 'htc)
-  (setq zenirc-server-alist
-	'(
-	  ("oldbob.htc.honeywell.com" 6060 "circa" "Eggplant" nil)
-	  ;;("mn65-cygnus.htc.honeywell.com" 6060 "circa" "Eggplant" nil)
-	  )))
+;;(when (eq system-location 'htc)
+;;  (setq zenirc-server-alist
+;;	'(
+;;	  ("oldbob.htc.honeywell.com" 6060 "circa" "Eggplant" nil)
+;;	  ;;("mn65-cygnus.htc.honeywell.com" 6060 "circa" "Eggplant" nil)
+;;	  )))
 
 ;;;;;;;;;;;
 ;;
 ;; Spell
 ;;
 ;;;;;;;;;;;;
-(when (or (eq system-type 'windows-nt)
-	  (eq system-type 'cygwin32))
-  (setq ispell-program-name "aspell"))
+;;(when (or (eq system-type 'windows-nt)
+;;	  (eq system-type 'cygwin32))
+  (setq ispell-program-name "aspell")
+;;)
 
 ;;; -------------------- 
 ;;; -- PCL-CVS
