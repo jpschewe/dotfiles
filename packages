@@ -486,6 +486,9 @@ case $LOCATION in
     export ILOG_HOME;
     export ILOG_LICENSE_FILE=${ILOG_HOME}/ilm/access-barrier.ilm
     ;;
+  home)
+        export ILOG_LICENSE_FILE=/home/jpschewe/work/access-barrier.ilm
+        ;;
 esac
 
 ### mysql

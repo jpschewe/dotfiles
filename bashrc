@@ -140,8 +140,8 @@ export PILOTPORT=:usb
 export PILOTRATE=115200
 
 
-if [ -x "`type -ap less`" ]; then
-  PAGER="less -is"
+if [ -x "`type -P less`" ]; then
+  PAGER="less"
 else
   PAGER="more"
 fi
@@ -407,13 +407,6 @@ if [ $TERM = "linux" ]; then
 fi
 if [ $TERM = xterm ]; then
   PS1="\u@\h:\w\n\[\033]0;\u@\h\007\]>";
-elif [ $TERM = "emacs" ]; then
-  export PAGER=cat
-  alias ls='ls -F'
-  alias more='cat'
-  alias less='cat'
-  PS1="\u@\h:\w\n>";
-  export EDITOR=gnuclient
 elif [ $TERM = "sun-nic" ]; then
   alias ls='ls -F'
   PS1="\u@\h:\w\n>";
@@ -424,6 +417,15 @@ else
   PS1="\u@\h:\w\n>";
 fi
 export PS1
+
+if [ $EMACS = "t" ]; then
+  export PAGER=cat
+  alias ls='ls -F'
+  alias more='cat'
+  alias less='cat'
+  PS1="\u@\h:\w\n>";
+  export EDITOR=gnuclient
+fi
 
 # perl - this may be wrong - need to play with it for a while.
 if [ $OSTYPE = "cygwin" ]; then
