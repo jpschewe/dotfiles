@@ -418,7 +418,7 @@ else
 fi
 export PS1
 
-if [ $EMACS = "t" ]; then
+if [ $EMACS ]; then
   export PAGER=cat
   alias ls='ls -F'
   alias more='cat'
@@ -548,7 +548,7 @@ export SSH_ASKPASS
 
 #if [ -f "${HOME}/.ssh/sssha" ]; then
 if [ -x /usr/bin/keychain ]; then
-  if [ $TERM = "emacs" ]; then
+  if [ $EMACS ]; then
     keychain="/usr/bin/keychain --nocolor"
   else
     if tty -s; then
