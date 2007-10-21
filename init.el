@@ -380,6 +380,8 @@
 (defun comint-common-hook-jps ()
   (local-set-key [up] 'comint-previous-matching-input-from-input)
   (local-set-key [down] 'comint-next-matching-input-from-input)
+  (local-set-key "\M-p" 'comint-previous-matching-input-from-input)
+  (local-set-key "\M-n" 'comint-next-matching-input-from-input)
   (local-set-key "\C-cc" 'comint-continue-subjob)
   (turn-off-font-lock)
   (local-set-key [tab] 'comint-dynamic-complete)
