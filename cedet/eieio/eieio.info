@@ -1,4 +1,4 @@
-This is eieio.info, produced by makeinfo version 4.7 from eieio.texi.
+This is eieio.info, produced by makeinfo version 4.8 from eieio.texi.
 
 START-INFO-DIR-ENTRY
 * eieio: (eieio).       Objects for Emacs
@@ -1452,8 +1452,8 @@ Function Index
 * make-map:                              eieio-speedbar.      (line  72)
 * no-applicable-method:                  Default Superclass.  (line  55)
 * no-method-definition:                  Signals.             (line  13)
-* no-next-method <1>:                    Default Superclass.  (line  61)
-* no-next-method:                        Signals.             (line  22)
+* no-next-method <1>:                    Signals.             (line  22)
+* no-next-method:                        Default Superclass.  (line  61)
 * object-add-to-list:                    Accessing Slots.     (line  59)
 * object-assoc:                          Association Lists.   (line  11)
 * object-assoc-list:                     Association Lists.   (line  14)

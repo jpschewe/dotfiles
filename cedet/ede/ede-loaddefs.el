@@ -1,17 +1,11 @@
 ;;; DO NOT MODIFY THIS FILE
-
+(if (featurep 'ede-autoloads) (error "Feature ede-autoloads already loaded"))
 ;;; ede-loaddefs.el --- Auto-generated CEDET autoloads
 
 ;;;### (autoloads (ede-pmake-varname) "ede-pmake" "ede/ede-pmake.el")
 
 (autoload 'ede-pmake-varname "ede-pmake" "\
 Convert OBJ into a variable name name, which converts .  to _." nil nil)
-
-;;;***
-
-;;;### (autoloads nil "ede-proj" "ede/ede-proj.el")
-
-(add-to-list 'auto-mode-alist '("Project\\.ede" . emacs-lisp-mode))
 
 ;;;***
 
@@ -77,4 +71,6 @@ could become slow in time." nil nil)
 
 ;;;***
 
+(add-to-list 'auto-mode-alist '("Project\\.ede" . emacs-lisp-mode))
 
+(provide 'ede-autoloads)

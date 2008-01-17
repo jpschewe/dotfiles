@@ -1,5 +1,5 @@
 ;;; DO NOT MODIFY THIS FILE
-
+(if (featurep 'speedbar-autoloads) (error "Feature speedbar-autoloads already loaded"))
 ;;; speedbar-loaddefs.el --- Auto-generated CEDET autoloads
 
 ;;;### (autoloads (rpm) "rpm" "speedbar/rpm.el")
@@ -66,4 +66,4 @@ selected.  If the speedbar frame is active, then select the attached frame." t n
 
 ;;;***
 
-
+(provide 'speedbar-autoloads)

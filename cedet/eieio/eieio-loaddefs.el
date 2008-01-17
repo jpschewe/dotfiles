@@ -1,5 +1,5 @@
 ;;; DO NOT MODIFY THIS FILE
-
+(if (featurep 'eieio-autoloads) (error "Feature eieio-autoloads already loaded"))
 ;;; eieio-loaddefs.el --- Auto-generated CEDET autoloads
 
 ;;;### (autoloads (call-tree) "call-tree" "eieio/call-tree.el")
@@ -69,4 +69,4 @@ Argument PPATH is the path to the directory we are going to analyze." t nil)
 
 ;;;***
 
-
+(provide 'eieio-autoloads)

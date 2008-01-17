@@ -294,7 +294,6 @@
 
 
 (require 'font-lock)
-;;(require 'font-lock-fix)
 (setq font-lock-support-mode 'fast-lock-mode)
 (add-hook 'font-lock-mode-hook 'turn-on-fast-lock)
 ;;(add-hook 'font-lock-mode-hook 'turn-on-lazy-lock)
@@ -936,7 +935,6 @@
 
 ;; Load CEDET
 ;;(load-file "~/.xemacs/cedet/common/cedet.el")
-;;(load-file "~/.xemacs/cedet-1.0pre3/common/cedet.el")
 ;; Enabling SEMANTIC minor modes.  See semantic/INSTALL for more ideas.
 ;;(semantic-load-enable-minimum-features)
 
@@ -1628,6 +1626,21 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
       (shell)
     (switch-to-buffer "*shell*"))
   )
+
+;;(defun create-new-shell-jps ()
+;;  "Create a new shell buffer if *shell* already exists, otherwise create the base shell buffer"
+;;  (interactive)
+;;  (if (null (get-buffer "*shell*"))
+;;      (shell)
+;;    (progn
+;;      (switch-to-buffer "*shell*")
+;;      (let ((temp-name (rename-buffer "*shell*-temp" t)))
+;;	(shell)
+;;	(rename-uniquely)
+;;	(switch-to-buffer temp-name)
+;;	(rename-buffer "*shell*")
+;;	)
+;;  )
 
 (defun revert-buffer-jps () 
   "Revert the current buffer with no questions asked"

@@ -1,5 +1,5 @@
 ;;; DO NOT MODIFY THIS FILE
-
+(if (featurep 'common-autoloads) (error "Feature common-autoloads already loaded"))
 ;;; cedet-loaddefs.el --- Auto-generated CEDET autoloads
 
 ;;;### (autoloads (cedet-update-autoloads) "cedet-autogen" "common/cedet-autogen.el")
@@ -30,12 +30,6 @@ If string STR1 is less, the value is a negative number N;
   - 1 - N is the number of characters that match at the beginning.
 If string STR1 is greater, the value is a positive number N;
   N - 1 is the number of characters that match at the beginning." nil nil)
-
-;;;***
-
-;;;### (autoloads nil "cedet-edebug" "common/cedet-edebug.el")
-
-(add-hook 'edebug-setup-hook (lambda nil (require 'cedet-edebug) (defalias 'edebug-prin1-to-string 'cedet-edebug-prin1-to-string)))
 
 ;;;***
 
@@ -77,4 +71,6 @@ See a pretty-printed representation of FUNCTION-NAME." t nil)
 
 ;;;***
 
+(add-hook 'edebug-setup-hook (lambda nil (require 'cedet-edebug) (defalias 'edebug-prin1-to-string 'cedet-edebug-prin1-to-string)))
 
+(provide 'common-autoloads)

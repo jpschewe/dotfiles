@@ -1,5 +1,5 @@
 ;;; DO NOT MODIFY THIS FILE
-
+(if (featurep 'semantic-autoloads) (error "Feature semantic-autoloads already loaded"))
 ;;; semantic-loaddefs.el --- Auto-generated CEDET autoloads
 
 ;;;### (autoloads (semantic-bovine-debug-parser semantic-bovine-debug-create-frame) "bovine-debug" "bovine/bovine-debug.el")
@@ -1801,4 +1801,4 @@ Toggle whether to issue more messages while parsing." t nil)
 
 ;;;***
 
-
+(provide 'semantic-autoloads)
