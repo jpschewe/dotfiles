@@ -2,4 +2,6 @@
 
 
 # reset xterminal titles
-echo "]0;xterm"
+if [ $TERM = xterm ]; then
+  echo "]0;xterm"
+fi

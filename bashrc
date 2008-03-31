@@ -171,8 +171,6 @@ alias clean='/bin/rm -f *~ *.~* .*~ *% core &>/dev/null'
 alias eclean='/bin/rm -f *~ *.~* .*~ *% \#* .?E?m?A?c?S?l?O?c?K?.* &>/dev/null'
 alias fmclean='/bin/rm -f *.{auto,backup,lck,recover} &>/dev/null'
 alias texclean='/bin/rm -f *.{aux,dvi,log} &>/dev/null'
-#alias en='enscript -2rG'
-#alias en1='enscript -1rG'
 alias h='history 15'
 alias less='less -is'
 #alias lsof=/net/packages/lsof/3.67/sparc-sun-solaris2.5/lsof
@@ -217,7 +215,10 @@ alias bc='bc -l'
 alias lsdir='ls -lA | grep "^d"'
 alias lsfile='ls -lA | egrep -v "^d|^l"'
 alias lslink='ls -lA | grep "^l"'
-alias enscript='enscript -2r -b"- jschewe -" -G'
+alias en='enscript -2r -b"- jschewe -" -G'
+#alias en='enscript -2rG'
+#alias en1='enscript -1rG'
+
 alias faketop='ps auwx | sort -n -k 3'
 
 #alias = 'echo $TOTAL;'
@@ -417,7 +418,7 @@ else
 fi
 export PS1
 
-if [ $EMACS ]; then
+if [ -n "$EMACS" -o "$TERM" = "emacs" ]; then
   export PAGER=cat
   alias ls='ls -F'
   alias more='cat'
@@ -493,7 +494,8 @@ case $LOCATION in
     unset http_proxy
     ;;
   htc)
-    export http_proxy="http://lug.htc.honeywell.com:3128"
+    export http_proxy="http://tmpproxy.honeywell.com:8080"
+	 #unset http_proxy
     ;;
   *)
     unset http_proxy

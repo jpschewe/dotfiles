@@ -484,10 +484,10 @@ case $LOCATION in
         ;;
     esac
     export ILOG_HOME;
-    export ILOG_LICENSE_FILE=${ILOG_HOME}/ilm/access-barrier.ilm
+    export ILOG_LICENSE_FILE=${ILOG_HOME}/ilm/access-lugdmv.ilm
     ;;
   home)
-        export ILOG_LICENSE_FILE=/home/jpschewe/work/access-barrier.ilm
+        export ILOG_LICENSE_FILE=/home/jpschewe/work/access-lugdmv.ilm
         ;;
 esac
 
@@ -574,6 +574,16 @@ case $OSTYPE in
              append PATH /net/packages/bzip2/1.0.3/install/sparc-sun-solaris2.6/bin
              ;;
 esac
+
+### oracle
+if [ -e /usr/local/bin/oraenv ]; then
+  export ORACLE_SID=gate
+  export ORAENV_ASK=NO
+  . /usr/local/bin/oraenv
+  append PATH ${ORACLE_HOME}/bin
+  alias start_oracle="lsnrctl start; emctl start dbconsole; isqlplusctl start"
+  alias stop_oracle="lsnrctl stop; emctl stop dbconsole; isqlplusctl stop"
+fi
 
 ### HOME
 prepend PATH "${HOME}/bin"
