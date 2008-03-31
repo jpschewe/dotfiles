@@ -396,6 +396,8 @@ case $OSTYPE in
            ANT_HOME=/net/packages/java/ant/1.7.0/apache-ant-1.7.0
          elif [ -e /net/packages/java/ant/1.6.5/apache-ant-1.6.5 ]; then
            ANT_HOME=/net/packages/java/ant/1.6.5/apache-ant-1.6.5
+         elif [ -e /usr/local/apache-ant-1.7.0 ]; then
+           ANT_HOME=/usr/local/apache-ant-1.7.0
          elif [ -e /usr/local/apache-ant-1.6.5 ]; then
            ANT_HOME=/usr/local/apache-ant-1.6.5
          elif [ -e /usr/local/apache-ant-1.6.2 ]; then
@@ -574,6 +576,11 @@ case $OSTYPE in
              append PATH /net/packages/bzip2/1.0.3/install/sparc-sun-solaris2.6/bin
              ;;
 esac
+
+### Oracle XE
+#ORACLE_HOME=/usr/lib/oracle/xe/app/oracle/product/10.2.0/server/
+#export ORACLE_HOME
+#append PATH ${ORACLE_HOME}/bin
 
 ### oracle
 if [ -e /usr/local/bin/oraenv ]; then
