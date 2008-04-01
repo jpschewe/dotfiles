@@ -185,8 +185,8 @@ alias which='type'
 alias where='type -all'
 alias find-unused-unix='for h in `ypmatch HTC-HOSTS netgroup`; do ping -c 1 $h > /dev/null 2>&1 || echo $h; done'
   
-alias rdesktop='\rdesktop -g 1024x768 -K'
-alias mn65-rsconsole='rdesktop -u getreal mn65-rsconsole'
+#alias rdesktop='\rdesktop -g 1024x768 -K'
+#alias mn65-rsconsole='rdesktop -u getreal mn65-rsconsole'
 
 #my aliases
 case $OSTYPE in
