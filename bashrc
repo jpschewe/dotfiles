@@ -13,7 +13,7 @@
 test -z "$UID"  &&  UID=`id -ur 2> /dev/null`
 test -z "$EUID" && EUID=`id -u  2> /dev/null`
 test -z "$USER" && USER=`id -un 2> /dev/null`
-test -z "$HOST" && HOST=`hostname -s 2> /dev/null`
+test -z "$HOST" && HOST=`hostname 2> /dev/null`
 test -z "$CPU"  &&  CPU=`uname -m 2> /dev/null`
 test -z "$HOSTNAME" && HOSTNAME=`hostname 2> /dev/null`
 test -z "$LOGNAME"  && LOGNAME=$USER
