@@ -66,7 +66,7 @@ case $OSTYPE in
             ;;
   linux*)
           OSTYPE=linux
-          case $HOSTNAME in
+          case `nslookup $HOSTNAME 2> /dev/null | /bin/grep $HOSTNAME | /bin/awk '{print $2}'` in
             *.htc.honeywell.com)
                                  LOCATION=htc
                                  ;;
