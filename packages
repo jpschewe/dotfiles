@@ -471,29 +471,17 @@ case $OSTYPE in
 esac
 
 ### ilog
-case $LOCATION in
-  htc)
-    case $OSTYPE in
-      cygwin)
-        ILOG_HOME=//mn65fsna1/net/packages/ilog
-        append PATH ${ILOG_HOME}/ilm/current/win32
-        ;;
-      solaris2*)
-        ILOG_HOME=/net/packages/ilog
-        append PATH ${ILOG_HOME}/ilm/current/unix
-        ;;
-      linux)
-        ILOG_HOME=/net/packages/ilog
-        alias cplex=${ILOG_HOME}/cplex/9.0.2/bin/x86_RHEL3.0_3.2/cplex
-        ;;
-    esac
-    export ILOG_HOME;
-    export ILOG_LICENSE_FILE=${ILOG_HOME}/ilm/access-lugdmv.ilm
-    ;;
-  home)
+setup_cplex() {
+  if [ -e /home/jpschewe/work/access-lugdmv.ilm ]; then
         export ILOG_LICENSE_FILE=/home/jpschewe/work/access-lugdmv.ilm
-        ;;
-esac
+  elif [ -e ${HOME}/projects/schedinfra/access-lugdmv.ilm ]; then
+    export ILOG_LICENSE_FILE=${HOME}/projects/schedinfra/access-lugdmv.ilm
+  elif [ -e //mn65fsna1/net/packages/ilog/ilm/access-lugdmv.ilm ]; then
+    export ILOG_LICENSE_FILE=//mn65fsna1/net/packages/ilog/ilm/access-lugdmv.ilm
+  elif [ -e /net/packages/ilog/ilm/access-lugdmv.ilm ]; then
+    export ILOG_LICENSE_FILE=/net/packages/ilog/ilm/access-lugdmv.ilm
+  fi
+}
 
 ### mysql
 case $OSTYPE in

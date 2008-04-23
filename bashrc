@@ -53,7 +53,7 @@ export HOST CPU HOSTNAME HOSTTYPE OSTYPE MACHTYPE OSDIST
 case $OSTYPE in
   solaris2* | cygwin)
             case `nslookup $HOSTNAME 2> /dev/null | /bin/grep $HOSTNAME | /bin/awk '{print $2}'` in
-              *.htc.honeywell.com)
+              *.honeywell.com)
                 LOCATION=htc
                 ;;
               *.mn.mtu.net)
@@ -442,14 +442,6 @@ if [ \! $OSTYPE = "linux" ]; then
   export DTAPPSEARCHPATH=${DTAPPSEARCHPATH}:/net/users/jschewe/lib/app-defaults
 fi
 
-### for scyllarus
-# socc
-# FIX make add as a  function
-CYBERPANEL="${HOME}/projects/argus/code/socc"
-export CYBERPANEL
-CYPSP="${HOME}/projects/argus/ScenarioPlayer"
-export CYPSP
-
 MANPATH1=`substpath PATH bin man`
 MANPATH2=`substpath PATH bin share/man`
 if [ -z "${MANPATH1}" ]; then
@@ -500,20 +492,6 @@ case $LOCATION in
   *)
     unset http_proxy
   ;;
-esac
-
-# CIRCA
-case $LOCATION in
-  htc|home)
-       export CIRCA_BASENAME='JON'
-       export CIRCA_BASEPORT='50000'
-       export CIRCA_MM_HOST='localhost'
-       export CIRCA_THIS_HOST=$HOST
-       export CIRCA_CODE="/net/projects/cortex/code/jschewe"
-       export CORTEX_ATTACKER="mn65-cygnus.htc.honeywell.com"
-       export CORTEX_DEFENDER="mn65-eggplant.htc.honeywell.com"
-       export CORTEX_TASTER="sulu.htc.honeywell.com"
-       ;;
 esac
 
 case $OSTYPE in
