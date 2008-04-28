@@ -471,17 +471,15 @@ case $OSTYPE in
 esac
 
 ### ilog
-setup_cplex() {
-  if [ -e /home/jpschewe/work/access-lugdmv.ilm ]; then
-        export ILOG_LICENSE_FILE=/home/jpschewe/work/access-lugdmv.ilm
-  elif [ -e ${HOME}/projects/schedinfra/access-lugdmv.ilm ]; then
-    export ILOG_LICENSE_FILE=${HOME}/projects/schedinfra/access-lugdmv.ilm
-  elif [ -e //mn65fsna1/net/packages/ilog/ilm/access-lugdmv.ilm ]; then
-    export ILOG_LICENSE_FILE=//mn65fsna1/net/packages/ilog/ilm/access-lugdmv.ilm
-  elif [ -e /net/packages/ilog/ilm/access-lugdmv.ilm ]; then
-    export ILOG_LICENSE_FILE=/net/packages/ilog/ilm/access-lugdmv.ilm
-  fi
-}
+if [ -e /home/jpschewe/work/access-lugdmv.ilm ]; then
+  export ILOG_LICENSE_FILE=/home/jpschewe/work/access-lugdmv.ilm
+elif [ -e ${HOME}/projects/schedinfra/access-lugdmv.ilm ]; then
+  export ILOG_LICENSE_FILE=${HOME}/projects/schedinfra/access-lugdmv.ilm
+elif [ -e //mn65fsna1/net/packages/ilog/ilm/access-lugdmv.ilm ]; then
+  export ILOG_LICENSE_FILE=//mn65fsna1/net/packages/ilog/ilm/access-lugdmv.ilm
+elif [ -e /net/packages/ilog/ilm/access-lugdmv.ilm ]; then
+  export ILOG_LICENSE_FILE=/net/packages/ilog/ilm/access-lugdmv.ilm
+fi
 
 ### mysql
 case $OSTYPE in
