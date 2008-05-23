@@ -24,11 +24,16 @@ case $OSTYPE in
          append PATH /opt/kde3/bin
          append PATH /opt/gnome/bin
          append PATH /usr/games
-         append PATH /usr/bin/X11
          ;;
   cygwin)
           append PATH /usr/local/bin
           ;;
+  darwin*)
+	   append PATH /opt/local/bin
+	   append PATH /usr/local/bin
+	   append PATH /sbin
+	   append PATH /usr/sbin
+	   ;;
 esac
 
 ### Standard OS Networking
@@ -64,6 +69,7 @@ case $OSTYPE in
                       X11HOME=/net/packages/X11/X11R6.1/install/sparc-sun-solaris2.5
                       ;;
   linux) X11HOME=/usr/X11R6;;
+  darwin*) X11HOME=/usr/X11;;
 esac
 
 if [ \! $OSTYPE = "cygwin" ]; then
