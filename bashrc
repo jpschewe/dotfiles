@@ -52,7 +52,7 @@ export HOST CPU HOSTNAME HOSTTYPE OSTYPE MACHTYPE OSDIST
 # define location
 case $OSTYPE in
   solaris2* | cygwin)
-            case `nslookup $HOSTNAME 2> /dev/null | /bin/grep $HOSTNAME | /bin/awk '{print $2}'` in
+            case `nslookup $HOSTNAME 2> /dev/null | grep $HOSTNAME | awk '{print $2}'` in
               *.honeywell.com)
                 LOCATION=htc
                 ;;
@@ -66,7 +66,7 @@ case $OSTYPE in
             ;;
   linux*)
           OSTYPE=linux
-          case `nslookup $HOSTNAME 2> /dev/null | /bin/grep $HOSTNAME | /bin/awk '{print $2}'` in
+          case `nslookup $HOSTNAME 2> /dev/null | grep $HOSTNAME | awk '{print $2}'` in
             *.htc.honeywell.com)
                                  LOCATION=htc
                                  ;;
