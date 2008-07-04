@@ -204,7 +204,7 @@ if [ $? == 0 ]; then
 else
   alias ll='ls -l'
 fi
-df -h > /dev/null 2>&1
+df -h / > /dev/null 2>&1
 if [ $? == 0 ]; then
   alias df='df -h'
 fi
