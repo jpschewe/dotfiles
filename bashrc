@@ -118,13 +118,6 @@ export BRC="$HOME/.bashrc"	# also used for test in .profile
 alias brc="unset SOSCOECHKFLG ; . '$BRC'"
 #alias brc='unset BASHRCREAD ; . "${HOME}/.bashrc"'
 
-# cvs aliases here
-#alias gnu-cvs='cvs -d /net/packages/gnu/CVS-Repository'
-#alias gnu-cvs-status='gnu-cvs status |& egrep -i status | egrep -v Up-to-date'
-#alias cvs-stat='cvs status | egrep ^File | grep -v Up-to-date'
-alias cvs-stat="cvs -n update 2>&1 | grep -v '^cvs update:'"
-alias cvsup='cvs update -d -R'
-
 # other stuff here
 alias restart-tomcat='(cd / && sudo /etc/init.d/tomcat restart)'
 #alias BG='(exec $* &) &'
@@ -135,7 +128,6 @@ alias fmclean='/bin/rm -f *.{auto,backup,lck,recover} &>/dev/null'
 alias texclean='/bin/rm -f *.{aux,dvi,log} &>/dev/null'
 alias h='history 15'
 alias less='less -is'
-#alias lsof=/net/packages/lsof/3.67/sparc-sun-solaris2.5/lsof
 #alias lf='ls -F'
 #alias la='ls -Fa'
 #alias ll='ls -Fl'
@@ -358,15 +350,6 @@ if [ $OSTYPE = "cygwin" ]; then
   export PERLIO="perlio"
 fi
 
-if [ \! $OSTYPE = "linux" ]; then
-  MOZILLA_HOME=/usr/local/netscape/current/java/classes
-  export MOZILLA_HOME
-  
-  # app-defaults stuff
-  export XFILESEARCHPATH="${XFILESEARCHPATH}:${HOME}/lib/%T/%N%S:/net/users/jschewe/lib/app-defaults"
-  export DTAPPSEARCHPATH=${DTAPPSEARCHPATH}:/net/users/jschewe/lib/app-defaults
-fi
-
 MANPATH1=`substpath PATH bin man`
 MANPATH2=`substpath PATH bin share/man`
 if [ -z "${MANPATH1}" ]; then
@@ -381,7 +364,7 @@ fi
 
 export MANPATH
 case $OSTYPE in
-  linux) 
+  linux | darwin*) 
      append MANPATH /usr/share/man
      ;;
   sunos4 | solaris2)
@@ -472,9 +455,6 @@ fi
 if [ -x ~musliner/bin/go ]; then
   alias go='~musliner/bin/go'
 fi
-#export TEXINPUTS=.:$HOME/tex:$HOME/tex/prologs:/net/users/musliner/src/latex2html/texinputs::
-#export BIBINPUTS=.:$HOME/tex:$HOME/src/bibdata:~musliner/goldman/refs::
-#export BSTINPUTS=.:$HOME/tex:$HOME/src/bibdata:~musliner/goldman/bin/bibtools::
 #export TEXCONFIG=.:$HOME/tex::
 #append PATH /net/packages/usr-local/tex/current/bin
 

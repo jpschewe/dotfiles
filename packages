@@ -163,12 +163,6 @@ case $OSTYPE in
             ;;
 esac 
 
-#------------------------------------------------------------------------------
-# TeX
-addpkg_tex() {
-  append PATH /net/packages/tex/teTex-0.4p13/install/sparc-sun-solaris2.5/bin
-}
-
 ### netcat
 case $OSTYPE in
   cygwin) append PATH /cygdrive/c/packages/netcat
@@ -382,14 +376,6 @@ case $OSTYPE in
          fi
          U_ANT_HOME=${ANT_HOME}
          ;;
-  *)
-     if [ -e /net/packages/java/ant/1.7.0/apache-ant-1.7.0 ]; then
-       ANT_HOME=/net/packages/java/ant/1.7.0/apache-ant-1.7.0
-     elif [ -e /net/packages/java/ant/1.6.5/apache-ant-1.6.5 ]; then
-       ANT_HOME=/net/packages/java/ant/1.6.5/apache-ant-1.6.5
-     fi
-     U_ANT_HOME=${ANT_HOME}
-     ;;
 esac
 if [ -n "${ANT_HOME}" ]; then
   export ANT_HOME
@@ -441,16 +427,16 @@ case $OSTYPE in
           ;;
 esac
 
-### ilog
-if [ -e /home/jpschewe/work/access-lugdmv.ilm ]; then
-  export ILOG_LICENSE_FILE=/home/jpschewe/work/access-lugdmv.ilm
-elif [ -e ${HOME}/projects/schedinfra/access-lugdmv.ilm ]; then
-  export ILOG_LICENSE_FILE=${HOME}/projects/schedinfra/access-lugdmv.ilm
-elif [ -e //mn65fsna1/net/packages/ilog/ilm/access-lugdmv.ilm ]; then
-  export ILOG_LICENSE_FILE=//mn65fsna1/net/packages/ilog/ilm/access-lugdmv.ilm
-elif [ -e /net/packages/ilog/ilm/access-lugdmv.ilm ]; then
-  export ILOG_LICENSE_FILE=/net/packages/ilog/ilm/access-lugdmv.ilm
-fi
+#### ilog
+#if [ -e /home/jpschewe/work/access-lugdmv.ilm ]; then
+#  export ILOG_LICENSE_FILE=/home/jpschewe/work/access-lugdmv.ilm
+#elif [ -e ${HOME}/projects/schedinfra/access-lugdmv.ilm ]; then
+#  export ILOG_LICENSE_FILE=${HOME}/projects/schedinfra/access-lugdmv.ilm
+#elif [ -e //mn65fsna1/net/packages/ilog/ilm/access-lugdmv.ilm ]; then
+#  export ILOG_LICENSE_FILE=//mn65fsna1/net/packages/ilog/ilm/access-lugdmv.ilm
+#elif [ -e /net/packages/ilog/ilm/access-lugdmv.ilm ]; then
+#  export ILOG_LICENSE_FILE=/net/packages/ilog/ilm/access-lugdmv.ilm
+#fi
 
 ### mysql
 case $OSTYPE in
