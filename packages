@@ -296,14 +296,6 @@ esac
 #  fi
 #}
 
-# Matlab
-addpkg_matlab() {
-  case $LOCATION in
-    htc)
-         append PATH "/net/packages/matlab/7.1/bin"
-         ;;
-  esac
-}
 
 ### java
 unset JAVA_HOME
@@ -366,29 +358,6 @@ export JDK_HOME
    #solaris2*) append LD_LIBRARY_PATH /usr/dt/lib;;
 #esac
 
-#source safe
-SSUSER=jschewe
-export SSUSER
-case $OSTYPE in
-  cygwin)
-    case $LOCATION in
-      htc)
-        SSDIR=//mn65-fs1/projects/schedinfra/vss
-        export SSDIR
-        append PATH "/cygdrive/c/progra~1/micros~4/vss/win32"
-        ;;
-    esac
-    ;;
-  linux)
-         SOSHOME="${HOME}/.sos"
-         export SOSHOME
-         ;;
-  *)
-     MWFONT_CACHE_DIR="${HOME}/windows/font-cache"
-     export MW_FONT_CACHE_DIR
-     ;;
-esac
-
 ### ant
 case $OSTYPE in
   cygwin)
@@ -398,11 +367,7 @@ case $OSTYPE in
           fi
           ;;
   linux)
-         if [ -e /net/packages/java/ant/1.7.0/apache-ant-1.7.0 ]; then
-           ANT_HOME=/net/packages/java/ant/1.7.0/apache-ant-1.7.0
-         elif [ -e /net/packages/java/ant/1.6.5/apache-ant-1.6.5 ]; then
-           ANT_HOME=/net/packages/java/ant/1.6.5/apache-ant-1.6.5
-         elif [ -e /usr/local/ant/apache-ant-1.7.0 ]; then
+         if [ -e /usr/local/ant/apache-ant-1.7.0 ]; then
            ANT_HOME=/usr/local/ant/apache-ant-1.7.0
          elif [ -e /usr/local/apache-ant-1.7.0 ]; then
            ANT_HOME=/usr/local/apache-ant-1.7.0
@@ -515,52 +480,10 @@ case $OSTYPE in
     ;;
 esac
 
-### Allegro lisp
-case $LOCATION in
-  htc)
-       case $OSTYPE in
-         linux)
-                case `uname -m` in
-                  x86_64)
-                        append PATH /net/packages/allegro/acl80/linux
-                        #append PATH /net/packages/allegro/acl70/linux.64
-                          ;;
-                  i*86)
-                        #append PATH /usr/local/acl/acl62
-                        append PATH /net/packages/allegro/acl80/linux
-                        ;;
-                esac
-                ;;
-         solaris2*)
-                    #append PATH /net/packages/allegro/acl62
-                    append PATH /net/packages/allegro/acl80/solaris
-                    ;;
-       esac
-       ;;
-  home)
-        case $OSTYPE in
-          linux)
-                 append PATH /usr/local/acl70
-                 ;;
-        esac
-        ;;
-esac
-
 ### OpenPBS
 case $OSTYPE in
   linux)
          append PATH /opt/pbs/bin
-         ;;
-esac
-
-### Clearcase
-case $OSTYPE in
-  linux)
-         case $LOCATION in
-           htc)
-                append PATH /usr/local/clearcase
-                ;;
-         esac
          ;;
 esac
 

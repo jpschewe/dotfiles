@@ -49,44 +49,6 @@ fi
 # Do NOT export UID, EUID, USER, MAIL, and LOGNAME
 export HOST CPU HOSTNAME HOSTTYPE OSTYPE MACHTYPE OSDIST
 
-# define location
-case $OSTYPE in
-  solaris2* | cygwin)
-            case `nslookup $HOSTNAME 2> /dev/null | grep $HOSTNAME | awk '{print $2}'` in
-              *.honeywell.com)
-                LOCATION=htc
-                ;;
-              *.mn.mtu.net)
-                LOCATION=home
-                ;;
-              *)
-                LOCATION=unknown
-                ;;
-            esac
-            ;;
-  linux*)
-          OSTYPE=linux
-          case `nslookup $HOSTNAME 2> /dev/null | grep $HOSTNAME | awk '{print $2}'` in
-            *.htc.honeywell.com)
-                                 LOCATION=htc
-                                 ;;
-            *.treknet.net)
-                           LOCATION=htc
-                           ;;
-            *.mn.mtu.net) 
-                          LOCATION=home
-                          ;;
-            *) 
-               LOCATION=unknown
-               ;;
-          esac
-          ;;
-  *)
-     LOCATION=unknown
-     ;;
-esac
-export LOCATION
-
 if [ $OSTYPE = "cygwin" ]; then
   # set in NT directly export CYGWIN="tty nosmbntsec"
   # title doesn't seem to help either, binmode will break getenv in emacs, ntea will break permissions for ls
@@ -362,43 +324,6 @@ dsd() {
   pdirs
 }
 
-case $LOCATION in
-  htc)
-    #------------------------------
-    # Project aliases
-    #------------------------------
-    alias check-schedinfra="find . \( -name '*.alt' -o -name '*.lib' -o -name '*.java' -o -name '*.template' -o -name '*.el' -o -name '*.html' -o -name '*.vm' -o -name '*.dm' \) -perm +222 -print | grep -v 'examples/newarch' | grep -v 'examples/distributed' | grep -v 'instrumented' | grep -v dome/tools/sched-infra/examples | grep -v blort"
-
-    alias check-ptm="find *.properties src docs web build.xml lib matlab prj.el -type f -perm +222 -print | grep -v 'vssver.scc' | grep -v .xvpics | grep -v foo | grep -v matlab.jar | grep -v web-linux.xml | grep -v ObjectModel.bak"
-
-    alias check-sydney="find src doc build.xml lib prj.el -type f -perm +222 -print | grep -v 'vssver.scc' | grep -v .xvpics | grep -v TAGS | grep -v PConstraintParser | grep -v PConstraintTokenTypes | grep -v PConstraintLexer"
-
-    #------------------------------
-    # Check smtp servers
-    #------------------------------
-    check_smtp() {
-      for host in `host smtp.honeywell.com | grep 'has address' | awk '{print $NF}'`; do
-        echo $host
-        echo "quit" | nc $host 25
-      done
-    }
-
-    ;;
-esac
-
-case $LOCATION in
-  htc)
-    REPLYTO=jon.schewe@honeywell.com
-	 export REPLYTO
-    MAIL=${HOME}/.Mail-imap/INBOX   
-	 export MAIL
-  ;;
-  home)
-      REPLYTO=jpschewe@mtu.net
-	   export REPLYTO
-  ;;
-esac
-
 # ------------------
 # some terminal stuff
 # ------------------
@@ -477,21 +402,6 @@ case $OSTYPE in
      ;;
   *)
      ;;
-esac
-
-# Setup proxy server
-case $LOCATION in
-  home)
-    #export http_proxy="http://eggplant:3128"
-    unset http_proxy
-    ;;
-  htc)
-    export http_proxy="http://tmpproxy.honeywell.com:8080"
-	 #unset http_proxy
-    ;;
-  *)
-    unset http_proxy
-  ;;
 esac
 
 case $OSTYPE in
