@@ -60,14 +60,10 @@ esac
 case $OSTYPE in
   sunos4) X11HOME=/usr/local/X11R5 
           append PATH	${X11HOME}/local
-          append PATH /net/packages/X11/X11R6.1/install/sparc-sun-sunos4.1.4/bin
           ;;
   cygwin) X11HOME=/usr/X11R6 
           append PATH ${X11HOME}/bin
           ;;
-  solaris2* | sunos4)
-                      X11HOME=/net/packages/X11/X11R6.1/install/sparc-sun-solaris2.5
-                      ;;
   linux) X11HOME=/usr/X11R6;;
   darwin*) X11HOME=/usr/X11;;
 esac
@@ -93,74 +89,11 @@ esac
 
 #-----------------------------------------------------------------------------
 
-case $OSTYPE in
-  solaris*)
-            ### psutils
-            append PATH /net/packages/psutils/1.16/install/sparc-sun-solaris2.5/bin
-
-            ### Ispell
-            append PATH /net/packages/ispell/3.1.20/install/sparc-sun-solaris2.5/bin
-
-            ### GNU misc
-            #GNU_MISC_DIR=/net/packages/gnu-misc/1999-April/install/sparc-sun-solaris2.6
-            #prepend PATH ${GNU_MISC_DIR}/bin
-            ## GNU gcc
-            ##export GCC_PATH=/net/packages/gnu-gcc/2.8.0/solaris2.5.1/
-            #case `uname -r` in
-            #  5.8)
-            #       export GCC_PATH=/net/packages/gnu-gcc/2006-January/install/sparc-sun-solaris2.6
-            #       ;;
-            #  *)
-            #     export GCC_PATH=/net/packages/gnu-gcc/2006-January/install/sparc-sun-solaris2.6
-            #     ;;
-            #esac
-            #prepend PATH		${GCC_PATH}/bin
-            prepend PATH /net/packages/gnu/2006-February/install/sparc-sun-solaris2.6/bin
-
-            ### GNU
-            #GNU=/net/packages/gnu/2006-February/install/sparc-sun-solaris2.6
-            #prepend PATH ${GNU}/bin
-            
-            ### PERL
-            case `uname -r` in
-              5.6)
-                   prepend PATH /net/packages/perl/builds/5.004/sparc-sun-solaris2.5.1/bin
-                   ;;
-              *)
-                 if [ ! -x /usr/bin/perl ]; then
-                   prepend PATH /net/packages/perl/builds/5.005/sparc-sun-solaris2.6/bin
-                 fi
-                 ;;
-            esac
-
-            ### tcl-tk
-            append PATH /net/packages/tcl-tk/8.0.5/solaris2.6/bin
-            TCL_LIBRARY=/net/packages/tcl-tk/8.0.5/solaris2.6/lib/tcl8.0
-            TK_LIBRARY=/net/packages/tcl-tk/8.0.5/solaris2.6/lib/tk8.0
-            export TCL_LIBRARY TK_LIBRARY
-
-            ### SPI
-            #export SPI_DIR=/net/projects/spi/developers/jschewe/DiagDisp/
-            #append PATH ${SPI_DIR}/bin/sun4
-            #append MANPATH ${SPI_DIR}/man
-            ;;
-esac
-
 # Standard OS Compiler
 case $OSTYPE in
   solaris2*)
-             prepend PATH /net/packages/suncompilers/studiocc_11_sparc/SUNWspro/bin
              prepend PATH /usr/ccs/bin
-             append PATH /net/packages/usr-local/flexlm/licenses
-             export LM_LICENSE_FILE=5280@gyro:5280@axis:5280@servo
-             #/usr/local/flexlm/licenses/license.dat
              ;;
-esac 
-
-### Procmail
-case $OSTYPE in
-  solaris2*) append PATH /net/packages/procmail/3.10/bin.solaris2*
-            ;;
 esac 
 
 ### netcat
@@ -168,90 +101,10 @@ case $OSTYPE in
   cygwin) append PATH /cygdrive/c/packages/netcat
 esac
 
-### samba
-#case $OSTYPE in
-#  solaris2*) append PATH /net/packages/samba/1.9.18p7/install/sparc-sun-solaris2*.5/bin;;
-#esac
-
-### lynx
-#case $OSTYPE in
-#  solaris2*) 
-#	 append PATH /net/packages/lynx/sparc-sun-solaris2*.5/bin
-#  ;;
-#esac
-
-### Sicstus
-#case $OSTYPE in
-#  solaris2*)
-#    export SICSHOME=/net/packages/prolog/sicstus/sicstus3.8.5/bin
-#    # for emacs
-#    export EPROLOG sictus 
-#    append PATH ${SICSHOME}
-#    ;;
-#  cygwin)
-#          ### SICStus Prolog
-#          append PATH /cygdrive/c/packages/SICStus_Prolog/bin
-#          ;;
-#esac
-
-### daVinci
-#case $OSTYPE in
-#  solaris2*)
-#    export DAVINCIHOME=/net/projects/d-circa/code/daVinci_V2.0
-#    append PATH ${DAVINCIHOME}
-#    ;;
-#esac
-
-### ical
-#case $OSTYPE in
-#  solaris2*)
-#    append PATH /net/packages/ical/2.0p2/sparc-sun-solaris2*.5/bin
-#    ;;
-#  sunos4)
-#    append PATH /net/packages/ical/2.0p2/sparc-sun-sunos4.1.4/bin
-#    ;;
-#esac
-
-# Floating point comparison from http://lists.debian.org/debian-user/2000/09/msg04413.html
-# returns 0 if $1 > $2
-# returns 1 if $1 < $2
-# returns 2 if $1 = $2
-# returns 3
-fpcmp() {
-        local int_a=${1%.*}
-        local dec_a=${1#*.}
-        local int_b=${2%.*}
-        local dec_b=${2#*.}
-
-        [ $int_a -lt $int_b ] && return 0
-        [ $int_b -lt $int_a ] && return 1
-        [ $int_b -eq $int_a ] && {
-                [ $dec_a -lt $dec_b ] && return 0 
-                [ $dec_b -lt $dec_a ] && return 1 
-                [ $dec_b -eq $dec_a ] && return 2
-        }
-        return 3
-}
-
-### ssh
-case $OSTYPE in
-  solaris* | sunos4)
-                     prepend PATH /opt/OBSDssh/bin
-                     ;;
-esac
-
 ### cvs
 CVSIGNORE=".cvsignore"
 CVS_RSH="ssh"
 export CVSIGNORE CVS_RSH
-case $OSTYPE in
-  cygwin)
-          #prepend PATH /ProgramFiles/CVS\ for\ NT
-          ;;
-  solaris2*)
-            #append PATH /net/packages/gnu-cm/1999-12/install/sparc-sun-solaris2*.6/bin
-             ;;
-esac
 
 ### subversion
 case $OSTYPE in
@@ -260,20 +113,6 @@ case $OSTYPE in
     ;;
 esac
 
-#Xemacs
-case $OSTYPE in
-  cygwin)
-    case $HOST in
-      eggplant-laptop)
-	  alias xemacs-nt="/cygdrive/c/packages/xemacs/XEmacs-21.4.19/i586-pc-win32"
-          ;;
-    esac
-      ;;
-  solaris2* | sunos4)
-     #prepend PATH /net/packages/xemacs/20.4/install/sparc-sun-solaris2.4/bin
-     prepend PATH /net/packages/xemacs/21.1.3/install/bin/sparc-sun-solaris2.6/
-     ;;
-esac
 # make sure XEmacs generates an error log
 #xemacs () {
 #  if [ ! -d ~/.xemacs ]; then
@@ -314,10 +153,6 @@ case $OSTYPE in
             append PATH "${UJAVA_HOME}/jre/bin"
           fi
           ;;
-  solaris2* | sunos4)
-                      JAVA_HOME=/net/packages/java/jdk/1.5.0/solaris-sparc
-                      prepend PATH "${JAVA_HOME}/bin"
-                      ;;
   linux | linux-gnu)
                      for java_dir in \
                       /usr/java/jdk1.5.0_01 \
@@ -427,17 +262,6 @@ case $OSTYPE in
           ;;
 esac
 
-#### ilog
-#if [ -e /home/jpschewe/work/access-lugdmv.ilm ]; then
-#  export ILOG_LICENSE_FILE=/home/jpschewe/work/access-lugdmv.ilm
-#elif [ -e ${HOME}/projects/schedinfra/access-lugdmv.ilm ]; then
-#  export ILOG_LICENSE_FILE=${HOME}/projects/schedinfra/access-lugdmv.ilm
-#elif [ -e //mn65fsna1/net/packages/ilog/ilm/access-lugdmv.ilm ]; then
-#  export ILOG_LICENSE_FILE=//mn65fsna1/net/packages/ilog/ilm/access-lugdmv.ilm
-#elif [ -e /net/packages/ilog/ilm/access-lugdmv.ilm ]; then
-#  export ILOG_LICENSE_FILE=/net/packages/ilog/ilm/access-lugdmv.ilm
-#fi
-
 ### mysql
 case $OSTYPE in
   cygwin) append PATH /cygdrive/c/packages/mysql/bin
@@ -471,13 +295,6 @@ case $OSTYPE in
   linux)
          append PATH /opt/pbs/bin
          ;;
-esac
-
-### bzip
-case $OSTYPE in
-  solaris2*)
-             append PATH /net/packages/bzip2/1.0.3/install/sparc-sun-solaris2.6/bin
-             ;;
 esac
 
 ### Oracle XE

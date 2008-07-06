@@ -115,7 +115,7 @@ fi
 #------------------------------
 
 export BRC="$HOME/.bashrc"	# also used for test in .profile
-alias brc="unset SOSCOECHKFLG ; . '$BRC'"
+alias brc=". '$BRC'"
 #alias brc='unset BASHRCREAD ; . "${HOME}/.bashrc"'
 
 # other stuff here
@@ -137,20 +137,12 @@ alias mv='mv -i'
 #alias w='w -s'
 alias which='type'
 alias where='type -all'
-alias find-unused-unix='for h in `ypmatch HTC-HOSTS netgroup`; do ping -c 1 $h > /dev/null 2>&1 || echo $h; done'
   
 #alias rdesktop='\rdesktop -g 1024x768 -K'
 #alias mn65-rsconsole='rdesktop -u getreal mn65-rsconsole'
 
 #my aliases
-case $OSTYPE in
-  cygwin)
-	  alias ls='ls -F'
-	  ;;
-  *)
-     alias ls='ls -F'
-     ;;
-esac
+alias ls='ls -F'
 
 ls -hl / > /dev/null 2>&1
 if [ $? == 0 ]; then
@@ -368,8 +360,6 @@ case $OSTYPE in
      append MANPATH /usr/share/man
      ;;
   sunos4 | solaris2)
-     ### procmail on sunos and solaris
-     append MANPATH /net/packages/procmail/3.10/man
      ### gnu-misc
      append MANPATH ${GNU_MISC_DIR}/share/man
      ;;
@@ -385,14 +375,6 @@ case $OSTYPE in
      ;;
   *)
      ;;
-esac
-
-case $OSTYPE in
-  solaris*)
-            if [ ! -x /usr/bin/sudo -a -x /net/packages/usr-local/bin/sudo ]; then
-              alias sudo='/net/packages/usr-local/bin/sudo'
-            fi
-            ;;
 esac
 
 # X-Windows
@@ -441,23 +423,6 @@ if [ -x /usr/bin/keychain ]; then
                                  ;;
   esac
 fi
-
-# SOSCOE
-if tty -s && [ -f /etc/profile.d/soscoe.sh ]; then
-  unset SOSCOECHKFLG
-  . /etc/profile.d/soscoe.sh
-  #SOSCOE_SYSMGR_LAUNCHPOINT=/soscoe/coreservices/etc
-  #export SOSCOE_SYSMGR_LAUNCHPOINT
-  /soscoe/coreservices/tools/SoscoeUtil/soscoeAppDisplay.sh
-fi
-
-# latex stuff
-if [ -x ~musliner/bin/go ]; then
-  alias go='~musliner/bin/go'
-fi
-#export TEXCONFIG=.:$HOME/tex::
-#append PATH /net/packages/usr-local/tex/current/bin
-
 
 #
 # Avoid loops and such
