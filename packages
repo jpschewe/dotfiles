@@ -29,8 +29,8 @@ case $OSTYPE in
           append PATH /usr/local/bin
           ;;
   darwin*)
-	   append PATH /opt/local/bin
-	   append PATH /usr/local/bin
+	   prepend PATH /opt/local/bin
+	   prepend PATH /usr/local/bin
 	   append PATH /sbin
 	   append PATH /usr/sbin
 	   ;;
