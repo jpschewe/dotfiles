@@ -11,6 +11,8 @@
 ;;set faces up front
 (custom-set-faces)
 
+(if (not (boundp 'windows-nt)) (setq windows-nt nil))
+
 ;; define a variable to tell us where we are
 (defvar system-location 'unknown "The location that we're at.  Possible values: htc, home, unknown")
 (let ((host (downcase (system-name))))
@@ -470,48 +472,48 @@
 ;; Allegro
 ;;
 ;;;;;;;;;;;
-(when (and
-       (eq system-location 'htc)
-       (or (file-exists-p "/net/packages/allegro/acl62/xeli")
-	   (file-exists-p "/usr/local/acl/acl62/xeli")))
-  
-  ;;check if we have a local version
-  (if (file-exists-p "/usr/local/acl/acl62/xeli")
-      (add-to-list 'load-path (expand-file-name "/usr/local/acl/acl62/xeli"))
-    (add-to-list 'load-path (expand-file-name "/net/packages/allegro/acl62/xeli")))
-
-  (add-to-list 'completion-ignored-extensions ".fasl")
-  
-  (setq fi:find-tag-lock nil)
-  (require 'fi-site-init)
-  (defun allegro-lisp-mode-hook-jps ()
-    (let ((map (current-local-map)))
-      (define-key map "\C-c."	'find-tag)
-      (define-key map "\C-c,"	'tags-loop-continue)
-      (define-key map "\e."	'fi:lisp-find-definition)
-      (define-key map "\e,"	'fi:lisp-find-next-definition)
-      (add-special-font-lock-faces-jps (list 'lisp-font-lock-keywords 'lisp-font-lock-keywords-1 'lisp-font-lock-keywords-2))
-      (camelCase-mode 1)
-      (turn-on-font-lock)
-      ))
-  (add-hook 'fi:lisp-mode-hook 'allegro-lisp-mode-hook-jps)
-
-  (defun allegro-elisp-mode-hook-jps ()
-    (let ((map (current-local-map)))
-      (add-special-font-lock-faces-jps (list 'lisp-font-lock-keywords 'lisp-font-lock-keywords-1 'lisp-font-lock-keywords-2))
-      (camelCase-mode 1)
-      (turn-on-font-lock)
-      ))
-  (add-hook 'fi:emacs-lisp-mode-hook 'allegro-elisp-mode-hook-jps)
-  
-  ;;have a way to start Allegro lisp
-  (defun start-lisp-jps()
-    "Start Allegro Lisp"
-    (interactive)
-    (fi:common-lisp)
-    )
-  (global-set-key (concat prefix-key-jps "l") 'start-lisp-jps)
-  )
+;;(when (and
+;;       (eq system-location 'htc)
+;;       (or (file-exists-p "/net/packages/allegro/acl62/xeli")
+;;	   (file-exists-p "/usr/local/acl/acl62/xeli")))
+;  
+;;  ;;check if we have a local version
+;;  (if (file-exists-p "/usr/local/acl/acl62/xeli")
+;;      (add-to-list 'load-path (expand-file-name "/usr/local/acl/acl62/xeli"))
+;;    (add-to-list 'load-path (expand-file-name "/net/packages/allegro/acl62/xeli")))
+;
+;;  (add-to-list 'completion-ignored-extensions ".fasl")
+;  
+;;  (setq fi:find-tag-lock nil)
+;;  (require 'fi-site-init)
+;;  (defun allegro-lisp-mode-hook-jps ()
+;;    (let ((map (current-local-map)))
+;;      (define-key map "\C-c."	'find-tag)
+;;      (define-key map "\C-c,"	'tags-loop-continue)
+;;      (define-key map "\e."	'fi:lisp-find-definition)
+;;      (define-key map "\e,"	'fi:lisp-find-next-definition)
+;;      (add-special-font-lock-faces-jps (list 'lisp-font-lock-keywords 'lisp-font-lock-keywords-1 'lisp-font-lock-keywords-2))
+;;      (camelCase-mode 1)
+;;      (turn-on-font-lock)
+;;      ))
+;;  (add-hook 'fi:lisp-mode-hook 'allegro-lisp-mode-hook-jps)
+;
+;;  (defun allegro-elisp-mode-hook-jps ()
+;;    (let ((map (current-local-map)))
+;;      (add-special-font-lock-faces-jps (list 'lisp-font-lock-keywords 'lisp-font-lock-keywords-1 'lisp-font-lock-keywords-2))
+;;      (camelCase-mode 1)
+;;      (turn-on-font-lock)
+;;      ))
+;;  (add-hook 'fi:emacs-lisp-mode-hook 'allegro-elisp-mode-hook-jps)
+;  
+;;  ;;have a way to start Allegro lisp
+;;  (defun start-lisp-jps()
+;;    "Start Allegro Lisp"
+;;    (interactive)
+;;    (fi:common-lisp)
+;;    )
+;;  (global-set-key (concat prefix-key-jps "l") 'start-lisp-jps)
+;;  )
 
 ;;;;;;;;;;;
 ;;
