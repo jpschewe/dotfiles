@@ -5,4 +5,6 @@
 '(gutter-buffers-tab-visible nil)
 '(gutter-buffers-tab-enabled nil)
 )
-(custom-set-faces)
+(custom-set-faces
+ '(default ((t (:size "12pt" :family "Lucidatypewriter"))) t))
+
