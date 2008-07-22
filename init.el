@@ -585,7 +585,10 @@
   ;;initialize to empty
   (setq dired-auto-shell-command-alist nil)
 
-  (when (or (eq system-type 'linux) (eq system-type 'cygwin32) (eq system-type windows-nt))
+  (when (or (eq system-type 'linux)
+	    (eq system-type 'cygwin32)
+	    (eq system-type windows-nt)
+	    (eq system-type 'darwin))
     (setq dired-listing-switches "-alh"))
   
   ;;palm pilot stuff
