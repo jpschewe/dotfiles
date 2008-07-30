@@ -89,12 +89,12 @@ enable-auto-props = yes
 ### '?').  All entries which match will be applied to the file.
 ### Note that auto-props functionality must be enabled, which
 ### is typically done by setting the 'enable-auto-props' option.
-*.c = svn:mime-type=text/x-c-source;svn:eol-style=native
+*.c = svn:mime-type=text/x-c-source;svn:eol-style=native;svn:keywords=Id
 *.cat = svn:mime-type=application/rose
-*.cpp = svn:mime-type=text/x-cpp-source;svn:eol-style=native
+*.cpp = svn:mime-type=text/x-cpp-source;svn:eol-style=native;svn:keywords=Id
 *.dom = svn:mime-type=application/dome
 *.el = svn:mime-type=text/x-emacs-lisp;svn:eol-style=native
-*.h = svn:mime-type=text/x-c-header;svn:eol-style=native
+*.h = svn:mime-type=text/x-c-header;svn:eol-style=native;svn:keywords=Id
 *.html = svn:mime-type=text/html;svn:eol-style=native
 *.java = svn:mime-type=text/x-java-source;svn:eol-style=native;svn:keywords=Author Date Rev LastChangedBy Id
 *.jpg = svn:mime-type=image/jpeg
@@ -102,11 +102,11 @@ enable-auto-props = yes
 *.mdl = svn:mime-type=application/rose
 *.pdf = svn:mime-type=application/pdf
 *.png = svn:mime-type=image/png
-*.sh = svn:mime-type=text/plain;svn:eol-style=native;svn:executable
+*.sh = svn:mime-type=text/plain;svn:eol-style=native;svn:executable;svn:keywords=Id
 *.txt = svn:mime-type=text/plain;svn:eol-style=native
 *.xml = svn:mime-type=text/xml;svn:eol-style=native
 *.xsd = svn:mime-type=text/xml;svn:eol-style=native
 Makefile = svn:mime-type=text/plain;svn:eol-style=native
-*.pl = svn:mime-type=text/x-perl;svn:eol-style=native
+*.pl = svn:mime-type=text/x-perl;svn:eol-style=native;svn:keywords=Id
 *.py = svn:mime-type=text/x-python;svn:eol-style=native
 *.idl = svn:mime-type=text/x-idl-source;svn:eol-style=native
