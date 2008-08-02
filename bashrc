@@ -229,11 +229,11 @@ total() {
 #                    print "files=$f - bytes=$b"'
 #}
 
-#psg() {
-#  ps $1 | tee /tmp/psg.$$ | awk 'NR == 1 {print $0}'
-#  cat /tmp/psg.$$ | egrep $2
-#  /bin/rm -f /tmp/psg.$$
-#}
+psg() {
+  ps $1 | tee /tmp/psg.$$ | awk 'NR == 1 {print $0}'
+  cat /tmp/psg.$$ | egrep $2
+  /bin/rm -f /tmp/psg.$$
+}
 
 # findp
 # Author: Robert S. Sciuk
