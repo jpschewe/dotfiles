@@ -401,27 +401,32 @@ fi
 export SSH_ASKPASS
 
 #if [ -f "${HOME}/.ssh/sssha" ]; then
-if [ -x /usr/bin/keychain ]; then
+#if [ -x /usr/bin/keychain ]; then
+if [ -n "`type -p keychain`" ]; then
   if [ $EMACS ]; then
-    keychain="/usr/bin/keychain --nocolor"
+    keychain="keychain --nocolor"
   else
     if tty -s; then
-      keychain="/usr/bin/keychain -q"
+      keychain="keychain -q"
     else
-      keychain="/usr/bin/keychain"
+      keychain="keychain"
     fi
   fi
-  case $HOST in
-    mn65-eggplant | workstation | jon)
-                                  ${keychain} id_dsa #787F9455 #18DCD341
-                                  [[ -f $HOME/.keychain/$HOSTNAME-sh ]] && \
-                                    source $HOME/.keychain/$HOSTNAME-sh
-                                  [[ -f $HOME/.keychain/$HOSTNAME-sh-gpg ]] && \
-                                    source  $HOME/.keychain/$HOSTNAME-sh-gpg
+  
+  if [ -f ${HOME}/.ssh/id_dsa ]; then
+    ${keychain} id_dsa
+  fi
+  if [ -f ${HOME}/.ssh/id_rsa ]; then
+    ${keychain} id_rsa
+  fi
+  if [ -f $HOME/.keychain/$HOSTNAME-sh ]; then
+    source $HOME/.keychain/$HOSTNAME-sh
+  fi
+  if [ -f $HOME/.keychain/$HOSTNAME-sh-gpg ]; then
+    source  $HOME/.keychain/$HOSTNAME-sh-gpg
+  fi
 
-                                 #. "${HOME}/.ssh/sssha"
-                                 ;;
-  esac
+  #. "${HOME}/.ssh/sssha"
 fi
 
 #
