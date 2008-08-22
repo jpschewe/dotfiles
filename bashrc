@@ -316,6 +316,8 @@ if [ $TERM = "linux" ]; then
 fi
 if [ $TERM = xterm ]; then
   PS1="\u@\h:\w\n\[\033]0;\u@\h\007\]>";
+elif [ $TERM = xterm-color ]; then
+  PS1="\u@\h:\w\n\[\033]0;\u@\h\007\]>";
 elif [ $TERM = "sun-nic" ]; then
   alias ls='ls -F'
   PS1="\u@\h:\w\n>";
