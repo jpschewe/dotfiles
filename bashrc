@@ -15,8 +15,8 @@ test -z "$EUID" && EUID=`id -u  2> /dev/null`
 test -z "$USER" && USER=`id -un 2> /dev/null`
 test -z "$HOST" && HOST=`hostname 2> /dev/null`
 test -z "$CPU"  &&  CPU=`uname -m 2> /dev/null`
-test -z "$HOSTNAME" && HOSTNAME=`hostname 2> /dev/null`
-test -z "$LOGNAME"  && LOGNAME=$USER
+test -z "$HOSTNAME" && HOSTNAME=${HOST}
+test -z "$LOGNAME"  && LOGNAME=${USER}
 if [ -z "$CPU" ]; then
   case "$CPU" in
     i?86) HOSTTYPE=i386   ;;
@@ -408,7 +408,7 @@ if [ -n "`type -p keychain`" ]; then
   if [ $EMACS ]; then
     keychain="keychain --nocolor"
   else
-    if tty -s; then
+    if test -t 0; then
       keychain="keychain -q"
     else
       keychain="keychain"
