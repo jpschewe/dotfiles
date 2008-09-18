@@ -402,34 +402,9 @@ elif [ -f /usr/lib64/ssh/ssh-askpass ]; then
 fi
 export SSH_ASKPASS
 
-first_ether=`/sbin/ifconfig -a | egrep '(ether|HWaddr)' | awk '{print $NF}' | egrep -iv '^00:0c:29' | egrep -iv '^00:50:56' | head -1`
-#if [ -f "${HOME}/.ssh/sssha" ]; then
-#if [ -x /usr/bin/keychain ]; then
-if [ -n "`type -p keychain`" ]; then
-  if [ $EMACS ]; then
-    keychain="keychain --host ${first_ether} --nocolor"
-  else
-    if test -t 0; then
-      keychain="keychain --host ${first_ether} -q"
-    else
-      keychain="keychain --host ${first_ether}"
-    fi
-  fi
-  
-  if [ -f ${HOME}/.ssh/id_dsa ]; then
-    ${keychain} id_dsa
-  fi
-  if [ -f ${HOME}/.ssh/id_rsa ]; then
-    ${keychain} id_rsa
-  fi
-  if [ -f $HOME/.keychain/${first_ether}-sh ]; then
-    source $HOME/.keychain/${first_ether}-sh
-  fi
-  if [ -f $HOME/.keychain/${first_ether}-sh-gpg ]; then
-    source  $HOME/.keychain/${first_ether}-sh-gpg
-  fi
 
-  #. "${HOME}/.ssh/sssha"
+if [ -x "${HOME}/.ssh/sssha" ]; then
+  ${HOME}/.ssh/sssha
 fi
 
 #

@@ -1,150 +1,39 @@
 #!/bin/bash
 # Hey EMACS, this should be in -*- sh -*- mode
-#
-# sssha = Start SSH Agent
-#
-# Routines to modify setup ssh-agent and associated environment variables.
-# This is sourced from my .bashrc file, something like this:
-#   # setup ssh-agent, if appropriate
-#   if [ -f "$HOME/.ssh/sssha" ]; then
-#     source $HOME/.ssh/sssha
-#   fi
-#
-# Optional args (yes, you can pass args to a sourced file) are:
-#  -t <timeout>  - passed to ssh-add to set lifetime of keys added
-#  -e <env-file> - file in which to store environment variables for
-#                  the instnace of ssh-agent started by this script.
-#                  Defaults to: $HOME/.ssh/agent-env.`hostname`
-#  -k <key-file> - add a (non-standard) key file to the list of keys
-#                  added via ssh-add.  The default keys added are:
-#                  $HOME/.ssh/id_rsa and $HOME/.ssh/id_dsa
-#  -x            - IF THIS shell starts the agent, then kill the agent
-#                  when THIS shell exits.  Useful when you want to
-#                  start an agent on a remote machine, but want it to
-#                  go away when you log out.
-#
-# Author: Eric Engstrom (engstrom(-AT-)m t u(-DOT-)n e t)
-#
-# $Id$
-##
 
-#echo "is interactive? $-" > /tmp/foo
-#echo "args $*" >> /tmp/foo
+if [ $OSTYPE = "cygwin" ]; then
+  keychain_cache=`ipconfig /all | egrep "Physical Address" | awk '{print $NF}' | head -1`
+elif [ -x /sbin/ifconfig ]; then
+  # find the first ethernet card's MAC address as this is unique to a machine.
+  # Make sure to grep out vmware server interfaces 
+  keychain_cache=`/sbin/ifconfig -a | egrep '(ether|HWaddr)' | awk '{print $NF}' | egrep -iv '^00:50:56' | head -1`
+elif [ -n "${HOSTNAME}" ]; then
+  keychain_cache=${HOSTNAME}
+else
+  keychain_cache="unknown-host"  
+fi
 
-# Prevent stupidity - would like to do this, but other scripts I have use this
-#test ! `echo "$0" | egrep 'bash$'` && \
-#  echo "RTFM|RTFS! Do not execute this file - source it from your shell" && \
-#  exit 1
-
-# default file in which to store environment info
-SSSHA_ENV=$HOME/.ssh/agent-env.`hostname`
-declare -a SSSHA_KEYS[*]
-
-# --- PARSE ARGS --- #
-sssha_parse_args() {
-  local OPTIND=1
-  while getopts "xe:k:t:" OPT; do
-    #echo "$OPT $OPTARG $OPTIND"
-    case $OPT in
-      t) SSSHA_ARGS="-t $OPTARG" ;;
-      e) SSSHA_ENV="$OPTARG" ;;
-      k) [ -f "${OPTARG}" ] && SSSHA_KEYS[${#SSSHA_KEYS[*]}]="$OPTARG" ;;
-      x) SSSHA_STOP_ON_EXIT=$OPT
-    esac
-  done
-  shift $(($OPTIND - 1))
-
-  # set default key, if none specified
-  if [ -z "${SSSHA_KEYS[*]}" ]; then
-    for key in $HOME/.ssh/id_[rd]sa; do
-      [ -f "$key" ] && SSSHA_KEYS[${#SSSHA_KEYS[*]}]="$key"
-    done
-  fi
-}
-
-# --- STOP RUNNING AGENT --- #
-sssha_stop_agent () {
-  echo "Stopping ssh-agent..."
-  eval `ssh-agent -k`
-  /bin/rm -f ${SSSHA_ENV}
-}
-
-# --- START NEW AGENT --- #
-sssha_start_agent () {
-  echo "Initializing new ssh-agent..."
-  ssh-agent ${SSSHA_ARGS} | sed 's/^echo/#echo/' > ${SSSHA_ENV}
-  chmod 600 ${SSSHA_ENV}
-  . ${SSSHA_ENV}
-  # if -x option passed, since THIS shell started the agent, 
-  # then stop the agent when this shell exits
-  if [ "${SSSHA_STOP_ON_EXIT}" ]; then
-    trap "sssha_stop_agent" EXIT
-  fi
-}
-
-# --- ADD KEYS TO RUNNING AGENT --- #
-sssha_add_keys () {
-  # determine which keys need to be added yet
-  local key
-  local -a keys
-  for key in "$@"; do
-    # get the fingerprint for the public key; ssh-keygen should search
-    # for the public key given the private key, and if the public key
-    # is not found, we'll have to assume the key is not in the agent.
-    # If we get a fingerprint, add the key if not already in the agent.
-    fingerprint=`ssh-keygen -f ${key} -l 2>/dev/null | awk '{print $2}'`
-    if [ "$?" = "0" ] && [ -n "$fingerprint" ] && \
-       ! (ssh-add -l | egrep "$fingerprint" > /dev/null); then
-      keys[${#keys[*]}]="$key"
+if [ -n "`type -p keychain`" ]; then
+  if [ $EMACS ]; then
+    keychain="keychain --host ${keychain_cache} --nocolor"
+  else
+    if test -t 0; then
+      keychain="keychain --host ${keychain_cache} -q"
+    else
+      keychain="keychain --host ${keychain_cache}"
     fi
-  done
-
-  # return if no keys to add
-  [ -z "${keys[*]}" ] && return
-    
-  # add the missing keys, but kill the agent if add fails
-  ( trap "" SIGINT
-    ssh-add "${keys[@]}" || sssha_stop_agent
-  )
-}
-
-#--------------------------------------------------
-# Here comes the real work:
-# 1. Parse args
-sssha_parse_args $*;
-
-# 2. If we can't connect to existing (forwarded?) agent, 
-#    source the existing environment cache, if available
-if ! (ssh-add -l >/dev/null 2>&1) && [ -f "${SSSHA_ENV}" ]; then
-  #echo "Loading '${SSSHA_ENV}'"
-  . ${SSSHA_ENV}
+  fi
+  
+  if [ -f ${HOME}/.ssh/id_dsa ]; then
+    ${keychain} id_dsa
+  fi
+  if [ -f ${HOME}/.ssh/id_rsa ]; then
+    ${keychain} id_rsa
+  fi
+  if [ -f $HOME/.keychain/${keychain_cache}-sh ]; then
+    source $HOME/.keychain/${keychain_cache}-sh
+  fi
+  if [ -f $HOME/.keychain/${keychain_cache}-sh-gpg ]; then
+    source  $HOME/.keychain/${keychain_cache}-sh-gpg
+  fi
 fi
-
-# 3. IF we have a tty (interactive shell), AND
-#    IF there are valid keys to be had, then
-if tty -s && [ -n "${SSSHA_KEYS[*]}" ]; then
-  # 2.1 Start the agent if we cannot connect to it
-  (ssh-add -l >/dev/null 2>&1) || sssha_start_agent
-  # 2.2 Add the keys that aren't already registered.
-  sssha_add_keys ${SSSHA_KEYS[@]}
-fi
-
-# leave this around for sssha_stop_agent
-#unset SSSHA_ENV
-# but unset the rest
-unset SSSHA_KEYS
-unset SSSHA_ARGS
-unset SSSHA_STOP_ON_EXIT
-
-##
-
-# if we are on cygwin (uname -o == "Cygwin")
-# AND interactive shell ($- includes "i") 
-# AND we issued a command string, ($- includes "c") 
-# AND there are keys to add, (may need to move check earlier)
-# THEN
-
-# bring up a new bash shell (cygstart bash) 
-# whcih is also interactive (bash -i)
-# which (somehow) sources this script (without causing recursion)
-# and then exits (command? - which would recurse?)
