@@ -404,7 +404,7 @@ export SSH_ASKPASS
 
 
 if [ -x "${HOME}/.ssh/sssha" ]; then
-  ${HOME}/.ssh/sssha
+  . ${HOME}/.ssh/sssha
 fi
 
 #

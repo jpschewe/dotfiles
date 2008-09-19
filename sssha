@@ -13,6 +13,7 @@ else
   keychain_cache="unknown-host"  
 fi
 
+echo "Keychain using ${keychain_cache}"
 if [ -n "`type -p keychain`" ]; then
   if [ $EMACS ]; then
     keychain="keychain --host ${keychain_cache} --nocolor"
