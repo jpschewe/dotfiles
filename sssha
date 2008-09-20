@@ -1,6 +1,10 @@
 #!/bin/bash
 # Hey EMACS, this should be in -*- sh -*- mode
 
+# check if we're running under a tty
+tty -s
+TTYTEST=$?
+
 if [ $OSTYPE = "cygwin" ]; then
   keychain_cache=`ipconfig /all | egrep "Physical Address" | awk '{print $NF}' | head -1`
 elif [ -x /sbin/ifconfig ]; then
@@ -13,17 +17,19 @@ else
   keychain_cache="unknown-host"  
 fi
 
-echo "Keychain using ${keychain_cache}"
+if [ $TTYTEST -le 0 ]; then
+    echo "Keychain using ${keychain_cache}"
+fi
+
 if [ -n "`type -p keychain`" ]; then
-  if [ $EMACS ]; then
-    keychain="keychain --host ${keychain_cache} --nocolor"
+  if [ $TTYTEST -gt 0 ]; then
+    keychain="keychain -q"
+  elif [ $EMACS ]; then
+    keychain="keychain --nocolor"
   else
-    if test -t 0; then
-      keychain="keychain --host ${keychain_cache} -q"
-    else
-      keychain="keychain --host ${keychain_cache}"
-    fi
+    keychain="keychain"
   fi
+  keychain="${keychain} --host ${keychain_cache}"
   
   if [ -f ${HOME}/.ssh/id_dsa ]; then
     ${keychain} id_dsa
