@@ -177,6 +177,19 @@ case $OSTYPE in
                        prepend PATH "${JAVA_HOME}/bin"
                      fi
                      ;;
+  darwin*)
+           for java_dir in \
+            /System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home \
+            /System/Library/Frameworks/JavaVM.framework/Versions/1.5/Home \
+            /System/Library/Frameworks/JavaVM.framework/Versions/Current/Home
+           do
+             if [ -z "${JAVA_HOME}" -a -e "${java_dir}" ]; then
+               JAVA_HOME="${java_dir}"
+             fi
+           done
+           if [ -n "${JAVA_HOME}" -a -e "${JAVA_HOME}" ]; then
+             prepend PATH "${JAVA_HOME}/bin"
+           fi
 esac
 export JAVA_HOME
 JDK_HOME=${JAVA_HOME}

@@ -17,9 +17,9 @@ else
   keychain_cache="unknown-host"  
 fi
 
-if [ $TTYTEST -le 0 ]; then
-    echo "Keychain using ${keychain_cache}"
-fi
+#if [ $TTYTEST -le 0 ]; then
+#    echo "Keychain using ${keychain_cache}"
+#fi
 
 if [ -n "`type -p keychain`" ]; then
   if [ $TTYTEST -gt 0 ]; then
