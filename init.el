@@ -1588,7 +1588,7 @@ Uses user-mail-address-alist to set user-full-name, defaults to Jon Schewe"
 ;;
 ;;;;;;;;;;;;
 (defun python-mode-hook-jps ()
-  (setq py-indent-offset 2)
+  (setq py-indent-offset 4)
   (camelCase-mode 1)
   )
 (add-hook 'python-mode-hook 'python-mode-hook-jps)
