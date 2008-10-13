@@ -182,6 +182,9 @@ alias faketop='ps auwx | sort -n -k 3'
 # Multi-line/complex FUNCTIONS
 #------------------------------
 
+# CVS functions
+cvs-stat() { cvs -n update $* 2>&1 | egrep -v '^cvs update:' ; }
+
 # find that skips over .snapshot directories
 sfind() {
   (
