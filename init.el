@@ -2102,6 +2102,11 @@ That is, the cvsroot as seen on the cvs server (if remote), without hostname if 
      ;; useless message added before the actual addition: ignored 
      (cvs-match "RCS file: .*\ndone$"))))
 
+;;; csharp mode
+(autoload 'csharp-mode "csharp-mode-0.4.0" "csharp mode" t)
+
+(add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
+
 ;;;;;;;;;;;
 ;;
 ;; Newsticker- RSS reader
