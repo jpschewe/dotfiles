@@ -120,7 +120,7 @@
        ;; Prerequisit: Set the SHELL environment variable to bash before
        ;; starting emacs.  The variable shell-file-name is initialized to the
        ;; enviroment variable when emacs starts up.
-       (if (eq system-type 'windows-nt) ;; seems to mess up the cygwin version of xemacs
+       (if (eq system-type 'windows-nt);; seems to mess up the cygwin version of xemacs
 	   (cond
 	    ((file-exists-p (expand-file-name "c:\\packages\\cygwin\\bin\\bash.exe"))
 	     (setq shell-file-name "c:\\packages\\cygwin\\bin\\bash.exe"))
@@ -155,7 +155,16 @@
 	((file-exists-p "/usr/lib/ooo-1.1/program/soffice")
 	 (setq openoffice-executable "/usr/lib/ooo-1.1/program/soffice"))
 	)
-       ))
+       (t
+	(setq openoffice-exeutable "openoffice-not-found"))
+       )
+      ((eq system-type 'darwin)
+       (cond
+	((file-exists-p "/Applications/OpenOffice.org.app")
+	 (setq openoffice-executable "open /Applications/OpenOffice.org.app"))
+	(t
+	 (setq openoffice-exeutable "openoffice-not-found"))
+	)))
 
 
 ;;;;;;;;;;;
