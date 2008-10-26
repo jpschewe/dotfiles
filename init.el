@@ -693,7 +693,8 @@
   (setq dired-compression-method 'gzip)
   ;; allow one to see log files in omit mode
   (setq dired-omit-extensions (delete ".log" dired-omit-extensions))
-  (setq dired-omit-extensions (append dired-omit-extensions ".pyc"))
+  (setq dired-omit-extensions (append dired-omit-extensions '(".pyc")))
+  (setq dired-omit-extensions (append dired-omit-extensions '(".os")))
   
   ;; don't refresh dired buffers all of the time
   (setq dired-refresh-automatically nil)
