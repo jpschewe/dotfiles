@@ -24,6 +24,8 @@ case $OSTYPE in
          append PATH /opt/kde3/bin
          append PATH /opt/gnome/bin
          append PATH /usr/games
+         append PATH /sbin
+         append PATH /usr/local/sbin
          ;;
   cygwin)
           append PATH /usr/local/bin
@@ -33,6 +35,8 @@ case $OSTYPE in
 	   prepend PATH /usr/local/bin
 	   append PATH /sbin
 	   append PATH /usr/sbin
+	   append PATH /opt/local/sbin
+	   append PATH /usr/local/sbin
 	   ;;
 esac
 
