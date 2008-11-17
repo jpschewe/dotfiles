@@ -154,9 +154,8 @@
 	 (setq openoffice-executable "/opt/OpenOffice.org/program/soffice"))
 	((file-exists-p "/usr/lib/ooo-1.1/program/soffice")
 	 (setq openoffice-executable "/usr/lib/ooo-1.1/program/soffice"))
-	)
-       (t
-	(setq openoffice-exeutable "openoffice-not-found"))
+	(t
+	 (setq openoffice-exeutable "openoffice-not-found")))
        )
       ((eq system-type 'darwin)
        (cond
