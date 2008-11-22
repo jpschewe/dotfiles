@@ -1,4 +1,12 @@
-all:
+EMACS = xemacs
+
+ELCS=$(patsubst %.el,%.elc,$(wildcard *.el))
+
+%.elc: %.el
+	$(EMACS) -batch -f batch-byte-compile $<
+
+.PHONY: all
+all: $(ELCS)
 	mkdir -p auto-save
 	chmod go-rx auto-save
 	mkdir -p cache
@@ -9,6 +17,7 @@ all:
 	#make -C jde-2.3.5.1/lisp
 	make -C xemacs-packages/lisp
 
+.PHONY: clean
 clean:
 	#make -C cedet-1.0beta3b clean
 	#make EMACS=xemacs -C cedet-1.0pre3 clean

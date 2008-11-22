@@ -1,5 +1,9 @@
 EMACS = xemacs
 
-all:
-	rm -f *.elc
-	$(EMACS) -batch -f batch-byte-compile `echo *.el`
+ELCS=$(patsubst %.el,%.elc,$(wildcard *.el))
+
+%.elc: %.el
+	$(EMACS) -batch -f batch-byte-compile $<
+
+.PHONY: all
+all: $(ELCS)
