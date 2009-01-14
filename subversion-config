@@ -107,6 +107,7 @@ enable-auto-props = yes
 *.xml = svn:mime-type=text/xml;svn:eol-style=native
 *.xsd = svn:mime-type=text/xml;svn:eol-style=native
 Makefile = svn:mime-type=text/plain;svn:eol-style=native
+makefile = svn:mime-type=text/plain;svn:eol-style=native
 *.pl = svn:mime-type=text/x-perl;svn:eol-style=native;svn:keywords=Id
 *.py = svn:mime-type=text/x-python;svn:eol-style=native
 *.idl = svn:mime-type=text/x-idl-source;svn:eol-style=native
