@@ -117,6 +117,41 @@ case $OSTYPE in
     ;;
 esac
 
+# SVN stuff
+svn() {
+  case "$1" in
+    pp|propprint)
+      shift; svn_propprint "$@" ;;
+    pa|propadd)
+      shift; svn_propadd "$@" ;;
+    url)
+      shift; svn_field URL "$@" ;;
+    root)
+      shift; svn_field "Repository Root" "$@" ;;
+    field)
+      shift; svn_field "$@" ;;
+    *)
+      #(unset svn; svn "$@")
+      env svn "$@" ;;
+  esac
+}
+svn_field() {
+  FIELD="$1"; shift
+  svn info "$@" | egrep "^$FIELD:" | sed "s/^$FIELD: //"
+}
+svn_propprint() {
+  svn proplist -v "$@"
+#  svn proplist $@ | egrep '^ +' \
+#    | xargs -I {} bash -c "echo '{} == '; svn propget {} $@ | sed 's/^/ /'"
+}
+svn_propadd() {
+  # propset PROPNAME PROPVAL PATH...
+  PROPNAME="$1"; shift
+  PROPVALUE="$1"; shift
+  svn propset "${PROPNAME}" "`svn propget \"${PROPNAME}\" \"$@\"` ${PROPVALUE}" "$@"
+}
+
+
 # make sure XEmacs generates an error log
 #xemacs () {
 #  if [ ! -d ~/.xemacs ]; then
