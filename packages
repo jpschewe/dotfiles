@@ -371,6 +371,15 @@ fi
 UNISONLOCALHOSTNAME=`hostname -s`
 export UNISONLOCALHOSTNAME
 
+### SBCL
+if [ -e ${HOME}/sbcl ]; then
+  SBCL_HOME=${HOME}/sbcl/lib/sbcl
+  export SBCL_HOME
+  append PATH ${HOME}/sbcl/bin
+  alias sbcl='sbcl --dynamic-space-size 2000'
+fi
+
+
 ### HOME
 prepend PATH "${HOME}/bin"
 prepend PATH "${HOME}/bin/$OSTYPE"
