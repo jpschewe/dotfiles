@@ -29,7 +29,7 @@ if [ -n "`type -p keychain`" ]; then
   else
     keychain="keychain"
   fi
-  keychain="${keychain} --host ${keychain_cache}"
+  keychain="${keychain} --host ${keychain_cache} --agents ssh"
   
   if [ -f ${HOME}/.ssh/id_dsa ]; then
     ${keychain} id_dsa
@@ -40,7 +40,8 @@ if [ -n "`type -p keychain`" ]; then
   if [ -f $HOME/.keychain/${keychain_cache}-sh ]; then
     source $HOME/.keychain/${keychain_cache}-sh
   fi
-  if [ -f $HOME/.keychain/${keychain_cache}-sh-gpg ]; then
-    source  $HOME/.keychain/${keychain_cache}-sh-gpg
-  fi
+  # GNOME starts gpg-agent for me 
+  #if [ -f $HOME/.keychain/${keychain_cache}-sh-gpg ]; then
+  #  source  $HOME/.keychain/${keychain_cache}-sh-gpg
+  #fi
 fi
