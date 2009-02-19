@@ -163,7 +163,9 @@
 	 (setq openoffice-executable "open /Applications/OpenOffice.org.app"))
 	(t
 	 (setq openoffice-exeutable "openoffice-not-found"))
-	)))
+	)
+       (require 'osx-clipboard)
+       ))
 
 
 ;;;;;;;;;;;
