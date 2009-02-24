@@ -379,6 +379,17 @@ if [ -e ${HOME}/sbcl ]; then
   alias sbcl='sbcl --dynamic-space-size 2000'
 fi
 
+### Allegro
+append PATH /opt/acl80
+
+### SBCL
+if [ -e ${HOME}/sbcl ]; then
+  SBCL_HOME=${HOME}/sbcl/lib/sbcl
+  export SBCL_HOME
+  append PATH ${HOME}/sbcl/bin
+  alias sbcl='sbcl --dynamic-space-size 2000'
+fi
+
 
 ### HOME
 prepend PATH "${HOME}/bin"
