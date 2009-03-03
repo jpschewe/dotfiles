@@ -194,6 +194,7 @@ case $OSTYPE in
           ;;
   linux | linux-gnu)
                      for java_dir in \
+		      /opt/jdk1.5.0_07 \
                       /usr/java/jdk1.5.0_01 \
                       /usr/java/jdk1.5.0 \
                       /usr/java/j2sdk1.4.2_04 \
@@ -380,7 +381,8 @@ if [ -e ${HOME}/sbcl ]; then
 fi
 
 ### Allegro
-append PATH /opt/acl80
+#append PATH /opt/acl80
+append PATH /opt/acl81
 
 ### SBCL
 if [ -e ${HOME}/sbcl ]; then
