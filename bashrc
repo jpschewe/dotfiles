@@ -131,7 +131,6 @@ alias less='less -is'
 #alias lf='ls -F'
 #alias la='ls -Fa'
 #alias ll='ls -Fl'
-#alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 #alias w='w -s'
@@ -297,10 +296,20 @@ sd() {
   esac
 }
 
+# figure out by which name netcat goes by
 if [ -n "`type -p nc`" -a -z "`type -p netcat`" ]; then
   alias netcat=nc
 elif [ -n "`type -p netcat`" -a -z "`type -p nc`" ]; then
   alias nc=netcat
+fi
+
+# aliases for rm to use trash, if available
+if [ -n "`type -p trash-put`" ]; then
+  alias rm=trash-put
+elif [ -n "`type -p trash`" ]; then
+  alias rm=trash
+else 
+  alias rm='rm -i'
 fi
 
 dsd() {
