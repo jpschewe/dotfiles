@@ -306,13 +306,13 @@ elif [ -n "`type -p netcat`" -a -z "`type -p nc`" ]; then
 fi
 
 # aliases for rm to use trash, if available
-if [ -n "`type -p trash-put`" ]; then
-  alias rm=trash-put
-elif [ -n "`type -p trash`" ]; then
-  alias rm=trash
-else 
-  alias rm='rm -i'
-fi
+#if [ -n "`type -p trash-put`" ]; then
+#  alias rm=trash-put
+#elif [ -n "`type -p trash`" ]; then
+#  alias rm=trash
+#else 
+#  alias rm='rm -i'
+#fi
 
 dsd() {
   case "$1" in
