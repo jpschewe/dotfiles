@@ -18,6 +18,7 @@ read answer
 if [ "x${answer}" = "xy" ]; then
   mkdir -p "${HOME}/.ssh"
   ln -sf "${mypath}/sssha" "${HOME}/.ssh/sssha"
+  ln -sf "${mypath}/sssha-helper" "${HOME}/.ssh/sssha-helper"
 else
   rm -f "${HOME}/.ssh/sssha"
 fi
