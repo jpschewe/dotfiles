@@ -417,8 +417,19 @@ fi
 export SSH_ASKPASS
 
 
-if [ -x "${HOME}/.ssh/sssha" ]; then
-  . ${HOME}/.ssh/sssha
+if [ -e "${HOME}/.ssh/sssha" ]; then
+  if [ $OSTYPE = "cygwin" ]; then
+    agent_env=`ipconfig /all | egrep "Physical Address" | awk '{print $NF}' | head -1`
+  elif [ -x /sbin/ifconfig ]; then
+    # find the first ethernet card's MAC address as this is unique to a machine.
+    # Make sure to grep out vmware server interfaces 
+    agent_env=`/sbin/ifconfig -a | egrep '(ether|HWaddr)' | awk '{print $NF}' | egrep -iv '^00:50:56' | head -1`
+elif [ -n "${HOSTNAME}" ]; then
+  agent_env=${HOSTNAME}
+else
+  agent_env="unknown-host"  
+fi
+  . "${HOME}/.ssh/sssha" -g -e ${agent_env}
 fi
 
 #
