@@ -383,6 +383,7 @@ fi
 ### Allegro
 #append PATH /opt/acl80
 append PATH /opt/acl81
+append PATH /Applications/AllegroCL
 
 ### SBCL
 if [ -e ${HOME}/sbcl ]; then

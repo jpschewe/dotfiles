@@ -95,6 +95,7 @@ enable-auto-props = yes
 *.dom = svn:mime-type=application/dome
 *.el = svn:mime-type=text/x-emacs-lisp;svn:eol-style=native
 *.h = svn:mime-type=text/x-c-header;svn:eol-style=native;svn:keywords=Id
+*.hh = svn:mime-type=text/x-cpp-header;svn:eol-style=native;svn:keywords=Id
 *.html = svn:mime-type=text/html;svn:eol-style=native
 *.java = svn:mime-type=text/x-java-source;svn:eol-style=native;svn:keywords=Author Date Rev LastChangedBy Id
 *.jpg = svn:mime-type=image/jpeg

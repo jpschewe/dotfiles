@@ -21,6 +21,7 @@ if [ "x${answer}" = "xy" ]; then
   ln -sf "${mypath}/sssha-helper" "${HOME}/.ssh/sssha-helper"
 else
   rm -f "${HOME}/.ssh/sssha"
+  rm -f "${HOME}/.ssh/sssha-helper"
 fi
 
 # subversion

@@ -1,3 +1,5 @@
+# Hey EMACS, this should be in -*- sh -*- mode
+
 if [ $OSTYPE = "cygwin" ]; then
     agent_env=`ipconfig /all | egrep "Physical Address" | awk '{print $NF}' | head -1`
 elif [ -x /sbin/ifconfig ]; then
@@ -10,4 +12,8 @@ else
   agent_env="unknown-host"  
 fi
 
-. "${HOME}/.ssh/sssha" -g -e ${agent_env}
+if [ -n "`type -p gnome-keyring-daemon`" ]; then
+  . "${HOME}/.ssh/sssha" -g -e ${agent_env}
+else
+  . "${HOME}/.ssh/sssha" -e ${agent_env}
+fi
