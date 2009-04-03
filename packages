@@ -19,7 +19,7 @@ append PATH /bin
 
 ### Backwards compatible
 case $OSTYPE in
-  linux)
+  linux*)
          append PATH /usr/local/bin
          append PATH /opt/kde3/bin
          append PATH /opt/gnome/bin
@@ -68,7 +68,7 @@ case $OSTYPE in
   cygwin) X11HOME=/usr/X11R6 
           append PATH ${X11HOME}/bin
           ;;
-  linux) X11HOME=/usr/X11R6;;
+  linux*) X11HOME=/usr/X11R6;;
   darwin*) X11HOME=/usr/X11;;
 esac
 
@@ -248,7 +248,7 @@ case $OSTYPE in
             U_ANT_HOME=`cygpath "${ANT_HOME}"`
           fi
           ;;
-  linux)
+  linux*)
          if [ -e /usr/local/ant/apache-ant-1.7.1 ]; then
            ANT_HOME=/usr/local/ant/apache-ant-1.7.1
          elif [ -e /usr/local/ant/apache-ant-1.7.0 ]; then
@@ -339,15 +339,17 @@ esac
 
 ### VisualWorks 7.2
 case $OSTYPE in
-  linux)
-    export VISUALWORKS=/usr/local/vw7.1nc
-    append PATH ${VISUALWORKS}
+  linux*)
+    if [ -e /usr/local/vw7.1nc ]; then
+      export VISUALWORKS=/usr/local/vw7.1nc
+      append PATH ${VISUALWORKS}
+    fi
     ;;
 esac
 
 ### OpenPBS
 case $OSTYPE in
-  linux)
+  linux*)
          append PATH /opt/pbs/bin
          ;;
 esac
