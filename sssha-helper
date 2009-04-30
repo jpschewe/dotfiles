@@ -13,7 +13,8 @@ else
 fi
 
 if [ -n "`type -p gnome-keyring-daemon`" ]; then
-  . "${HOME}/.ssh/sssha" -g -e ${agent_env}
+  #. "${HOME}/.ssh/sssha" -g -e ${agent_env}
+  . "${HOME}/.ssh/sssha" -e ${agent_env}
 else
   . "${HOME}/.ssh/sssha" -e ${agent_env}
 fi
