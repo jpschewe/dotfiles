@@ -384,8 +384,15 @@ fi
 
 ### Allegro
 #append PATH /opt/acl80
-append PATH /opt/acl81
-append PATH /Applications/AllegroCL
+if [ -e /opt/acl81 ]; then
+  ACL_HOME=/opt/acl81
+elif [ -e /Applications/AllegroCL ]; then
+  ACL_HOME=/Applications/AllegroCL
+fi
+if [ -n "${ACL_HOME}" ]; then
+  export ACL_HOME
+  append PATH ${ACL_HOME}
+fi
 
 ### SBCL
 if [ -e ${HOME}/sbcl ]; then
@@ -395,6 +402,13 @@ if [ -e ${HOME}/sbcl ]; then
   alias sbcl='sbcl --dynamic-space-size 2000'
 fi
 
+# mac postgres
+PG_BIN=/opt/local/lib/postgresql83/bin
+PGDATA=/opt/local/var/db/postgresql83/defaultdb
+if [ -e ${PG_BIN} ]; then
+  alias postgres_start='echo "Need password for sudo"; sudo su postgres -c "${PG_BIN}/pg_ctl -D ${PGDATA} start"'
+  alias postgres_stop='echo "Need password for sudo"; sudo su postgres -c "${PG_BIN}/pg_ctl -D ${PGDATA} stop"'
+fi
 
 ### HOME
 prepend PATH "${HOME}/bin"
