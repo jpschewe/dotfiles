@@ -4,8 +4,11 @@
 # OVERVIEW	This startup is executed ONLY on bash _login_ shells
 #
 
+# From SUSE's default profile
+test -z "$PROFILEREAD" && test -f /etc/profile && . /etc/profile
+
 # Always load the interactive bash stuff first.
-test -z "$BRC" && source "${HOME}/.bashrc"
+test -z "$BRC" && test -f "${HOME}/.bashrc" && . "${HOME}/.bashrc"
 
 # be informative
 echo -n "`hostname`($TERM):"; uptime

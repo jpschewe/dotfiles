@@ -4,9 +4,9 @@
 # OVERVIEW	This startup is executed every time a bash is executed.
 #
 
-#if [ -n "$BASHRCREAD" ]; then
-#  return 0
-#fi
+if [ -n "$BASHRCREAD" ]; then
+  return 0
+fi
 
 #echo "Top of bashrc"
 
@@ -115,8 +115,8 @@ fi
 #------------------------------
 
 export BRC="$HOME/.bashrc"	# also used for test in .profile
-alias brc=". '$BRC'"
-#alias brc='unset BASHRCREAD ; . "${HOME}/.bashrc"'
+#alias brc=". '$BRC'"
+alias brc='unset BASHRCREAD ; . "${HOME}/.bashrc"'
 
 # other stuff here
 alias restart-tomcat='(cd / && sudo /etc/init.d/tomcat restart)'
@@ -424,6 +424,6 @@ fi
 #
 # Avoid loops and such
 #
-#BASHRCREAD=true
-#export BASHRCREAD
+BASHRCREAD=true
+export BASHRCREAD
 

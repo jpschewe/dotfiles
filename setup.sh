@@ -5,11 +5,10 @@ cd ${mypath}
 mypath=$PWD
 
 ln -sf "${mypath}/addpath" "${HOME}/.addpath"
-ln -sf "${mypath}/bash_login" "${HOME}/.bash_login"
+ln -sf "${mypath}/bash_profile" "${HOME}/.bash_profile"
 ln -sf "${mypath}/bash_logout" "${HOME}/.bash_logout"
 ln -sf "${mypath}/bashrc" "${HOME}/.bashrc"
 ln -sf "${mypath}/packages" "${HOME}/.packages"
-ln -sf "${mypath}/profile" "${HOME}/.profile"
 
 # ask about ssh
 echo -n "Would you like to have ssh-agent start up on login? (y/N) "
