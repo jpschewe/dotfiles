@@ -4,9 +4,10 @@
 # OVERVIEW	This startup is executed every time a bash is executed.
 #
 
-if [ -n "$BASHRCREAD" ]; then
-  return 0
-fi
+#FIXME: this isn't working yet
+#if [ -n "$BASHRCREAD" ]; then
+#  return 0
+#fi
 
 #echo "Top of bashrc"
 
