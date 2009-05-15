@@ -249,16 +249,12 @@ case $OSTYPE in
           fi
           ;;
   linux*)
-         if [ -e /usr/local/ant/apache-ant-1.7.1 ]; then
-           ANT_HOME=/usr/local/ant/apache-ant-1.7.1
-         elif [ -e /usr/local/ant/apache-ant-1.7.0 ]; then
-           ANT_HOME=/usr/local/ant/apache-ant-1.7.0
-         elif [ -e /usr/local/apache-ant-1.7.0 ]; then
-           ANT_HOME=/usr/local/apache-ant-1.7.0
-         elif [ -e /usr/local/apache-ant-1.6.5 ]; then
-           ANT_HOME=/usr/local/apache-ant-1.6.5
-         elif [ -e /usr/local/apache-ant-1.6.2 ]; then
-           ANT_HOME=/usr/local/apache-ant-1.6.2
+	 if [ -e /usr/local/ant ]; then
+	   # find the most recently added version
+	   NEWEST_ANT=`ls -t /usr/local/ant | head -1`
+	 fi
+	 if [ -n "${NEWEST_ANT}" ]; then
+	   ANT_HOME=/usr/local/ant/${NEWEST_ANT}
          elif [ -e /usr/share/ant ]; then
            ANT_HOME=/usr/share/ant
          elif [ -e /opt/jakarta/ant ]; then
