@@ -98,7 +98,7 @@ ulimit -c unlimited
 #export GNU_HOST='grinch.htc.honeywell.com'
 #export GNU_SECURE="${HOME}/.gnu_hosts"
 
-export PILOTPORT=:usb
+export PILOTPORT=usb:
 export PILOTRATE=115200
 
 
