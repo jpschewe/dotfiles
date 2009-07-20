@@ -406,6 +406,9 @@ if [ -d "$X11DIR" ]; then
   fi
 fi
 
+# put times in the history log
+export HISTTIMEFORMAT="%h/%d - %H:%M:%S "
+
 if [ -f /usr/lib/ssh/gnome-ssh-askpass ]; then
   SSH_ASKPASS=/usr/lib/ssh/gnome-ssh-askpass
 elif [ -f /usr/lib64/ssh/gnome-ssh-askpass ]; then
@@ -421,6 +424,62 @@ export SSH_ASKPASS
 if [ -e "${HOME}/.ssh/sssha-helper" ]; then
   . "${HOME}/.ssh/sssha-helper"
 fi
+
+# from http://wiki.tcl.tk/1373
+function music () {
+  case $1 in
+    on)
+        if [ `pgrep musicbox` ]; then
+          #No musicbox running, start it.
+          mkdir -p "${HOME}/.musicbox"
+          musicbox >> "$HOME/.musicbox/played.`date`" &
+        else
+          echo "Musicbox already running, ignoring command"
+        fi
+        ;;
+    off)
+         pkill -U $UID musicbox
+         pkill -U $UID ogg123
+         ;;
+    pause)
+           pkill -STOP -U $UID musicbox
+           pkill -STOP -U $UID ogg123
+           ;;
+    cont)
+          if [ `pgrep musicbox` ]; then
+            pkill -CONT -U $UID musicbox
+            pkill -CONT -U $UID ogg123
+          else
+            music on
+          fi
+          ;;
+    #    stat)   here=`pwd`
+    #          cd "${HOME}/.mydata/CDs
+    #          find . -name '*.m3u' -print | wc -l | xargs echo '#Albums = '
+    #          find . -name '*.ogg' -print | wc -l | xargs echo '#Songs  = '
+    #          cd $here
+    #          ;;
+    played)
+            if [ -r $HOME/.musicboxrc ]; then
+              echo 'source ~/.musicboxrc ;puts "Played: [array size played]"; exit' | tclsh
+            else
+              echo "Nothing played"
+            fi
+            ;;
+#    vol)    rexima -v | grep pcm
+#         ;;
+    clear)
+           rm -f $HOME/.musicboxrc
+           rm -f $HOME/.musicboxrc.new
+           rm -f $HOME/.musicboxrc.old
+           ;;
+    *)
+       # Assume a number and use it to control the mixer
+       #rexima pcm $1
+       echo "Usage: music {on|off|pause|cont|played|clear}"
+       ;;
+  esac
+}
 
 #
 # Avoid loops and such
