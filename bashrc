@@ -430,11 +430,11 @@ function music () {
   case $1 in
     on)
         if [ `pgrep musicbox` ]; then
+          echo "Musicbox already running, ignoring command"
+        else
           #No musicbox running, start it.
           mkdir -p "${HOME}/.musicbox"
           musicbox >> "$HOME/.musicbox/played.`date`" &
-        else
-          echo "Musicbox already running, ignoring command"
         fi
         ;;
     off)
