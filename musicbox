@@ -1,0 +1,119 @@
+#!/usr/bin/env tclsh
+# Musicbox application, playing round the clock, all of the music I
+# have in certain directories. No arguments. Use ~/.musicboxrc to store
+# persistent information.
+#
+# Internal information:
+#
+# 1. Array containing the names of all the files which were already
+#    played as keys. The values are not relevant.
+#
+# 2. List of files to play. Filled via 'find', but only with files not
+#    already played. Shuffled in random order.
+#
+# Only (1) is persistent.
+#
+# *future* Rewrite to use the snack extension (when it incorporates
+# *ogg support).
+#
+# from http://wiki.tcl.tk/1373
+
+proc main {} {
+global    played
+array set played {}
+
+# Get persistent playing information.
+catch {source ~/.musicboxrc}
+
+# directory of music
+cd ~/music
+
+# Forever
+while {1} {
+# Search the music directories for unplayed files and shuffle them
+set playlist [shuffle [unplayed_files]]
+
+# If there were no new files then use the files which were
+# already played as list of songs to play and reset the 'played'
+# information.
+
+if {[llength $playlist] == 0} {
+set playlist [shuffle [lsort [array names played]]]
+clear_played
+}
+
+play $playlist
+#exit
+}
+}
+
+proc unplayed_files {} {
+set playlist [list]
+
+set p [open "|find . -name *.ogg" r]
+while {![eof $p]} {
+if {[gets $p line] < 0} {continue}
+set line [string trim $line]
+if {$line == {}} {continue}
+if {[isplayed $line]} {continue}
+lappend playlist $line
+}
+
+return $playlist
+}
+
+proc isplayed {file} {
+global played
+return [info exists played($file)]
+}
+
+proc clear_played {} {
+global    played
+unset     played
+array set played {}
+save_played
+return
+}
+
+proc K {x y} {return $x}
+
+proc shuffle {list} {
+set n [llength $list]
+set slist [list]
+while {$n>0} {
+set j [expr {int(rand()*$n)}]
+lappend slist [lindex $list $j]
+incr n -1
+set temp [lindex $list $n]
+set list [lreplace [K $list [set list {}]] $j $j $temp]
+}
+return $slist
+}
+
+proc play {list} {
+global played
+
+foreach file $list {
+puts stdout "Playing $file ..."
+catch {exec ogg123 $file > /dev/null}
+set played($file) .
+save_played
+}
+
+return
+}
+
+proc save_played {} {
+global played
+
+set    f [open ~/.musicboxrc.new w]
+puts  $f "array set played \{[array get played]\}"
+close $f
+
+catch {file copy -force ~/.musicboxrc ~/.musicboxrc.old}
+file copy -force ~/.musicboxrc.new ~/.musicboxrc
+return
+}
+
+# ... go
+main
