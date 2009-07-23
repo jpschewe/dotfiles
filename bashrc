@@ -429,7 +429,7 @@ fi
 function music () {
   case $1 in
     on)
-        if [ `pgrep musicbox` ]; then
+        if [ `pgrep -U ${UID} -f musicbox` ]; then
           echo "Musicbox already running, ignoring command"
         else
           #No musicbox running, start it.
@@ -438,17 +438,17 @@ function music () {
         fi
         ;;
     off)
-         pkill -U $UID musicbox
-         pkill -U $UID ogg123
+         pkill -U $UID -f musicbox
+         pkill -U $UID -f ogg123
          ;;
     pause)
            pkill -STOP -U $UID musicbox
            pkill -STOP -U $UID ogg123
            ;;
     cont)
-          if [ `pgrep musicbox` ]; then
-            pkill -CONT -U $UID musicbox
-            pkill -CONT -U $UID ogg123
+          if [ `pgrep -U ${UID} -f musicbox` ]; then
+            pkill -CONT -U $UID -f musicbox
+            pkill -CONT -U $UID -f ogg123
           else
             music on
           fi
