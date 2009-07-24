@@ -317,6 +317,8 @@ esac
 case $OSTYPE in
   cygwin) append PATH /cygdrive/c/packages/mysql/bin
           ;;
+#  darwin*) append PATH /usr/local/mysql/bin
+#           ;;
 esac
 
 ### gimp
@@ -405,6 +407,13 @@ if [ -e ${PG_BIN} ]; then
   alias postgres_start='echo "Need password for sudo"; sudo su postgres -c "${PG_BIN}/pg_ctl -D ${PGDATA} start"'
   alias postgres_stop='echo "Need password for sudo"; sudo su postgres -c "${PG_BIN}/pg_ctl -D ${PGDATA} stop"'
 fi
+
+# mac mysql
+if [ -e /opt/local/bin/mysqld_safe5 ]; then
+  alias mysqlstart='sudo /opt/local/bin/mysqld_safe5 &'
+  alias mysqlstop='/opt/local/bin/mysqladmin5 -u root -p shutdown'
+fi
+
 
 ### HOME
 prepend PATH "${HOME}/bin"
