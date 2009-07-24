@@ -10,10 +10,6 @@ for script in musicbox; do
   ln -sf "${mypath}/${script}" "${HOME}/bin"
 done
 
-if [ -e "${HOME}/music" ]; then
-  echo "You should create a link in ${HOME}/music to the top of your music directory so that musicbox will know where to find music."
-fi
-
 ln -sf "${mypath}/addpath" "${HOME}/.addpath"
 ln -sf "${mypath}/bash_profile" "${HOME}/.bash_profile"
 ln -sf "${mypath}/bash_logout" "${HOME}/.bash_logout"
