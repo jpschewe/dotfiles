@@ -219,8 +219,8 @@ case $OSTYPE in
                      ;;
   darwin*)
            for java_dir in \
-            /System/Library/Frameworks/JavaVM.framework/Versions/1.5/Home \
             /System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home \
+            /System/Library/Frameworks/JavaVM.framework/Versions/1.5/Home \
             /System/Library/Frameworks/JavaVM.framework/Versions/Current/Home
            do
              if [ -z "${JAVA_HOME}" -a -e "${java_dir}" ]; then

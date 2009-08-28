@@ -339,6 +339,9 @@ elif [ $TERM = "sun-nic" ]; then
 elif [ $TERM = "sun" ]; then
   alias ls='ls -F'
   PS1="\u@\h:\w\n>";
+elif [ $TERM = "screen" ]; then
+  # do screen stuff here
+  PS1="\u@\h:\w\n\[\033]0;\u@\h[$WINDOW]\007\]>";
 else 
   PS1="\u@\h:\w\n>";
 fi
