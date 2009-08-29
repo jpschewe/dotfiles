@@ -434,7 +434,8 @@ function music () {
     on)
         if [ -e "${HOME}/.music" ]; then
           if [ `pgrep -U ${UID} -f musicbox` ]; then
-            echo "Musicbox already running, ignoring command"
+            #echo "Musicbox already running, ignoring command"
+            music cont
           else
             #No musicbox running, start it.
             mkdir -p "${HOME}/.musicbox"
