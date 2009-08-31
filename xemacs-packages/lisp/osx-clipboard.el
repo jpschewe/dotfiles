@@ -35,7 +35,7 @@
   (interactive)
   (if (region-exists-p)
     (call-process-region 
-     (region-beginning) (region-end) osx-pbcopy-cmd nil t t)
+     (region-beginning) (region-end) osx-pbcopy-cmd nil nil nil)
     (error "region not selected")))
 
 (defun osx-pbcut ()
@@ -43,7 +43,7 @@
   (interactive)
   (if (region-exists-p)
     (call-process-region 
-     (region-beginning) (region-end) osx-pbcopy-cmd t t t)
+     (region-beginning) (region-end) osx-pbcopy-cmd t nil nil)
     (error "region not selected")))
 
 (define-key global-map "\C-c\M-v" 'osx-pbpaste)
