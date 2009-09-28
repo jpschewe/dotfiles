@@ -17,6 +17,7 @@
 ### saving of *new* credentials;  it doesn't invalidate existing
 ### caches.  (To do that, remove the cache files by hand.)
 # store-auth-creds = no
+password-stores = keychain, gnome-keyring
 
 ### Section for configuring external helper applications.
 [helpers]

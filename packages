@@ -327,6 +327,14 @@ case $OSTYPE in
 #           ;;
 esac
 
+# mac mysql
+if [ -e /opt/local/bin/mysqld_safe5 ]; then
+  alias mysql_start='echo "Enter sudo password, then put in background" && sudo /opt/local/bin/mysqld_safe5 '
+  alias mysql_stop='echo "enter mysql root password" && /opt/local/bin/mysqladmin5 -u root -p shutdown'
+fi
+
+
+
 ### gimp
 case $OSTYPE in
   cygwin)
@@ -410,16 +418,9 @@ fi
 PG_BIN=/opt/local/lib/postgresql83/bin
 PGDATA=/opt/local/var/db/postgresql83/defaultdb
 if [ -e ${PG_BIN} ]; then
-  alias postgres_start='echo "Need password for sudo"; sudo su postgres -c "${PG_BIN}/pg_ctl -D ${PGDATA} start"'
-  alias postgres_stop='echo "Need password for sudo"; sudo su postgres -c "${PG_BIN}/pg_ctl -D ${PGDATA} stop"'
+  alias postgres_start='echo "Need password for sudo"; sudo su postgres -c "cd /tmp && ${PG_BIN}/pg_ctl -D ${PGDATA} start"'
+  alias postgres_stop='echo "Need password for sudo"; sudo su postgres -c "cd /tmp && ${PG_BIN}/pg_ctl -D ${PGDATA} stop"'
 fi
-
-# mac mysql
-if [ -e /opt/local/bin/mysqld_safe5 ]; then
-  alias mysqlstart='sudo /opt/local/bin/mysqld_safe5 &'
-  alias mysqlstop='/opt/local/bin/mysqladmin5 -u root -p shutdown'
-fi
-
 
 ### HOME
 prepend PATH "${HOME}/bin"
