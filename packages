@@ -235,6 +235,12 @@ export JAVA_HOME
 JDK_HOME=${JAVA_HOME}
 export JDK_HOME
 
+### Maven
+if [ -d /usr/share/java/maven ]; then
+  M2_HOME=/usr/share/java/maven
+  export M2_HOME
+fi
+
 ### unzip & Motif
 #case $OSTYPE in
    #solaris2*) append LD_LIBRARY_PATH /usr/dt/lib;;
