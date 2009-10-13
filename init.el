@@ -1,5 +1,8 @@
 ;; -*- Mode: Emacs-Lisp -*-
 
+;; check which emacs is running
+(defvar running-xemacs (string-match "XEmacs\\|Lucid" emacs-version))
+
 ;; take care of some custom variables right up front
 (custom-set-variables
  '(gutter-buffers-tab-enabled nil);;get rid of stupid themometer
@@ -7,6 +10,12 @@
  '(load-home-init-file t t);;don't let XEmacs mangle my .emacs
  '(query-user-mail-address nil);; quit asking me my email address
  )
+
+;; setup paths
+(cond ((not running-xemacs)
+       (add-to-list 'load-path (expand-file-name "~/.xemacs/xemacs-packages/lisp"))
+       (add-to-list 'load-path (expand-file-name "~/.xemacs/xemacs-packages/lisp/camelCase"))
+       ))
 
 ;;set faces up front
 (custom-set-faces)
@@ -39,8 +48,9 @@
 (message "Basic settings")
 ;; toolbar stuff
 (message "toolbar")
-(set-default-toolbar-position 'top)
-(set-specifier default-toolbar-visible-p nil)
+(cond (running-xemacs
+       (set-default-toolbar-position 'top)
+       (set-specifier default-toolbar-visible-p nil)))
 
 (setq next-line-add-newlines nil;; no newlines at EOF
       mouse-yank-at-point t;; yank from current position, ignore mouse
@@ -78,7 +88,7 @@
 
 ;; set the title to make it easy to determine which XEmacs is running
 (let ((host (downcase (system-name))))
-  (setq frame-title-format (concat "XEmacs: " (user-real-login-name) "@" (substring host 0 (search "." host)) ": %b")))
+  (setq frame-title-format (concat "Emacs: " (user-real-login-name) "@" (substring host 0 (search "." host)) ": %b")))
 
 ;; Change all yes/no prompts to y/n
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -164,7 +174,8 @@
 	(t
 	 (setq openoffice-exeutable "openoffice-not-found"))
 	)
-       (require 'osx-clipboard)
+       (cond (running-xemacs
+	     (require 'osx-clipboard)))
        ))
 
 
@@ -174,6 +185,10 @@
 ;;
 ;;;;;;;;;;;;
 (message "Keybindings")
+
+(cond ((not running-xemacs)
+       (global-set-key [(control tab)] 'other-window)
+       ))
 
 (defvar prefix-key-jps "\M-o" "Used as a prefix for my keybindings")
 
@@ -185,11 +200,6 @@
 (global-set-key (concat prefix-key-jps "n") 'rename-buffer)
 (global-set-key (concat prefix-key-jps "r") 'revert-buffer-jps)
 (global-set-key (concat prefix-key-jps "b") 'bury-buffer)
-
-(global-set-key (concat prefix-key-jps "u") 'ss-uncheckout)
-(global-set-key (concat prefix-key-jps "i") 'ss-update)
-(global-set-key (concat prefix-key-jps "o") 'ss-checkout)
-(global-set-key (concat prefix-key-jps "y") 'ss-get)
 
 (global-set-key (concat prefix-key-jps "a") 'tags-search-jps)
 (defun tags-search-jps (regex)
@@ -301,19 +311,25 @@
 
 ;;make sure cache directory exists
 (let ((cache-dir (concat "/tmp/" user-login-name "/xemacs-cache")))
-  (make-directory-path cache-dir)
+  (if running-xemacs
+      (make-directory-path cache-dir)
+    (make-directory cache-dir t))
   (setq fast-lock-cache-directories (list cache-dir)))
 
 
 (require 'font-lock)
-(setq font-lock-support-mode 'fast-lock-mode)
-(add-hook 'font-lock-mode-hook 'turn-on-fast-lock)
-;;(add-hook 'font-lock-mode-hook 'turn-on-lazy-lock)
+(cond (running-xemacs
+       (require 'fast-lock)
+       (setq font-lock-support-mode 'fast-lock-mode)
+       (add-hook 'font-lock-mode-hook 'turn-on-fast-lock)
+       ;;(add-hook 'font-lock-mode-hook 'turn-on-lazy-lock)
+       ))
        
 (set-face-foreground 'font-lock-warning-face "yellow")
 (set-face-background 'font-lock-warning-face "red")
 (make-face 'font-lock-todo-face)
-(set-face-parent 'font-lock-todo-face 'default)
+(if running-xemacs
+    (set-face-parent 'font-lock-todo-face 'default))
 (set-face-foreground 'font-lock-todo-face "red")
 (defun add-special-font-lock-faces-jps (vars)
   "Add my special highlighting to each font-lock var in the given list"
@@ -359,7 +375,11 @@
 ;;
 ;;;;;;;;;;;;
 (message "Parens")
-(paren-set-mode 'paren)
+(if running-xemacs
+    (paren-set-mode 'paren)
+  (progn
+    (setq show-paren-mode t)
+    (setq show-paren-style 'parenthesis)))
 
 
 ;;;;;;;;;;;
@@ -386,7 +406,7 @@
        "^.*\\(?:[Pp]ass\\(?:word\\| ?phrase\\)\\).*:\\s-*\\'"
        )
 
-(require 'comint-local)
+(if running-xemacs (require 'comint-local))
 
 (defun comint-common-hook-jps ()
   (local-set-key [up] 'comint-previous-matching-input-from-input)
@@ -692,10 +712,11 @@
 
   
   (setq dired-compression-method 'gzip)
-  ;; allow one to see log files in omit mode
-  (setq dired-omit-extensions (delete ".log" dired-omit-extensions))
-  (setq dired-omit-extensions (append dired-omit-extensions '(".pyc")))
-  (setq dired-omit-extensions (append dired-omit-extensions '(".os")))
+  (cond (running-xemacs
+	 ;; allow one to see log files in omit mode
+	 (setq dired-omit-extensions (delete ".log" dired-omit-extensions))
+	 (setq dired-omit-extensions (append dired-omit-extensions '(".pyc")))
+	 (setq dired-omit-extensions (append dired-omit-extensions '(".os")))))
   
   ;; don't refresh dired buffers all of the time
   (setq dired-refresh-automatically nil)
@@ -916,6 +937,9 @@
 (setq-default ediff-ignore-similar-regions t)
 (setq-default ediff-auto-refine t)
 
+(if running-xemacs
+    ;; TODO put in until xemacs gets fixed
+    (setq ediff-coding-system-for-write 'escape-quoted))
 
 ;;;;;;;;;;;
 ;;
@@ -924,7 +948,8 @@
 ;;;;;;;;;;;;
 (message "Perl")
 (require 'cperl-mode)
-(add-special-font-lock-faces-jps (list 'perl-font-lock-keywords 'perl-font-lock-keywords-1 'perl-font-lock-keywords-2))
+(if running-xemacs 
+    (add-special-font-lock-faces-jps (list 'perl-font-lock-keywords 'perl-font-lock-keywords-1 'perl-font-lock-keywords-2)))
 
 (defun cperl-mode-hook-jps ()
   ;; make parens show the text before the paren in the minibuffer
@@ -1107,22 +1132,25 @@ Unless optional argument INPLACE is non-nil, return a new string."
 (add-hook 'sgml-mode-hook  'sgml-mode-hook-jps)
 
 (make-face 'sgml-comment-face)
-(set-face-parent 'sgml-comment-face 'default)
+(if running-xemacs
+    (set-face-parent 'sgml-comment-face 'default))
 (set-face-foreground 'sgml-comment-face "darkblue")
 (make-face 'sgml-start-tag-face)
-(set-face-parent 'sgml-start-tag-face 'default)
+(if running-xemacs
+(set-face-parent 'sgml-start-tag-face 'default))
 (set-face-foreground 'sgml-start-tag-face "black")
 (make-face 'sgml-end-tag-face)
-(set-face-parent 'sgml-end-tag-face 'default)
+(if running-xemacs (set-face-parent 'sgml-end-tag-face 'default))
 (set-face-foreground 'sgml-end-tag-face "SeaGreen")
 (make-face 'sgml-entity-face)
-(set-face-parent 'sgml-entity-face 'default)
+(if running-xemacs (set-face-parent 'sgml-entity-face 'default))
 (set-face-foreground 'sgml-entity-face "Red")
 (make-face 'sgml-doctype-face)
-(set-face-parent 'sgml-doctype-face 'default)
+(if running-xemacs (set-face-parent 'sgml-doctype-face 'default))
 (set-face-foreground 'sgml-doctype-face "White")
 
 ;;my own catalog for dtds
+(cond (running-xemacs
 (require 'psgml)
 (add-to-list 'sgml-catalog-files
 	     (expand-file-name "CATALOG" (locate-data-directory "config-jps")))
@@ -1139,7 +1167,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
 	(end-tag   . sgml-end-tag-face)
 	(doctype   . sgml-doctype-face)
 	(entity    . sgml-entity-face)))
-
+))
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
 
@@ -1150,8 +1178,9 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;; CamelCase
 ;;
 ;;;;;;;;;;;;
+(cond (running-xemacs
 (message "CamelCase")
-(load-library "camelCase-mode")
+(load-library "camelCase-mode")))
 
 ;;;;;;;;;;;
 ;;
@@ -1198,6 +1227,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;; Crypt
 ;;
 ;;;;;;;;;;;;
+(cond (running-xemacs
 (message "Crypt")
 (setq crypt-encryption-type 'pgp
       crypt-confirm-password t
@@ -1206,18 +1236,20 @@ Unless optional argument INPLACE is non-nil, return a new string."
 				;; contains dos if mule exists
       )
 (require 'crypt)
+))
 
 ;;;;;;;;;;;
 ;;
 ;; minibuffer
 ;;
 ;;;;;;;;;;;;
+(cond (running-xemacs
 (message "minibuffer")
 
 ;; resize the minibuffer when stuff is too big
 (resize-minibuffer-mode 1)
 (setq resize-minibuffer-window-exactly nil)
-
+))
 
 ;;;;;;;;;;;
 ;;
@@ -1428,6 +1460,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;; Backups
 ;;
 ;;;;;;;;;;;;
+(cond (running-xemacs
 (message "Backups")
 ;;backup-dir, stick all backups in a directory
 (require 'backup-dir)
@@ -1456,6 +1489,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
 (require 'auto-save)
 (require 'efs)
 (efs-display-ftp-activity)
+))
 
 (when (or
        (eq system-type 'usg-unix-v)
@@ -1528,7 +1562,10 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;;;;;;;;;;;
 ;;make iswitchb work like switch-to-buffer
 (setq iswitchb-default-method 'samewindow)
-(iswitchb-default-keybindings)
+(if (fboundp 'iswitchb-mode)
+    (iswitchb-mode)
+  (iswitchb-default-keybindings))
+
 ;;(global-set-key "\C-xb" 'switch-to-buffer)
 
 ;;;;;;;;;;;
@@ -1544,85 +1581,10 @@ Unless optional argument INPLACE is non-nil, return a new string."
 
 ;;;;;;;;;;;
 ;;
-;; Source Safe
-;;
-;;;;;;;;;;;;
-(when (eq system-type 'windows-nt)
-  (message "Source Safe")
-
-  ;; visual source safe stuff
-  ;;(require 'source-safe)
-  (setq source-safe-program "c:/progra~1/micros~4/vss/win32/ss.exe")
-  ;;(setq ss-project-dirs-cache nil) eval after changing project dirs
-  (setq ss-project-dirs '(
-			  ("^//mn65-fs1/home/jschewe/projects/schedinfra/" . "$/")
-			  ("^//mn65-fs1/home/jschewe/projects/dasada/code/" . "$/")
-			  ("^//mn65-fs1/home/jschewe/projects/sm-sched/vss/" . "$/")
-			  ("^//mn65-fs1/home/jschewe/projects/sydney-poc/" . "$/")
-			  ("^//mn65-fs1/home/jschewe/projects/ptm/code/" . "$/")
-			  ))
-  ;;(setq ss-database-alist-cache nil) eval after changing database alis
-  (setq ss-database-alist '(
-			    ("^//mn65-fs1/home/jschewe/projects/schedinfra/" . "//hl-dfs/net/projects/SchedInfra/VSS/")
-			    ("^//mn65-fs1/home/jschewe/projects/dasada/code/" . "//hl-dfs/net/projects/dasada/VSS/")
-			    ("^//mn65-fs1/home/jschewe/projects/sm-sched/vss/" . "//hl-dfs/net/projects/sm-sched/VSS/")
-			    ("^//mn65-fs1/home/jschewe/projects/sydney-poc/" . "//hl-dfs/net/projects/hybrid-scheduling/Sydney-POC/VSS/")
-			    ("^//mn65-fs1/home/jschewe/projects/ptm/code/" . "//mn65-fs1/projects/PTM/VSS/")
-			    ))
-  (setq ss-tmp-dir "c:/temp")
-  (setq ss-multiple-checkouts-enabled t)
-
-  (autoload 'ss-get "source-safe"
-    "Get the latest version of the file currently being visited." t)
-
-  (autoload 'ss-checkout "source-safe"
-    "Check out the currently visited file so you can edit it." t)
-
-  (autoload 'ss-lock "source-safe"
-    "Check out, but don't get the latest version of the file currently being visited." t)
-
-  (autoload 'ss-uncheckout "source-safe"
-    "Un-checkout the curently visited file." t)
-
-  (autoload 'ss-update "source-safe"
-    "Check in the currently visited file." t)
-
-  (autoload 'ss-checkin "source-safe"
-    "Check in the currently visited file." t)
-
-  (autoload 'ss-branch "source-safe"
-    "Branch off a private, writable copy of the current file for you to work on." t)
-
-  (autoload 'ss-unbranch "source-safe"
-    "Delete a private branch of the current file.  This is not undoable." t)
-
-  (autoload 'ss-merge "source-safe"
-    "Check out the current file and merge in the changes that you have made." t)
-
-  (autoload 'ss-history "source-safe"
-    "Show the checkin history of the currently visited file." t)
-
-  (autoload 'ss-status "source-safe"
-    "Show the status of the current file." t)
-
-  (autoload 'ss-locate "source-safe"
-    "Find a file the the current project." t)
-
-  (autoload 'ss-submit-bug-report "source-safe"
-    "Submit a bug report, with pertinent information." t)
-
-  (autoload 'ss-help "source-safe"
-    "Describe the SourceSafe mode." t)
-  )
-
-
-
-;;;;;;;;;;;
-;;
 ;; Info
 ;;
 ;;;;;;;;;;;;
-(message "Info")
+;;(message "Info")
 
 ;;(defun setup-bzip2 ()
 ;;  (progn
@@ -1853,6 +1815,7 @@ in some window."
 ;; put at end so everything is loaded
 ;;
 ;;;;;;;;;;;;
+(cond (running-xemacs
 (message "diminish")
 (require 'diminish)
 (require 'compile)
@@ -1866,6 +1829,7 @@ in some window."
 (diminish 'isearch-mode "IS")
 (diminish 'camelCase-mode "CC")
 (diminish 'filladapt-mode "Fa")
+))
 
 ;;; Emacs compatibility
 (unless (boundp 'quit-window)
