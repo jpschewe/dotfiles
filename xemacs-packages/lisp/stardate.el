@@ -69,8 +69,4 @@
 	    (let ((d (substring date 8 9)))
 	      (if (equal d " ") "0" d))
 	    (substring date 9 10)	; d
-	    "."
-	    (substring date 11 13)	; hh
-	    (substring date 14 16)	; mm
-	    stardate-timezone
 	    "]")))

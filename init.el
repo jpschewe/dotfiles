@@ -260,7 +260,6 @@
 
 (global-set-key "\C-x\C-d" 'insert-stardate)
 (autoload 'insert-stardate "stardate" nil t)
-(setq stardate-timezone "CST")
 (setq user-login-name (user-real-login-name))
  
 (global-set-key "\C-x\C-v" 'view-file)
