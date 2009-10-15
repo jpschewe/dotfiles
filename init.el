@@ -13,9 +13,13 @@
 
 ;; setup paths
 (cond ((not running-xemacs)
-       (add-to-list 'load-path (expand-file-name "~/.xemacs/xemacs-packages/lisp"))
-       (add-to-list 'load-path (expand-file-name "~/.xemacs/xemacs-packages/lisp/camelCase"))
-       ))
+       (let ((base-dir "~/.xemacs/xemacs-packages/lisp"))
+	 (dolist (fileOrDir (directory-files base-dir))
+	   (if (not (string= "." (substring fileOrDir 0 1)))
+	       (let ((path (expand-file-name fileOrDir base-dir)))
+		 (if (file-directory-p path)
+		     (add-to-list 'load-path path)
+		   )))))))
 
 ;;set faces up front
 (custom-set-faces)
@@ -1177,9 +1181,8 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;; CamelCase
 ;;
 ;;;;;;;;;;;;
-(cond (running-xemacs
 (message "CamelCase")
-(load-library "camelCase-mode")))
+(load-library "camelCase-mode")
 
 ;;;;;;;;;;;
 ;;
