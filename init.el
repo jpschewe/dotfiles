@@ -14,6 +14,7 @@
 ;; setup paths
 (cond ((not running-xemacs)
        (let ((base-dir "~/.xemacs/xemacs-packages/lisp"))
+	 (add-to-list 'load-path base-dir)
 	 (dolist (fileOrDir (directory-files base-dir))
 	   (if (not (string= "." (substring fileOrDir 0 1)))
 	       (let ((path (expand-file-name fileOrDir base-dir)))
@@ -27,15 +28,15 @@
 (if (not (boundp 'windows-nt)) (setq windows-nt nil))
 
 ;; define a variable to tell us where we are
-(defvar system-location 'unknown "The location that we're at.  Possible values: htc, home, unknown")
-(let ((host (downcase (system-name))))
-  (cond ((string-match "htc.honeywell.com" host)
-	 (setq system-location 'htc))
-	((string-match "mn.mtu.net" host)
-	 (setq system-location 'home))
-	((string-match "eggplant-laptop" host)
-	 (setq system-location 'home))
-	))
+;;(defvar system-location 'unknown "The location that we're at.  Possible values: htc, home, unknown")
+;;(let ((host (downcase (system-name))))
+;;  (cond ((string-match "htc.honeywell.com" host)
+;;	 (setq system-location 'htc))
+;;	((string-match "mn.mtu.net" host)
+;;	 (setq system-location 'home))
+;;	((string-match "eggplant-laptop" host)
+;;	 (setq system-location 'home))
+;;	))
 
 ;;(setq stack-trace-on-error t)
 
@@ -417,7 +418,8 @@
   (local-set-key "\M-p" 'comint-previous-matching-input-from-input)
   (local-set-key "\M-n" 'comint-next-matching-input-from-input)
   (local-set-key "\C-cc" 'comint-continue-subjob)
-  (turn-off-font-lock)
+  (if running-xemacs
+      (turn-off-font-lock))
   (local-set-key [tab] 'comint-dynamic-complete)
   )
 
@@ -894,7 +896,8 @@
       compilation-read-command nil
       compile-highlight-display-limit 1024
       compilation-ask-about-save nil)
-(add-hook 'compilation-mode-hook 'turn-off-font-lock)
+(if running-xemacs
+    (add-hook 'compilation-mode-hook 'turn-off-font-lock))
 
 ;;(defadvice compile-internal (around compile-internal-jps)
 ;;  "Switch to compilation buffer in other window"
@@ -1059,7 +1062,8 @@
   )
 (add-hook 'jde-mode-hook 'jde-mode-hook-jps)
 
-(add-hook 'jde-run-mode-hook 'turn-off-font-lock)
+(if running-xemacs
+    (add-hook 'jde-run-mode-hook 'turn-off-font-lock))
 
 (defvar project-header-info nil "Information about a project for the header, usually the charge number and date")
 (defun insert-project-header-info-jps ()
