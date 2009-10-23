@@ -95,7 +95,7 @@ global played
 
 foreach file $list {
 puts stdout "Playing $file ..."
-catch {exec ogg123 $file > /dev/null}
+catch {exec ogg123 -q $file > /dev/null}
 set played($file) .
 save_played
 }
