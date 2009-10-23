@@ -491,10 +491,10 @@ function music () {
 }
 
 # custom completion methods
-if [ -n "`type -p git`" ]; then
-  # TODO figure out a more robust way to find this script
-  . ${HOME}/dotfiles/git-completion.sh
-fi
+#if [ -n "`type -p git`" ]; then
+#  # TODO figure out a more robust way to find this script
+#  . ${HOME}/dotfiles/git-completion.sh
+#fi
 
 
 #
