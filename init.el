@@ -70,6 +70,7 @@
       shell-multiple-shells t;; allow multiple shell buffers
       ;;completion-ignore-case t          ;case insensitive file matching
       find-file-compare-truenames t;; watch out for symlinks
+      vc-follow-symlinks t ;; follow symlinks without question
       ;;find-file-use-truenames t ;; always find the real filename
       ;;Manual-program "man"
       visible-bell t;; don't beep
