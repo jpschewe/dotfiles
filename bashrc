@@ -329,22 +329,39 @@ dsd() {
 if [ $TERM = "linux" ]; then
    export TERM=vt102
 fi
+
 if [ $TERM = xterm ]; then
-  PS1="\u@\h:\w\n\[\033]0;\u@\h\007\]>";
+  BASE_PS1="\u@\h:\w\[\033]0;\u@\h\007\]";
 elif [ $TERM = xterm-color ]; then
-  PS1="\u@\h:\w\n\[\033]0;\u@\h\007\]>";
+  BASE_PS1="\u@\h:\w\[\033]0;\u@\h\007\]";
 elif [ $TERM = "sun-nic" ]; then
   alias ls='ls -F'
-  PS1="\u@\h:\w\n>";
+  BASE_PS1="\u@\h:\w";
 elif [ $TERM = "sun" ]; then
   alias ls='ls -F'
-  PS1="\u@\h:\w\n>";
+  BASE_PS1="\u@\h:\w\n>";
 elif [ $TERM = "screen" ]; then
   # do screen stuff here
-  PS1="\u@\h:\w\n\[\033]0;\u@\h[$WINDOW]\007\]>";
+  BASE_PS1="\u@\h:\w\n\[\033]0;\u@\h[$WINDOW]\007\]>";
 else 
-  PS1="\u@\h:\w\n>";
+  BASE_PS1="\u@\h:\w\n>";
 fi
+
+# custom completion methods
+if [ -n "`type -p git`" ]; then
+  # TODO figure out a more robust way to find this script
+  . ${HOME}/dotfiles/git-completion.sh
+  GIT_PS1_SHOWDIRTYSTATE=true
+  export GIT_PS1_SHOWDIRTYSTATE
+  GIT_PS1_SHOWSTASHSTATE=true
+  export GIT_PS1_SHOWSTASHSTATE
+  GIT_PS1_SHOWUNTRACKEDFILES=true
+  export GIT_PS1_SHOWUNTRACKEDFILES
+  PS1=${BASE_PS1}'\n$(__git_ps1 "(%s) ")>'
+else
+  PS1="${BASE_PS1}\n>"
+fi
+
 export PS1
 
 if [ -n "$EMACS" -o "$TERM" = "emacs" ]; then
@@ -490,11 +507,6 @@ function music () {
   esac
 }
 
-# custom completion methods
-#if [ -n "`type -p git`" ]; then
-#  # TODO figure out a more robust way to find this script
-#  . ${HOME}/dotfiles/git-completion.sh
-#fi
 
 
 #
