@@ -342,7 +342,7 @@ elif [ $TERM = "sun" ]; then
   BASE_PS1="\u@\h:\w\n>";
 elif [ $TERM = "screen" ]; then
   # do screen stuff here
-  BASE_PS1="\u@\h:\w\n\[\033]0;\u@\h[$WINDOW]\007\]>";
+  BASE_PS1="\u@\h:\w\[\033]0;\u@\h[$WINDOW]\007\]";
 else 
   BASE_PS1="\u@\h:\w\n>";
 fi
