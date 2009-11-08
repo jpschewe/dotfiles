@@ -357,7 +357,7 @@ if [ -n "`type -p git`" ]; then
   export GIT_PS1_SHOWSTASHSTATE
   GIT_PS1_SHOWUNTRACKEDFILES=true
   export GIT_PS1_SHOWUNTRACKEDFILES
-  PS1=${BASE_PS1}'\n$(__git_ps1 "(%s) ")>'
+  PS1=${BASE_PS1}'\n$(__git_ps1 "[%s] ")>'
 else
   PS1="${BASE_PS1}\n>"
 fi
@@ -456,7 +456,7 @@ function music () {
           else
             #No musicbox running, start it.
             mkdir -p "${HOME}/.musicbox"
-            musicbox >> "$HOME/.musicbox/played.`date`" &
+            musicbox > /dev/null &
           fi
         else
           echo "Musicbox won't work without ${HOME}/.music existing and pointing to a directory of music"
