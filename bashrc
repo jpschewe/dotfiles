@@ -102,8 +102,12 @@ export PILOTPORT=usb:
 export PILOTRATE=115200
 
 
-if [ -x "`type -P less`" ]; then
+if [ -x /usr/share/vim/vim72/macros/less.sh ]; then
+  PAGER=/usr/share/vim/vim72/macros/less.sh
+  alias less=${PAGER}
+elif [ -x "`type -P less`" ]; then
   PAGER="less"
+  alias less='less -is'
 else
   PAGER="more"
 fi
@@ -128,7 +132,7 @@ alias eclean='/bin/rm -f *~ *.~* .*~ *% \#* .?E?m?A?c?S?l?O?c?K?.* &>/dev/null'
 alias fmclean='/bin/rm -f *.{auto,backup,lck,recover} &>/dev/null'
 alias texclean='/bin/rm -f *.{aux,dvi,log} &>/dev/null'
 alias h='history 15'
-alias less='less -is'
+#alias less='less -is'
 #alias lf='ls -F'
 #alias la='ls -Fa'
 #alias ll='ls -Fl'
