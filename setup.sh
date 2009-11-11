@@ -16,6 +16,10 @@ ln -sf "${mypath}/bash_logout" "${HOME}/.bash_logout"
 ln -sf "${mypath}/bashrc" "${HOME}/.bashrc"
 ln -sf "${mypath}/packages" "${HOME}/.packages"
 
+# vim
+ln -sf "${mypath}/vimrc" "${HOME}/.vimrc"
+ln -sf "${mypath}/vim" "${HOME}/.vim"
+
 # ask about ssh
 echo -n "Would you like to have ssh-agent start up on login? (y/N) "
 answer=''
