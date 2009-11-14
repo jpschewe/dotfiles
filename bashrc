@@ -343,12 +343,12 @@ elif [ $TERM = "sun-nic" ]; then
   BASE_PS1="\u@\h:\w";
 elif [ $TERM = "sun" ]; then
   alias ls='ls -F'
-  BASE_PS1="\u@\h:\w\n>";
+  BASE_PS1="\u@\h:\w";
 elif [ $TERM = "screen" ]; then
   # do screen stuff here
   BASE_PS1="\u@\h:\w\[\033]0;\u@\h[$WINDOW]\007\]";
 else 
-  BASE_PS1="\u@\h:\w\n>";
+  BASE_PS1="\u@\h:\w";
 fi
 
 # custom completion methods
