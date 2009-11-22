@@ -102,10 +102,11 @@ export PILOTPORT=usb:
 export PILOTRATE=115200
 
 
-if [ -x /usr/share/vim/vim72/macros/less.sh ]; then
-  PAGER=/usr/share/vim/vim72/macros/less.sh
-  alias less=${PAGER}
-elif [ -x "`type -P less`" ]; then
+#if [ -x /usr/share/vim/vim72/macros/less.sh ]; then
+#  PAGER=/usr/share/vim/vim72/macros/less.sh
+#  alias less=${PAGER}
+#elif [ -x "`type -P less`" ]; then
+if [ -x "`type -P less`" ]; then
   PAGER="less"
   alias less='less -is'
 else
