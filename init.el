@@ -443,7 +443,8 @@
 (defun ksh-mode-hook-jps ()
   (setq indent-tabs-mode nil)
   (font-lock-mode)
-  (add-special-font-lock-faces-jps (list 'ksh-font-lock-keywords))
+  (if running-xemacs
+      (add-special-font-lock-faces-jps (list 'ksh-font-lock-keywords)))
   )
 (add-hook 'ksh-mode-hook  'ksh-mode-hook-jps)
 
@@ -454,8 +455,10 @@
 ;;;;;;;;;;;;
 (message "sh-mode")
 (add-hook 'sh-mode-hook  'ksh-mode-hook-jps)
-(add-hook 'sh-mode-hook '(lambda ()
-			   (add-special-font-lock-faces-jps (list 'sh-font-lock-keywords 'sh-font-lock-keywords-1 'sh-font-lock-keywords-2))))
+(if running-xemacs
+    (add-hook 'sh-mode-hook '(lambda ()
+			       (add-special-font-lock-faces-jps (list 'sh-font-lock-keywords 'sh-font-lock-keywords-1 'sh-font-lock-keywords-2))))
+)
 
 ;;;;;;;;;;;
 ;;
