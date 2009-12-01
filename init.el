@@ -17,6 +17,12 @@
       (setq mac-option-modifier 'alt)	  ;; Sets the option (Apple) key as alt
       ))
 
+;; allow some variables to be loaded automatically
+(if (not running-xemacs)
+    (progn
+      (setq safe-local-variable-values (quote ((Syntax . COMMON-LISP) (Base . 10))))
+      ))
+
 ;; setup paths
 (cond ((not running-xemacs)
        (let ((base-dir "~/.xemacs/xemacs-packages/lisp"))
