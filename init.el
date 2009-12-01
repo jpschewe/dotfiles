@@ -11,6 +11,12 @@
  '(query-user-mail-address nil);; quit asking me my email address
  )
 
+(if (and (not running-xemacs) (eq system-type 'darwin))
+    (progn
+      (setq mac-command-modifier 'meta)   ;; Sets the command (Apple) key as Meta
+      (setq mac-option-modifier 'alt)	  ;; Sets the option (Apple) key as alt
+      ))
+
 ;; setup paths
 (cond ((not running-xemacs)
        (let ((base-dir "~/.xemacs/xemacs-packages/lisp"))
