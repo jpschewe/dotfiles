@@ -19,7 +19,18 @@ ln -sf "${mypath}/packages" "${HOME}/.packages"
 
 # vim
 ln -sf "${mypath}/vimrc" "${HOME}/.vimrc"
-ln -sf "${mypath}/vim" "${HOME}/.vim"
+if [ -L "${HOME}/.vim" ]; then
+  rm -f "${HOME}/.vim"
+  ln -sf "${mypath}/vim" "${HOME}/.vim"
+elif [ -f "${HOME}/.vim" ]; then
+  echo "Expecting ${HOME}/.vim to be a symlink or a directory, not a file, skipping"
+elif [ -d "${HOME}/.vim" ]; then
+  echo "${HOME}/.vim already exists as a directory, moving to the side"
+  mv "${HOME}/.vim" "${HOME}/.vim.old"
+  ln -sf "${mypath}/vim" "${HOME}/.vim"
+else
+  ln -sf "${mypath}/vim" "${HOME}/.vim"
+fi
 
 # screen
 ln -sf "${mypath}/screenrc" "${HOME}/.screenrc"
