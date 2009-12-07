@@ -1,5 +1,5 @@
 set expandtab
-set background=light
+set background=dark
 set ic
 syntax on
 filetype on
