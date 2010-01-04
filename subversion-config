@@ -110,7 +110,7 @@ enable-auto-props = yes
 *.mdl = svn:mime-type=application/rose
 *.pdf = svn:mime-type=application/pdf
 *.png = svn:mime-type=image/png
-*.sh = svn:mime-type=text/plain;svn:eol-style=native;svn:executable;svn:keywords=Id
+*.sh = svn:mime-type=text/plain;svn:eol-style=LF;svn:executable;svn:keywords=Id
 *.txt = svn:mime-type=text/plain;svn:eol-style=native
 *.xml = svn:mime-type=text/xml;svn:eol-style=native
 *.xsd = svn:mime-type=text/xml;svn:eol-style=native
