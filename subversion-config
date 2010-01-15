@@ -69,6 +69,7 @@ password-stores = keychain, gnome-keyring
 ### Set global-ignores to a set of whitespace-delimited globs
 ### which Subversion will ignore in its 'status' output.
 global-ignores = *.o *.lo *.la #*# .*.rej *.rej .*~ *~ .#* .DS_Store *.fasl *.pyc
+
 ### Set log-encoding to the default encoding for log messages
 # log-encoding = latin1
 ### Set use-commit-times to make checkout/update/switch/revert
@@ -90,35 +91,102 @@ enable-auto-props = yes
 ### '?').  All entries which match will be applied to the file.
 ### Note that auto-props functionality must be enabled, which
 ### is typically done by setting the 'enable-auto-props' option.
-*.c = svn:mime-type=text/x-c-source;svn:eol-style=native;svn:keywords=Id
-*.h = svn:mime-type=text/x-c-header;svn:eol-style=native;svn:keywords=Id
 
-*.cpp = svn:mime-type=text/x-cpp-source;svn:eol-style=native;svn:keywords=Id
-*.hpp = svn:mime-type=text/x-cpp-header;svn:eol-style=native;svn:keywords=Id
+# Scriptish formats
+*.bat        = svn:eol-style=native; svn:keywords=Id; svn-mine-type=text/plain
+*.bsh        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-beanshell
+*.cgi        = svn:eol-style=native; svn:keywords=Id; svn-mine-type=text/plain
+*.cmd        = svn:eol-style=native; svn:keywords=Id; svn-mine-type=text/plain
+*.js         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/javascript
+*.php        = svn:eol-style=native; svn:keywords=Id Rev Date; svn:mime-type=text/x-php
+*.pl         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-perl
+*.pm         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-perl
+*.py         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-python
+*.sh         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-sh
+#*.sh = svn:mime-type=text/plain;svn:eol-style=LF;svn:executable;svn:keywords=Id
 
-*.cc = svn:mime-type=text/x-cpp-source;svn:eol-style=native;svn:keywords=Id
-*.hh = svn:mime-type=text/x-cpp-header;svn:eol-style=native;svn:keywords=Id
+# Image formats
+*.bmp        = svn:mime-type=image/bmp
+*.gif        = svn:mime-type=image/gif
+*.ico        = svn:mime-type=image/ico
+*.jpeg       = svn:mime-type=image/jpeg
+*.jpg        = svn:mime-type=image/jpeg
+*.png        = svn:mime-type=image/png
+*.tif        = svn:mime-type=image/tiff
+*.tiff       = svn:mime-type=image/tiff
 
-*.cat = svn:mime-type=application/rose
+# Data formats
+*.pdf        = svn:mime-type=application/pdf
+*.avi        = svn:mime-type=video/avi
+*.doc        = svn:mime-type=application/msword
+*.eps        = svn:mime-type=application/postscript
+*.gz         = svn:mime-type=application/gzip
+*.mov        = svn:mime-type=video/quicktime
+*.mp3        = svn:mime-type=audio/mpeg
+*.ppt        = svn:mime-type=application/vnd.ms-powerpoint
+*.ps         = svn:mime-type=application/postscript
+*.psd        = svn:mime-type=application/photoshop
+*.rdf        = svn:eol-style=native; svn:keywords=Id
+*.rss        = svn:eol-style=native; svn:keywords=Id
+*.rtf        = svn:mime-type=text/rtf
+*.swf        = svn:mime-type=application/x-shockwave-flash
+*.tgz        = svn:mime-type=application/gzip
+*.wav        = svn:mime-type=audio/wav
+*.xls        = svn:mime-type=application/vnd.ms-excel
+*.zip        = svn:mime-type=application/zip
 
-*.dom = svn:mime-type=application/dome
+# Text formats
+*.htaccess   = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.css        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/css
+*.dtd        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/xml
+*.html       = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/html
+*.ini        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.sql        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-sql
+*.txt        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.xhtml      = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/xhtml+xml
+*.xml        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/xml
+*.xsd        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/xml
+*.xsl        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/xml
+*.xslt       = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/xml
+*.xul        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/xul
+*.yml        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+AUTHORS      = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+CHANGES      = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+COPYING      = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+INSTALL      = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+Makefile*    = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+makefile* = svn:mime-type=text/plain;svn:eol-style=native
+ GNUmakefile  = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.mk         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+README       = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+TODO         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.tex        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+
+# Code formats
+*.c          = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.cc         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.C          = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.cpp        = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.h          = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.hh         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.hpp =  svn:eol-style=native;svn:keywords=Id; svn:mime-type=text/plain
+*.H          = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+*.java = svn:eol-style=native;svn:keywords=Author Date Rev LastChangedBy Id; svn:mime-type=text/plain
 *.el = svn:mime-type=text/x-emacs-lisp;svn:eol-style=native
-*.html = svn:mime-type=text/html;svn:eol-style=native
-*.java = svn:mime-type=text/x-java-source;svn:eol-style=native;svn:keywords=Author Date Rev LastChangedBy Id
-*.jpg = svn:mime-type=image/jpeg
 *.jsp = svn:mime-type=text/x-jsp-source;svn:eol-style=native
-*.mdl = svn:mime-type=application/rose
-*.pdf = svn:mime-type=application/pdf
-*.png = svn:mime-type=image/png
-*.sh = svn:mime-type=text/plain;svn:eol-style=LF;svn:executable;svn:keywords=Id
-*.txt = svn:mime-type=text/plain;svn:eol-style=native
-*.xml = svn:mime-type=text/xml;svn:eol-style=native
-*.xsd = svn:mime-type=text/xml;svn:eol-style=native
-Makefile = svn:mime-type=text/plain;svn:eol-style=native
-makefile = svn:mime-type=text/plain;svn:eol-style=native
-*.pl = svn:mime-type=text/x-perl;svn:eol-style=native;svn:keywords=Id
-*.py = svn:mime-type=text/x-python;svn:eol-style=native
 *.idl = svn:mime-type=text/x-idl-source;svn:eol-style=native
-*.ltml = svn:eol-style=native
 *.lisp = svn:mime-type=text/x-lisp-source;svn:eol-style=native
+
+# OPNET formats
+*.nd.m       = svn:mime-type=application/octet-stream
+*.pk.m       = svn:mime-type=application/octet-stream
+*.ic.m       = svn:mime-type=application/octet-stream
+
+# Rational Rose
+*.cat = svn:mime-type=application/rose
+*.mdl = svn:mime-type=application/rose
+
+# MISC
+*.dom = svn:mime-type=application/dome
+*.ltml = svn:eol-style=native
 *.dot = svn:eol-style=native
