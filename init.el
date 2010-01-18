@@ -11,6 +11,19 @@
  '(query-user-mail-address nil);; quit asking me my email address
  )
 
+(if (and (not running-xemacs) (eq system-type 'darwin))
+    (progn
+      (setq mac-command-modifier 'meta)   ;; Sets the command (Apple) key as Meta
+      (setq mac-option-modifier 'alt)	  ;; Sets the option (Apple) key as alt
+      (global-set-key "\M-`" 'raise-next-frame)
+      ))
+
+;; allow some variables to be loaded automatically
+(if (not running-xemacs)
+    (progn
+      (setq safe-local-variable-values (quote ((Syntax . COMMON-LISP) (Base . 10))))
+      ))
+
 ;; setup paths
 (cond ((not running-xemacs)
        (let ((base-dir "~/.xemacs/xemacs-packages/lisp"))
@@ -55,7 +68,12 @@
 (message "toolbar")
 (cond (running-xemacs
        (set-default-toolbar-position 'top)
-       (set-specifier default-toolbar-visible-p nil)))
+       (set-specifier default-toolbar-visible-p nil))
+      ((not running-xemacs)
+       ;; remove toolbar
+       (tool-bar-mode -1)
+      ))
+
 
 (setq next-line-add-newlines nil;; no newlines at EOF
       mouse-yank-at-point t;; yank from current position, ignore mouse
@@ -194,6 +212,7 @@
 
 (cond ((not running-xemacs)
        (global-set-key [(control tab)] 'other-window)
+       (global-set-key [(control x)(control j)] 'dired-up-directory)
        ))
 
 (defvar prefix-key-jps "\M-o" "Used as a prefix for my keybindings")
@@ -443,7 +462,8 @@
 (defun ksh-mode-hook-jps ()
   (setq indent-tabs-mode nil)
   (font-lock-mode)
-  (add-special-font-lock-faces-jps (list 'ksh-font-lock-keywords))
+  (if running-xemacs
+      (add-special-font-lock-faces-jps (list 'ksh-font-lock-keywords)))
   )
 (add-hook 'ksh-mode-hook  'ksh-mode-hook-jps)
 
@@ -454,8 +474,10 @@
 ;;;;;;;;;;;;
 (message "sh-mode")
 (add-hook 'sh-mode-hook  'ksh-mode-hook-jps)
-(add-hook 'sh-mode-hook '(lambda ()
-			   (add-special-font-lock-faces-jps (list 'sh-font-lock-keywords 'sh-font-lock-keywords-1 'sh-font-lock-keywords-2))))
+(if running-xemacs
+    (add-hook 'sh-mode-hook '(lambda ()
+			       (add-special-font-lock-faces-jps (list 'sh-font-lock-keywords 'sh-font-lock-keywords-1 'sh-font-lock-keywords-2))))
+)
 
 ;;;;;;;;;;;
 ;;
