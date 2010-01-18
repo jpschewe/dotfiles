@@ -15,6 +15,7 @@
     (progn
       (setq mac-command-modifier 'meta)   ;; Sets the command (Apple) key as Meta
       (setq mac-option-modifier 'alt)	  ;; Sets the option (Apple) key as alt
+      (global-set-key "\M-`" 'raise-next-frame)
       ))
 
 ;; allow some variables to be loaded automatically
@@ -67,7 +68,12 @@
 (message "toolbar")
 (cond (running-xemacs
        (set-default-toolbar-position 'top)
-       (set-specifier default-toolbar-visible-p nil)))
+       (set-specifier default-toolbar-visible-p nil))
+      ((not running-xemacs)
+       ;; remove toolbar
+       (tool-bar-mode -1)
+      ))
+
 
 (setq next-line-add-newlines nil;; no newlines at EOF
       mouse-yank-at-point t;; yank from current position, ignore mouse
@@ -206,6 +212,7 @@
 
 (cond ((not running-xemacs)
        (global-set-key [(control tab)] 'other-window)
+       (global-set-key [(control x)(control j)] 'dired-up-directory)
        ))
 
 (defvar prefix-key-jps "\M-o" "Used as a prefix for my keybindings")
