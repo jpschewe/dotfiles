@@ -70,8 +70,6 @@ password-stores = keychain, gnome-keyring
 ### which Subversion will ignore in its 'status' output.
 global-ignores = *.o *.lo *.la #*# .*.rej *.rej .*~ *~ .#* .DS_Store Thumbs.db .tmp *.pdb desktop.ini ~*.doc *.fasl *.pyc *.obj *.exe
 
-# questionable ignores *.pr.c *.pr.m *.pa.m *.ic.m *.a *itemtables.c *itemtables.h *itemtypetables.c *itemtypetables.h *.em.x *.manifest
-
 ### Set log-encoding to the default encoding for log messages
 # log-encoding = latin1
 ### Set use-commit-times to make checkout/update/switch/revert

@@ -1,4 +1,4 @@
-#!/bin/bash      # Hey EMACS, this should be in -*- ksh -*- mode
+#!/bin/bash      # Hey EMACS, this should be in -*- shell-script -*- mode
 
 
 # reset xterminal titles

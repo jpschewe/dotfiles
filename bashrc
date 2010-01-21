@@ -1,4 +1,4 @@
-#!/bin/bash      # Hey EMACS, this should be in -*- ksh -*- mode
+#!/bin/bash      # Hey EMACS, this should be in -*- shell-script -*- mode
 #
 # FILE		.bashrc 
 # OVERVIEW	This startup is executed every time a bash is executed.

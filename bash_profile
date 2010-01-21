@@ -1,4 +1,4 @@
-# Hey EMACS, this should be in -*- ksh -*- mode
+# Hey EMACS, this should be in -*- shell-script -*- mode
 #
 # FILE		.bash_login
 # OVERVIEW	This startup is executed ONLY on bash _login_ shells
@@ -90,4 +90,8 @@ fi
 #  fi
 #fi
 
+if [ -f /opt/local/etc/bash_completion ]; then
+  . /opt/local/etc/bash_completion
+fi
+    
 #eof .bash_login
