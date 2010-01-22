@@ -2,6 +2,11 @@
 
 ;; check which emacs is running
 (defvar running-xemacs (string-match "XEmacs\\|Lucid" emacs-version))
+(defvar running-gnuemacs (string-match "^GNU Emacs" (emacs-version)))
+(defvar running-aquamacs	(string-match "Aquamacs" (emacs-version)))
+(defvar running-carbon	(and (string-match "Carbon" (emacs-version))
+                             (not ver-p-aquamacs)))
+
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -69,7 +74,7 @@
 (cond (running-xemacs
        (set-default-toolbar-position 'top)
        (set-specifier default-toolbar-visible-p nil))
-      ((not running-xemacs)
+      (running-aquamacs
        ;; remove toolbar
        (tool-bar-mode -1)
       ))
@@ -210,7 +215,7 @@
 ;;;;;;;;;;;;
 (message "Keybindings")
 
-(cond ((not running-xemacs)
+(cond (running-aquamacs
        (global-set-key [(control tab)] 'other-window)
        (global-set-key [(control x)(control j)] 'dired-up-directory)
        ))
