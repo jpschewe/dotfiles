@@ -4,7 +4,7 @@ hardstatus alwayslastline
 hardstatus string '%{= gk}%{k}[%= %{=gw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{k}%?%+Lw%?%?%= %{k}]%H'
 
 # monitor windows for activity
-monitor on
+defmonitor on
 
 # visual bell
 vbell on
