@@ -2,3 +2,10 @@ hardstatus alwayslastline
 #hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{=kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B}%Y-%m-%d %{W}%c %{g}]'
 #keep hardstatus string '%{=  }%{g}[%= %{=kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}]%H'
 hardstatus string '%{= gk}%{k}[%= %{=gw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{k}%?%+Lw%?%?%= %{k}]%H'
+
+# monitor windows for activity
+monitor on
+
+# visual bell
+vbell on
+
