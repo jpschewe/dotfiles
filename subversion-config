@@ -156,7 +156,7 @@ COPYING      = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
 INSTALL      = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
 Makefile*    = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
 makefile* = svn:mime-type=text/plain;svn:eol-style=native
- GNUmakefile  = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
+GNUmakefile  = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
 *.mk         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
 README       = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
 TODO         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/plain
