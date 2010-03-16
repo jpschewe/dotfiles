@@ -38,6 +38,10 @@ case $OSTYPE in
 	   append PATH /opt/local/sbin
 	   append PATH /usr/local/sbin
 	   ;;
+  netbsd*)
+	   append PATH /usr/pkg/bin
+	   append PATH /usr/pkg/sbin
+	   ;;
 esac
 
 ### Standard OS Networking
