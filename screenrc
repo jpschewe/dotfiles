@@ -9,3 +9,5 @@ defmonitor on
 # visual bell
 vbell on
 
+# bigger scrollback
+defscrollback 1000
