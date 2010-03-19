@@ -87,7 +87,9 @@ notify=
 unset MAILPATH MAILCHECK
 unset MAIL
 
-export EDITOR='vim'
+if [ -n "`type -p vim`" ]; then
+  export EDITOR='vim'
+fi
 
 # turn on core files
 ulimit -c unlimited
