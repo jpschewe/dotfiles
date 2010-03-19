@@ -18,25 +18,26 @@ append PATH 		/usr/bin
 append PATH /bin
 
 ### Backwards compatible
+append PATH /usr/local/bin
+append PATH /usr/local/sbin
 case $OSTYPE in
   linux*)
-         append PATH /usr/local/bin
          append PATH /opt/kde3/bin
          append PATH /opt/gnome/bin
          append PATH /usr/games
          append PATH /sbin
-         append PATH /usr/local/sbin
          ;;
-  cygwin)
-          append PATH /usr/local/bin
-          ;;
+#  cygwin)
+#          ;;
   darwin*)
 	   prepend PATH /opt/local/bin
-	   prepend PATH /usr/local/bin
 	   append PATH /sbin
 	   append PATH /usr/sbin
 	   append PATH /opt/local/sbin
-	   append PATH /usr/local/sbin
+	   ;;
+  netbsd*)
+	   append PATH /usr/pkg/bin
+	   append PATH /usr/pkg/sbin
 	   ;;
 esac
 
