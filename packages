@@ -1,5 +1,4 @@
-# Hey EMACS, this should be in -*- ksh -*- mode
-#
+# Hey EMACS, this should be in -*- shell-script -*- mode
 # FILE		.paths
 # OVERVIEW	setup bash/sh paths (PATH,MANPATH)
 #
@@ -415,11 +414,13 @@ if [ -e ${HOME}/sbcl ]; then
 fi
 
 # mac postgres
-PG_BIN=/opt/local/lib/postgresql84/bin
-PGDATA=/opt/local/var/db/postgresql84/defaultdb
-if [ -e ${PG_BIN} ]; then
-  alias postgres_start='echo "Need password for sudo"; sudo su postgres -c "cd /tmp && ${PG_BIN}/pg_ctl -D ${PGDATA} start"'
-  alias postgres_stop='echo "Need password for sudo"; sudo su postgres -c "cd /tmp && ${PG_BIN}/pg_ctl -D ${PGDATA} stop"'
+if [ -e /opt/local/lib/postgresql84 ]; then
+  PG_BIN=/opt/local/lib/postgresql84/bin
+  PGDATA=/opt/local/var/db/postgresql84/defaultdb
+  if [ -e ${PG_BIN} ]; then
+    alias postgres_start='echo "Need password for sudo"; sudo su postgres -c "cd /tmp && ${PG_BIN}/pg_ctl -D ${PGDATA} start"'
+    alias postgres_stop='echo "Need password for sudo"; sudo su postgres -c "cd /tmp && ${PG_BIN}/pg_ctl -D ${PGDATA} stop"'
+  fi
 fi
 
 ### HOME
