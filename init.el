@@ -588,6 +588,44 @@
   (auto-fill-mode 1)
   )
 (add-hook 'tex-mode-hook 'tex-mode-hook-jps)
+(add-hook 'LaTeX-mode-hook 'tex-mode-hook-jps)
+
+;; function to fill sentences to make VCS LaTeX easier
+(eval-when-compile (if (functionp 'TeX-load-hack)
+                       (progn (TeX-load-hack)
+                              (require 'latex nil t))))
+(defun fill-sentence ()
+  (interactive)
+  (save-excursion
+    (or (eq (point) (point-max)) (forward-char))
+    (backward-sentence)
+    ;; work around bug in backward-sentence (if sentence is first in
+    ;; paragraph, it'll got to blank line above sentence instead of
+    ;; beginning of sentence)
+    (forward-word) (backward-word)
+    ;(indent-according-to-mode)
+    (let ((beg (point))
+          (ix (string-match "LaTeX" mode-name)))
+      (forward-sentence)
+      (if (and (functionp 'LaTeX-fill-region-as-paragraph)
+               ix (equal "LaTeX" (substring mode-name ix)))
+          (LaTeX-fill-region-as-paragraph beg (point))
+        (fill-region-as-paragraph beg (point))))))
+
+;; AUCTeX uses LaTeX-mode-hook, the built-in latex-mode uses
+;; latex-mode-hook
+(dolist (hookvar '(latex-mode-hook LaTeX-mode-hook))
+  ;; key to fill senteces in LaTeX mode
+  (add-hook hookvar
+            '(lambda () (global-set-key (kbd "M-q") 'fill-sentence))))
+
+;;;;;;;;;;;
+;;
+;; VC mode
+;;
+;;;;;;;;;;;;
+;; git mode just gets in the way sometimes
+(delete 'Git vc-handled-backends)
 
 ;;;;;;;;;;;
 ;;
@@ -1789,6 +1827,11 @@ That is, the cvsroot as seen on the cvs server (if remote), without hostname if 
 
 (add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
 
+(defun buffer-untabify ()
+  "Untabify an entire buffer"
+  (interactive)
+  (untabify (point-min) (point-max)))
+
 ;;;;;;;;;;;
 ;;
 ;; Newsticker- RSS reader
@@ -1841,6 +1884,44 @@ in some window."
 	  (goto-char (point-min))
 	  (1+ (vertical-motion (buffer-size) window))))))
   )
+
+;;;;;;;;;;;
+;;
+;; slime
+;;
+;;;;;;;;;;;;
+(setq sbcl-executable "/usr/local/bin/sbcl")
+;;(setq sbcl-cvs-executable "/bin/sh /Users/rpg/src/sbcl/run-sbcl.sh")
+(setq cmucl-executable nil)
+;;(setq clozure-executable "/Users/rpg/ccl/dx86cl64")
+(setq clozure-executable nil)
+(setq allegro-directory "/Applications/AllegroCL")
+(setq fi:allegro-program-name "alisp")
+(setq alisp-executable (concat allegro-directory "/alisp"))
+(setq mlisp-executable (concat allegro-directory "/mlisp"))
+;;(setq abcl-executable "/Users/rpg/bin/abcl")
+
+(add-to-list 'load-path "/Users/jschewe/src/slime")
+
+(autoload 'slime-setup "slime"
+    "Setup Emacs so that lisp-mode buffers always use SLIME.
+CONTRIBS is a list of contrib packages to load.")
+(require 'slime)
+(load "slime-config")
+
+;;;;;;;;;;;
+;;
+;; cmake
+;;
+;;;;;;;;;;;;
+; Add cmake listfile names to the mode list.
+(setq auto-mode-alist
+	  (append
+	   '(("CMakeLists\\.txt\\'" . cmake-mode))
+	   '(("\\.cmake\\'" . cmake-mode))
+	   auto-mode-alist))
+
+;(autoload 'cmake-mode "~/CMake/Docs/cmake-mode.el" t)
 
 ;;;;;;;;;;;
 ;;
