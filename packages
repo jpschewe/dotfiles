@@ -70,6 +70,7 @@ case $OSTYPE in
           ;;
   linux*) X11HOME=/usr/X11R6;;
   darwin*) X11HOME=/usr/X11;;
+  netbsd*) X11HOME=/usr/X11R7;;
 esac
 
 if [ \! $OSTYPE = "cygwin" ]; then
