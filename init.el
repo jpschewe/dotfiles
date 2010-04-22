@@ -77,7 +77,8 @@
       (running-aquamacs
        ;; remove toolbar
        (tool-bar-mode -1)
-      ))
+       (setq aquamacs-set-creator-codes-after-writing-files nil)
+       ))
 
 
 (setq next-line-add-newlines nil;; no newlines at EOF
