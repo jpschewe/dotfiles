@@ -625,7 +625,8 @@
 ;;
 ;;;;;;;;;;;;
 ;; git mode just gets in the way sometimes
-(delete 'Git vc-handled-backends)
+(add-hook 'vc-load-vc-hooks
+	  '(lambda () (delete 'Git vc-handled-backends)))
 
 ;;;;;;;;;;;
 ;;
@@ -1890,24 +1891,24 @@ in some window."
 ;; slime
 ;;
 ;;;;;;;;;;;;
-(setq sbcl-executable "/usr/local/bin/sbcl")
-;;(setq sbcl-cvs-executable "/bin/sh /Users/rpg/src/sbcl/run-sbcl.sh")
-(setq cmucl-executable nil)
-;;(setq clozure-executable "/Users/rpg/ccl/dx86cl64")
-(setq clozure-executable nil)
-(setq allegro-directory "/Applications/AllegroCL")
-(setq fi:allegro-program-name "alisp")
-(setq alisp-executable (concat allegro-directory "/alisp"))
-(setq mlisp-executable (concat allegro-directory "/mlisp"))
-;;(setq abcl-executable "/Users/rpg/bin/abcl")
-
-(add-to-list 'load-path "/Users/jschewe/src/slime")
-
-(autoload 'slime-setup "slime"
-    "Setup Emacs so that lisp-mode buffers always use SLIME.
-CONTRIBS is a list of contrib packages to load.")
-(require 'slime)
-(load "slime-config")
+;; not yet(setq sbcl-executable "/usr/local/bin/sbcl")
+;; not yet;;(setq sbcl-cvs-executable "/bin/sh /Users/rpg/src/sbcl/run-sbcl.sh")
+;; not yet(setq cmucl-executable nil)
+;; not yet;;(setq clozure-executable "/Users/rpg/ccl/dx86cl64")
+;; not yet(setq clozure-executable nil)
+;; not yet(setq allegro-directory "/Applications/AllegroCL")
+;; not yet(setq fi:allegro-program-name "alisp")
+;; not yet(setq alisp-executable (concat allegro-directory "/alisp"))
+;; not yet(setq mlisp-executable (concat allegro-directory "/mlisp"))
+;; not yet;;(setq abcl-executable "/Users/rpg/bin/abcl")
+;; not yet
+;; not yet(add-to-list 'load-path "/Users/jschewe/src/slime")
+;; not yet
+;; not yet(autoload 'slime-setup "slime"
+;; not yet    "Setup Emacs so that lisp-mode buffers always use SLIME.
+;; not yetCONTRIBS is a list of contrib packages to load.")
+;; not yet(require 'slime)
+;; not yet(load "slime-config")
 
 ;;;;;;;;;;;
 ;;
