@@ -45,6 +45,9 @@ ln -fs "${mypath}/subversion-config" "${HOME}/.subversion/config"
 # cvs
 ln -fs "${mypath}/cvsrc" "${HOME}/.cvsrc"
 
+# git
+ln -fs "${mypath}/global-gitignore" "${HOME}/.global-gitignore"
+
 # ask about ssh
 echo -n "Would you like to have ssh-agent start up on login? (y/N) "
 answer=''
