@@ -426,6 +426,12 @@ if [ -e /opt/local/lib/postgresql84 ]; then
   fi
 fi
 
+# google protocol buffers
+if [ -e "${HOME}/protobuf" ]; then
+    PROTOBUF_HOME=${HOME}/protobuf
+    export PROTOBUF_HOME
+fi
+
 ### HOME
 prepend PATH "${HOME}/bin"
 prepend PATH "${HOME}/bin/$OSTYPE"
