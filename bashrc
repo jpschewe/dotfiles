@@ -214,7 +214,7 @@ keepalive() {
   done
 }
 
-pwd()   { dirs | awk '{print $1}'; }
+#pwd()   { dirs | awk '{print $1}'; }
 total() {
   perl -nle 'print; split; $sum+=$_[0]; END{ print "TOTAL:\t$sum\n"}'
 }
