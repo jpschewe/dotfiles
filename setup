@@ -4,6 +4,9 @@ mypath="`echo $0 | sed -e 's,[^/]*$,,;s,/$,,;s,^$,.,'`"
 cd ${mypath}
 mypath=$PWD
 
+# get git submodules
+git submodule init
+
 # setup bin
 mkdir -p "${HOME}/bin"
 for script in musicbox; do
