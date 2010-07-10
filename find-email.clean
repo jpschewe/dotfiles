@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+
+import ConfigParser
+import sys
+import os
+
+mypath = os.path.dirname(sys.argv[0])
+sys.path.append(os.path.join(mypath, "lib/configdict"))
+import configdict
+
+config = ConfigParser.RawConfigParser()
+config = configdict.ConfigDict(sys.argv[1])
+config['user']['email'] = 'unknown'
+
+output = file(sys.argv[1], "w")
+for section, secitems in config.iteritems():
+    output.write("[%s]\n" % (section))
+    for key, value in secitems.iteritems():
+        output.write("%s = %s\n" % (key, value))
+output.close()
