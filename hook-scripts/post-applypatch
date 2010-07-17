@@ -1,0 +1,9 @@
+#!/bin/sh
+
+mypath="`echo $0 | sed -e 's,[^/]*$,,;s,/$,,;s,^$,.,'`"
+cd ${mypath}
+mypath=$PWD
+
+${mypath}/../../hook-scripts/update-setup
+${mypath}/../../hook-scripts/setup-gitconfig ${mypath}/../../gitconfig
+

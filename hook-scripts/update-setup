@@ -1,0 +1,7 @@
+#!/bin/sh
+
+mypath="`echo $0 | sed -e 's,[^/]*$,,;s,/$,,;s,^$,.,'`"
+cd ${mypath}
+mypath=$PWD
+
+${mypath}/../setup -a
