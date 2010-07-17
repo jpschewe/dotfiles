@@ -5,5 +5,6 @@ cd ${mypath}
 mypath=$PWD
 
 ${mypath}/../../hook-scripts/update-setup
-${mypath}/../../hook-scripts/setup-gitconfig ${mypath}/../../gitconfig
-
+if [ -e "${HOME}/.gitconfig" ]; then
+  ${mypath}/../../hook-scripts/setup-gitconfig "${HOME}/.gitconfig"
+fi
