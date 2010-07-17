@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+
+import ConfigParser
+import sys
+import os
+
+mypath = os.path.dirname(sys.argv[0])
+sys.path.append(os.path.join(mypath, "lib/configdict"))
+import configdict
+
+def writeConfig(config, output):
+    for section, secitems in config.iteritems():
+        if len(secitems) > 0:
+            output.write("[%s]\n" % (section))
+            for key, value in secitems.iteritems():
+                output.write("\t%s = %s\n" % (key, value))
+
+def determineEmail():
+    username = os.environ['USER']
+    if username:
+        if username == 'jschewe':
+            return 'jschewe@bbn.com'
+        else:
+            return 'jpschewe@mtu.net'
+    else:
+        return None
+
+if __name__ == "__main__":
+    config = ConfigParser.RawConfigParser()
+    config = configdict.ConfigDict(sys.argv[1])
+    email = determineEmail()
+    if email:
+        config['user']['email'] = email
+
+    config['user']['name'] = 'Jon Schewe'
+
+    # make sure only the current branch is pushed, unless explicit
+    config['push']['default'] = 'current'
+
+    # turn on colors
+    config['color']['branch'] = 'auto'
+    config['color']['diff'] = 'auto'
+    config['color']['status'] = 'auto'
+
+    output = file(sys.argv[1], "w")
+    writeConfig(config, output)
+    output.close()
