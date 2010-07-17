@@ -14,6 +14,7 @@ def writeConfig(config, output):
             output.write("[%s]\n" % (section))
             for key, value in secitems.iteritems():
                 output.write("\t%s = %s\n" % (key, value))
+            output.write("\n")
 
 def determineEmail():
     username = os.environ['USER']
