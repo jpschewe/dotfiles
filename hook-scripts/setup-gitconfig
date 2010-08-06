@@ -9,12 +9,7 @@ sys.path.append(os.path.join(mypath, "../lib/configdict"))
 import configdict
 
 def writeConfig(config, output):
-    for section, secitems in config.iteritems():
-        if len(secitems) > 0:
-            output.write("[%s]\n" % (section))
-            for key, value in secitems.iteritems():
-                output.write("\t%s = %s\n" % (key, value))
-            output.write("\n")
+    output.write(config.tostring())
 
 def determineEmail():
     username = os.environ['USER']
