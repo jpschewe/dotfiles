@@ -22,23 +22,18 @@ append PATH /usr/local/sbin
 append PATH /sbin
 append PATH /usr/sbin
 
-case $OSTYPE in
-  linux*)
-         append PATH /opt/kde3/bin
-         append PATH /opt/gnome/bin
-         append PATH /usr/games
-         ;;
-#  cygwin)
-#          ;;
-  darwin*)
-	   prepend PATH /opt/local/bin
-	   append PATH /opt/local/sbin
-	   ;;
-  netbsd*)
-	   append PATH /usr/pkg/bin
-	   append PATH /usr/pkg/sbin
-	   ;;
-esac
+# MacPorts and some other things
+prepend PATH /opt/local/bin
+append PATH /opt/local/sbin
+
+# standard Linux
+append PATH /opt/kde3/bin
+append PATH /opt/gnome/bin
+append PATH /usr/games
+
+# pkgsrc
+append PATH /usr/pkg/bin
+append PATH /usr/pkg/sbin
 
 ### Standard OS Networking
 case $OSTYPE in
