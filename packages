@@ -384,8 +384,13 @@ if [ -e /usr/local/bin/oraenv ]; then
 fi
 
 ### Unison
-# tell unison to just use the short name of a machine
-UNISONLOCALHOSTNAME=`hostname -s`
+# tell unison to just use the name of a machine
+short_name=`hostname -s > /dev/null 2>&1`
+if [ $? -ne 0 ]; then
+    UNISONLOCALHOSTNAME=HOSTNAME
+else
+    UNISONLOCALHOSTNAME=short_name
+fi
 export UNISONLOCALHOSTNAME
 
 ### SBCL
