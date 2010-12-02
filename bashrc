@@ -88,7 +88,7 @@ unset MAILPATH MAILCHECK
 unset MAIL
 
 if [ -n "`type -p vim`" ]; then
-  export EDITOR='vim'
+  export EDITOR='vim -u ~/.vimrc'
 fi
 
 # turn on core files
