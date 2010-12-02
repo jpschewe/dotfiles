@@ -27,10 +27,6 @@ set textwidth=72
 set fo=cotqr
 set ruler
 
-" Make sure we start editing commit messages at the top
-" autocmd BufNewFile,BufRead *.git/COMMIT_EDITMSG exe "normal 1G"
-" autocmd FileType gitcommit exe "normal 1G"
-
 function! s:JumpToLastPosition()
   " When editing a file, always jump to the last known cursor position. 
   " Don't do it when the position is invalid or when inside an event handler 
