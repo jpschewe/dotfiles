@@ -421,8 +421,8 @@ if [ -e /opt/local/lib/postgresql84 ]; then
   PG_BIN=/opt/local/lib/postgresql84/bin
   PGDATA=/opt/local/var/db/postgresql84/defaultdb
   if [ -e ${PG_BIN} ]; then
-    alias postgres_start='echo "Need password for sudo"; sudo su postgres -c "cd /tmp && ${PG_BIN}/pg_ctl -D ${PGDATA} start"'
-    alias postgres_stop='echo "Need password for sudo"; sudo su postgres -c "cd /tmp && ${PG_BIN}/pg_ctl -D ${PGDATA} stop"'
+    alias postgres_start='echo "Need password for sudo"; cd /tmp && sudo su postgres -c "${PG_BIN}/pg_ctl -D ${PGDATA} start"'
+    alias postgres_stop='echo "Need password for sudo"; cd /tmp && sudo su postgres -c "cd /tmp && ${PG_BIN}/pg_ctl -D ${PGDATA} stop"'
   fi
 fi
 
