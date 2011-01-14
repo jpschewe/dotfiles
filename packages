@@ -402,6 +402,8 @@ if [ -e /opt/acl81 ]; then
   ACL_HOME=/opt/acl81
 elif [ -e /Applications/AllegroCL ]; then
   ACL_HOME=/Applications/AllegroCL
+elif [ -e ${HOME}/Documents/Applications/AllegroCL ]; then
+  ACL_HOME=${HOME}/Documents/Applications/AllegroCL
 fi
 if [ -n "${ACL_HOME}" ]; then
   export ACL_HOME
@@ -431,6 +433,9 @@ if [ -e "${HOME}/protobuf" ]; then
     PROTOBUF_HOME=${HOME}/protobuf
     export PROTOBUF_HOME
 fi
+
+append PATH ${HOME}/Documents/Applications/Octave.app/Contents/Resources/bin
+append PATH /Applications/Octave.app/Contents/Resources/bin
 
 ### HOME
 prepend PATH "${HOME}/bin"
