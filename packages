@@ -23,7 +23,7 @@ append PATH /sbin
 append PATH /usr/sbin
 
 # MacPorts and some other things
-prepend PATH /opt/local/bin
+append PATH /opt/local/bin
 append PATH /opt/local/sbin
 
 # standard Linux
