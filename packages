@@ -23,8 +23,9 @@ append PATH /sbin
 append PATH /usr/sbin
 
 # MacPorts and some other things
-append PATH /opt/local/bin
-append PATH /opt/local/sbin
+# 1/25/2011 prepending because want MacPort's svn
+prepend PATH /opt/local/bin
+prepend PATH /opt/local/sbin
 
 # standard Linux
 append PATH /opt/kde3/bin
