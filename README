@@ -1,0 +1,8 @@
+My emacs config. Meant to be put in ~/.xemacs. Execute "make" to build
+intiail directories and precompile things.
+
+Tested on:
+gnu emacs
+Aquamacs
+XEmacs
+
