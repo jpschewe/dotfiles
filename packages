@@ -423,7 +423,7 @@ fi
 if [ -e /opt/local/lib/postgresql90 ]; then
   PG_BIN=/opt/local/lib/postgresql90/bin
   PGDATA=/opt/local/var/db/postgresql90/defaultdb
-else if [ -e /opt/local/lib/postgresql84 ]; then
+elif [ -e /opt/local/lib/postgresql84 ]; then
   PG_BIN=/opt/local/lib/postgresql84/bin
   PGDATA=/opt/local/var/db/postgresql84/defaultdb
 fi
