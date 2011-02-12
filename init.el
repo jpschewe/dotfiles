@@ -625,9 +625,13 @@
 ;; VC mode
 ;;
 ;;;;;;;;;;;;
-;; git mode just gets in the way sometimes
-(add-hook 'vc-load-vc-hooks
-	  '(lambda () (delete 'Git vc-handled-backends)))
+;; VC mode doesn't really buy me anything, just disable it
+(setq vc-handled-backends nil)
+;;(add-hook 'vc-load-vc-hooks
+;;	  '(lambda ()
+;;	     ;;(delete 'Git vc-handled-backends)
+;;	     (setq vc-handled-backends nil)
+;;	     ))
 
 ;;;;;;;;;;;
 ;;
