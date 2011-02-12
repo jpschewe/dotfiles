@@ -23,8 +23,9 @@ append PATH /sbin
 append PATH /usr/sbin
 
 # MacPorts and some other things
-append PATH /opt/local/bin
-append PATH /opt/local/sbin
+# 1/25/2011 prepending because want MacPort's svn
+prepend PATH /opt/local/bin
+prepend PATH /opt/local/sbin
 
 # standard Linux
 append PATH /opt/kde3/bin
@@ -419,13 +420,16 @@ if [ -e ${HOME}/sbcl ]; then
 fi
 
 # mac postgres
-if [ -e /opt/local/lib/postgresql84 ]; then
+if [ -e /opt/local/lib/postgresql90 ]; then
+  PG_BIN=/opt/local/lib/postgresql90/bin
+  PGDATA=/opt/local/var/db/postgresql90/defaultdb
+elif [ -e /opt/local/lib/postgresql84 ]; then
   PG_BIN=/opt/local/lib/postgresql84/bin
   PGDATA=/opt/local/var/db/postgresql84/defaultdb
-  if [ -e ${PG_BIN} ]; then
+fi
+if [ -e ${PG_BIN} ]; then
     alias postgres_start='echo "Need password for sudo"; cd /tmp && sudo su postgres -c "${PG_BIN}/pg_ctl -D ${PGDATA} start"'
     alias postgres_stop='echo "Need password for sudo"; cd /tmp && sudo su postgres -c "cd /tmp && ${PG_BIN}/pg_ctl -D ${PGDATA} stop"'
-  fi
 fi
 
 # google protocol buffers
