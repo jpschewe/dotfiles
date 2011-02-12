@@ -1,9 +1,9 @@
 My dotfiles that I use on multiple hosts.
 
 This configuration has been known to work on the following platforms:
-Linux - most flavors
-cygwin
-NetBSD
+  * Linux - most flavors
+  * cygwin
+  * NetBSD
 
 Run setup to create the initial symlinks to your dotfiles. Your current
 files will be saved with ".old" as the extension.
