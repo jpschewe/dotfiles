@@ -420,16 +420,17 @@ if [ -e ${HOME}/sbcl ]; then
 fi
 
 # mac postgres
-if [ -e /opt/local/lib/postgresql90 ]; then
-  PG_BIN=/opt/local/lib/postgresql90/bin
-  PGDATA=/opt/local/var/db/postgresql90/defaultdb
-elif [ -e /opt/local/lib/postgresql84 ]; then
+if [ -e /opt/local/lib/postgresql84 ]; then
   PG_BIN=/opt/local/lib/postgresql84/bin
   PGDATA=/opt/local/var/db/postgresql84/defaultdb
+elif [ -e /opt/local/lib/postgresql90 ]; then
+  PG_BIN=/opt/local/lib/postgresql90/bin
+  PGDATA=/opt/local/var/db/postgresql90/defaultdb
 fi
 if [ -e ${PG_BIN} ]; then
     alias postgres_start='echo "Need password for sudo"; cd /tmp && sudo su postgres -c "${PG_BIN}/pg_ctl -D ${PGDATA} start"'
     alias postgres_stop='echo "Need password for sudo"; cd /tmp && sudo su postgres -c "cd /tmp && ${PG_BIN}/pg_ctl -D ${PGDATA} stop"'
+    append PATH ${PG_BIN}
 fi
 
 # google protocol buffers
@@ -440,6 +441,9 @@ fi
 
 append PATH ${HOME}/Documents/Applications/Octave.app/Contents/Resources/bin
 append PATH /Applications/Octave.app/Contents/Resources/bin
+
+### Qt
+append PATH /usr/local/qt-4.7/qt/bin
 
 ### HOME
 prepend PATH "${HOME}/bin"
