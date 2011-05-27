@@ -190,30 +190,46 @@ case $OSTYPE in
           fi
           ;;
   linux | linux-gnu)
-                     for java_dir in \
-		      /opt/jdk1.5.0_07 \
-                      /usr/java/jdk1.5.0_01 \
-                      /usr/java/jdk1.5.0 \
-                      /usr/java/j2sdk1.4.2_04 \
-                      /usr/lib64/jvm/java \
-                      /usr/lib/jvm/java \
-                      /usr/lib/java
-                     do
-                       if [ -z "${JAVA_HOME}" -a -e ${java_dir} ]; then
-                         JAVA_HOME=${java_dir}
-                       fi
-                     done
-                     if [ -z "${JAVA_HOME}" -a -x /usr/sbin/update-alternatives ]; then
-                       java=`/usr/sbin/update-alternatives --display javac 2> /dev/null | grep best | awk '{print $NF}'`
-                       if [ -n "${java}" ]; then
-                         javadir=`dirname ${java}`/..
-                         JAVA_HOME=`cd ${javadir} && pwd`
-                       fi
-                     fi
-                     if [ -n "${JAVA_HOME}" -a -e "${JAVA_HOME}" ]; then
-                       prepend PATH "${JAVA_HOME}/bin"
-                     fi
-                     ;;
+  if [ -x /usr/bin/update-alternatives ]; then
+      ua=/usr/bin/update-alternatives
+  elif [ -x /usr/sbin/update-alternatives ]; then
+      ua=/usr/sbin/update-alternatives
+  fi
+  if [ -n "${ua}" ]; then
+      ${ua} --help | grep query > /dev/null
+      if [ ${?} -ne 0 ]; then
+          arg="--display"
+          best="best"
+      else
+          arg="--query"
+          best="Best"
+      fi
+      java=`${ua} ${arg} javac 2> /dev/null | grep ${best} | awk '{print $NF}'`
+      if [ -n "${java}" ]; then
+          javadir=`dirname ${java}`/..
+          JAVA_HOME=`cd ${javadir} && pwd`
+      fi
+  fi
+  
+  if [ -z "${JAVA_HOME}" ]; then
+      for java_dir in \
+          /opt/jdk1.5.0_07 \
+          /usr/java/jdk1.5.0_01 \
+          /usr/java/jdk1.5.0 \
+          /usr/java/j2sdk1.4.2_04 \
+          /usr/lib64/jvm/java \
+          /usr/lib/jvm/java \
+          /usr/lib/java
+        do
+        if [ -z "${JAVA_HOME}" -a -e ${java_dir} ]; then
+            JAVA_HOME=${java_dir}
+        fi
+      done
+  fi
+  if [ -n "${JAVA_HOME}" -a -e "${JAVA_HOME}" ]; then
+      prepend PATH "${JAVA_HOME}/bin"
+  fi
+  ;;
   darwin*)
            for java_dir in \
             /System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home \
