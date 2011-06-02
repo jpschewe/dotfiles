@@ -354,23 +354,24 @@ else
 fi
 
 # custom completion methods
-if [ -n "`type -p git`" ]; then
-  # TODO figure out a more robust way to find this script
-  . ${HOME}/dotfiles/git-completion.sh
-  # This one really slows things down
-  #GIT_PS1_SHOWDIRTYSTATE=true
-  #export GIT_PS1_SHOWDIRTYSTATE
-
-  # not really worth it without the above one
-  #GIT_PS1_SHOWSTASHSTATE=true
-  #export GIT_PS1_SHOWSTASHSTATE
-  #GIT_PS1_SHOWUNTRACKEDFILES=true
-  #export GIT_PS1_SHOWUNTRACKEDFILES
-  
-  PS1=${BASE_PS1}'\n$(__git_ps1 "[%s] ")>'
-else
-  PS1="${BASE_PS1}\n>"
-fi
+#if [ -n "`type -p git`" ]; then
+#  # TODO figure out a more robust way to find this script
+#  . ${HOME}/dotfiles/git-completion.sh
+#  # This one really slows things down
+#  #GIT_PS1_SHOWDIRTYSTATE=true
+#  #export GIT_PS1_SHOWDIRTYSTATE
+#
+#  # not really worth it without the above one
+#  #GIT_PS1_SHOWSTASHSTATE=true
+#  #export GIT_PS1_SHOWSTASHSTATE
+#  #GIT_PS1_SHOWUNTRACKEDFILES=true
+#  #export GIT_PS1_SHOWUNTRACKEDFILES
+#  
+#  PS1=${BASE_PS1}'\n$(__git_ps1 "[%s] ")>'
+#else
+#  PS1="${BASE_PS1}\n>"
+#fi
+PS1=${BASE_PS1}'\n$(vcprompt --format "[%s:%b] ")>'
 
 export PS1
 

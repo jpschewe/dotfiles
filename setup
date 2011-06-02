@@ -28,6 +28,7 @@ mkdir -p "${HOME}/bin"
 for script in musicbox; do
   ln -sf "${mypath}/${script}" "${HOME}/bin/${script}"
 done
+ln -sf "${mypath}/lib/vcprompt/bin/vcprompt" "${HOME}/bin/vcprompt"
 
 # bash
 ln -sf "${mypath}/addpath" "${HOME}/.addpath"

@@ -4,3 +4,6 @@
 [submodule "lib/vim-git"]
 	path = lib/vim-git
 	url = https://github.com/tpope/vim-git.git
+[submodule "lib/vcprompt"]
+	path = lib/vcprompt
+	url = https://github.com/xvzf/vcprompt.git
