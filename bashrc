@@ -354,9 +354,9 @@ else
 fi
 
 # custom completion methods
+. ${HOME}/dotfiles/git-completion.sh
 #if [ -n "`type -p git`" ]; then
 #  # TODO figure out a more robust way to find this script
-#  . ${HOME}/dotfiles/git-completion.sh
 #  # This one really slows things down
 #  #GIT_PS1_SHOWDIRTYSTATE=true
 #  #export GIT_PS1_SHOWDIRTYSTATE
