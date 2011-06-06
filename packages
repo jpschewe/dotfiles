@@ -461,6 +461,9 @@ append PATH /Applications/Octave.app/Contents/Resources/bin
 ### Qt
 append PATH /usr/local/qt-4.7/qt/bin
 
+### ditz
+append PATH ${HOME}/src/ditz/bin
+
 ### HOME
 prepend PATH "${HOME}/bin"
 prepend PATH "${HOME}/bin/$OSTYPE"
