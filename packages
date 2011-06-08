@@ -463,6 +463,9 @@ append PATH /usr/local/qt-4.7/qt/bin
 
 ### ditz
 append PATH ${HOME}/src/ditz/bin
+if [ -e ${HOME}/src/ditz/contrib/completion/ditz.bash ]; then
+  . ${HOME}/src/ditz/contrib/completion/ditz.bash
+fi
 
 ### HOME
 prepend PATH "${HOME}/bin"
