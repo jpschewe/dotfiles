@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Make vcprompt pick up tags
+desc: The standard git completion plugin gets tags, why doesn't vcprompt?
+type: :bugfix
+component: dotfiles
+release: 
+reporter: Jon Schewe <jpschewe@mtu.net>
+status: :unstarted
+disposition: 
+creation_time: 2011-06-14 18:35:40.460063 Z
+references: []
+
+id: 66eb9a924683721d8dc8395f00a71abd65672144
+log_events: 
+- - 2011-06-14 18:35:40.460255 Z
+  - Jon Schewe <jpschewe@mtu.net>
+  - created
+  - ""
