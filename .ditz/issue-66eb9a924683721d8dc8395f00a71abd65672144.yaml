@@ -5,7 +5,7 @@ type: :bugfix
 component: dotfiles
 release: 
 reporter: Jon Schewe <jpschewe@mtu.net>
-status: :unstarted
+status: :in_progress
 disposition: 
 creation_time: 2011-06-14 18:35:40.460063 Z
 references: []
@@ -16,3 +16,11 @@ log_events:
   - Jon Schewe <jpschewe@mtu.net>
   - created
   - ""
+- - 2011-06-15 13:12:05.508508 Z
+  - Jon Schewe <jpschewe@mtu.net>
+  - changed status from unstarted to in_progress
+  - ""
+- - 2011-06-15 13:22:24.521938 Z
+  - Jon Schewe <jpschewe@mtu.net>
+  - commented
+  - Make vcprompt behave like git_bashcompletion for extra stuff too.

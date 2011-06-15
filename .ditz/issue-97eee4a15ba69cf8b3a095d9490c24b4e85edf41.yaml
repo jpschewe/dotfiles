@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Completion doesn't handle '#' in front of issue name
+desc: This happens when there are no components.
+type: :bugfix
+component: dotfiles
+release: 
+reporter: Jon Schewe <jpschewe@mtu.net>
+status: :unstarted
+disposition: 
+creation_time: 2011-06-15 13:22:57.541063 Z
+references: []
+
+id: 97eee4a15ba69cf8b3a095d9490c24b4e85edf41
+log_events: 
+- - 2011-06-15 13:22:57.541233 Z
+  - Jon Schewe <jpschewe@mtu.net>
+  - created
+  - ""
