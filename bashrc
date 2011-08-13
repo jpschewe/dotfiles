@@ -312,6 +312,13 @@ elif [ -n "`type -p netcat`" -a -z "`type -p nc`" ]; then
   alias nc=netcat
 fi
 
+# determine which open to use
+if [ -z "`type -p open`" ]; then
+    if [ -n "`type -p xdg-open`" ]; then
+        alias open=xdg-open
+    fi
+fi
+
 # aliases for rm to use trash, if available
 #if [ -n "`type -p trash-put`" ]; then
 #  alias rm=trash-put
