@@ -1927,7 +1927,7 @@ in some window."
 	   '(("\\.cmake\\'" . cmake-mode))
 	   auto-mode-alist))
 
-;(autoload 'cmake-mode "~/CMake/Docs/cmake-mode.el" t)
+(autoload 'cmake-mode "cmake-mode" nil t)
 
 ;;;;;;;;;;;
 ;;
