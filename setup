@@ -1,15 +1,18 @@
 #!/bin/sh
 
-mypath="`echo $0 | sed -e 's,[^/]*$,,;s,/$,,;s,^$,.,'`"
-cd ${mypath}
-mypath=$PWD
+debug() { ! "${log_debug-false}" || log "DEBUG: $*" >&2; }
+log() { printf '%s\n' "$*"; }
+warn() { log "WARNING: $*" >&2; }
+error() { log "ERROR: $*" >&2; }
+fatal() { error "$*"; exit 1; }
+
+mydir=$(cd "$(dirname "$0")" && pwd -L) || fatal "Unable to determine script directory"
 
 auto=0
 while getopts a?h opt
 do	case "${opt}" in
 	a)	auto=1;;
-	[?] | h)	echo >&2 "Usage: ${0} [-a]"
-		exit 1;;
+	[?] | h)	fatal "Usage: ${0} [-a]";;
 	esac
 done
 shift $((OPTIND-1))
@@ -19,68 +22,68 @@ shift $((OPTIND-1))
 git submodule update --init
 
 # setup hook scripts
-ln -sf "${mypath}/hook-scripts/post-applypatch" "${mypath}/.git/hooks/post-applypatch"
-ln -sf "${mypath}/hook-scripts/post-applypatch" "${mypath}/.git/hooks/post-commit"
-ln -sf "${mypath}/hook-scripts/post-applypatch" "${mypath}/.git/hooks/post-merge"
+ln -sf "${mydir}/hook-scripts/post-applypatch" "${mydir}/.git/hooks/post-applypatch"
+ln -sf "${mydir}/hook-scripts/post-applypatch" "${mydir}/.git/hooks/post-commit"
+ln -sf "${mydir}/hook-scripts/post-applypatch" "${mydir}/.git/hooks/post-merge"
 
 # setup bin
 mkdir -p "${HOME}/bin"
 for script in musicbox; do
-  ln -sf "${mypath}/${script}" "${HOME}/bin/${script}"
+  ln -sf "${mydir}/${script}" "${HOME}/bin/${script}"
 done
-ln -sf "${mypath}/lib/vcprompt/bin/vcprompt" "${HOME}/bin/vcprompt"
+ln -sf "${mydir}/lib/vcprompt/bin/vcprompt" "${HOME}/bin/vcprompt"
 
 # bash
-ln -sf "${mypath}/addpath" "${HOME}/.addpath"
-ln -sf "${mypath}/bash_profile" "${HOME}/.bash_profile"
-ln -sf "${mypath}/bash_logout" "${HOME}/.bash_logout"
-ln -sf "${mypath}/bashrc" "${HOME}/.bashrc"
-ln -sf "${mypath}/packages" "${HOME}/.packages"
+ln -sf "${mydir}/addpath" "${HOME}/.addpath"
+ln -sf "${mydir}/bash_profile" "${HOME}/.bash_profile"
+ln -sf "${mydir}/bash_logout" "${HOME}/.bash_logout"
+ln -sf "${mydir}/bashrc" "${HOME}/.bashrc"
+ln -sf "${mydir}/packages" "${HOME}/.packages"
 
 # vim
-ln -sf "${mypath}/vimrc" "${HOME}/.vimrc"
+ln -sf "${mydir}/vimrc" "${HOME}/.vimrc"
 if [ -L "${HOME}/.vim" ]; then
   rm -f "${HOME}/.vim"
-  ln -sf "${mypath}/vim" "${HOME}/.vim"
+  ln -sf "${mydir}/vim" "${HOME}/.vim"
 elif [ -f "${HOME}/.vim" ]; then
   if [ ${auto} -eq 0 ]; then
-    echo "Expecting ${HOME}/.vim to be a symlink or a directory, not a file, skipping"
+    log "Expecting ${HOME}/.vim to be a symlink or a directory, not a file, skipping"
   fi
 elif [ -d "${HOME}/.vim" ]; then
   if [ ${auto} -eq 0 ]; then
-    echo "${HOME}/.vim already exists as a directory, moving to the side"
+    log "${HOME}/.vim already exists as a directory, moving to the side"
   fi
   mv "${HOME}/.vim" "${HOME}/.vim.old"
-  ln -sf "${mypath}/vim" "${HOME}/.vim"
+  ln -sf "${mydir}/vim" "${HOME}/.vim"
 else
-  ln -sf "${mypath}/vim" "${HOME}/.vim"
+  ln -sf "${mydir}/vim" "${HOME}/.vim"
 fi
 
 # screen
-ln -sf "${mypath}/screenrc" "${HOME}/.screenrc"
+ln -sf "${mydir}/screenrc" "${HOME}/.screenrc"
 
 # subversion
 mkdir -p "${HOME}/.subversion"
 if [ -f "${HOME}/.subversion/config" ]; then
   /bin/mv "${HOME}/.subversion/config" "${HOME}/.subversion/config.old"
 fi
-ln -fs "${mypath}/subversion-config" "${HOME}/.subversion/config"
+ln -fs "${mydir}/subversion-config" "${HOME}/.subversion/config"
 
 # cvs
-ln -fs "${mypath}/cvsrc" "${HOME}/.cvsrc"
+ln -fs "${mydir}/cvsrc" "${HOME}/.cvsrc"
 
 # git
-ln -fs "${mypath}/global-gitignore" "${HOME}/.global-gitignore"
+ln -fs "${mydir}/global-gitignore" "${HOME}/.global-gitignore"
 
 if [ ${auto} -eq 0 ]; then
   # ask about ssh
-  echo -n "Would you like to have ssh-agent start up on login? (y/N) "
+  printf "Would you like to have ssh-agent start up on login? (y/N) "
   answer=''
   read answer
   if [ "x${answer}" = "xy" ]; then
     mkdir -p "${HOME}/.ssh"
-    ln -sf "${mypath}/sssha" "${HOME}/.ssh/sssha"
-    ln -sf "${mypath}/sssha-helper" "${HOME}/.ssh/sssha-helper"
+    ln -sf "${mydir}/sssha" "${HOME}/.ssh/sssha"
+    ln -sf "${mydir}/sssha-helper" "${HOME}/.ssh/sssha-helper"
   else
     rm -f "${HOME}/.ssh/sssha"
     rm -f "${HOME}/.ssh/sssha-helper"
@@ -90,17 +93,17 @@ fi
 # setup bash-it - https://github.com/revans/bash-it
 if [ -L "${HOME}/.bash_it" ]; then
     rm -f "${HOME}/.bash_it"
-    ln -s "${mypath}/lib/bash-it" "${HOME}/.bash_it"
+    ln -s "${mydir}/lib/bash-it" "${HOME}/.bash_it"
 elif [ -f "${HOME}/.bash_it" ]; then
   if [ ${auto} -eq 0 ]; then
-    echo "Expecting ${HOME}/.bash_it to be a symlink or a directory, not a file, skipping"
+    log "Expecting ${HOME}/.bash_it to be a symlink or a directory, not a file, skipping"
   fi
 elif [ -d "${HOME}/.bash_it" ]; then
   if [ ${auto} -eq 0 ]; then
-    echo "${HOME}/.bash_it already exists as a directory, moving to the side"
+    log "${HOME}/.bash_it already exists as a directory, moving to the side"
   fi
   mv "${HOME}/.bash_it" "${HOME}/.bash_it.old"
-  ln -s "${mypath}/lib/bash-it" "${HOME}/.bash_it"
+  ln -s "${mydir}/lib/bash-it" "${HOME}/.bash_it"
 else
-  ln -s "${mypath}/lib/bash-it" "${HOME}/.bash_it"
+  ln -s "${mydir}/lib/bash-it" "${HOME}/.bash_it"
 fi
