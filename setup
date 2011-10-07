@@ -86,3 +86,21 @@ if [ ${auto} -eq 0 ]; then
     rm -f "${HOME}/.ssh/sssha-helper"
   fi
 fi
+
+# setup bash-it - https://github.com/revans/bash-it
+if [ -L "${HOME}/.bash_it" ]; then
+    rm -f "${HOME}/.bash_it"
+    ln -s "${mypath}/lib/bash-it" "${HOME}/.bash_it"
+elif [ -f "${HOME}/.bash_it" ]; then
+  if [ ${auto} -eq 0 ]; then
+    echo "Expecting ${HOME}/.bash_it to be a symlink or a directory, not a file, skipping"
+  fi
+elif [ -d "${HOME}/.bash_it" ]; then
+  if [ ${auto} -eq 0 ]; then
+    echo "${HOME}/.bash_it already exists as a directory, moving to the side"
+  fi
+  mv "${HOME}/.bash_it" "${HOME}/.bash_it.old"
+  ln -s "${mypath}/lib/bash-it" "${HOME}/.bash_it"
+else
+  ln -s "${mypath}/lib/bash-it" "${HOME}/.bash_it"
+fi

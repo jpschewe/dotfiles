@@ -530,6 +530,12 @@ if [ -f /opt/local/etc/bash_completion ]; then
     . /opt/local/etc/bash_completion
 fi
 
+# Bash It
+BASH=${HOME}/.bash_it
+export BASH
+source "$BASH/bash_it.sh"
+
+
 #
 # Avoid loops and such
 #
