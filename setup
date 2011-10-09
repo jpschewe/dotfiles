@@ -19,7 +19,8 @@ shift $((OPTIND-1))
 
 
 # get git submodules
-git submodule update --init
+# Run a second time if there is an error. This happens when a new submodule is added.
+git submodule update --init || git submodule update --init
 
 # setup hook scripts
 ln -sf "${mydir}/hook-scripts/post-applypatch" "${mydir}/.git/hooks/post-applypatch"
@@ -107,3 +108,9 @@ elif [ -d "${HOME}/.bash_it" ]; then
 else
   ln -s "${mydir}/lib/bash-it" "${HOME}/.bash_it"
 fi
+for dir in aliases completion plugins; do
+    mkdir -p "${mydir}/lib/bash-it/${dir}/enabled"
+done
+
+ln -sf "${mydir}/lib/bash-it/completion/available/ssh.completion.bash" \
+       "${mydir}/lib/bash-it/completion/enabled/ssh.completion.bash"
