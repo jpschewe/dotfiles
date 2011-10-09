@@ -1,7 +1,11 @@
 #!/bin/sh
 
-mypath="`echo $0 | sed -e 's,[^/]*$,,;s,/$,,;s,^$,.,'`"
-cd ${mypath}
-mypath=$PWD
+debug() { ! "${log_debug-false}" || log "DEBUG: $*" >&2; }
+log() { printf '%s\n' "$*"; }
+warn() { log "WARNING: $*" >&2; }
+error() { log "ERROR: $*" >&2; }
+fatal() { error "$*"; exit 1; }
 
-${mypath}/../setup -a
+mydir=$(cd "$(dirname "$0")" && pwd -L) || fatal "Unable to determine script directory"
+
+${mydir}/../setup -a
