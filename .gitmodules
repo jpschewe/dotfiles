@@ -7,6 +7,3 @@
 [submodule "lib/vcprompt"]
 	path = lib/vcprompt
 	url = https://github.com/djl/vcprompt.git
-[submodule "lib/bash-it"]
-	path = lib/bash-it
-	url = http://github.com/revans/bash-it.git
