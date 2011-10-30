@@ -9,4 +9,4 @@
 	url = https://github.com/djl/vcprompt.git
 [submodule "lib/bash-it"]
 	path = lib/bash-it
-	url = git@github.com:jpschewe/bash-it.git
+	url = https://github.com/revans/bash-it.git
