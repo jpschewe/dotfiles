@@ -5,8 +5,8 @@ type: :bugfix
 component: dotfiles
 release: 
 reporter: Jon Schewe <jpschewe@mtu.net>
-status: :in_progress
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2011-06-14 18:35:40.460063 Z
 references: []
 
@@ -24,3 +24,7 @@ log_events:
   - Jon Schewe <jpschewe@mtu.net>
   - commented
   - Make vcprompt behave like git_bashcompletion for extra stuff too.
+- - 2011-10-30 15:01:26.669638 Z
+  - Jon Schewe <jpschewe@mtu.net>
+  - closed with disposition fixed
+  - Use the tag name when not on the tip of a branch.
