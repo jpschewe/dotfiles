@@ -459,7 +459,19 @@ append PATH ${HOME}/Documents/Applications/Octave.app/Contents/Resources/bin
 append PATH /Applications/Octave.app/Contents/Resources/bin
 
 ### Qt
-append PATH /usr/local/qt-4.7/qt/bin
+QT_DIR=""
+# favorite is listed last
+for qt_dir in \
+    /usr/local/qt-4.7/qt/bin  \
+    /usr/local/qt-4.8.0-rc1/bin
+do
+    if [ -e "${qt_dir}" ]; then
+        QT_DIR=${qt_dir}
+    fi
+done
+if [ -n "${QT_DIR}" ]; then
+    append PATH "${qt_dir}"
+fi
 
 ### ditz
 append PATH ${HOME}/src/ditz/bin
