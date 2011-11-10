@@ -7,8 +7,8 @@ type: :feature
 component: dotfiles
 release: 
 reporter: Jon Schewe <jpschewe@mtu.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :wontfix
 creation_time: 2011-11-10 15:12:43.647535 Z
 references: []
 
@@ -18,3 +18,7 @@ log_events:
   - Jon Schewe <jpschewe@mtu.net>
   - created
   - ""
+- - 2011-11-10 15:22:55.033706 Z
+  - Jon Schewe <jpschewe@mtu.net>
+  - closed with disposition wontfix
+  - This isn't an issue. It was a problem with my svn wc needing an upgrade.
