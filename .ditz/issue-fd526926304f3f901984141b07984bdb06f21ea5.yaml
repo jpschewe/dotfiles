@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Support smite-src-team/truck in vcprompt
+desc: |-
+  With an svn repository that has multiple branches it would be nice
+  to handle this and even show which subtree we're in.
+type: :feature
+component: dotfiles
+release: 
+reporter: Jon Schewe <jpschewe@mtu.net>
+status: :unstarted
+disposition: 
+creation_time: 2011-11-10 15:12:43.647535 Z
+references: []
+
+id: fd526926304f3f901984141b07984bdb06f21ea5
+log_events: 
+- - 2011-11-10 15:12:43.647827 Z
+  - Jon Schewe <jpschewe@mtu.net>
+  - created
+  - ""
