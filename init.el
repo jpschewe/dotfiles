@@ -1251,6 +1251,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
 
 (add-to-list 'auto-mode-alist '("\\.xsd$" . xml-mode))
+(add-to-list 'auto-mode-alist '("\\.qrc$" . xml-mode))
 
 ;;;;;;;;;;;
 ;;
