@@ -37,6 +37,7 @@ if __name__ == "__main__":
     config['color']['branch'] = 'auto'
     config['color']['diff'] = 'auto'
     config['color']['status'] = 'auto'
+    config['color']['ui'] = 'auto'
 
     output = file(sys.argv[1], "w")
     writeConfig(config, output)
