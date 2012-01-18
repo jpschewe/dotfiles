@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Use "git config" instead of parser
+desc: |-
+  Don't parse the git config file, instead just use git config --global
+  to set the values that I want set.
+type: :task
+component: dotfiles
+release: 
+reporter: Jon Schewe <jpschewe@mtu.net>
+status: :unstarted
+disposition: 
+creation_time: 2012-01-18 19:18:16.335080 Z
+references: []
+
+id: 6dfc736bbc640ee9dd0d776e3f1b154bf9536c85
+log_events: 
+- - 2012-01-18 19:18:16.335360 Z
+  - Jon Schewe <jpschewe@mtu.net>
+  - created
+  - ""
