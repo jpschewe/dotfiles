@@ -29,8 +29,8 @@ ln -sf "${mydir}/hook-scripts/post-applypatch" "${mydir}/.git/hooks/post-merge"
 
 # setup bin
 mkdir -p "${HOME}/bin"
-for script in musicbox; do
-  ln -sf "${mydir}/${script}" "${HOME}/bin/${script}"
+for script in musicbox git-wtf; do
+  ln -sf "${mydir}/bin/${script}" "${HOME}/bin/${script}"
 done
 ln -sf "${mydir}/lib/vcprompt/bin/vcprompt" "${HOME}/bin/vcprompt"
 
