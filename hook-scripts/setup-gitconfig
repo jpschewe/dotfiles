@@ -30,14 +30,19 @@ if __name__ == "__main__":
 
     config['user']['name'] = 'Jon Schewe'
 
-    # make sure only the current branch is pushed, unless explicit
-    config['push']['default'] = 'current'
+    # push nothing, always use explicit
+    config['push']['default'] = 'nothing'
 
     # turn on colors
     config['color']['branch'] = 'auto'
     config['color']['diff'] = 'auto'
     config['color']['status'] = 'auto'
     config['color']['ui'] = 'auto'
+
+    # aliases
+    config['alias']['nlog'] = 'log --date=relative --abbrev-commit --graph'
+    config['alias']['redocommit'] = 'reset --soft HEAD^'
+    config['alias']['diffemptytreehash'] = 'diff -p 4b825dc642cb6eb9a060e54bf8d69288fbee4904'
 
     output = file(sys.argv[1], "w")
     writeConfig(config, output)
