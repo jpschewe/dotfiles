@@ -24,9 +24,9 @@ git submodule sync >/dev/null
 git submodule update --init >/dev/null || git submodule update --init >/dev/null
 
 # setup hook scripts
-ln -sf "${mydir}/hook-scripts/post-applypatch" "${mydir}/.git/hooks/post-applypatch"
-ln -sf "${mydir}/hook-scripts/post-applypatch" "${mydir}/.git/hooks/post-commit"
-ln -sf "${mydir}/hook-scripts/post-applypatch" "${mydir}/.git/hooks/post-merge"
+for hook in post-applypatch post-commit post-merge pre-rebase; do
+    ln -sf "${mydir}/hook-scripts/${hook}" "${mydir}/.git/hooks/${hook}"
+done
 
 # setup bin
 mkdir -p "${HOME}/bin"
