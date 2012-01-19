@@ -7,8 +7,8 @@ type: :task
 component: dotfiles
 release: 
 reporter: Jon Schewe <jpschewe@mtu.net>
-status: :in_progress
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2012-01-18 19:18:16.335080 Z
 references: []
 
@@ -22,3 +22,7 @@ log_events:
   - Jon Schewe <jpschewe@mtu.net>
   - changed status from unstarted to in_progress
   - ""
+- - 2012-01-19 15:25:42.906658 Z
+  - Jon Schewe <jpschewe@mtu.net>
+  - closed with disposition fixed
+  - Switched to shell script that call git config
