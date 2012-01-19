@@ -20,8 +20,8 @@ shift $((OPTIND-1))
 
 # get git submodules
 # Run a second time if there is an error. This happens when a new submodule is added.
-git submodule sync
-git submodule update --init || git submodule update --init
+git submodule sync >/dev/null
+git submodule update --init >/dev/null || git submodule update --init >/dev/null
 
 # setup hook scripts
 ln -sf "${mydir}/hook-scripts/post-applypatch" "${mydir}/.git/hooks/post-applypatch"
