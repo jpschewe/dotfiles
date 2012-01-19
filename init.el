@@ -1400,7 +1400,21 @@ Unless optional argument INPLACE is non-nil, return a new string."
 (setq pilot-memo-device "/dev/pilot")
 
 
-;;my nifty functions
+
+;;;;;;;;;;;
+;;
+;; conf mode
+;;
+;;;;;;;;;;;;
+(add-to-list 'auto-mode-alist '("\\.gitconfig$" . conf-unix-mode))
+
+
+;;;;;;;;;;;
+;;
+;; my nifty functions
+;;
+;;;;;;;;;;;;
+;;
 ;;FIX... (load-library "cool-functions")
 ;; handy methods
 
