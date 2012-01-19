@@ -1,6 +1,3 @@
-[submodule "lib/configdict"]
-	path = lib/configdict
-	url = git://github.com/larsks/configdict.git
 [submodule "lib/vim-git"]
 	path = lib/vim-git
 	url = git://github.com/tpope/vim-git.git
