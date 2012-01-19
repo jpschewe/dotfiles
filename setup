@@ -20,6 +20,7 @@ shift $((OPTIND-1))
 
 # get git submodules
 # Run a second time if there is an error. This happens when a new submodule is added.
+git submodule sync
 git submodule update --init || git submodule update --init
 
 # setup hook scripts
