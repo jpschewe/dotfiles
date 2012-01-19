@@ -9,4 +9,4 @@ fatal() { error "$*"; exit 1; }
 mydir=$(cd "$(dirname "$0")" && pwd -L) || fatal "Unable to determine script directory"
 
 # save a tag to make sure we don't lose work
-git tag $(date +'PRE-REBASE-%Y-%m-%d_%H:%M:%S') ${2}
+git tag $(date +'PRE-REBASE_%Y-%m-%d-%H-%M-%S') ${2}
