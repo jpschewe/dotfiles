@@ -10,7 +10,7 @@ defmonitor on
 vbell on
 
 # bigger scrollback
-defscrollback 1000
+defscrollback 100000
 
 ## # emacs keybindings for navigation in copy mode
 ## markkeys ^B=Y:^F=V:h=^B:l=^F:0=^A:$=^E
