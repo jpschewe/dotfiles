@@ -18,7 +18,7 @@ case "${USER}" in
 esac
 
 # push nothing, always use explicit
-git config --global push.default nothing
+git config --global push.default tracking
 
 # turn on colors
 git config --global color.branch 'auto'
