@@ -31,7 +31,7 @@
 
 ;; setup paths
 (cond ((not running-xemacs)
-       (let ((base-dir "~/.xemacs/xemacs-packages/lisp"))
+       (let ((base-dir (expand-file-name "~/.xemacs/xemacs-packages/lisp")))
 	 (add-to-list 'load-path base-dir)
 	 (dolist (fileOrDir (directory-files base-dir))
 	   (if (not (string= "." (substring fileOrDir 0 1)))
