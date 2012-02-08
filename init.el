@@ -1654,12 +1654,18 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;
 ;;;;;;;;;;;;
 ;;make iswitchb work like switch-to-buffer
-(setq iswitchb-default-method 'samewindow)
-(if (fboundp 'iswitchb-mode)
-    (iswitchb-mode)
-  (iswitchb-default-keybindings))
+;;(setq iswitchb-default-method 'samewindow)
+;;(if (fboundp 'iswitchb-mode)
+;;    (iswitchb-mode)
+;;  (iswitchb-default-keybindings))
 
 ;;(global-set-key "\C-xb" 'switch-to-buffer)
+
+;;; --------------------
+;;; -- ido - buffer completion and other stuff
+;;; http://www.emacswiki.org/emacs/InteractivelyDoThings
+(ido-mode)
+(setq ido-default-buffer-method 'selected-window)
 
 ;;;;;;;;;;;
 ;;
