@@ -463,7 +463,8 @@ QT_DIR=""
 # favorite is listed last
 for qt_dir in \
     /usr/local/qt-4.7/qt/bin  \
-    /usr/local/qt-4.8.0-rc1/bin
+    /usr/local/qt-4.8.0-rc1/bin \
+    /usr/local/qt-4.8.0/Desktop/Qt/4.8.0/gcc/bin
 do
     if [ -e "${qt_dir}" ]; then
         QT_DIR=${qt_dir}
