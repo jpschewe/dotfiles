@@ -4,6 +4,8 @@
 # OVERVIEW	This startup is executed ONLY on bash _login_ shells
 #
 
+#echo "Top of bash_profile"
+
 # From SUSE's default profile
 test -z "$PROFILEREAD" && test -f /etc/profile && . /etc/profile
 
@@ -12,7 +14,6 @@ test -z "$BRC" && test -f "${HOME}/.bashrc" && . "${HOME}/.bashrc"
 
 # be informative
 echo -n "`hostname`($TERM):"; uptime
-#ultras
 
 # setup terminal
 case "$TERM" in 
