@@ -44,6 +44,7 @@ ln -sf "${mydir}/bash_profile" "${HOME}/.bash_profile"
 ln -sf "${mydir}/bash_logout" "${HOME}/.bash_logout"
 ln -sf "${mydir}/bashrc" "${HOME}/.bashrc"
 ln -sf "${mydir}/packages" "${HOME}/.packages"
+ln -sf "${mydir}/tmux.conf" "${HOME}/.tmux.conf"
 
 # vim
 ln -sf "${mydir}/vimrc" "${HOME}/.vimrc"
