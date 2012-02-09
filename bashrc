@@ -118,7 +118,7 @@ fi
 # ALIASES & one-line FUNCTIONS
 #------------------------------
 
-export BRC="$HOME/.bashrc"	# also used for test in .profile
+BRC="$HOME/.bashrc"	# also used for test in .profile - don't export this
 #alias brc=". '$BRC'"
 alias brc='unset BASHRCREAD ; . "${HOME}/.bashrc"'
 
