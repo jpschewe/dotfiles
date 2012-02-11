@@ -51,7 +51,7 @@ fi
 export HOST CPU HOSTNAME HOSTTYPE OSTYPE MACHTYPE OSDIST
 
 if [ $OSTYPE = "cygwin" ]; then
-  # set in NT directly export CYGWIN="tty nosmbntsec"
+v  # set in NT directly export CYGWIN="tty nosmbntsec"
   # title doesn't seem to help either, binmode will break getenv in emacs, ntea will break permissions for ls
   # set to server to run postgres 
   #alias uptime='finger @localhost | grep UpTime'
@@ -207,70 +207,11 @@ cvsstat() {
   cvs -n update $* 2>&1 | egrep -v '^cvs update:'; 
 }
 
-# find that skips over .snapshot directories
-sfind() {
-  (
-    set -o noglob
-    shopt -s extglob
-    ARGS="$*"
-    DIRS="${ARGS/%-*/}"
-    ARGS="${ARGS##*([^-])}"
-    echo find $DIRS -path */.snapshot -prune -false -o \( $ARGS \) 1>&2
-    find $DIRS -path */.snapshot -prune -false -o \( $ARGS \)
-  )
-}
-
 keepalive() {
   echo "Going into keepalive mode"
   while `/bin/true`; do
     sleep 300
     echo "Keepalive :)"
-  done
-}
-
-#pwd()   { dirs | awk '{print $1}'; }
-total() {
-  perl -nle 'print; split; $sum+=$_[0]; END{ print "TOTAL:\t$sum\n"}'
-}
-  
-#pushd() { builtin pushd $1; cd .; }
-#popd() { builtin popd $1; cd .; }
-  
-# commands I aught to rember the name of, but don't:
-# ldd           - list dynamic dependencies
-# pstat -T      - 
-# vmstat        -
-# /usr/local/X11R5/bin/imake -DUseInstalled -I/usr/local/X11R5/lib/X11/config
-
-#cd()
-#{
-#        builtin cd $1;
-#       export PS1="\u@\h:\w\n\[\033]0;\u@\h\007\]>";   
-#       xname $*
-#}          
-
-#fdu() {
-#    perl -le 'while(<>) {chop;$f++;$b+=((stat($_))[7])};
-#                    print "files=$f - bytes=$b"'
-#}
-
-psg() {
-  ps $1 | tee /tmp/psg.$$ | awk 'NR == 1 {print $0}'
-  cat /tmp/psg.$$ | egrep $2
-  /bin/rm -f /tmp/psg.$$
-}
-
-# findp
-# Author: Robert S. Sciuk
-whence() {
-  targlist=$*
-  dirlist=`echo ${PATH} | sed 's/:/ /g'`
-  for dir in ${dirlist}; do
-    for target in ${targlist}; do
-      if [ -x "${dir}/${target}" ]; then
-          echo ${dir}/${target}
-      fi
-    done
   done
 }
 
@@ -300,7 +241,7 @@ sd() {
   [0-9]*) pd $1; pdirs; return $?;;
   esac
 
-  num=$(pdirs | perl -e '$str = $ARGV[1]; while(<STDIN>) { /\Q$str\E$/ || next;  /^\s*(\d+)/; print $1; exit }' - $1)
+  num=$(pdirs | grep -E "${1}$" | awk '{print $1}')
   case "$num" in
   0) ;;
   "")
@@ -319,12 +260,14 @@ sd() {
   esac
 }
 
+
 # figure out by which name netcat goes by
 if [ -n "`type -p nc`" -a -z "`type -p netcat`" ]; then
   alias netcat=nc
 elif [ -n "`type -p netcat`" -a -z "`type -p nc`" ]; then
   alias nc=netcat
 fi
+
 
 # determine which open to use
 if [ -z "`type -p open`" ]; then
@@ -341,14 +284,6 @@ fi
 #else 
 #  alias rm='rm -i'
 #fi
-
-dsd() {
-  case "$1" in
-  "") echo "usage: dsd <dir>" >&2 ;;
-  *) sd $1 >/dev/null && popd >/dev/null ;;
-  esac
-  pdirs
-}
 
 # ------------------
 # some terminal stuff
