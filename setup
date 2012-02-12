@@ -117,5 +117,7 @@ for dir in aliases completion plugins; do
     mkdir -p "${mydir}/lib/bash-it/${dir}/enabled"
 done
 
-ln -sf "${mydir}/lib/bash-it/completion/available/ssh.completion.bash" \
-       "${mydir}/lib/bash-it/completion/enabled/ssh.completion.bash"
+for complete in ssh tmux; do
+    ln -sf "${mydir}/lib/bash-it/completion/available/${complete}.completion.bash" \
+        "${mydir}/lib/bash-it/completion/enabled/${complete}.completion.bash"
+done
