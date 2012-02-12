@@ -269,6 +269,7 @@ case $OSTYPE in
           fi
           ;;
   linux*)
+         NEWEST_ANT=""
 	 if [ -e /usr/local/ant ]; then
 	   # find the most recently added version
 	   NEWEST_ANT=`ls -t /usr/local/ant | head -1`
