@@ -195,7 +195,7 @@ tmux-connect() {
     fi
     if $(tmux has-session -t $1 > /dev/null 2>&1) ; then
         printf "Session exists, connecting\n"
-        tmux new-session -t $1
+        tmux attach-session -t $1
     else
         printf "Creating new session\n"
         tmux new-session -s $1
