@@ -591,6 +591,8 @@
 (add-hook 'tex-mode-hook 'tex-mode-hook-jps)
 (add-hook 'LaTeX-mode-hook 'tex-mode-hook-jps)
 
+(setq tex-run-command "pdflatex")
+
 ;; function to fill sentences to make VCS LaTeX easier
 (eval-when-compile (if (functionp 'TeX-load-hack)
                        (progn (TeX-load-hack)
