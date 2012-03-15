@@ -475,10 +475,10 @@ do
     fi
 done
 if [ -n "${QT_DIR}" ]; then
-    append PATH "${qt_dir}/bin"
-    append LD_LIBRARY_PATH "${qt_dir}/lib"
-    append DYLD_LIBRARY_PATH "${qt_dir}/lib"
-    append DYLD_FRAMEWORK_PATH "${qt_dir}/lib"
+    append PATH "${QT_DIR}/bin"
+    append LD_LIBRARY_PATH "${QT_DIR}/lib"
+    append DYLD_LIBRARY_PATH "${QT_DIR}/lib"
+    append DYLD_FRAMEWORK_PATH "${QT_DIR}/lib"
 fi
 
 ### ditz
