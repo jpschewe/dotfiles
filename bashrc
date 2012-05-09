@@ -484,6 +484,15 @@ BASH_IT=${HOME}/.bash_it
 export BASH_IT
 source "${BASH_IT}/bash_it.sh"
 
+# get our path to launched applications
+case $OSTYPE in
+    darwin*)
+        if [ $TERM = "xterm" ]; then
+            launchctl setenv PATH "${PATH}"
+        fi
+        ;;
+esac
+
 
 #
 # Avoid loops and such
