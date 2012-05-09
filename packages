@@ -488,7 +488,7 @@ if [ -e ${HOME}/src/ditz/contrib/completion/ditz.bash ]; then
 fi
 
 ### gnuplot
-append PATH /Applications/Gnuplot.app/Contents/Resources/bin
+#append PATH /Applications/Gnuplot.app/Contents/Resources/bin
 
 ### octave
 append PATH /Applications/Octave.app/Contents/Resources/bin
