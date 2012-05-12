@@ -396,16 +396,21 @@ fi
 # put times in the history log
 export HISTTIMEFORMAT="%h/%d - %H:%M:%S "
 
-if [ -f /usr/lib/ssh/gnome-ssh-askpass ]; then
-  SSH_ASKPASS=/usr/lib/ssh/gnome-ssh-askpass
-elif [ -f /usr/lib64/ssh/gnome-ssh-askpass ]; then
-  SSH_ASKPASS=/usr/lib64/ssh/gnome-ssh-askpass
-elif [ -f /usr/lib/ssh/ssh-askpass ]; then
-  SSH_ASKPASS=/usr/lib/ssh/ssh-askpass
-elif [ -f /usr/lib64/ssh/ssh-askpass ]; then
-  SSH_ASKPASS=/usr/lib64/ssh/ssh-askpass
+# favorite is listed last
+for ask_pass in \
+    /usr/lib64/ssh/ssh-askpass \
+    /usr/lib/ssh/ssh-askpass \
+    /usr/lib64/ssh/gnome-ssh-askpass \
+    /usr/lib/ssh/gnome-ssh-askpass \
+    /usr/lib64/ssh/ksshaskpass
+  do
+  if [ -e "${ask_pass}" ]; then
+        SSH_ASKPASS=${ask_pass}
+    fi
+done
+if [ -n "${SSH_ASKPASS}" ]; then
+    export SSH_ASKPASS
 fi
-export SSH_ASKPASS
 
 
 if [ -e "${HOME}/.ssh/sssha-helper" ]; then
