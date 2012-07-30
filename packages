@@ -462,24 +462,24 @@ append PATH ${HOME}/Documents/Applications/Octave.app/Contents/Resources/bin
 append PATH /Applications/Octave.app/Contents/Resources/bin
 
 ### Qt
-QT_DIR=""
-# favorite is listed last
-for qt_dir in \
-    /usr/local/qt-4.7/qt  \
-    /usr/local/qt-4.8.0-rc1 \
-    /usr/local/qt-4.8.0/Desktop/Qt/4.8.0/gcc \
-    ${HOME}/QtSDK/Desktop/Qt/4.8.0/gcc
-do
-    if [ -e "${qt_dir}" ]; then
-        QT_DIR=${qt_dir}
-    fi
-done
-if [ -n "${QT_DIR}" ]; then
-    append PATH "${QT_DIR}/bin"
-    append LD_LIBRARY_PATH "${QT_DIR}/lib"
-    append DYLD_LIBRARY_PATH "${QT_DIR}/lib"
-    append DYLD_FRAMEWORK_PATH "${QT_DIR}/lib"
-fi
+#QT_DIR=""
+## favorite is listed last
+#for qt_dir in \
+#    /usr/local/qt-4.7/qt  \
+#    /usr/local/qt-4.8.0-rc1 \
+#    /usr/local/qt-4.8.0/Desktop/Qt/4.8.0/gcc \
+#    ${HOME}/QtSDK/Desktop/Qt/4.8.0/gcc
+#do
+#    if [ -e "${qt_dir}" ]; then
+#        QT_DIR=${qt_dir}
+#    fi
+#done
+#if [ -n "${QT_DIR}" ]; then
+#    append PATH "${QT_DIR}/bin"
+#    append LD_LIBRARY_PATH "${QT_DIR}/lib"
+#    append DYLD_LIBRARY_PATH "${QT_DIR}/lib"
+#    append DYLD_FRAMEWORK_PATH "${QT_DIR}/lib"
+#fi
 
 ### ditz
 append PATH ${HOME}/src/ditz/bin
