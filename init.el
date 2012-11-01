@@ -118,7 +118,7 @@
 
 ;; set the title to make it easy to determine which XEmacs is running
 (let ((host (downcase (system-name))))
-  (setq frame-title-format (concat "Emacs: " (user-real-login-name) "@" (substring host 0 (search "." host)) ": %b")))
+  (setq frame-title-format (concat "Emacs: " (user-real-login-name) "@" (car (split-string host "\\.")) ": %b")))
 
 ;; Change all yes/no prompts to y/n
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -328,7 +328,7 @@
 (message "Font lock")
 ;;turn off stupid extra buffer when fontifying things
 (setq progress-feedback-use-echo-area t)
-(set-face-background 'default "light gray")
+;(set-face-background 'default "light gray")
 (setq font-lock-maximum-decoration t
       font-lock-use-colors '(color)
       font-lock-auto-fontify t
@@ -490,14 +490,16 @@
 ;; text-mode
 ;;
 ;;;;;;;;;;;;
-(message "text-mode")
 ;; Turn on word-wrap in text modes
 ;;(add-hook 'text-mode-hook 'turn-on-auto-fill)
-(require 'filladapt)
-(add-hook 'text-mode-hook 
-	  (lambda nil  
-	    (filladapt-mode 1) 
-	    ))
+(cond ((or running-xemacs running-aquamacs)
+       (progn
+	 (message "text-mode")
+	 (require 'filladapt)
+	 (add-hook 'text-mode-hook 
+		   (lambda nil  
+		     (filladapt-mode 1) 
+		     )))))
 
 ;;;;;;;;;;;
 ;;
