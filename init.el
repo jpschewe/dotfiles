@@ -509,7 +509,6 @@
 (message "Scheme")
 (add-hook 'scheme-mode-hook 'scheme-mode-hook-jps)
 (defun scheme-mode-hook-jps ()
-  (camelCase-mode 1)
   (add-special-font-lock-faces-jps (list 'scheme-font-lock-keywords)))
 (add-to-list 'auto-mode-alist '("\\.ss$" . scheme-mode))
 
@@ -529,7 +528,6 @@
 ;;;;;;;;;;;;
 (message "Lisp")
 (defun lisp-mode-hook-jps ()
-  (camelCase-mode 1)
   (add-special-font-lock-faces-jps (list 'lisp-font-lock-keywords 'lisp-font-lock-keywords-1 'lisp-font-lock-keywords-2)))
 (add-hook 'lisp-mode-hook 'lisp-mode-hook-jps)
 
@@ -559,7 +557,6 @@
 ;;      (define-key map "\e."	'fi:lisp-find-definition)
 ;;      (define-key map "\e,"	'fi:lisp-find-next-definition)
 ;;      (add-special-font-lock-faces-jps (list 'lisp-font-lock-keywords 'lisp-font-lock-keywords-1 'lisp-font-lock-keywords-2))
-;;      (camelCase-mode 1)
 ;;      (turn-on-font-lock)
 ;;      ))
 ;;  (add-hook 'fi:lisp-mode-hook 'allegro-lisp-mode-hook-jps)
@@ -567,7 +564,6 @@
 ;;  (defun allegro-elisp-mode-hook-jps ()
 ;;    (let ((map (current-local-map)))
 ;;      (add-special-font-lock-faces-jps (list 'lisp-font-lock-keywords 'lisp-font-lock-keywords-1 'lisp-font-lock-keywords-2))
-;;      (camelCase-mode 1)
 ;;      (turn-on-font-lock)
 ;;      ))
 ;;  (add-hook 'fi:emacs-lisp-mode-hook 'allegro-elisp-mode-hook-jps)
@@ -644,7 +640,6 @@
 ;;;;;;;;;;;;
 (message "HTML")
 (defun html-mode-hook-jps ()
-  (camelCase-mode 1)
   (auto-fill-mode -1)
   )
 (add-hook 'html-mode-hook 'html-mode-hook-jps)
@@ -889,8 +884,6 @@
 (defun c-mode-common-hook-jps ()
   (setq indent-tabs-mode nil);; no tabs in source code
 
-  (camelCase-mode 1)
-  
   ;; customize cc-mode
   ;;(c-set-offset 'substatement-open 
   ;;		  )
@@ -912,8 +905,6 @@
   ;;(c-toggle-hungry-state t)
   ;;(turn-on-auto-fill)
 
-  (camelCase-mode 1)
-  
   (define-key c-mode-map "\C-m" 'newline-and-indent)
   (define-key c-mode-map "\C-cc" 'compile)
   (define-key c-mode-map "\C-cr" 'replace-string)
@@ -1039,7 +1030,6 @@
 
   ;;(setq tab-width 2)
   (setq indent-tabs-mode nil)
-  (camelCase-mode 1)
   (local-set-key (concat prefix-key-jps "p") 'cperl-perldoc)
   )
 (add-hook 'cperl-mode-hook 'cperl-mode-hook-jps)
@@ -1116,7 +1106,6 @@
   (setq paren-backwards-message t)
   
   ;;(modify-syntax-entry ?_ " ")
-  (camelCase-mode 1)
   (diminish 'senator-minor-mode "Sen")
   ;;(senator-minor-mode nil)
   
@@ -1259,14 +1248,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
 
 ;;;;;;;;;;;
 ;;
-;; CamelCase
-;;
-;;;;;;;;;;;;
-(message "CamelCase")
-(load-library "camelCase-mode")
-
-;;;;;;;;;;;
-;;
 ;; TAGS
 ;;
 ;;;;;;;;;;;;
@@ -1378,7 +1359,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
   (setq fill-column 78)
   (setq indent-tabs-mode nil)
   (turn-on-font-lock)
-  (camelCase-mode 1)
   )
 (add-hook 'antlr-mode-hook 'antlr-mode-hook-jps)
 
@@ -1390,7 +1370,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;;;;;;;;;;;
 (defun python-mode-hook-jps ()
   (setq py-indent-offset 4)
-  (camelCase-mode 1)
   )
 (add-hook 'python-mode-hook 'python-mode-hook-jps)
 
@@ -1976,7 +1955,6 @@ in some window."
 (diminish 'lazy-lock-mode "L")
 (diminish 'auto-fill-function "Af")
 (diminish 'isearch-mode "IS")
-(diminish 'camelCase-mode "CC")
 (diminish 'filladapt-mode "Fa")
 ))
 
