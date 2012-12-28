@@ -2000,6 +2000,4 @@ in some window."
 ;;JPS not yet                 register-alist)))
 
 ;; make sure to always split windows vertically
-(if (and (boundp 'split-window-preferred-function) (fboundp 'split-window-vertically))
-    (progn
-      (setq split-window-preferred-function 'split-window-vertically)))
+(setq split-width-threshold nil)
