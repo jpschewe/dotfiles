@@ -594,7 +594,7 @@
 ;; function to fill sentences to make VCS LaTeX easier
 (eval-when-compile (if (functionp 'TeX-load-hack)
                        (progn (TeX-load-hack)
-                              (require 'latex nil t))))
+                              (require 'latex))))
 (defun fill-sentence ()
   (interactive)
   (save-excursion
@@ -2000,4 +2000,8 @@ in some window."
 ;;JPS not yet                 register-alist)))
 
 ;; make sure to always split windows vertically
-(setq split-width-threshold nil)
+(setq split-width-threshold 80000)
+
+;; dired switch on some Linux distros doesn't work
+(if (and running-xemacs (eq system-type 'linux))
+    (setq dired-use-ls-dired nil))
