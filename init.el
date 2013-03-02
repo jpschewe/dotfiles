@@ -585,6 +585,12 @@
 (message "LaTex")
 (defun tex-mode-hook-jps ()
   (auto-fill-mode 1)
+
+  ;; set the pdf viewer
+  (cond ((eq system-type 'linux)
+	 (setq TeX-output-view-style (cons '("^pdf$" "." "xdg-open %o") TeX-output-view-style)))
+	((eq system-type 'darwin)
+	 (setq TeX-output-view-style (cons '("^pdf$" "." "open %o") TeX-output-view-style))))
   )
 (add-hook 'tex-mode-hook 'tex-mode-hook-jps)
 (add-hook 'LaTeX-mode-hook 'tex-mode-hook-jps)
@@ -619,6 +625,7 @@
   ;; key to fill senteces in LaTeX mode
   (add-hook hookvar
             '(lambda () (global-set-key (kbd "M-q") 'fill-sentence))))
+
 
 ;;;;;;;;;;;
 ;;
