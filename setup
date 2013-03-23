@@ -29,7 +29,7 @@ for hook in post-applypatch post-commit post-merge pre-rebase; do
 done
 
 # make sure that submodules are always fetched
-git config --local fetch.recurseSubmodules yes
+git config fetch.recurseSubmodules yes
 
 # setup bin
 mkdir -p "${HOME}/bin"
