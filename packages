@@ -5,10 +5,14 @@
 
 #
 # Null out variables to be set, and export them.
-PATH= ; export PATH
-LD_LIBRARY_PATH= ; export LD_LIBRARY_PATH
-DYLD_LIBRARY_PATH= ; export DYLD_LIBRARY_PATH
-DYLD_FRAMEWORK_PATH= ; export DYLD_FRAMEWORK_PATH
+if [ -n "${PATH}" ]; then
+    PATH= ; export PATH
+fi
+if [ -n "${LD_LIBRARY_PATH}" ]; then
+    LD_LIBRARY_PATH= ; export LD_LIBRARY_PATH
+fi
+#DYLD_LIBRARY_PATH= ; export DYLD_LIBRARY_PATH
+#DYLD_FRAMEWORK_PATH= ; export DYLD_FRAMEWORK_PATH
 LM_LICENSE_FILE= ; export LM_LICENSE_FILE
 CLASSPATH= ; export CLASSPATH
 
