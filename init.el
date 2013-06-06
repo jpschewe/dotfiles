@@ -1254,6 +1254,17 @@ Unless optional argument INPLACE is non-nil, return a new string."
 (add-to-list 'auto-mode-alist '("\\.qrc$" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.wxs$" . xml-mode))
 
+
+;;;;;;;;;;;
+;;
+;; conf-mode
+;;
+;;;;;;;;;;;;
+(if running-xemacs
+    (progn
+      (autoload 'conf-mode "conf-mode" "Major mode to edit configuration files." t)
+      (add-to-list 'auto-mode-alist '("\\.ini$" . conf-mode))))
+
 ;;;;;;;;;;;
 ;;
 ;; TAGS
