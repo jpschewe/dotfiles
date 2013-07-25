@@ -238,6 +238,7 @@ case $OSTYPE in
   ;;
   darwin*)
            for java_dir in \
+            /Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home \
             /System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home \
             /System/Library/Frameworks/JavaVM.framework/Versions/1.5/Home \
             /System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home \
