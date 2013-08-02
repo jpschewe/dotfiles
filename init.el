@@ -173,6 +173,8 @@
        ;; Use -i to force .bashrc file to be run, otherwise aliases defined
        ;; in you .bashrc file will not be available.
        (setq shell-command-switch "-c")
+       
+       (setq browse-url-browser-function 'browse-url-firefox)
 
 
        ;; nasty stuff to get cygwin 1.3.1 to work right
@@ -196,6 +198,8 @@
 	 (setq openoffice-executable "/usr/lib/ooo-1.1/program/soffice"))
 	(t
 	 (setq openoffice-exeutable "openoffice-not-found")))
+       (setq browse-url-generic-program "xdg-open")
+       (setq browse-url-browser-function 'browse-url-generic)
        )
       ((eq system-type 'darwin)
        (cond
@@ -206,6 +210,8 @@
 	)
        (cond (running-xemacs
 	     (require 'osx-clipboard)))
+       (setq browse-url-generic-program "open")
+       (setq browse-url-browser-function 'browse-url-generic)
        ))
 
 
@@ -1943,6 +1949,22 @@ in some window."
 	   auto-mode-alist))
 
 (autoload 'cmake-mode "cmake-mode" nil t)
+
+;;;;;;;;;;;
+;;
+;; Markdown
+;;
+;;;;;;;;;;;;
+(autoload 'markdown-mode "markdown-mode"
+  "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-hook 'markdown-mode-hook
+	  (lambda ()
+	    (when buffer-file-name
+	      (add-hook 'after-save-hook
+			'check-parens
+			nil t))))
 
 ;;;;;;;;;;;
 ;;
