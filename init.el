@@ -426,7 +426,7 @@
 (message "grep")
 ;;change the default to be my perl script
 ;;(setq grep-command "grep -n -R --exclude='*CVS*' --exclude='*.svn*' ")
-(setq grep-find-command "find . \\( -name .svn -prune \\) -o \\( -name CVS -prune \\) -o -type f -print0 | xargs -0 grep -n ")
+(setq grep-find-command "find . \\( -name .git -prune \\) -o \\( -name .svn -prune \\) -o \\( -name CVS -prune \\) -o -type f -print0 | xargs -0 grep -n ")
 
 
 ;;;;;;;;;;;
@@ -1259,6 +1259,17 @@ Unless optional argument INPLACE is non-nil, return a new string."
 (add-to-list 'auto-mode-alist '("\\.xsd$" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.qrc$" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.wxs$" . xml-mode))
+
+
+;;;;;;;;;;;
+;;
+;; conf-mode
+;;
+;;;;;;;;;;;;
+(if running-xemacs
+    (progn
+      (autoload 'conf-mode "conf-mode" "Major mode to edit configuration files." t)
+      (add-to-list 'auto-mode-alist '("\\.ini$" . conf-mode))))
 
 ;;;;;;;;;;;
 ;;
