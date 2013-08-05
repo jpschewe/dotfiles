@@ -1970,12 +1970,13 @@ in some window."
   "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-(add-hook 'markdown-mode-hook
-	  (lambda ()
-	    (when buffer-file-name
-	      (add-hook 'after-save-hook
-			'check-parens
-			nil t))))
+(if (fboundp 'check-parens)
+    (add-hook 'markdown-mode-hook
+	      (lambda ()
+		(when buffer-file-name
+		  (add-hook 'after-save-hook
+			    'check-parens
+			    nil t)))))
 
 ;;;;;;;;;;;
 ;;
