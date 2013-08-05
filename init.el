@@ -1,8 +1,10 @@
 ;; -*- Mode: Emacs-Lisp -*-
 
 ;; check which emacs is running
-(defvar running-xemacs (string-match "XEmacs\\|Lucid" emacs-version))
-(defvar running-gnuemacs (string-match "^GNU Emacs" (emacs-version)))
+;(defvar running-xemacs (string-match "XEmacs\\|Lucid" emacs-version))
+(defvar running-xemacs (featurep 'xemacs))
+;;(defvar running-gnuemacs (string-match "^GNU Emacs" (emacs-version)))
+(defvar running-gnuemacs (featurep 'emacs))
 (defvar running-aquamacs	(string-match "Aquamacs" (emacs-version)))
 (defvar running-carbon	(and (string-match "Carbon" (emacs-version))
                              (not ver-p-aquamacs)))
@@ -78,7 +80,12 @@
        ;; remove toolbar
        (tool-bar-mode -1)
        (setq aquamacs-set-creator-codes-after-writing-files nil)
-       ))
+       )
+      (running-gnuemacs
+       (tool-bar-mode -1)
+       (set-scroll-bar-mode 'right)
+       )
+      )
 
 
 (setq next-line-add-newlines nil;; no newlines at EOF
@@ -110,11 +117,20 @@
 ;;       (setq browse-url-browser-function 'browse-url-kfm))
 ;;       (t
 ;;	(setq browse-url-browser-function 'browse-url-mozila)))
-(setq
- browse-url-new-window-flag t;; try to use a new window when browsing
- browse-url-mozilla-new-window-is-tab t ;; use tabs with mozilla
- browse-url-browser-function 'browse-url-firefox
- )
+(cond ((or (eq system-type 'windows-nt) 
+	   (eq system-type 'cygwin32))
+       (setq browse-url-browser-function 'browse-url-firefox))
+      ((or (eq system-type 'linux)
+	   (eq system-type 'gnu/linux))
+       (setq browse-url-generic-program "xdg-open")
+       (setq browse-url-browser-function 'browse-url-generic)
+       )
+      ((eq system-type 'darwin)
+       (setq browse-url-generic-program "open")
+       (setq browse-url-browser-function 'browse-url-generic)
+       ))
+
+
 
 ;; set the title to make it easy to determine which XEmacs is running
 (let ((host (downcase (system-name))))
@@ -174,9 +190,6 @@
        ;; in you .bashrc file will not be available.
        (setq shell-command-switch "-c")
        
-       (setq browse-url-browser-function 'browse-url-firefox)
-
-
        ;; nasty stuff to get cygwin 1.3.1 to work right
        (setq mswindows-construct-process-command-line-alist
 	     '(("[\\/].?.?sh\\." . mswindows-construct-vc-runtime-command-line)
@@ -198,8 +211,6 @@
 	 (setq openoffice-executable "/usr/lib/ooo-1.1/program/soffice"))
 	(t
 	 (setq openoffice-exeutable "openoffice-not-found")))
-       (setq browse-url-generic-program "xdg-open")
-       (setq browse-url-browser-function 'browse-url-generic)
        )
       ((eq system-type 'darwin)
        (cond
@@ -210,8 +221,6 @@
 	)
        (cond (running-xemacs
 	     (require 'osx-clipboard)))
-       (setq browse-url-generic-program "open")
-       (setq browse-url-browser-function 'browse-url-generic)
        ))
 
 
@@ -414,6 +423,7 @@
 (if running-xemacs
     (paren-set-mode 'paren)
   (progn
+    (show-paren-mode 1)
     (setq show-paren-mode t)
     (setq show-paren-style 'parenthesis)))
 
