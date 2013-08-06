@@ -8,7 +8,10 @@
 (defvar running-aquamacs	(string-match "Aquamacs" (emacs-version)))
 (defvar running-carbon	(and (string-match "Carbon" (emacs-version))
                              (not ver-p-aquamacs)))
-
+(defvar running-unix (or (eq system-type 'linux)
+			 (eq system-type 'gnu/linux)
+			 (eq system-type 'usg-unix-v)
+			 (eq system-type 'berkeley-unix)))
 
 ;; take care of some custom variables right up front
 (custom-set-variables
@@ -113,15 +116,14 @@
 (setq inhibit-clash-detection t)
 
 ;; web browser integration
-;;(cond ((eq system-type 'linux)
+;;(cond (running-unix
 ;;       (setq browse-url-browser-function 'browse-url-kfm))
 ;;       (t
 ;;	(setq browse-url-browser-function 'browse-url-mozila)))
 (cond ((or (eq system-type 'windows-nt) 
 	   (eq system-type 'cygwin32))
        (setq browse-url-browser-function 'browse-url-firefox))
-      ((or (eq system-type 'linux)
-	   (eq system-type 'gnu/linux))
+      (running-unix
        (setq browse-url-generic-program "xdg-open")
        (setq browse-url-browser-function 'browse-url-generic)
        )
@@ -199,7 +201,7 @@
        ;;Set this to true when debugging processes
        ;;(setq debug-mswindows-process-command-lines nil)
        )
-      ((eq system-type 'linux)
+      (running-unix
        (cond
 	((file-exists-p (expand-file-name "/usr/bin/ooffice"))
 	 (setq openoffice-executable (expand-file-name "/usr/bin/ooffice")))
@@ -603,7 +605,7 @@
   (auto-fill-mode 1)
 
   ;; set the pdf viewer
-  (cond ((eq system-type 'linux)
+  (cond (running-unix
 	 (setq TeX-output-view-style (cons '("^pdf$" "." "xdg-open %o") TeX-output-view-style)))
 	((eq system-type 'darwin)
 	 (setq TeX-output-view-style (cons '("^pdf$" "." "open %o") TeX-output-view-style))))
@@ -714,24 +716,16 @@
   ;;initialize to empty
   (setq dired-auto-shell-command-alist nil)
 
-  (when (or (eq system-type 'linux)
+  (when (or running-unix
 	    (eq system-type 'cygwin32)
-	    (eq system-type windows-nt)
+	    (eq system-type 'windows-nt)
 	    (eq system-type 'darwin))
     (setq dired-listing-switches "-alh"))
   
-  ;;palm pilot stuff
-  (when (eq system-type 'linux)
-    (add-to-list 'dired-auto-shell-command-alist '("\\.pdb$" "pilot-xfer -i"))
-    (add-to-list 'dired-auto-shell-command-alist '("\\.prc$" "pilot-xfer -i"))
-    (add-to-list 'dired-auto-shell-command-alist '("\\.pdb$" "gpilot-install-file -l"))
-    (add-to-list 'dired-auto-shell-command-alist '("\\.prc$" "gpilot-install-file -l"))
-    )
-
   ;;images
   (let ((extensions '("ps" "jpg" "bmp" "pbm" "pgm" "ppm" "xbm" "xpm" "ras" "rast" "gif" "tif" "tiff" "png" "xwd")))
     ;;gimp
-    (when (eq system-type 'linux)
+    (when running-unix
       (map 'list '(lambda (ext)
 		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "gimp"))
 		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "display"))
@@ -744,7 +738,7 @@
   (add-to-list 'dired-auto-shell-command-alist '("\\.tar.bz2$" "tar -jxvf"))
 
   ;;stuffit
-  (when (eq system-type 'linux)
+  (when running-unix
     (add-to-list 'dired-auto-shell-command-alist '("\\.sit$" "unstuff")))
   
   ;;office documents
@@ -777,19 +771,19 @@
   (add-to-list 'dired-auto-shell-command-alist '("\\.prj$" "protege"))
 
   ;;zip
-  (when (or (eq system-type 'linux) (eq system-type 'usg-unix-v))
+  (when running-unix
     (add-to-list 'dired-auto-shell-command-alist '("\\.zip$" "unzip")))
 
   ;;adobe
   (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "acroread"))
-  (when (eq system-type 'linux)
+  (when running-unix
     (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "kghostview"))
     (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "gpdf"))
     (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "xpdf"))
     )
 
   ;;Postscript
-  (when (eq system-type 'linux)
+  (when running-unix
     (add-to-list 'dired-auto-shell-command-alist '("\\.ps$" "kghostview"))
     (add-to-list 'dired-auto-shell-command-alist '("\\.ps$" "gv"))
     )
@@ -1579,7 +1573,10 @@ Unless optional argument INPLACE is non-nil, return a new string."
       '((t "~/.xemacs/backups/" ok-create full-path prepend-name)
 	))
 (setq make-backup-files t
-      backup-by-copying t)
+      backup-by-copying t ; don't clobber symlinks
+      delete-old-versions t
+      backup-directory-alist '((".*" . "~/.xemacs/backups"))
+      )
 
 (message "Loading xemacs-init")
   
@@ -1603,8 +1600,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ))
 
 (when (or
-       (eq system-type 'usg-unix-v)
-       (eq system-type 'linux)
+       running-unix
        ;;(eq system-type 'cygwin32)
        )
   ;;(setq gnuserv-frame t);;Use the current frame for gnuserv clients, Setting this causes gnuclient to not work correctly!
@@ -2055,5 +2051,5 @@ in some window."
 (setq split-width-threshold 80000)
 
 ;; dired switch on some Linux distros doesn't work
-(if (and running-xemacs (eq system-type 'linux))
+(if (and running-xemacs (or (eq system-type 'linux) (eq system-type 'gnu/linux)))
     (setq dired-use-ls-dired nil))
