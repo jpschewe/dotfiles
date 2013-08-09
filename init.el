@@ -221,9 +221,22 @@
 	(t
 	 (setq openoffice-exeutable "openoffice-not-found"))
 	)
-       (cond (running-xemacs
-	     (require 'osx-clipboard)))
        ))
+
+
+;;;;;;;;;;;
+;;
+;; Clipboard
+;;
+;;;;;;;;;;;;
+(cond
+ (running-gnuemacs
+  (setq x-select-enable-clipboard t))
+ (running-xemacs
+  (setq interprogram-cut-function 'own-clipboard)
+  (setq interprogram-paste-function 'get-clipboard))
+ (running-aquamacs
+  (require 'osx-clipboard)))
 
 
 ;;;;;;;;;;;
