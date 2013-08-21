@@ -738,7 +738,7 @@
   ;;images
   (let ((extensions '("ps" "jpg" "bmp" "pbm" "pgm" "ppm" "xbm" "xpm" "ras" "rast" "gif" "tif" "tiff" "png" "xwd")))
     ;;gimp
-    (when running-unix
+    (when (and running-unix running-xemacs)
       (map 'list '(lambda (ext)
 		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "gimp"))
 		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "display"))
