@@ -1612,9 +1612,9 @@ Unless optional argument INPLACE is non-nil, return a new string."
 (efs-display-ftp-activity)
 ))
 
-(when (or
+(when (and
        running-unix
-       ;;(eq system-type 'cygwin32)
+       (fboundp 'gnuserv-start)
        )
   ;;(setq gnuserv-frame t);;Use the current frame for gnuserv clients, Setting this causes gnuclient to not work correctly!
   (gnuserv-start)
