@@ -221,6 +221,14 @@
 	(t
 	 (setq openoffice-exeutable "openoffice-not-found"))
 	)
+
+       ;; for macports
+       (let ((path-entries (split-string (getenv "PATH") ":")))
+	 (add-to-list 'path-entries "/opt/local/bin")
+	 (add-to-list 'path-entries "/Users/jschewe/bin")
+	 (setenv "PATH" (mapconcat 'identity path-entries ":"))
+	 )
+
        ))
 
 
