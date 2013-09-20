@@ -471,11 +471,11 @@ append PATH /Applications/Octave.app/Contents/Resources/bin
 QT_DIR=""
 # favorite is listed last
 for qt_dir in \
+    ${HOME}/Qt5.1.1/5.1.1/clang_64 \
+    /usr/local/Qt5.1.1/5.1.1/gcc_64 \
     ${HOME}/QtSDK/Desktop/Qt/4.8.0/gcc \
     /usr/local/qt-4.8.0/Desktop/Qt/4.8.0/gcc \
-    /usr/local/qt-4.8.4 \
-    ${HOME}/Qt5.1.1/5.1.1/clang_64 \
-    /usr/local/Qt5.1.1/5.1.1/gcc_64    
+    /usr/local/qt-4.8.4
 do
     if [ -e "${qt_dir}" ]; then
         QT_DIR=${qt_dir}
