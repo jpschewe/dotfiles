@@ -223,11 +223,11 @@
 	)
 
        ;; for macports
-       (let ((path-entries (split-string (getenv "PATH") ":")))
-	 (add-to-list 'path-entries "/opt/local/bin")
-	 (add-to-list 'path-entries "/Users/jschewe/bin")
-	 (setenv "PATH" (mapconcat 'identity path-entries ":"))
-	 )
+       ;(let ((path-entries (split-string (getenv "PATH") ":")))
+	 ;(add-to-list 'path-entries "/opt/local/bin")
+	 ;(add-to-list 'path-entries "/Users/jschewe/bin")
+	 ;(setenv "PATH" (mapconcat 'identity path-entries ":"))
+;	 )
 
        ))
 
@@ -1824,10 +1824,11 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;; Spell
 ;;
 ;;;;;;;;;;;;
-;;(when (or (eq system-type 'windows-nt)
-;;	  (eq system-type 'cygwin32))
-  (setq ispell-program-name "aspell")
-;;)
+(cond ((eq system-type 'darwin)
+       (setq ispell-program-name "/opt/local/bin/aspell"))
+      (t
+       (setq ispell-program-name "aspell"))
+)
 
 ;;; -------------------- 
 ;;; -- PCL-CVS
