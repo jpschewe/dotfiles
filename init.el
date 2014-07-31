@@ -65,8 +65,8 @@
 
 
 ;;Make sure XEmacs doesn't close unless I really want it to
-(setq kill-emacs-query-functions
-      (cons (lambda () (yes-or-no-p "Really kill Emacs? ")) kill-emacs-query-functions))
+;(setq kill-emacs-query-functions
+;      (cons (lambda () (yes-or-no-p "Really kill Emacs? ")) kill-emacs-query-functions))
 
 ;;;;;;;;;;;
 ;;
