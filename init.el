@@ -15,11 +15,25 @@
 
 ;; take care of some custom variables right up front
 (custom-set-variables
- '(gutter-buffers-tab-enabled nil);;get rid of stupid themometer
- '(gutter-buffers-tab-visible nil);;get rid of stupid themometer
- '(load-home-init-file t t);;don't let XEmacs mangle my .emacs
- '(query-user-mail-address nil);; quit asking me my email address
- )
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(aquamacs-additional-fontsets nil t)
+ '(aquamacs-customization-version-id 216 t)
+ '(aquamacs-tool-bar-user-customization nil t)
+ '(default-frame-alist (quote ((menu-bar-lines . 1) (foreground-color . "Black") (background-color . "White") (cursor-type . box) (cursor-color . "Red") (vertical-scroll-bars . right) (internal-border-width . 0) (left-fringe . 1) (right-fringe) (fringe) (tool-bar-lines . 0))))
+ '(display-time-mode t)
+ '(gutter-buffers-tab-enabled nil)
+ '(gutter-buffers-tab-visible nil)
+ '(ns-alternate-modifier (quote alt))
+ '(ns-tool-bar-display-mode nil t)
+ '(ns-tool-bar-size-mode nil t)
+ '(package-get-remote (quote (("ftp.xemacs.org" "/pub/xemacs/packages"))))
+ '(query-user-mail-address nil)
+ '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
+ '(tabbar-mode nil nil (tabbar))
+ '(visual-line-mode nil t))
 
 (if (and (not running-xemacs) (eq system-type 'darwin))
     (progn
@@ -46,7 +60,12 @@
 		   )))))))
 
 ;;set faces up front
-(custom-set-faces)
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
 
 (if (not (boundp 'windows-nt)) (setq windows-nt nil))
 
@@ -1122,17 +1141,7 @@
 ;;    ;;fix bug with wrong signal being sent to running processes
 ;;    (define-key jde-run-mode-map "\C-c\C-c" 'comint-kill-subjob)))
 
-(custom-set-variables
 
- '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
- 
- ;;'(jde-ant-home (getenv "ANT_HOME"))
- 
- '(jde-auto-parse-buffer-interval 60)
- '(jde-auto-parse-enable t)
- ;;see if this helps things at all 
- '(jde-project-context-switching-enabled-p t)
- )
  ;;don't jump to the first error or remove the compilation buffer! 
 (defadvice jde-compile-finish-kill-buffer (around remove-jde-compile-finish-kill-buffer)
   "remove jde-compile-finish-kill-buffer"
@@ -2040,8 +2049,7 @@ in some window."
 ;;;stuff emacs likes to append on it's own
 (put 'erase-buffer 'disabled nil)
 
-(custom-set-variables
- '(package-get-remote (quote (("ftp.xemacs.org" "/pub/xemacs/packages")))))
+
 
 (put 'narrow-to-region 'disabled nil)
 
