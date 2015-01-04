@@ -296,7 +296,6 @@ if [ -n "${ANT_HOME}" ]; then
   export ANT_HOME
   prepend PATH ${U_ANT_HOME}/bin
 fi
-export ANT_OPTS="-Xmx256M"
 
 # Microsoft VisualStudio C/C++
 #case $OSTYPE in
