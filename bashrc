@@ -87,7 +87,7 @@ notify=
 unset MAILPATH MAILCHECK
 unset MAIL
 
-if [ -n "`type -p vim`" ]; then
+if [ -n "$(command -v vim)" ]; then
   #export EDITOR='vim -u ~/.vimrc'
     export EDITOR=vim
 else
@@ -107,8 +107,8 @@ ulimit -c unlimited
 #if [ -x /usr/share/vim/vim72/macros/less.sh ]; then
 #  PAGER=/usr/share/vim/vim72/macros/less.sh
 #  alias less=${PAGER}
-#elif [ -x "`type -P less`" ]; then
-if [ -x "`type -P less`" ]; then
+#elif [ -x "$(command -v less)" ]; then
+if [ -x "$(command -v less)" ]; then
   PAGER="less"
   alias less='less -is'
 else
@@ -266,24 +266,24 @@ sd() {
 
 
 # figure out by which name netcat goes by
-if [ -n "`type -p nc`" -a -z "`type -p netcat`" ]; then
+if [ -n "$(command -v nc)" -a -z "$(command -v netcat)" ]; then
   alias netcat=nc
-elif [ -n "`type -p netcat`" -a -z "`type -p nc`" ]; then
+elif [ -n "$(command -v netcat)" -a -z "$(command -v nc)" ]; then
   alias nc=netcat
 fi
 
 
 # determine which open to use
-if [ -z "`type -p open`" ]; then
-    if [ -n "`type -p xdg-open`" ]; then
+if [ -z "$(command -v open)" ]; then
+    if [ -n "$(command -v xdg-open)" ]; then
         alias open=xdg-open
     fi
 fi
 
 # aliases for rm to use trash, if available
-#if [ -n "`type -p trash-put`" ]; then
+#if [ -n "$(command -v trash-put)" ]; then
 #  alias rm=trash-put
-#elif [ -n "`type -p trash`" ]; then
+#elif [ -n "$(command -v trash)" ]; then
 #  alias rm=trash
 #else 
 #  alias rm='rm -i'
@@ -315,7 +315,7 @@ fi
 
 # custom completion methods
 . ${HOME}/dotfiles/git-completion.sh
-#if [ -n "`type -p git`" ]; then
+#if [ -n "$(command -v git)" ]; then
 #  # TODO figure out a more robust way to find this script
 #  # This one really slows things down
 #  #GIT_PS1_SHOWDIRTYSTATE=true
