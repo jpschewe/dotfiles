@@ -32,7 +32,7 @@
  '(package-get-remote (quote (("ftp.xemacs.org" "/pub/xemacs/packages"))))
  '(query-user-mail-address nil)
  '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
- '(tabbar-mode nil nil (tabbar))
+ ;'(tabbar-mode nil nil (tabbar))
  '(visual-line-mode nil t))
 
 (if (and (not running-xemacs) (eq system-type 'darwin))
