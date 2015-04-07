@@ -121,3 +121,5 @@ for complete in ssh tmux; do
     ln -sf "${mydir}/lib/bash-it/completion/available/${complete}.completion.bash" \
         "${mydir}/lib/bash-it/completion/enabled/${complete}.completion.bash"
 done
+
+"${mydir}"/hook-scripts/setup-gitconfig

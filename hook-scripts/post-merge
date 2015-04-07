@@ -9,4 +9,3 @@ fatal() { error "$*"; exit 1; }
 mydir=$(cd "$(dirname "$0")" && pwd -L) || fatal "Unable to determine script directory"
 
 ${mydir}/../../hook-scripts/update-setup || error "updating setup"
-${mydir}/../../hook-scripts/setup-gitconfig || error "updating git config"

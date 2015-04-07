@@ -8,6 +8,7 @@ fatal() { error "$*"; exit 1; }
 
 mydir=$(cd "$(dirname "$0")" && pwd -L) || fatal "Unable to determine script directory"
 
+git config --global user.name 'Jon Schewe'
 case "${USER}" in
     'jschewe')
         git config --global user.email 'jschewe@bbn.com'
