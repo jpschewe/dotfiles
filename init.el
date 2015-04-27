@@ -2090,3 +2090,7 @@ in some window."
 ;; dired switch on some Linux distros doesn't work
 (if (and running-xemacs (or (eq system-type 'linux) (eq system-type 'gnu/linux)))
     (setq dired-use-ls-dired nil))
+
+;; something for Aquamacs
+(if (not (boundp 'display-info))
+    (setq display-info nil))
