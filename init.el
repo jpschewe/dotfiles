@@ -1344,6 +1344,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
       display-time-24hr-format t
       display-time-day-and-date t
       display-time-echo-area nil
+      display-time-mail-file t ; anything other than nil or a string will work
       )
 ;;(setq display-time-form-list '(time-text load-text mail-text))
 (setq display-time-form-list '(load-text))
