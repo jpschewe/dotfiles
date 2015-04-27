@@ -13,6 +13,10 @@
 			 (eq system-type 'usg-unix-v)
 			 (eq system-type 'berkeley-unix)))
 
+;; only warn me of errors
+(setq display-warning-minimum-level 'error)
+(setq log-warning-minimum-level 'error)
+
 ;; take care of some custom variables right up front
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
@@ -32,7 +36,6 @@
  '(package-get-remote (quote (("ftp.xemacs.org" "/pub/xemacs/packages"))))
  '(query-user-mail-address nil)
  '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
- '(tabbar-mode nil nil (tabbar))
  '(visual-line-mode nil t))
 
 (if (and (not running-xemacs) (eq system-type 'darwin))
@@ -45,6 +48,9 @@
 ;; allow some variables to be loaded automatically
 (if (not running-xemacs)
     (progn
+      (custom-set-variables
+       '(tabbar-mode nil nil (tabbar))
+       )      
       (setq safe-local-variable-values (quote ((Syntax . COMMON-LISP) (Base . 10))))
       ))
 
