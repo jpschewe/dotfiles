@@ -13,6 +13,10 @@
 			 (eq system-type 'usg-unix-v)
 			 (eq system-type 'berkeley-unix)))
 
+;; only warn me of errors
+(setq display-warning-minimum-level 'error)
+(setq log-warning-minimum-level 'error)
+
 ;; take care of some custom variables right up front
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
@@ -45,6 +49,9 @@
 ;; allow some variables to be loaded automatically
 (if (not running-xemacs)
     (progn
+      (custom-set-variables
+       '(tabbar-mode nil nil (tabbar))
+       )      
       (setq safe-local-variable-values (quote ((Syntax . COMMON-LISP) (Base . 10))))
       ))
 
@@ -1338,6 +1345,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
       display-time-24hr-format t
       display-time-day-and-date t
       display-time-echo-area nil
+      display-time-mail-file t ; anything other than nil or a string will work
       )
 ;;(setq display-time-form-list '(time-text load-text mail-text))
 (setq display-time-form-list '(load-text))
@@ -2083,3 +2091,7 @@ in some window."
 ;; dired switch on some Linux distros doesn't work
 (if (and running-xemacs (or (eq system-type 'linux) (eq system-type 'gnu/linux)))
     (setq dired-use-ls-dired nil))
+
+;; something for Aquamacs
+(if (not (boundp 'display-info))
+    (setq display-info nil))
