@@ -192,20 +192,6 @@ export bum_servers
 # Multi-line/complex FUNCTIONS
 #------------------------------
 
-tmux-connect() {
-    if [ -z "$1" ]; then
-        printf "You must specify a session name\n"
-        return
-    fi
-    if $(tmux has-session -t $1 > /dev/null 2>&1) ; then
-        printf "Session exists, connecting\n"
-        tmux attach-session -t $1
-    else
-        printf "Creating new session\n"
-        tmux new-session -s $1
-    fi
-}
-
 # CVS functions
 cvsstat() { 
   cvs -n update $* 2>&1 | egrep -v '^cvs update:'; 
