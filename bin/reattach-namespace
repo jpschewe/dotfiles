@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Exists to call reattach-to-user-namespace if it exists, otherwise just exec
+
+debug() { ! "${log_debug-false}" || log "DEBUG: $*" >&2; }
+log() { printf '%s\n' "$*"; }
+warn() { log "WARNING: $*" >&2; }
+error() { log "ERROR: $*" >&2; }
+fatal() { error "$*"; exit 1; }
+try() { "$@" || fatal "'$@' failed"; }
+
+mydir=$(cd "$(dirname "$0")" && pwd -L) || fatal "Unable to determine script directory"
+
+if [ -n "$(command -v reattach-to-user-namespace)" ]; then
+    exec reattach-to-user-namespace "$@"
+else
+    exec "$@"
+fi
