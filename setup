@@ -33,7 +33,7 @@ git config fetch.recurseSubmodules yes
 
 # setup bin
 mkdir -p "${HOME}/bin"
-for script in musicbox git-wtf reattach-namespace; do
+for script in git-wtf reattach-namespace; do
   ln -sf "${mydir}/bin/${script}" "${HOME}/bin/${script}"
 done
 ln -sf "${mydir}/lib/vcprompt/bin/vcprompt" "${HOME}/bin/vcprompt"
