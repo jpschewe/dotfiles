@@ -473,9 +473,9 @@ if [ -f /opt/local/etc/bash_completion ]; then
 fi
 
 # Bash It
-BASH_IT=${HOME}/.bash_it
-export BASH_IT
-source "${BASH_IT}/bash_it.sh"
+#BASH_IT=${HOME}/.bash_it
+#export BASH_IT
+#source "${BASH_IT}/bash_it.sh"
 
 # get our path to launched applications
 case $OSTYPE in
