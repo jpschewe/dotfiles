@@ -12,7 +12,7 @@ try() { "$@" || fatal "'$@' failed"; }
 mydir=$(cd "$(dirname "$0")" && pwd -L) || fatal "Unable to determine script directory"
 
 if [ -n "$(command -v reattach-to-user-namespace)" ]; then
-    exec reattach-to-user-namespace "$@"
+    exec reattach-to-user-namespace -l "$@"
 else
-    exec "$@"
+    exec $@
 fi
