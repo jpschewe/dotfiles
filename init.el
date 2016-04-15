@@ -1718,7 +1718,9 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;; icomplete - replaces iswitchb
 ;;
 ;;;;;;;;;;;;
-(icomplete-mode 99)
+(icomplete-mode 1)
+(eval-after-load "icomplete" '(progn (require 'icomplete+)))
+;(icompletep-cycling-mode 1)
 
 ;;; --------------------
 ;;; -- ido - buffer completion and other stuff
