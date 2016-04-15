@@ -46,7 +46,7 @@
       ))
 
 ;; allow some variables to be loaded automatically
-(if (not running-xemacs)
+(if running-aquamacs
     (progn
       (custom-set-variables
        '(tabbar-mode nil nil (tabbar))
