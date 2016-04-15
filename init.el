@@ -753,9 +753,10 @@
 (message "Dired")
 (defun dired-load-hook-jps ()
   (define-key dired-mode-map "q" 'kill-this-buffer)
-  (define-key dired-mode-map "^" 'dired-jump-back)
+  ;(define-key dired-mode-map "^" 'dired-jump-back)
   (define-key dired-mode-map " " 'scroll-up)
   (define-key dired-mode-map "b" 'scroll-down)
+  (define-key dired-mode-map "\C-x\C-j" 'dired-up-directory)
   (setq dired-gnutar-program "tar")
   (setq dired-unshar-program "unshar")
 
