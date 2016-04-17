@@ -279,9 +279,8 @@
 ;;;;;;;;;;;;
 (message "Keybindings")
 
-(cond (running-aquamacs
+(cond ((or running-gnuemacs running-aquamacs)
        (global-set-key [(control tab)] 'other-window)
-       (global-set-key [(control x)(control j)] 'dired-up-directory)
        ))
 
 (defvar prefix-key-jps "\M-o" "Used as a prefix for my keybindings")
@@ -867,13 +866,6 @@
   (set 'dired-omit-files t)
 )
 (add-hook 'dired-mode-hook 'dired-mode-hook-jps)
-
-;;(require 'dired)
-;;(load-library "dired-shell")
-
-;; hide details of files
-;;(require 'dired-details)
-;;(dired-details-install)
 
 ;;autorevert directories
 ;;(defadvice dired-internal-noselect (before my-auto-revert-dired activate)
