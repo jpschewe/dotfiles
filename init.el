@@ -370,20 +370,6 @@
 
 ;;;;;;;;;;;
 ;;
-;; Subversion
-;;
-;;;;;;;;;;;;
-(autoload 'svn-status "psvn" nil t)
-(add-to-list 'completion-ignored-extensions ".svn/")
-(eval-after-load "psvn"
-  '(progn
-     (define-key svn-status-mode-map "n" 'svn-status-next-line)
-     (define-key svn-status-mode-map "p" 'svn-status-previous-line)
-     ))
-
-
-;;;;;;;;;;;
-;;
 ;; Font Lock
 ;;
 ;;;;;;;;;;;;
@@ -1434,17 +1420,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
 
 ;;;;;;;;;;;
 ;;
-;; Palm pilot
-;;
-;;;;;;;;;;;;
-(message "Palm pilot")
-;;pilot-memo
-(setq pilot-memo-device "/dev/pilot")
-
-
-
-;;;;;;;;;;;
-;;
 ;; conf mode
 ;;
 ;;;;;;;;;;;;
@@ -1749,68 +1724,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
 
 ;;;;;;;;;;;
 ;;
-;; LDAP
-;;
-;;;;;;;;;;;;
-;;(when (eq system-location 'htc)
-;;  (message "LDAP")
-;;  (require 'ldap)
-;;  (setq ldap-default-base "")
-;;  (setq ldap-default-host "mn65ex557.htc.honeywell.com")
-;;  (require 'eudcb-ldap)
-;;  ;;(require 'eudcb-bbdb)
-;;  (setq eudc-server ldap-default-host)
-;;  (setq eudc-protocol 'ldap)
-;;  (eudc-protocol-set 'eudc-inline-query-format
-;;		     '((cn)
-;;		       (uid)
-;;		       (firstname)
-;;		       (firstname name)
-;;		       (cn cn)
-;;		       (cn cn cn))
-;;		     'ldap)
-;;  (setq mail-ldap-expansion-format-jps '("\"%s\" <%s>" cn email))
-;;  (setq long-ldap-expansion-format-jps '("%s <%s> %s %s" cn email uid telephoneNumber))
-;;  (eudc-protocol-set 'eudc-inline-expansion-format
-;;		     mail-ldap-expansion-format-jps
-;;		     'ldap)
-;;
-;;  (defun get-user-info-jps ()
-;;    "Get information on a user, uses eudc-ldap"
-;;    (interactive)
-;;    (unwind-protect
-;;	(progn 
-;;	  (eudc-protocol-set 'eudc-inline-expansion-format
-;;			     long-ldap-expansion-format-jps
-;;			     'ldap)
-;;	  (eudc-expand-inline))
-;;      (eudc-protocol-set 'eudc-inline-expansion-format
-;;			 mail-ldap-expansion-format-jps
-;;			 'ldap)))
-;;
-;;  (global-set-key (concat prefix-key-jps "c") 'get-user-info-jps)
-;;  )
-
-;;;;;;;;;;;
-;;
-;; jhideshow
-;;
-;;;;;;;;;;;;
-(message "jhideshow")
-(defun hideshow-mode-hook-jps ()
-  (define-key hs-minor-mode-map (concat prefix-key-jps "v") 'hs-hide-block)
-  (define-key hs-minor-mode-map (concat prefix-key-jps "b") 'hs-show-block)
-;;(define-key hs-minor-mode-map (concat prefix-key-jps "n") nil)
-;;(define-key hs-minor-mode-map (concat prefix-key-jps "m") nil)
-;;(define-key hs-minor-mode-map "" 'hs-show-region)
-  )
-;;(add-hook 'hs-minor-mode-hook 'hideshow-mode-hook-jps)
-;;(add-hook 'semantic-after-toplevel-bovinate-hook 'turn-on-jhideshow)
-
-
-
-;;;;;;;;;;;
-;;
 ;; Uniquify
 ;;
 ;; load this at the end to make sure everything it caches is up to date,
@@ -1827,18 +1740,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
 
 ;;;;;;;;;;;
 ;;
-;; zenirc
-;;
-;;;;;;;;;;;
-;;(when (eq system-location 'htc)
-;;  (setq zenirc-server-alist
-;;	'(
-;;	  ("oldbob.htc.honeywell.com" 6060 "circa" "Eggplant" nil)
-;;	  ;;("mn65-cygnus.htc.honeywell.com" 6060 "circa" "Eggplant" nil)
-;;	  )))
-
-;;;;;;;;;;;
-;;
 ;; Spell
 ;;
 ;;;;;;;;;;;;
@@ -1848,8 +1749,9 @@ Unless optional argument INPLACE is non-nil, return a new string."
        (setq ispell-program-name "aspell"))
 )
 
-;;; -------------------- 
+;;;;;;;;;;;;
 ;;; -- PCL-CVS
+;;;;;;;;;;;;
 
 ;;;; Fix parsing of commit messages that were broken with OpenCVS version 1.12.9 
 (defadvice cvs-parse-commit (around ede-pcl-cvs-parse-commit) 
@@ -1906,7 +1808,9 @@ That is, the cvsroot as seen on the cvs server (if remote), without hostname if 
      ;; useless message added before the actual addition: ignored 
      (cvs-match "RCS file: .*\ndone$"))))
 
+;;;;;;;;;;;;
 ;;; csharp mode
+;;;;;;;;;;;;
 (autoload 'csharp-mode "csharp-mode-0.4.0" "csharp mode" t)
 
 (add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
@@ -1915,20 +1819,6 @@ That is, the cvsroot as seen on the cvs server (if remote), without hostname if 
   "Untabify an entire buffer"
   (interactive)
   (untabify (point-min) (point-max)))
-
-;;;;;;;;;;;
-;;
-;; Newsticker- RSS reader
-;;
-;;;;;;;;;;;
-(autoload 'newsticker-start "newsticker" "Emacs Newsticker" t)
-(autoload 'newsticker-show-news "newsticker" "Emacs Newsticker" t)
-
-;;my feeds
-(setq newsticker-url-list (list
-			   '("BOFH" "http://www.theregister.co.uk/odds/bofh/excerpts.rss")
-			   '("Slashdot" "http://slashdot.org/index.rss")
-			   ))
 
 ;;Included in XEmacs 21.5.6, but not my current version
 (unless (fboundp 'count-screen-lines)
@@ -1968,30 +1858,6 @@ in some window."
 	  (goto-char (point-min))
 	  (1+ (vertical-motion (buffer-size) window))))))
   )
-
-;;;;;;;;;;;
-;;
-;; slime
-;;
-;;;;;;;;;;;;
-;; not yet(setq sbcl-executable "/usr/local/bin/sbcl")
-;; not yet;;(setq sbcl-cvs-executable "/bin/sh /Users/rpg/src/sbcl/run-sbcl.sh")
-;; not yet(setq cmucl-executable nil)
-;; not yet;;(setq clozure-executable "/Users/rpg/ccl/dx86cl64")
-;; not yet(setq clozure-executable nil)
-;; not yet(setq allegro-directory "/Applications/AllegroCL")
-;; not yet(setq fi:allegro-program-name "alisp")
-;; not yet(setq alisp-executable (concat allegro-directory "/alisp"))
-;; not yet(setq mlisp-executable (concat allegro-directory "/mlisp"))
-;; not yet;;(setq abcl-executable "/Users/rpg/bin/abcl")
-;; not yet
-;; not yet(add-to-list 'load-path "/Users/jschewe/src/slime")
-;; not yet
-;; not yet(autoload 'slime-setup "slime"
-;; not yet    "Setup Emacs so that lisp-mode buffers always use SLIME.
-;; not yetCONTRIBS is a list of contrib packages to load.")
-;; not yet(require 'slime)
-;; not yet(load "slime-config")
 
 ;;;;;;;;;;;
 ;;
@@ -2047,7 +1913,7 @@ in some window."
 ))
 
 ;;; Emacs compatibility
-(unless (boundp 'quit-window)
+(unless (or (fboundp 'quit-window) (boundp 'quit-window))
   (defalias 'quit-window 'kill-this-buffer))
 
 ;;HACK Something is screwed up, but this fixes it
@@ -2064,33 +1930,12 @@ in some window."
 
 (setq minibuffer-max-depth nil)
 
-;;JPS not yet ;; save a list of open files in ~/.emacs.desktop
-;;JPS not yet ;; save the desktop file automatically if it already exists
-;;JPS not yet (setq desktop-save 'if-exists)
-;;JPS not yet (desktop-save-mode 1)
-;;JPS not yet 
-;;JPS not yet ;; save a bunch of variables to the desktop file
-;;JPS not yet ;; for lists specify the len of the maximal saved data also
-;;JPS not yet (setq desktop-globals-to-save
-;;JPS not yet       (append '((extended-command-history . 30)
-;;JPS not yet                 (file-name-history        . 100)
-;;JPS not yet                 (grep-history             . 30)
-;;JPS not yet                 (compile-history          . 30)
-;;JPS not yet                 (minibuffer-history       . 50)
-;;JPS not yet                 (query-replace-history    . 60)
-;;JPS not yet                 (read-expression-history  . 60)
-;;JPS not yet                 (regexp-history           . 60)
-;;JPS not yet                 (regexp-search-ring       . 20)
-;;JPS not yet                 (search-ring              . 20)
-;;JPS not yet                 (shell-command-history    . 50)
-;;JPS not yet                 tags-file-name
-;;JPS not yet                 register-alist)))
-
 ;; make sure to always split windows vertically
 (setq split-width-threshold 80000)
 
 ;; dired switch on some Linux distros doesn't work
-(if (and running-xemacs (or (eq system-type 'linux) (eq system-type 'gnu/linux)))
+(if (and running-xemacs
+	 (or (eq system-type 'linux) (eq system-type 'gnu/linux)))
     (setq dired-use-ls-dired nil))
 
 ;; something for Aquamacs
