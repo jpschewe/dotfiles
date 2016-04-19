@@ -11,8 +11,7 @@
 (defvar running-unix (or (eq system-type 'linux)
 			 (eq system-type 'gnu/linux)
 			 (eq system-type 'usg-unix-v)
-			 (eq system-type 'berkeley-unix)
-			 (eq system-type 'darwin)))
+			 (eq system-type 'berkeley-unix)))
 
 ;; only warn me of errors
 (setq display-warning-minimum-level 'error)
