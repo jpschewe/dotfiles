@@ -134,6 +134,7 @@
       ;visible-bell t;; don't beep
       scroll-step 5			; set how many lines to scroll at a time
       enable-local-eval t ;;don't propmt me about evals in files
+      delete-by-moving-to-trash t ;; don't delete files, move them to the trash
       )
 
 ;; turn off file locking
@@ -246,6 +247,12 @@
 	 (setq openoffice-exeutable "openoffice-not-found"))
 	)
 
+       (defun system-move-file-to-trash (file)
+	 "Use \"trash\" to move FILE to the system trash."
+	 (call-process (executable-find "trash")
+		       nil 0 nil
+		       file))
+       
        ;; for macports
        ;(let ((path-entries (split-string (getenv "PATH") ":")))
 	 ;(add-to-list 'path-entries "/opt/local/bin")
