@@ -11,7 +11,8 @@
 (defvar running-unix (or (eq system-type 'linux)
 			 (eq system-type 'gnu/linux)
 			 (eq system-type 'usg-unix-v)
-			 (eq system-type 'berkeley-unix)))
+			 (eq system-type 'berkeley-unix)
+			 (eq system-type 'darwin)))
 
 ;; only warn me of errors
 (setq display-warning-minimum-level 'error)
@@ -38,32 +39,30 @@
  '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
  '(visual-line-mode nil t))
 
-(if (and (not running-xemacs) (eq system-type 'darwin))
-    (progn
-      (setq mac-command-modifier 'meta)   ;; Sets the command (Apple) key as Meta
-      (setq mac-option-modifier 'alt)	  ;; Sets the option (Apple) key as alt
-      (global-set-key "\M-`" 'raise-next-frame)
-      ))
+(when (and (not running-xemacs) (eq system-type 'darwin))
+  (setq mac-command-modifier 'meta) ;; Sets the command (Apple) key as Meta
+  (setq mac-option-modifier 'alt)   ;; Sets the option (Apple) key as alt
+  (global-set-key "\M-`" 'raise-next-frame)
+  )
 
 ;; allow some variables to be loaded automatically
-(if running-aquamacs
-    (progn
-      (custom-set-variables
-       '(tabbar-mode nil nil (tabbar))
-       )      
-      (setq safe-local-variable-values (quote ((Syntax . COMMON-LISP) (Base . 10))))
-      ))
+(when running-aquamacs
+  (custom-set-variables
+   '(tabbar-mode nil nil (tabbar))
+   )      
+  (setq safe-local-variable-values (quote ((Syntax . COMMON-LISP) (Base . 10))))
+  )
 
 ;; setup paths
-(cond ((not running-xemacs)
-       (let ((base-dir (expand-file-name "~/.xemacs/xemacs-packages/lisp")))
-	 (add-to-list 'load-path base-dir)
-	 (dolist (fileOrDir (directory-files base-dir))
-	   (if (not (string= "." (substring fileOrDir 0 1)))
-	       (let ((path (expand-file-name fileOrDir base-dir)))
-		 (if (file-directory-p path)
-		     (add-to-list 'load-path path)
-		   )))))))
+(when (not running-xemacs)
+  (let ((base-dir (expand-file-name "~/.xemacs/xemacs-packages/lisp")))
+    (add-to-list 'load-path base-dir)
+    (dolist (fileOrDir (directory-files base-dir))
+      (if (not (string= "." (substring fileOrDir 0 1)))
+	  (let ((path (expand-file-name fileOrDir base-dir)))
+	    (if (file-directory-p path)
+		(add-to-list 'load-path path)
+	      ))))))
 
 ;;set faces up front
 (custom-set-faces
@@ -73,7 +72,7 @@
   ;; If there is more than one, they won't work right.
  )
 
-(if (not (boundp 'windows-nt)) (setq windows-nt nil))
+(when (not (boundp 'windows-nt)) (setq windows-nt nil))
 
 ;; define a variable to tell us where we are
 ;;(defvar system-location 'unknown "The location that we're at.  Possible values: htc, home, unknown")
@@ -279,9 +278,9 @@
 ;;;;;;;;;;;;
 (message "Keybindings")
 
-(cond ((or running-gnuemacs running-aquamacs)
-       (global-set-key [(control tab)] 'other-window)
-       ))
+(when (or running-gnuemacs running-aquamacs)
+  (global-set-key [(control tab)] 'other-window)
+  )
 
 (defvar prefix-key-jps "\M-o" "Used as a prefix for my keybindings")
 
@@ -396,12 +395,12 @@
 
 
 (require 'font-lock)
-(cond (running-xemacs
-       (require 'fast-lock)
-       (setq font-lock-support-mode 'fast-lock-mode)
-       (add-hook 'font-lock-mode-hook 'turn-on-fast-lock)
-       ;;(add-hook 'font-lock-mode-hook 'turn-on-lazy-lock)
-       ))
+(when running-xemacs
+  (require 'fast-lock)
+  (setq font-lock-support-mode 'fast-lock-mode)
+  (add-hook 'font-lock-mode-hook 'turn-on-fast-lock)
+  ;;(add-hook 'font-lock-mode-hook 'turn-on-lazy-lock)
+  )
        
 (set-face-foreground 'font-lock-warning-face "yellow")
 (set-face-background 'font-lock-warning-face "red")
@@ -485,7 +484,7 @@
        "^.*\\(?:[Pp]ass\\(?:word\\| ?phrase\\)\\).*:\\s-*\\'"
        )
 
-(if running-xemacs (require 'comint-local))
+(when running-xemacs (require 'comint-local))
 
 (defun comint-common-hook-jps ()
   (local-set-key [up] 'comint-previous-matching-input-from-input)
@@ -517,7 +516,7 @@
 (defun ksh-mode-hook-jps ()
   (setq indent-tabs-mode nil)
   (font-lock-mode)
-  (if running-xemacs
+  (when running-xemacs
       (add-special-font-lock-faces-jps (list 'ksh-font-lock-keywords)))
   )
 (add-hook 'ksh-mode-hook  'ksh-mode-hook-jps)
@@ -529,7 +528,7 @@
 ;;;;;;;;;;;;
 (message "sh-mode")
 (add-hook 'sh-mode-hook  'ksh-mode-hook-jps)
-(if running-xemacs
+(when running-xemacs
     (add-hook 'sh-mode-hook '(lambda ()
 			       (add-special-font-lock-faces-jps (list 'sh-font-lock-keywords 'sh-font-lock-keywords-1 'sh-font-lock-keywords-2))))
 )
@@ -541,14 +540,14 @@
 ;;;;;;;;;;;;
 ;; Turn on word-wrap in text modes
 ;;(add-hook 'text-mode-hook 'turn-on-auto-fill)
-(cond ((or running-xemacs running-aquamacs)
-       (progn
-	 (message "text-mode")
-	 (require 'filladapt)
-	 (add-hook 'text-mode-hook 
-		   (lambda nil  
-		     (filladapt-mode 1) 
-		     )))))
+(when (or running-xemacs running-aquamacs)
+  (progn
+    (message "text-mode")
+    (require 'filladapt)
+    (add-hook 'text-mode-hook 
+	      (lambda nil  
+		(filladapt-mode 1) 
+		))))
 
 ;;;;;;;;;;;
 ;;
@@ -1570,39 +1569,39 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;; Backups
 ;;
 ;;;;;;;;;;;;
-(cond (running-xemacs
-(message "Backups")
-;;backup-dir, stick all backups in a directory
-(require 'backup-dir)
-(setq bkup-backup-directory-info
-      '((t "~/.xemacs/backups/" ok-create full-path prepend-name)
-	))
-(setq make-backup-files t
-      backup-by-copying t ; don't clobber symlinks
-      delete-old-versions t
-      backup-directory-alist '((".*" . "~/.xemacs/backups"))
-      )
+(when (or running-xemacs running-gnuemacs)
+  (message "Backups")
+  ;;backup-dir, stick all backups in a directory
+  (require 'backup-dir)
+  (setq bkup-backup-directory-info
+	'((t "~/.xemacs/backups/" ok-create full-path prepend-name)
+	  ))
+  (setq make-backup-files t
+	backup-by-copying t		; don't clobber symlinks
+	delete-old-versions t
+	backup-directory-alist '((".*" . "~/.xemacs/backups"))
+	)
 
-(message "Loading xemacs-init")
+  (message "Loading xemacs-init")
   
-(setq auto-save-directory (expand-file-name "~/.xemacs/auto-save/")
-      auto-save-directory-fallback auto-save-directory
-      auto-save-hash-p nil
-      ;;ange-ftp-auto-save t
-      ;;ange-ftp-auto-save-remotely nil
-      efs-auto-save t
-      efs-auto-save-remotely nil
-      ;; now that we have auto-save-timeout, let's crank this up
-      ;; for better interactive response.
-      auto-save-interval 2000
-      efs-ding-on-umask-failure nil
-      )
-;; We load this afterwards because it checks to make sure the
-;; auto-save-directory exists (creating it if not) when it's loaded.
-(require 'auto-save)
-(require 'efs)
-(efs-display-ftp-activity)
-))
+  (setq auto-save-directory (expand-file-name "~/.xemacs/auto-save/")
+	auto-save-directory-fallback auto-save-directory
+	auto-save-hash-p nil
+	;;ange-ftp-auto-save t
+	;;ange-ftp-auto-save-remotely nil
+	efs-auto-save t
+	efs-auto-save-remotely nil
+	;; now that we have auto-save-timeout, let's crank this up
+	;; for better interactive response.
+	auto-save-interval 2000
+	efs-ding-on-umask-failure nil
+	)
+  ;; We load this afterwards because it checks to make sure the
+  ;; auto-save-directory exists (creating it if not) when it's loaded.
+  (when running-xemacs
+    (require 'auto-save)
+    )
+  )
 
 (when (and
        running-unix
@@ -1703,10 +1702,14 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;; EFS
 ;;
 ;;;;;;;;;;;;
-(message "EFS")
-(setq efs-disable-netrc-security-check t)
-(setq efs-nslookup-threshold 10000)
-(setq efs-umask 22)
+(if running-xemacs
+    (progn
+      (message "EFS")
+      (require 'efs)
+      (efs-display-ftp-activity)
+      (setq efs-disable-netrc-security-check t)
+      (setq efs-nslookup-threshold 10000)
+      (setq efs-umask 22)))
 
 
 ;;;;;;;;;;;
