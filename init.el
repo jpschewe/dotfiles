@@ -41,8 +41,11 @@
 (when (and (not running-xemacs) (eq system-type 'darwin))
   (setq mac-command-modifier 'meta) ;; Sets the command (Apple) key as Meta
   (setq mac-option-modifier 'alt)   ;; Sets the option (Apple) key as alt
-  (global-set-key "\M-`" 'raise-next-frame)
-  )
+  (cond (running-aquamacs
+	 (global-set-key "\M-`" 'raise-next-frame))
+	(running-gnuemacs
+	 (global-set-key "\M-`" 'other-frame))
+	))
 
 ;; allow some variables to be loaded automatically
 (when running-aquamacs
