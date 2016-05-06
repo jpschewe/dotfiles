@@ -1575,6 +1575,17 @@ Unless optional argument INPLACE is non-nil, return a new string."
 
 ;;;;;;;;;;;
 ;;
+;; Save Place
+;;
+;;;;;;;;;;;;
+(message "Save Place")
+(require 'saveplace)
+(setq-default save-place t)
+(setq save-place-file "~/.xemacs/saved-places")
+; may speed up emacs exit (setq save-place-forget-unreadable-files nil)
+
+;;;;;;;;;;;
+;;
 ;; Backups
 ;;
 ;;;;;;;;;;;;
@@ -1590,8 +1601,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
 	delete-old-versions t
 	backup-directory-alist '((".*" . "~/.xemacs/backups"))
 	)
-
-  (message "Loading xemacs-init")
   
   (setq auto-save-directory (expand-file-name "~/.xemacs/auto-save/")
 	auto-save-directory-fallback auto-save-directory
