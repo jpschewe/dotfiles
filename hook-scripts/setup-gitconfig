@@ -45,3 +45,8 @@ git config --global rerere.enabled true
 ln -fs "${mydir}/../global-gitignore" "${HOME}/.global-gitignore"
 git config --global core.excludesfile "${HOME}/.global-gitignore" 
 
+# fsck objects received
+git config --global  transfer.fsckobjects true
+git config --global  fetch.fsckobjects true
+git config --global  receive.fsckobjects true
+

@@ -185,26 +185,10 @@ alias faketop='ps auwx | sort -n -k 3'
 # - see http://www.perl.org/CPAN/doc/FMTEYEWTK/sort.html
 #alias psort='perl -0000 -ne \'print ((join "\n", map { $_->[0] } sort { $a->[1] cmp $b->[1] } map {[$_, (split)[-1]] } (split /\n/, $_)) . "\n")\''
 
-bum_servers="mn-server superior leech mille-lacs minnetonka"
-export bum_servers
 
 #------------------------------
 # Multi-line/complex FUNCTIONS
 #------------------------------
-
-tmux-connect() {
-    if [ -z "$1" ]; then
-        printf "You must specify a session name\n"
-        return
-    fi
-    if $(tmux has-session -t $1 > /dev/null 2>&1) ; then
-        printf "Session exists, connecting\n"
-        tmux attach-session -t $1
-    else
-        printf "Creating new session\n"
-        tmux new-session -s $1
-    fi
-}
 
 # CVS functions
 cvsstat() { 
@@ -489,9 +473,9 @@ if [ -f /opt/local/etc/bash_completion ]; then
 fi
 
 # Bash It
-BASH_IT=${HOME}/.bash_it
-export BASH_IT
-source "${BASH_IT}/bash_it.sh"
+#BASH_IT=${HOME}/.bash_it
+#export BASH_IT
+#source "${BASH_IT}/bash_it.sh"
 
 # get our path to launched applications
 case $OSTYPE in
