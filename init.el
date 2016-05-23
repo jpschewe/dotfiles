@@ -249,12 +249,18 @@
 	 (setq openoffice-exeutable "openoffice-not-found"))
 	)
 
-       ;; maybe don't need it on Darwin
-;;(defun system-move-file-to-trash (file)
-;;	 "Use \"trash\" to move FILE to the system trash."
-;;	 (call-process (executable-find "trash")
-;;		       nil 0 nil
-;;		       file))
+       ;; only use trash command on Darwin if the executable is found
+       (if (executable-find "trash")
+	   ;; true
+	   (progn
+	    (defun system-move-file-to-trash (file)
+	   "Use \"trash\" to move FILE to the system trash."
+	   (call-process (executable-find "trash")
+			 nil 0 nil
+			 file)))
+	 ;; false
+	 (setq delete-by-moving-to-trash nil)
+	 )
        
        ;; for macports
        ;(let ((path-entries (split-string (getenv "PATH") ":")))
