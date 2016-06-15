@@ -1450,6 +1450,21 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;FIX... (load-library "cool-functions")
 ;; handy methods
 
+(defun kill-buffers-by-file-pattern (pattern)
+  "Kill all buffers that have a filename containing the string PATTERN"
+  (interactive "Filename pattern: ")
+    (let ((to-remove
+	   (remove-if-not
+	    '(lambda (buff)
+	       (with-current-buffer buff
+		 (let ((fname (if (eq major-mode 'dired-mode)
+				  dired-directory
+				(buffer-file-name buff))))
+		   (and fname (string-match pattern fname)))))
+	    (buffer-list))))
+      (when to-remove
+	(kill-some-buffers to-remove))))
+
 (defun global-change-directory (from to)
   "Change directory of all buffers with default-directory FROM to TO."
   (interactive "DGlobally change directory from: \nDTo: ")
