@@ -1449,7 +1449,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;
 ;;FIX... (load-library "cool-functions")
 ;; handy methods
-
+(require 'cl)
 (defun kill-buffers-by-file-pattern (pattern)
   "Kill all buffers that have a filename containing the string PATTERN"
   (interactive "Filename pattern: ")
