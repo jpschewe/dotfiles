@@ -1452,7 +1452,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
 (require 'cl)
 (defun kill-buffers-by-file-pattern (pattern)
   "Kill all buffers that have a filename containing the string PATTERN"
-  (interactive "Filename pattern: ")
+  (interactive "MFilename pattern: ")
     (let ((to-remove
 	   (remove-if-not
 	    '(lambda (buff)
