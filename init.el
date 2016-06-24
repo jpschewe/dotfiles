@@ -1597,6 +1597,13 @@ Unless optional argument INPLACE is non-nil, return a new string."
 
 ;;;;;;;;;;;
 ;;
+;; QMake mode. For editing Qt project files.
+;;
+;;;;;;;;;;;;
+(require 'qmake)
+
+;;;;;;;;;;;
+;;
 ;; Save Place
 ;;
 ;;;;;;;;;;;;
