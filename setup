@@ -97,30 +97,4 @@ if [ ${auto} -eq 0 ]; then
   fi
 fi
 
-# setup bash-it - https://github.com/revans/bash-it
-if [ -L "${HOME}/.bash_it" ]; then
-    rm -f "${HOME}/.bash_it"
-    ln -s "${mydir}/lib/bash-it" "${HOME}/.bash_it"
-elif [ -f "${HOME}/.bash_it" ]; then
-  if [ ${auto} -eq 0 ]; then
-    log "Expecting ${HOME}/.bash_it to be a symlink or a directory, not a file, skipping"
-  fi
-elif [ -d "${HOME}/.bash_it" ]; then
-  if [ ${auto} -eq 0 ]; then
-    log "${HOME}/.bash_it already exists as a directory, moving to the side"
-  fi
-  mv "${HOME}/.bash_it" "${HOME}/.bash_it.old"
-  ln -s "${mydir}/lib/bash-it" "${HOME}/.bash_it"
-else
-  ln -s "${mydir}/lib/bash-it" "${HOME}/.bash_it"
-fi
-for dir in aliases completion plugins; do
-    mkdir -p "${mydir}/lib/bash-it/${dir}/enabled"
-done
-
-for complete in ssh tmux; do
-    ln -sf "${mydir}/lib/bash-it/completion/available/${complete}.completion.bash" \
-        "${mydir}/lib/bash-it/completion/enabled/${complete}.completion.bash"
-done
-
 "${mydir}"/hook-scripts/setup-gitconfig
