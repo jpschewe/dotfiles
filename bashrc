@@ -60,6 +60,7 @@ v  # set in NT directly export CYGWIN="tty nosmbntsec"
   export TEMP="/tmp"
 fi
 
+
 #now actually build my path
 # then load packages locations
 source "${HOME}/.addpath"
@@ -471,11 +472,6 @@ function music () {
 if [ -f /opt/local/etc/bash_completion ]; then
     . /opt/local/etc/bash_completion
 fi
-
-# Bash It
-#BASH_IT=${HOME}/.bash_it
-#export BASH_IT
-#source "${BASH_IT}/bash_it.sh"
 
 # get our path to launched applications
 case $OSTYPE in
