@@ -1680,6 +1680,15 @@ Unless optional argument INPLACE is non-nil, return a new string."
              (list tramp-file-name-regexp ""))
 (setq tramp-bkup-backup-directory-info  nil)
 
+;; when connecting to a non-local host as root, ssh to the host first and then use the specified method (usually sudo)
+(add-to-list 'tramp-default-proxies-alist
+	     '(nil "\\`root\\'" "/ssh:%h:"))
+;; mamek sure to not ssh when connecting to localhost or the system name
+(add-to-list 'tramp-default-proxies-alist
+	     '((regexp-quote (system-name)) nil nil))
+(add-to-list 'tramp-default-proxies-alist
+	     '("localhost" nil nil))
+
 ;;; patch to fix default-coding-process error
 ;; Index: lisp/uudecode.el
 ;; ===================================================================
