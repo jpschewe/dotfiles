@@ -1669,6 +1669,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;
 ;;;;;;;;;;;;
 (message "Tramp")
+(load-library "tramp") ; otherwise variables below don't exist
 ;;(setq tramp-default-method "scp")
 
 ;; TRAMP gets confused by my prompt some times, so make sure it's
