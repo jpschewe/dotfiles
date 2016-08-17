@@ -1665,6 +1665,16 @@ Unless optional argument INPLACE is non-nil, return a new string."
 
 ;;;;;;;;;;;
 ;;
+;; icomplete - replaces iswitchb
+;;
+;;;;;;;;;;;;
+(icomplete-mode 1)
+(eval-after-load "icomplete" '(progn (require 'icomplete+)))
+;(icompletep-cycling-mode 1)
+
+
+;;;;;;;;;;;
+;;
 ;; Tramp
 ;;
 ;;;;;;;;;;;;
@@ -1727,28 +1737,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;  	      (progn
 ;;  		(set-buffer (setq work-buffer
 
-
-;;;;;;;;;;;
-;;
-;; iswitchb
-;;
-;;;;;;;;;;;;
-;;make iswitchb work like switch-to-buffer
-;(setq iswitchb-default-method 'samewindow)
-;(if (fboundp 'iswitchb-mode)
-;    (iswitchb-mode 1)
-;  (iswitchb-default-keybindings))
-
-;;(global-set-key "\C-xb" 'switch-to-buffer)
-
-;;;;;;;;;;;
-;;
-;; icomplete - replaces iswitchb
-;;
-;;;;;;;;;;;;
-(icomplete-mode 1)
-(eval-after-load "icomplete" '(progn (require 'icomplete+)))
-;(icompletep-cycling-mode 1)
 
 ;;; --------------------
 ;;; -- ido - buffer completion and other stuff
