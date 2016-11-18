@@ -499,6 +499,9 @@ fi
 ### octave
 append PATH /Applications/Octave.app/Contents/Resources/bin
 
+### go
+append PATH /usr/local/go/bin
+
 ### HOME
 prepend PATH "${HOME}/bin"
 prepend PATH "${HOME}/bin/$OSTYPE"
