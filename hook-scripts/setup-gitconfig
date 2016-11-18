@@ -11,7 +11,7 @@ mydir=$(cd "$(dirname "$0")" && pwd -L) || fatal "Unable to determine script dir
 git config --global user.name 'Jon Schewe'
 case "${USER}" in
     'jschewe')
-        git config --global user.email 'jschewe@bbn.com'
+        git config --global user.email 'jon.schewe@raytheon.com'
         ;;
     'jpschewe')
         git config --global user.email 'jpschewe@mtu.net'
