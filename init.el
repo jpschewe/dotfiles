@@ -1991,6 +1991,9 @@ in some window."
 	 (or (eq system-type 'linux) (eq system-type 'gnu/linux)))
     (setq dired-use-ls-dired nil))
 
+;; go-mode
+(require 'go-mode-autoloads)
+
 ;; something for Aquamacs
 (if (not (boundp 'display-info))
     (setq display-info nil))
