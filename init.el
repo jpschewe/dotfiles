@@ -1994,6 +1994,19 @@ in some window."
 ;; go-mode
 (require 'go-mode-autoloads)
 
+(add-hook 'go-mode-hook
+	  '(lambda ()
+	     ;; make parens show the text before the paren in the minibuffer
+	     (setq paren-backwards-message t)
+	     (setq indent-tabs-mode nil);; no tabs in source code
+	     (setq tab-width 2)
+	     ))
+
+;; applescript
+(autoload 'applescript-mode "applescript-mode"
+  "Major mode for editing AppleScript source." t)
+(add-to-list 'auto-mode-alist '("\\.applescript$" . applescript-mode))
+
 ;; something for Aquamacs
 (if (not (boundp 'display-info))
     (setq display-info nil))
