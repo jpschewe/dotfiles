@@ -845,10 +845,10 @@
   (add-to-list 'dired-auto-shell-command-alist '("\\.jar$" "jar -xvf"))
 
   ;; default windows handling
-  (when (or (eq system-type 'windows-nt)
-	    (eq system-type 'cygwin32))
-    (add-to-list 'dired-auto-shell-command-alist (list ".*"
-						       (expand-file-name "winrun" (locate-data-directory "config-jps")))))
+;  (when (or (eq system-type 'windows-nt)
+;	    (eq system-type 'cygwin32))
+;    (add-to-list 'dired-auto-shell-command-alist (list ".*"
+;						       (expand-file-name "winrun" (locate-data-directory "config-jps")))))
 
   
   (setq dired-compression-method 'gzip)
@@ -1271,8 +1271,8 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;my own catalog for dtds
 (cond (running-xemacs
 (require 'psgml)
-(add-to-list 'sgml-catalog-files
-	     (expand-file-name "CATALOG" (locate-data-directory "config-jps")))
+;(add-to-list 'sgml-catalog-files
+;	     (expand-file-name "CATALOG" (locate-data-directory "config-jps")))
 
 (setq sgml-auto-activate-dtd nil	; don't parse dtd right away
       sgml-warn-about-undefined-elements nil ; don't complain about unknown elements
