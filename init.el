@@ -45,6 +45,10 @@
  '(ns-tool-bar-size-mode nil t)
  '(package-get-remote (quote (("ftp.xemacs.org" "/pub/xemacs/packages"))))
  '(query-user-mail-address nil)
+ '(safe-local-variable-values
+   (quote
+    ((whitespace-newline . t)
+     (whitespace-style face trailing lines-tail space-before-tab indentation empty))))
  '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
  '(visual-line-mode nil t))
 
