@@ -19,10 +19,10 @@
 
 ;; take care of some custom variables right up front
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(aquamacs-additional-fontsets nil t)
  '(aquamacs-customization-version-id 216 t)
  '(aquamacs-tool-bar-user-customization nil t)
