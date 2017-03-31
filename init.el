@@ -26,7 +26,17 @@
  '(aquamacs-additional-fontsets nil t)
  '(aquamacs-customization-version-id 216 t)
  '(aquamacs-tool-bar-user-customization nil t)
- '(default-frame-alist (quote ((menu-bar-lines . 1) (foreground-color . "Black") (background-color . "White") (cursor-type . box) (cursor-color . "Red") (vertical-scroll-bars . right) (internal-border-width . 0) (left-fringe . 1) (right-fringe) (fringe) (tool-bar-lines . 0))))
+ '(default-frame-alist
+    (quote
+     ((menu-bar-lines . 1)
+      (foreground-color . "Black")
+      (background-color . "White")
+      (cursor-type . box)
+      (cursor-color . "Red")
+      (internal-border-width . 0)
+      (left-fringe . 1)
+      (right-fringe)
+      (fringe))))
  '(display-time-mode t)
  '(gutter-buffers-tab-enabled nil)
  '(gutter-buffers-tab-visible nil)
