@@ -1,3 +1,3 @@
 [submodule "xemacs-packages/lisp/go-mode"]
 	path = xemacs-packages/lisp/go-mode
-	url = git@github.com:dominikh/go-mode.el.git
+	url = http://github.com/dominikh/go-mode.el.git
