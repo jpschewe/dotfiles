@@ -1811,7 +1811,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;
 ;;;;;;;;;;;;
 (cond ((eq system-type 'darwin)
-       (setq ispell-program-name "/opt/local/bin/aspell"))
+       (setq ispell-program-name "/usr/local/brew/bin/aspell"))
       (t
        (setq ispell-program-name "aspell"))
 )
