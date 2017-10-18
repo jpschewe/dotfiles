@@ -501,6 +501,15 @@ append PATH /Applications/Octave.app/Contents/Resources/bin
 
 ### go
 append PATH /usr/local/go/bin
+export GOPATH="${HOME}"/.gocode
+append PATH "${GOPATH}"/bin
+
+### brew
+prepend PATH /usr/local/brew/sbin
+prepend PATH /usr/local/brew/bin
+
+### MacTex
+append PATH /Library/TeX/texbin
 
 ### npm
 append PATH "${HOME}"/npm-global/bin
