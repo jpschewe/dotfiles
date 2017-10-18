@@ -45,6 +45,7 @@ ln -sf "${mydir}/bash_logout" "${HOME}/.bash_logout"
 ln -sf "${mydir}/bashrc" "${HOME}/.bashrc"
 ln -sf "${mydir}/packages" "${HOME}/.packages"
 ln -sf "${mydir}/tmux.conf" "${HOME}/.tmux.conf"
+ln -sf "${mydir}/npmrc" "${HOME}/.npmrc"
 
 # emacs
 ln -sf "${mydir}/emacs.el" "${HOME}/.emacs"

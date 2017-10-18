@@ -502,6 +502,9 @@ append PATH /Applications/Octave.app/Contents/Resources/bin
 ### go
 append PATH /usr/local/go/bin
 
+### npm
+append PATH "${HOME}"/npm-global/bin
+
 ### HOME
 prepend PATH "${HOME}/bin"
 prepend PATH "${HOME}/bin/$OSTYPE"
