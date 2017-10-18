@@ -315,7 +315,7 @@ fi
 #else
 #  PS1="${BASE_PS1}\n>"
 #fi
-PS1=${BASE_PS1}'\n$(vcprompt --format "[%s:%b] ")>'
+PS1='\n$(dirs)\n'${BASE_PS1}'\n$(vcprompt --format "[%s:%b] ")>'
 
 export PS1
 
@@ -486,6 +486,14 @@ case $OSTYPE in
         ;;
 esac
 
+# virtualenvwrapper setup
+if [ -e /usr/local/brew/bin/virtualenvwrapper.sh ]; then
+  VIRTUALENVWRAPPER_PYTHON=$(type -p python3)
+  export VIRTUALENVWRAPPER
+  WORKON_HOME=${HOME}/py-envs
+  export WORKON_HOME
+  . /usr/local/brew/bin/virtualenvwrapper.sh
+fi
 
 #
 # Avoid loops and such
