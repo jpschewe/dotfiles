@@ -50,3 +50,10 @@ git config --global  transfer.fsckobjects true
 git config --global  fetch.fsckobjects true
 git config --global  receive.fsckobjects true
 
+# make submodules more bearable
+git config --global push.recurseSubmodules on-demand
+git config --global submodule.recurse true
+git config --global diff.submodule log
+
+# stop spellcheck in git cola
+git config --global cola.spellcheck false
