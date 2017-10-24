@@ -1933,15 +1933,19 @@ in some window."
 ;; Markdown
 ;;
 ;;;;;;;;;;;;
+(require 'markdown-mode)
+
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
-(autoload 'gfm-mode "markdown-mode"
+(autoload 'gfm-mode "gfm-mode"
   "Major mode for editing GitHub Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
-(if (fboundp 'check-parens)
-    (add-hook 'markdown-mode-hook
-	      (lambda ()
+(add-hook 'markdown-mode-hook
+	  (lambda ()
+	    (setq indent-tabs-mode nil)
+	    (if (fboundp 'check-parens)
+		
 		(when buffer-file-name
 		  (add-hook 'after-save-hook
 			    'check-parens
