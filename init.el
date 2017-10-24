@@ -1524,18 +1524,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
   (interactive)
   (revert-buffer t t nil))
 
-(defun global-change-directory (from to)
-  "Change directory of all buffers with default-directory FROM to TO."
-  (interactive "DGlobally change directory from: \nDTo: ")
-  (let ((bufs (buffer-list))
-	(from (expand-file-name from)))
-    (while bufs
-      (with-current-buffer (car bufs)
-	(when (equal from (expand-file-name default-directory))
-	  (setq default-directory to)))
-      (setq bufs (cdr bufs)))))
-
-
 
 ;; ASCII table
 (defun ascii-table ()
