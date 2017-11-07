@@ -487,14 +487,21 @@ case $OSTYPE in
 esac
 
 # virtualenvwrapper setup
+VENV_WRAPPER_SCRIPT=""
 if [ -e /usr/local/brew/bin/virtualenvwrapper.sh ]; then
+    VENV_WRAPPER_SCRIPT=/usr/local/brew/bin/virtualenvwrapper.sh
+elif [ -e /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]; then
+    VENV_WRAPPER_SCRIPT=/usr/share/virtualenvwrapper/virtualenvwrapper.sh
+fi
+
+if [ -n "${VENV_WRAPPER_SCRIPT}" ]; then
   VIRTUALENVWRAPPER_PYTHON=$(type -p python3)
   export VIRTUALENVWRAPPER
   WORKON_HOME=${HOME}/py-envs
   export WORKON_HOME
-  . /usr/local/brew/bin/virtualenvwrapper.sh
+  . "${VENV_WRAPPER_SCRIPT}"
 fi
-
+   
 #
 # Avoid loops and such
 #
