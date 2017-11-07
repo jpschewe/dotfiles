@@ -495,8 +495,6 @@ elif [ -e /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]; then
 fi
 
 if [ -n "${VENV_WRAPPER_SCRIPT}" ]; then
-  VIRTUALENVWRAPPER_PYTHON=$(type -p python3)
-  export VIRTUALENVWRAPPER
   WORKON_HOME=${HOME}/py-envs
   export WORKON_HOME
   . "${VENV_WRAPPER_SCRIPT}"
