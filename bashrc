@@ -490,6 +490,10 @@ esac
 VENV_WRAPPER_SCRIPT=""
 if [ -e /usr/local/brew/bin/virtualenvwrapper.sh ]; then
     VENV_WRAPPER_SCRIPT=/usr/local/brew/bin/virtualenvwrapper.sh
+
+    # mac needs to use python3
+    VIRTUALENVWRAPPER_PYTHON=python3
+    export VIRTUALENVWRAPPER_PYTHON
 elif [ -e /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]; then
     VENV_WRAPPER_SCRIPT=/usr/share/virtualenvwrapper/virtualenvwrapper.sh
 fi
