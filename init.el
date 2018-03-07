@@ -1683,6 +1683,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
 (message "Tramp")
 (load-library "tramp") ; otherwise variables below don't exist
 ;;(setq tramp-default-method "scp")
+(setq tramp-default-method "ssh")
 
 ;; TRAMP gets confused by my prompt some times, so make sure it's
 ;; simple for THIS Emacs process, and therefore subprocesses.
