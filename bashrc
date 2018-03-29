@@ -229,7 +229,7 @@ sd() {
   [0-9]*) pd $1; pdirs; return $?;;
   esac
 
-  num=$(pdirs | grep -E "${1}$" | awk '{print $1}')
+  num=$(pdirs | grep -E "${1}" | awk '{print $1}')
   case "$num" in
   0) ;;
   "")
