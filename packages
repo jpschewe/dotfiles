@@ -512,7 +512,7 @@ prepend PATH /usr/local/brew/bin
 append PATH /Library/TeX/texbin
 
 ### npm
-append PATH "${HOME}"/npm-global/bin
+prepend PATH "${HOME}"/npm-global/bin
 
 ### HOME
 prepend PATH "${HOME}/bin"
