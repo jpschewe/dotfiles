@@ -517,6 +517,9 @@ prepend PATH /usr/local/brew/bin
 ### MacTex
 append PATH /Library/TeX/texbin
 
+### snaps
+append PATH /snap/bin
+
 ### npm
 prepend PATH "${HOME}"/npm-global/bin
 
