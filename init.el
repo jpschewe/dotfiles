@@ -147,7 +147,7 @@
       vc-follow-symlinks t ;; follow symlinks without question
       ;;find-file-use-truenames t ;; always find the real filename
       ;;Manual-program "man"
-      ;visible-bell t;; don't beep
+      visible-bell t;; don't beep
       scroll-step 5			; set how many lines to scroll at a time
       enable-local-eval t ;;don't propmt me about evals in files
       delete-by-moving-to-trash t ;; don't delete files, move them to the trash
