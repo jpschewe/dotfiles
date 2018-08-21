@@ -1694,12 +1694,20 @@ Unless optional argument INPLACE is non-nil, return a new string."
              (list tramp-file-name-regexp ""))
 (setq tramp-bkup-backup-directory-info  nil)
 
-;; when connecting to a non-local host as root, ssh to the host first and then use the specified method (usually sudo)
+;; first match in tramp-default-proxies-alist wins.
+;;
+;; add-to-list always adds to the front of the list, so put the highest
+;; priority match last
+;;
+;; when connecting to a host as root (see the exceptions for localhost
+;; below), ssh to the host first and then use the specified method (usually
+;; sudo)
 (add-to-list 'tramp-default-proxies-alist
 	     '(nil "\\`root\\'" "/ssh:%h:"))
-;; mamek sure to not ssh when connecting to localhost or the system name
+;; when connecting to the local system -> no proxy
 (add-to-list 'tramp-default-proxies-alist
 	     '((regexp-quote (system-name)) nil nil))
+;; when connecting to localhost -> no proxy
 (add-to-list 'tramp-default-proxies-alist
 	     '("localhost" nil nil))
 
