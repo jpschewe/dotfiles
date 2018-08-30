@@ -57,3 +57,6 @@ git config --global diff.submodule log
 
 # stop spellcheck in git cola
 git config --global cola.spellcheck false
+
+# cache git credentials
+git config --global credential.helper cache
