@@ -523,6 +523,9 @@ append PATH /snap/bin
 ### npm
 prepend PATH "${HOME}"/npm-global/bin
 
+### git
+prepend PATH /usr/local/git/bin
+
 ### HOME
 prepend PATH "${HOME}/bin"
 prepend PATH "${HOME}/bin/$OSTYPE"
