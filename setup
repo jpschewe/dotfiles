@@ -49,7 +49,23 @@ ln -sf "${mydir}/npmrc" "${HOME}/.npmrc"
 
 # emacs
 ln -sf "${mydir}/emacs.el" "${HOME}/.emacs"
-ln -sf "${mydir}/emacs" "${HOME}/.xemacs"
+if [ -L "${HOME}/.xemacs" ]; then
+  rm -f "${HOME}/.xemacs"
+  ln -sf "${mydir}/emacs" "${HOME}/.xemacs"
+elif [ -f "${HOME}/.xemacs" ]; then
+  if [ ${auto} -eq 0 ]; then
+    log "Expecting ${HOME}/.xemacs to be a symlink or a directory, not a file, skipping"
+  fi
+elif [ -d "${HOME}/.xemacs" ]; then
+  if [ ${auto} -eq 0 ]; then
+    log "${HOME}/.xemacs already exists as a directory, moving to the side"
+  fi
+  mv "${HOME}/.xemacs" "${HOME}/.xemacs.old"
+  ln -sf "${mydir}/emacs" "${HOME}/.xemacs"
+else
+  ln -sf "${mydir}/emacs" "${HOME}/.xemacs"
+fi
+
 
 # vim
 ln -sf "${mydir}/vimrc" "${HOME}/.vimrc"
