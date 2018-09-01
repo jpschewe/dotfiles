@@ -7,3 +7,6 @@
 [submodule "lib/bash-it"]
 	path = lib/bash-it
 	url = https://github.com/revans/bash-it.git
+[submodule "emacs/xemacs-packages/lisp/go-mode"]
+	path = emacs/xemacs-packages/lisp/go-mode
+	url = http://github.com/dominikh/go-mode.el.git

@@ -1,0 +1,40 @@
+2004-07-07  Jon Schewe  <jon.schewe@honeywell.com>
+
+	* init.el (jde-mode-hook-jps): Get keybindings correct.
+
+2003-12-19  Jon Schewe  <jpschewe@mtu.net>
+
+	* init.el ("vm"): Parse html pages with w3m.
+
+2003-12-16  Jon Schewe  <jon.schewe@honeywell.com>
+
+	* init.el (comint-password-prompt-regexp): Handle password prompt
+	for MySQL.
+
+2003-12-10  Jon Schewe  <jon.schewe@honeywell.com>
+
+	* init.el (set-user-mail-address): Make set-user-mail-address
+	prompt the user for an address when called interactively.
+	(reset-user-mail-address): Make it easier to change email addresses.
+
+2003-12-09  Jon Schewe  <jon.schewe@honeywell.com>
+
+	* init.el (message-header-auto-fill): Added support for doing
+	proper line wrap in mail headers.
+
+2003-12-02  Jon Schewe  <jpschewe@mtu.net>
+
+	* init.el (jde-import-choose-imports): Added advice to fix
+	annoyance with jde-import.  Should be fixed in next release of JDE.
+
+2003-11-30  Jon Schewe  <jpschewe@mtu.net>
+
+	* init.el (system-location): Add the ability to tell the
+	difference between locations.
+	(add-special-font-lock-faces-jps): Make common place for adding
+	HACK, FIX, etc. font keywords.
+
+2003-11-29  Jon Schewe  <jpschewe@mtu.net>
+
+	*: Initial import
+

@@ -1,0 +1,11 @@
+#!/bin/sh
+#program=`cygpath -w "$1"`
+#path=`cygpath -w "$2"`
+#echo "$program $path" > /tmp/foo
+#exec "$1" "$path"
+#cmd "$program" "$path"
+
+winfile=`cygpath -d "$1"`
+#echo $winfile
+cd c:/
+cmd /c start "$winfile"

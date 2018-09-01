@@ -49,6 +49,7 @@ ln -sf "${mydir}/npmrc" "${HOME}/.npmrc"
 
 # emacs
 ln -sf "${mydir}/emacs.el" "${HOME}/.emacs"
+ln -sf "${mydir}/emacs" "${HOME}/.xemacs"
 
 # vim
 ln -sf "${mydir}/vimrc" "${HOME}/.vimrc"
