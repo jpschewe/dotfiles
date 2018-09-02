@@ -300,24 +300,22 @@ fi
 
 # custom completion methods
 . ${HOME}/dotfiles/git-completion.sh
-#if [ -n "$(command -v git)" ]; then
-#  # TODO figure out a more robust way to find this script
-#  # This one really slows things down
-#  #GIT_PS1_SHOWDIRTYSTATE=true
-#  #export GIT_PS1_SHOWDIRTYSTATE
-#
-#  # not really worth it without the above one
-#  #GIT_PS1_SHOWSTASHSTATE=true
-#  #export GIT_PS1_SHOWSTASHSTATE
-#  #GIT_PS1_SHOWUNTRACKEDFILES=true
-#  #export GIT_PS1_SHOWUNTRACKEDFILES
-#  
-#  PS1=${BASE_PS1}'\n$(__git_ps1 "[%s] ")>'
-#else
-#  PS1="${BASE_PS1}\n>"
-#fi
-PS1='\n$(dirs)\n'${BASE_PS1}'\n$(vcprompt --format "[%s:%b] ")>'
+if [ -n "$(command -v git)" ]; then
+  # TODO figure out a more robust way to find this script
+  # This one really slows things down
+  #GIT_PS1_SHOWDIRTYSTATE=true
+  #export GIT_PS1_SHOWDIRTYSTATE
 
+  # not really worth it without the above one
+  #GIT_PS1_SHOWSTASHSTATE=true
+  #export GIT_PS1_SHOWSTASHSTATE
+  #GIT_PS1_SHOWUNTRACKEDFILES=true
+  #export GIT_PS1_SHOWUNTRACKEDFILES
+  
+  PS1=${BASE_PS1}'\n$(__git_ps1 "[%s] ")>'
+else
+  PS1="${BASE_PS1}\n>"
+fi
 export PS1
 
 if [ -n "$EMACS" -o "$TERM" = "emacs" ]; then
