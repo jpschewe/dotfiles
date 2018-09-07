@@ -297,6 +297,7 @@ elif [ $TERM = "screen" ]; then
 else 
   BASE_PS1="\u@\h:\w";
 fi
+BASE_PS1='\n$(dirs)\n'${BASE_PS1}
 
 # custom completion methods
 . ${HOME}/dotfiles/git-completion.sh
