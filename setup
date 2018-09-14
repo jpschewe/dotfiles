@@ -99,6 +99,9 @@ ln -fs "${mydir}/subversion-config" "${HOME}/.subversion/config"
 # cvs
 ln -fs "${mydir}/cvsrc" "${HOME}/.cvsrc"
 
+# tig
+ln -sf "${mydir}/tigrc" "${HOME}/.tigrc"
+
 if [ ${auto} -eq 0 ]; then
   # ask about ssh
   printf "Would you like to have ssh-agent start up on login? (y/N) "
