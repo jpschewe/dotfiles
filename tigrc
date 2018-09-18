@@ -1,4 +1,4 @@
-set cmdline-args = --all
+set rev-args = --all
 
 bind status P !git push origin %(branch)
 bind status + !git commit --amend
