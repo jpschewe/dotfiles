@@ -1,9 +1,13 @@
 set rev-args = --all
 
-bind status P !git push origin %(branch)
 bind status + !git commit --amend
+bind status P !git push origin %(repo:head)
 
-bind main T !@git tag %(prompt) %(commit)
+bind main B !git rebase -i %(commit)
+bind main T !@git tag "%(prompt Enter tag name: )" %(commit)
 bind main F !@git fetch -p origin
 
+bind refs P !git push origin %(branch)
+bind refs T !@git tag %(prompt Enter tag name: ) %(commit)
 bind refs n !@git branch "%(prompt Enter branch name: )"
+bind refs E !@git tag -d %(tag)
