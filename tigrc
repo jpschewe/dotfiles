@@ -8,6 +8,6 @@ bind main T !@git tag "%(prompt Enter tag name: )" %(commit)
 bind main F !@git fetch -p origin
 
 bind refs P !git push origin %(branch)
-bind refs T !@git tag %(prompt Enter tag name: ) %(commit)
+bind refs T !@git tag "%(prompt Enter tag name: )" %(commit)
 bind refs n !@git branch "%(prompt Enter branch name: )" %(commit)
 bind refs E !@git tag -d %(tag)
