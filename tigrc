@@ -5,7 +5,7 @@ bind status P !git push origin %(repo:head)
 
 bind main B !git rebase -i %(commit)
 bind main T !@git tag "%(prompt Enter tag name: )" %(commit)
-bind main F !@git fetch -p origin
+bind main F !git fetch -p origin
 bind main W !@git branch "%(prompt Enter branch name: )" %(commit)
 
 bind refs P !git push origin %(branch)
@@ -13,4 +13,4 @@ bind refs T !@git tag "%(prompt Enter tag name: )" %(commit)
 bind refs W !@git branch "%(prompt Enter branch name: )" %(commit)
 bind refs E !@git tag -d %(tag)
 bind refs V !@git merge --no-ff %(branch)
-bind refs Z !@git push origin --delete %(branch)
+bind refs Z !git push origin --delete %(branch)
