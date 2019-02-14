@@ -526,6 +526,13 @@ prepend PATH "${HOME}"/npm-global/bin
 ### git
 prepend PATH /usr/local/git/bin
 
+### ruby gems
+if [ -e ${HOME}/.gem/ruby ]; then
+    for dir in ${HOME}/.gem/ruby/*/bin; do
+        append PATH ${dir}
+    done
+fi
+
 ### HOME
 prepend PATH "${HOME}/bin"
 prepend PATH "${HOME}/bin/$OSTYPE"
