@@ -59,4 +59,7 @@ git config --global diff.submodule log
 git config --global cola.spellcheck false
 
 # cache git credentials
-git config --global credential.helper cache
+current_value=$(git config --global --get credential.helper)
+if [ -z "${current_value}" ]; then
+    git config --global credential.helper cache
+fi
