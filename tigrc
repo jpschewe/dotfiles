@@ -20,5 +20,5 @@ bind refs E !@git tag -d %(tag)
 bind refs Z !git push origin --delete %(branch)
 
 bind refs M !git merge %(branch)
-bind refs <GreaterThan> !git merge --ff-only %(branch)
+bind refs > !git merge --ff-only %(branch)
 bind refs <LessThan> !git merge --no-ff %(branch)
