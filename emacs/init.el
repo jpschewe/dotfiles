@@ -2019,6 +2019,14 @@ in some window."
 	     (setq tab-width 2)
 	     ))
 
+;; yaml-mode
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+
+(add-hook 'yaml-mode-hook
+          (lambda ()
+            (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+
 ;; applescript
 (autoload 'applescript-mode "applescript-mode"
   "Major mode for editing AppleScript source." t)

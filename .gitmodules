@@ -4,3 +4,6 @@
 [submodule "emacs/xemacs-packages/lisp/go-mode"]
 	path = emacs/xemacs-packages/lisp/go-mode
 	url = http://github.com/dominikh/go-mode.el.git
+[submodule "emacs/xemacs-packages/lisp/yaml-mode"]
+	path = emacs/xemacs-packages/lisp/yaml-mode
+	url = https://github.com/yoshiki/yaml-mode.git
