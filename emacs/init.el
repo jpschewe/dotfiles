@@ -1699,17 +1699,17 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;; add-to-list always adds to the front of the list, so put the highest
 ;; priority match last
 ;;
-;; when connecting to a host as root (see the exceptions for localhost
-;; below), ssh to the host first and then use the specified method (usually
-;; sudo)
-(add-to-list 'tramp-default-proxies-alist
-	     '(nil "\\`root\\'" "/ssh:%h:"))
-;; when connecting to the local system -> no proxy
-(add-to-list 'tramp-default-proxies-alist
-	     '((regexp-quote (system-name)) nil nil))
-;; when connecting to localhost -> no proxy
-(add-to-list 'tramp-default-proxies-alist
-	     '("localhost" nil nil))
+;; testing without ;; when connecting to a host as root (see the exceptions for localhost
+;; testing without ;; below), ssh to the host first and then use the specified method (usually
+;; testing without ;; sudo)
+;; testing without (add-to-list 'tramp-default-proxies-alist
+;; testing without 	     '(nil "\\`root\\'" "/ssh:%h:"))
+;; testing without ;; when connecting to the local system -> no proxy
+;; testing without (add-to-list 'tramp-default-proxies-alist
+;; testing without 	     '((regexp-quote (system-name)) nil nil))
+;; testing without ;; when connecting to localhost -> no proxy
+;; testing without (add-to-list 'tramp-default-proxies-alist
+;; testing without 	     '("localhost" nil nil))
 
 ;;; patch to fix default-coding-process error
 ;; Index: lisp/uudecode.el
