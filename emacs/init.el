@@ -27,12 +27,14 @@ There are two things you can do about this warning:
             (package-install package)))
       '(
 	applescript-mode
+	cargo
 	csharp-mode
 	diminish
 	elpy
 	go-mode
 	markdown-mode
 	osx-clipboard
+	rustic
 	yaml-mode
 	))
 
@@ -68,7 +70,7 @@ There are two things you can do about this warning:
  '(package-get-remote (quote (("ftp.xemacs.org" "/pub/xemacs/packages"))))
  '(package-selected-packages
    (quote
-    (osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode)))
+    (rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode)))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    (quote
