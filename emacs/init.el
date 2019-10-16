@@ -1,23 +1,45 @@
 ;; -*- Mode: Emacs-Lisp -*-
 
-;; check which emacs is running
-;(defvar running-xemacs (string-match "XEmacs\\|Lucid" emacs-version))
-(defvar running-xemacs (featurep 'xemacs))
-;;(defvar running-gnuemacs (string-match "^GNU Emacs" (emacs-version)))
-(defvar running-gnuemacs (featurep 'emacs))
-(defvar running-aquamacs	(string-match "Aquamacs" (emacs-version)))
-(defvar running-carbon	(and (string-match "Carbon" (emacs-version))
-                             (not ver-p-aquamacs)))
-(defvar running-unix (or (eq system-type 'linux)
-			 (eq system-type 'gnu/linux)
-			 (eq system-type 'usg-unix-v)
-			 (eq system-type 'berkeley-unix)))
+;; MELPA package support
+(require 'package)
 
-;; only warn me of errors
-(setq display-warning-minimum-level 'error)
-(setq log-warning-minimum-level 'error)
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  (when no-ssl
+    (warn "\
+Your version of Emacs does not support SSL connections,
+which is unsafe because it allows man-in-the-middle attacks.
+There are two things you can do about this warning:
+1. Install an Emacs version that does support SSL and be safe.
+2. Remove this warning from your init file so you won't see it again."))
+  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
+  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  (when (< emacs-major-version 24)
+    ;; For important compatibility libraries like cl-lib
+    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
+(package-initialize)
 
-;; take care of some custom variables right up front
+;; install packages
+(mapc #'(lambda (package)
+          (unless (package-installed-p package)
+            (package-install package)))
+      '(
+	applescript-mode
+	csharp-mode
+	diminish
+	elpy
+	go-mode
+	markdown-mode
+	osx-clipboard
+	yaml-mode
+	))
+
+;; If there are no archived package contents, refresh them
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -44,6 +66,9 @@
  '(ns-tool-bar-display-mode nil t)
  '(ns-tool-bar-size-mode nil t)
  '(package-get-remote (quote (("ftp.xemacs.org" "/pub/xemacs/packages"))))
+ '(package-selected-packages
+   (quote
+    (osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode)))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    (quote
@@ -51,6 +76,26 @@
      (whitespace-style face trailing lines-tail space-before-tab indentation empty))))
  '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
  '(visual-line-mode nil t))
+
+
+;; check which emacs is running
+(defvar running-xemacs (featurep 'xemacs))
+;;(defvar running-gnuemacs (string-match "^GNU Emacs" (emacs-version)))
+(defvar running-gnuemacs (featurep 'emacs))
+(defvar running-aquamacs	(string-match "Aquamacs" (emacs-version)))
+(defvar running-carbon	(and (string-match "Carbon" (emacs-version))
+                             (not ver-p-aquamacs)))
+(defvar running-unix (or (eq system-type 'linux)
+			 (eq system-type 'gnu/linux)
+			 (eq system-type 'usg-unix-v)
+			 (eq system-type 'berkeley-unix)))
+
+;; only warn me of errors
+(setq display-warning-minimum-level 'error)
+(setq log-warning-minimum-level 'error)
+
+;; take care of some custom variables right up front
+
 
 (when (and (not running-xemacs) (eq system-type 'darwin))
   (setq mac-command-modifier 'meta) ;; Sets the command (Apple) key as Meta
@@ -2009,8 +2054,6 @@ in some window."
     (setq dired-use-ls-dired nil))
 
 ;; go-mode
-(require 'go-mode-autoloads)
-
 (add-hook 'go-mode-hook
 	  '(lambda ()
 	     ;; make parens show the text before the paren in the minibuffer
