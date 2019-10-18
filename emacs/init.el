@@ -1707,6 +1707,14 @@ Unless optional argument INPLACE is non-nil, return a new string."
   (gnuserv-start)
   )
 
+(when (and
+       running-unix
+       (fboundp 'server-start)
+       )
+  ;;(setq gnuserv-frame t);;Use the current frame for gnuserv clients, Setting this causes gnuclient to not work correctly!
+  (server-start)
+  )
+
 ;; dictionary and thesaurus
 (autoload 'dict "dict" nil t)
 (autoload 'thesaurus "dict" nil t)
