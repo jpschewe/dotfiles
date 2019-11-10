@@ -70,7 +70,7 @@ There are two things you can do about this warning:
  '(package-get-remote (quote (("ftp.xemacs.org" "/pub/xemacs/packages"))))
  '(package-selected-packages
    (quote
-    (rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode)))
+    (lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode)))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    (quote
