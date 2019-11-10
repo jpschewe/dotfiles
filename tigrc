@@ -3,7 +3,7 @@ set rev-args = --all
 
 bind status + !git commit --amend
 bind status P !git push -u origin %(repo:head)
-
+bind status Y !git stash push -m "%(prompt message: )"
 
 bind main B !git rebase -i %(commit)
 bind main F !git fetch -p origin
