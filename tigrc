@@ -9,18 +9,28 @@ bind main B !git rebase -i %(commit)
 bind main F !git fetch -p origin
 bind main T !git tag -a "%(prompt Enter tag name: )" %(commit)
 bind main L !git tag "%(prompt Enter tag name: )" %(commit)
-bind main W !@git branch "%(prompt Enter branch name: )" %(commit)
+#bind main W !@git checkout -b "%(prompt Enter branch name: )" %(commit)
 
 
 bind refs ! !git branch -d %(branch)
 bind refs P !git push -u origin %(branch)
 bind refs T !git tag -a "%(prompt Enter tag name: )" %(commit)
 bind refs L !git tag "%(prompt Enter tag name: )" %(commit)
-bind refs W !@git branch "%(prompt Enter branch name: )" %(commit)
+#bind refs W !@git checkout -b "%(prompt Enter branch name: )" %(commit)
 bind refs E !@git tag -d %(tag)
 
-bind refs Z !git push origin --delete %(branch)
+
 
 bind refs M !git merge %(branch)
 bind refs > !git merge --ff-only %(commit)
 bind refs <LessThan> !git merge --no-ff %(branch)
+
+bind main b none
+bind main bn @git branch "%(prompt Enter branch name: )" %(commit)
+bind main bc @git checkout -b "%(prompt Checkout at new branch: )" %(commit)
+bind main bd @git branch -d %(branch)
+bind main bD ?>git branch -D %(branch)
+#bind refs Z !git push origin --delete %(branch)
+#bind main brd ?git branch -rd %(remote)/%(branch)
+bind main brd ?git push %(remote) --delete %(branch)
+bind main bm @git branch -m %(branch) "%(prompt New branch name: )"
