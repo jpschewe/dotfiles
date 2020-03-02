@@ -33,7 +33,7 @@ bind main bm @git branch -m %(branch) "%(prompt New branch name: )"
 bind main T none
 bind main Ta !git tag -a "%(prompt Enter tag name: )" %(commit)
 bind main Tl !git tag "%(prompt Enter tag name: )" %(commit)
-bind main Td !@git tag -d %(tag)
+bind main Td ?@git tag -d %(tag)
 
 
 bind refs b none
@@ -53,7 +53,7 @@ bind refs P !git push -u origin %(branch) %(tag)
 bind refs T none
 bind refs Ta !git tag -a "%(prompt Enter tag name: )" %(commit)
 bind refs Tl !git tag "%(prompt Enter tag name: )" %(commit)
-bind refs Td !@git tag -d %(tag)
+bind refs Td ?@git tag -d %(tag)
 #bind refs E !@git tag -d %(tag)
 #bind refs T !git tag -a "%(prompt Enter tag name: )" %(commit)
 #bind refs L !git tag "%(prompt Enter tag name: )" %(commit)
