@@ -1,3 +1,5 @@
+# see http://jonas.nitro.dk/tig/manual.html for variables
+
 set rev-args = --all
 
 
@@ -5,32 +7,58 @@ bind status + !git commit --amend
 bind status P !git push -u origin %(repo:head)
 bind status Y !git stash push -m "%(prompt message: )"
 
-bind main B !git rebase -i %(commit)
+#bind main B !git rebase -i %(commit)
+bind main B none
+bind main Bo !git rebase --onto "%(prompt Enter branch name: )" %(commit)
+bind main Bi !git rebase -i %(commit)
+bind main Bb !git rebase %(branch)
+bind main Br !git rebase %(remote)/%(branch)
+
 bind main F !git fetch -p origin
-bind main T !git tag -a "%(prompt Enter tag name: )" %(commit)
-bind main L !git tag "%(prompt Enter tag name: )" %(commit)
-#bind main W !@git checkout -b "%(prompt Enter branch name: )" %(commit)
 
-
-bind refs ! !git branch -d %(branch)
-bind refs P !git push -u origin %(branch)
-bind refs T !git tag -a "%(prompt Enter tag name: )" %(commit)
-bind refs L !git tag "%(prompt Enter tag name: )" %(commit)
-#bind refs W !@git checkout -b "%(prompt Enter branch name: )" %(commit)
-bind refs E !@git tag -d %(tag)
-
-
-
-bind refs M !git merge %(branch)
-bind refs > !git merge --ff-only %(commit)
-bind refs <LessThan> !git merge --no-ff %(branch)
+bind main T none
+bind main Ta !git tag -a "%(prompt Enter tag name: )" %(commit)
+bind main Tl !git tag "%(prompt Enter tag name: )" %(commit)
 
 bind main b none
 bind main bn @git branch "%(prompt Enter branch name: )" %(commit)
 bind main bc @git checkout -b "%(prompt Checkout at new branch: )" %(commit)
 bind main bd @git branch -d %(branch)
 bind main bD ?>git branch -D %(branch)
-#bind refs Z !git push origin --delete %(branch)
 #bind main brd ?git branch -rd %(remote)/%(branch)
 bind main brd ?git push %(remote) --delete %(branch)
 bind main bm @git branch -m %(branch) "%(prompt New branch name: )"
+#bind main W !@git checkout -b "%(prompt Enter branch name: )" %(commit)
+
+bind main T none
+bind main Ta !git tag -a "%(prompt Enter tag name: )" %(commit)
+bind main Tl !git tag "%(prompt Enter tag name: )" %(commit)
+bind main Td !@git tag -d %(tag)
+
+
+bind refs b none
+bind refs bn @git branch "%(prompt Enter branch name: )" %(commit)
+bind refs bc @git checkout -b "%(prompt Checkout at new branch: )" %(commit)
+bind refs bd @git branch -d %(branch)
+bind refs bD ?>git branch -D %(branch)
+#bind refs brd ?git branch -rd %(remote)/%(branch)
+bind refs brd ?git push %(remote) --delete %(branch)
+bind refs bm @git branch -m %(branch) "%(prompt New branch name: )"
+#bind refs W !@git checkout -b "%(prompt Enter branch name: )" %(commit)
+#bind refs ! !git branch -d %(branch)
+#bind refs Z !git push origin --delete %(branch)
+
+bind refs P !git push -u origin %(branch) %(tag)
+
+bind refs T none
+bind refs Ta !git tag -a "%(prompt Enter tag name: )" %(commit)
+bind refs Tl !git tag "%(prompt Enter tag name: )" %(commit)
+bind refs Td !@git tag -d %(tag)
+#bind refs E !@git tag -d %(tag)
+#bind refs T !git tag -a "%(prompt Enter tag name: )" %(commit)
+#bind refs L !git tag "%(prompt Enter tag name: )" %(commit)
+
+
+bind refs M !git merge %(branch)
+bind refs > !git merge --ff-only %(commit)
+bind refs <LessThan> !git merge --no-ff %(branch)
