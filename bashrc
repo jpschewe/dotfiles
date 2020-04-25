@@ -145,7 +145,7 @@ alias mv='mv -i'
 #alias w='w -s'
 alias which='type'
 alias where='type -all'
-  
+
 #alias rdesktop='\rdesktop -g 1024x768 -K'
 #alias mn65-rsconsole='rdesktop -u getreal mn65-rsconsole'
 
@@ -158,10 +158,17 @@ if [ $? == 0 ]; then
 else
   alias ll='ls -l'
 fi
+
+# check if -h is supported by df
+df_opts=""
 df -h / > /dev/null 2>&1
 if [ $? == 0 ]; then
-  alias df='df -h'
+  df_opts="-h"
 fi
+
+# remove some things from df output
+alias df='df ${df_opts} | grep -v " /snap" | grep -v " /run" | grep -v " /sys" | grep -v " /dev"'
+
 
 alias v='ll'
 alias d='ls -s'
