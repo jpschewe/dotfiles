@@ -161,14 +161,19 @@ fi
 
 # check if -h is supported by df
 df_opts=""
-df -h / > /dev/null 2>&1
+command df -h / > /dev/null 2>&1
 if [ $? == 0 ]; then
   df_opts="-h"
 fi
 
 # remove some things from df output
-alias df='df ${df_opts} | grep -v " /snap" | grep -v " /run" | grep -v " /sys" | grep -v " /dev"'
-
+df() {
+    command df ${df_opts} $* \
+        | grep -v " /snap" \
+        | grep -v " /run" \
+        | grep -v " /sys" \
+        | grep -v " /dev"
+}
 
 alias v='ll'
 alias d='ls -s'
