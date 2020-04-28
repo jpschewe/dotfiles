@@ -21,22 +21,22 @@ There are two things you can do about this warning:
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
 
-;; install packages
-(mapc #'(lambda (package)
-          (unless (package-installed-p package)
-            (package-install package)))
-      '(
-	applescript-mode
-	cargo
-	csharp-mode
-	diminish
-	elpy
-	go-mode
-	markdown-mode
-	osx-clipboard
-	rustic
-	yaml-mode
-	))
+;; execute manually ;; install packages
+;; execute manually (mapc #'(lambda (package)
+;; execute manually           (unless (package-installed-p package)
+;; execute manually             (package-install package)))
+;; execute manually       '(
+;; execute manually 	applescript-mode
+;; execute manually 	cargo
+;; execute manually 	csharp-mode
+;; execute manually 	diminish
+;; execute manually 	elpy
+;; execute manually 	go-mode
+;; execute manually 	markdown-mode
+;; execute manually 	osx-clipboard
+;; execute manually 	rustic
+;; execute manually 	yaml-mode
+;; execute manually 	))
 
 ;; If there are no archived package contents, refresh them
 (when (not package-archive-contents)
