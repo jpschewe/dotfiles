@@ -223,8 +223,8 @@ There are two things you can do about this warning:
 
 
 ;; set the title to make it easy to determine which XEmacs is running
-(let ((host (downcase (system-name))))
-  (setq frame-title-format (concat "Emacs: " (user-real-login-name) "@" (car (split-string host "\\.")) ": %b")))
+;; (let ((host (downcase (system-name))))
+;;   (setq frame-title-format (concat "Emacs: " (user-real-login-name) "@" (car (split-string host "\\.")) ": %b")))
 
 ;; Change all yes/no prompts to y/n
 (fset 'yes-or-no-p 'y-or-n-p)
