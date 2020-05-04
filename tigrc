@@ -1,7 +1,7 @@
 # see http://jonas.nitro.dk/tig/manual.html for variables
 
 set rev-args = --all
-
+set main-view-id-display = yes
 
 bind status + !git commit --amend
 bind status P !git push -u origin %(repo:head)
