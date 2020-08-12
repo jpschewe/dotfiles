@@ -2088,3 +2088,13 @@ in some window."
 ;; something for Aquamacs
 (if (not (boundp 'display-info))
     (setq display-info nil))
+
+;; prompt before exit
+(defun ask-before-closing ()
+  "Close only if y was pressed."
+  (interactive)
+  (if (y-or-n-p (format "Are you sure you want to close emacs? "))
+      (save-buffers-kill-emacs)                                                                                            
+    (message "Canceled frame close")))
+
+(global-set-key (kbd "C-x C-c") 'ask-before-closing)
