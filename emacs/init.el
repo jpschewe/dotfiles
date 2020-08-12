@@ -378,7 +378,7 @@ There are two things you can do about this warning:
   )
 
 (global-set-key [(meta return)] 'hippie-expand);; expand
-(global-set-key [insert] 'toggle-read-only)
+;; replaced by C-x C-q (global-set-key [insert] 'toggle-read-only)
 
 ;;make my scroll wheel work
 (global-set-key [(button4)] 'scroll-down-command)
