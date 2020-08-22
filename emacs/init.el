@@ -50,6 +50,7 @@ There are two things you can do about this warning:
  '(aquamacs-additional-fontsets nil t)
  '(aquamacs-customization-version-id 216 t)
  '(aquamacs-tool-bar-user-customization nil t)
+ '(auth-source-save-behavior nil)
  '(default-frame-alist
     (quote
      ((menu-bar-lines . 1)
