@@ -52,8 +52,7 @@ There are two things you can do about this warning:
  '(aquamacs-tool-bar-user-customization nil t)
  '(auth-source-save-behavior nil)
  '(default-frame-alist
-    (quote
-     ((menu-bar-lines . 1)
+    '((menu-bar-lines . 1)
       (foreground-color . "Black")
       (background-color . "White")
       (cursor-type . box)
@@ -61,22 +60,20 @@ There are two things you can do about this warning:
       (internal-border-width . 0)
       (left-fringe . 1)
       (right-fringe)
-      (fringe))))
+      (fringe)))
  '(display-time-mode t)
  '(gutter-buffers-tab-enabled nil)
  '(gutter-buffers-tab-visible nil)
- '(ns-alternate-modifier (quote alt))
+ '(ns-alternate-modifier 'alt)
  '(ns-tool-bar-display-mode nil t)
  '(ns-tool-bar-size-mode nil t)
- '(package-get-remote (quote (("ftp.xemacs.org" "/pub/xemacs/packages"))))
+ '(package-get-remote '(("ftp.xemacs.org" "/pub/xemacs/packages")))
  '(package-selected-packages
-   (quote
-    (lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode)))
+   '(lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
-   (quote
-    ((whitespace-newline . t)
-     (whitespace-style face trailing lines-tail space-before-tab indentation empty))))
+   '((whitespace-newline . t)
+     (whitespace-style face trailing lines-tail space-before-tab indentation empty)))
  '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
  '(visual-line-mode nil t))
 
