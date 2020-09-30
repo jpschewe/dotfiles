@@ -119,3 +119,7 @@ if [ ${auto} -eq 0 ]; then
 fi
 
 "${mydir}"/hook-scripts/setup-gitconfig
+
+# make sure that ssh directory is setup correctly
+try mkdir -p "${HOME}"/.ssh/sockets
+try chmod go-rwx "${HOME}"/.ssh
