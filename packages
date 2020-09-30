@@ -42,6 +42,9 @@ append PATH /usr/games
 append PATH /usr/pkg/bin
 append PATH /usr/pkg/sbin
 
+# python
+append PATH ${HOME}/.local/bin
+
 ### Standard OS Networking
 case $OSTYPE in
   solaris2*) append PATH /usr/sbin
