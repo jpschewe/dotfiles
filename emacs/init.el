@@ -19,7 +19,7 @@ There are two things you can do about this warning:
   (when (< emacs-major-version 24)
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
-(package-initialize)
+;(package-initialize)
 
 ;; execute manually ;; install packages
 ;; execute manually (mapc #'(lambda (package)
@@ -69,7 +69,7 @@ There are two things you can do about this warning:
  '(ns-tool-bar-size-mode nil t)
  '(package-get-remote '(("ftp.xemacs.org" "/pub/xemacs/packages")))
  '(package-selected-packages
-   '(lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode))
+   '(pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    '((whitespace-newline . t)
@@ -2013,6 +2013,7 @@ in some window."
 		  (add-hook 'after-save-hook
 			    'check-parens
 			    nil t)))))
+;;(setq markdown-command "pandoc --from gfm --to html --standalone")
 
 ;;;;;;;;;;;
 ;;
@@ -2087,6 +2088,11 @@ in some window."
 ;; something for Aquamacs
 (if (not (boundp 'display-info))
     (setq display-info nil))
+
+
+;; pandoc mode
+
+(setq pandoc-data-dir "~/.xemacs/xemacs-packages/etc/pandoc-mode")
 
 ;; prompt before exit
 (defun ask-before-closing ()
