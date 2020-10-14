@@ -920,7 +920,8 @@ There are two things you can do about this warning:
   ;; don't refresh dired buffers all of the time
   (setq dired-refresh-automatically nil)
   )
-(add-hook 'dired-load-hook 'dired-load-hook-jps)
+(with-eval-after-load "dired" (dired-load-hook-jps))
+
 
 (defun dired-mode-hook-jps ()
   (set 'dired-omit-files t)
