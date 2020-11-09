@@ -1,5 +1,0 @@
-	-- SGML catalog for XEmacs These are my personal ones --
-
-OVERRIDE YES	-- prefer public identifiers to system identifiers --
-
-SYSTEM "log4j.dtd" log4j.dtd

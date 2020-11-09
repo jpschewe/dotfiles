@@ -39,8 +39,8 @@ There are two things you can do about this warning:
 ;; execute manually 	))
 
 ;; If there are no archived package contents, refresh them
-(when (not package-archive-contents)
-  (package-refresh-contents))
+;;(when (not package-archive-contents)
+;;  (package-refresh-contents))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -52,7 +52,8 @@ There are two things you can do about this warning:
  '(aquamacs-tool-bar-user-customization nil t)
  '(auth-source-save-behavior nil)
  '(default-frame-alist
-    '((menu-bar-lines . 1)
+    (quote
+     ((menu-bar-lines . 1)
       (foreground-color . "Black")
       (background-color . "White")
       (cursor-type . box)
@@ -60,20 +61,22 @@ There are two things you can do about this warning:
       (internal-border-width . 0)
       (left-fringe . 1)
       (right-fringe)
-      (fringe)))
+      (fringe))))
  '(display-time-mode t)
  '(gutter-buffers-tab-enabled nil)
  '(gutter-buffers-tab-visible nil)
- '(ns-alternate-modifier 'alt)
+ '(ns-alternate-modifier (quote alt))
  '(ns-tool-bar-display-mode nil t)
  '(ns-tool-bar-size-mode nil t)
- '(package-get-remote '(("ftp.xemacs.org" "/pub/xemacs/packages")))
+ '(package-get-remote (quote (("ftp.xemacs.org" "/pub/xemacs/packages"))))
  '(package-selected-packages
-   '(pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode))
+   (quote
+    (ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode)))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
-   '((whitespace-newline . t)
-     (whitespace-style face trailing lines-tail space-before-tab indentation empty)))
+   (quote
+    ((whitespace-newline . t)
+     (whitespace-style face trailing lines-tail space-before-tab indentation empty))))
  '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
  '(visual-line-mode nil t))
 
@@ -811,16 +814,16 @@ There are two things you can do about this warning:
 ;;;;;;;;;;;;
 (message "Dired")
 (defun dired-load-hook-jps ()
-  (define-key dired-mode-map "q" 'kill-this-buffer)
-  ;(define-key dired-mode-map "^" 'dired-jump-back)
-  (define-key dired-mode-map " " 'scroll-up)
-  (define-key dired-mode-map "b" 'scroll-down)
-  (define-key dired-mode-map "\C-x\C-j" 'dired-up-directory)
-  (setq dired-gnutar-program "tar")
-  (setq dired-unshar-program "unshar")
+  ;;(define-key dired-mode-map "q" 'kill-this-buffer)
+  ;;(define-key dired-mode-map "^" 'dired-jump-back)
+  ;;(define-key dired-mode-map " " 'scroll-up)
+  ;;(define-key dired-mode-map "b" 'scroll-down)
+  ;;(define-key dired-mode-map "\C-x\C-j" 'dired-up-directory)
+  ;;(setq dired-gnutar-program "tar")
+  ;;(setq dired-unshar-program "unshar")
 
   ;;initialize to empty
-  (setq dired-auto-shell-command-alist nil)
+  ;;(setq dired-auto-shell-command-alist nil)
 
   (when (or running-unix
 	    (eq system-type 'cygwin32)
@@ -920,13 +923,13 @@ There are two things you can do about this warning:
   ;; don't refresh dired buffers all of the time
   (setq dired-refresh-automatically nil)
   )
-(with-eval-after-load "dired" (dired-load-hook-jps))
+;; disable for now (with-eval-after-load "dired" (dired-load-hook-jps))
 
 
-(defun dired-mode-hook-jps ()
-  (set 'dired-omit-files t)
-)
-(add-hook 'dired-mode-hook 'dired-mode-hook-jps)
+;; (defun dired-mode-hook-jps ()
+;;   (set 'dired-omit-files t)
+;; )
+;; (add-hook 'dired-mode-hook 'dired-mode-hook-jps)
 
 ;;autorevert directories
 ;;(defadvice dired-internal-noselect (before my-auto-revert-dired activate)
@@ -1645,13 +1648,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
 
 ;;;;;;;;;;;
 ;;
-;; QMake mode. For editing Qt project files.
-;;
-;;;;;;;;;;;;
-(require 'qmake-mode)
-
-;;;;;;;;;;;
-;;
 ;; Save Place
 ;;
 ;;;;;;;;;;;;
@@ -1724,8 +1720,8 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;; icomplete - replaces iswitchb
 ;;
 ;;;;;;;;;;;;
-(icomplete-mode 1)
-(eval-after-load "icomplete" '(progn (require 'icomplete+)))
+;(icomplete-mode 1)
+;(eval-after-load "icomplete" '(progn (require 'icomplete+)))
 ;(icompletep-cycling-mode 1)
 
 
@@ -1996,7 +1992,7 @@ in some window."
 ;; Markdown
 ;;
 ;;;;;;;;;;;;
-(require 'markdown-mode)
+;;(require 'markdown-mode)
 
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
@@ -2073,7 +2069,7 @@ in some window."
 	     ))
 
 ;; yaml-mode
-(require 'yaml-mode)
+;;(require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 
 (add-hook 'yaml-mode-hook
