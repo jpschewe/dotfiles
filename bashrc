@@ -510,7 +510,15 @@ if [ -n "${VENV_WRAPPER_SCRIPT}" ]; then
   export WORKON_HOME
   . "${VENV_WRAPPER_SCRIPT}"
 fi
-   
+
+## tmux helpers
+
+# Change the current directory for a tmux session, which determines
+# the starting dir for new windows/panes:
+function tmux-cwd {
+    tmux command-prompt -I $PWD -p "New session dir:" "attach -c %1"
+}
+
 #
 # Avoid loops and such
 #
