@@ -813,6 +813,8 @@ There are two things you can do about this warning:
 ;;
 ;;;;;;;;;;;;
 (message "Dired")
+(setq dired-listing-switches "-alh") ; show human readable units
+
 (defun dired-load-hook-jps ()
   ;;(define-key dired-mode-map "q" 'kill-this-buffer)
   ;;(define-key dired-mode-map "^" 'dired-jump-back)
