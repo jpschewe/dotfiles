@@ -26,7 +26,7 @@ git submodule update --init >/dev/null || git submodule update --init >/dev/null
 
 # setup hook scripts
 for hook in post-applypatch post-commit post-merge pre-rebase; do
-    ln -sf "${mydir}/hook-scripts/${hook}" "${mydir}/.git/hooks/${hook}"
+    try ln -sf "${mydir}/hook-scripts/${hook}" "${mydir}/.git/hooks/${hook}"
 done
 
 # make sure that submodules are always fetched
@@ -35,24 +35,24 @@ git config --local fetch.recurseSubmodules yes
 # setup bin
 mkdir -p "${HOME}/bin"
 for script in reattach-namespace; do
-  ln -sf "${mydir}/bin/${script}" "${HOME}/bin/${script}"
+  try ln -sf "${mydir}/bin/${script}" "${HOME}/bin/${script}"
 done
-ln -sf "${mydir}/lib/vcprompt/bin/vcprompt" "${HOME}/bin/vcprompt"
+try ln -sf "${mydir}/lib/vcprompt/bin/vcprompt" "${HOME}/bin/vcprompt"
 
 # bash
-ln -sf "${mydir}/addpath" "${HOME}/.addpath"
-ln -sf "${mydir}/bash_profile" "${HOME}/.bash_profile"
-ln -sf "${mydir}/bash_logout" "${HOME}/.bash_logout"
-ln -sf "${mydir}/bashrc" "${HOME}/.bashrc"
-ln -sf "${mydir}/packages" "${HOME}/.packages"
-ln -sf "${mydir}/tmux.conf" "${HOME}/.tmux.conf"
-ln -sf "${mydir}/npmrc" "${HOME}/.npmrc"
+try ln -sf "${mydir}/addpath" "${HOME}/.addpath"
+try ln -sf "${mydir}/bash_profile" "${HOME}/.bash_profile"
+try ln -sf "${mydir}/bash_logout" "${HOME}/.bash_logout"
+try ln -sf "${mydir}/bashrc" "${HOME}/.bashrc"
+try ln -sf "${mydir}/packages" "${HOME}/.packages"
+try ln -sf "${mydir}/tmux.conf" "${HOME}/.tmux.conf"
+try ln -sf "${mydir}/npmrc" "${HOME}/.npmrc"
 
 # emacs
-ln -sf "${mydir}/emacs.el" "${HOME}/.emacs"
+try ln -sf "${mydir}/emacs.el" "${HOME}/.emacs"
 if [ -L "${HOME}/.xemacs" ]; then
-  rm -f "${HOME}/.xemacs"
-  ln -sf "${mydir}/emacs" "${HOME}/.xemacs"
+  try rm -f "${HOME}/.xemacs"
+  try ln -sf "${mydir}/emacs" "${HOME}/.xemacs"
 elif [ -f "${HOME}/.xemacs" ]; then
   if [ ${auto} -eq 0 ]; then
     log "Expecting ${HOME}/.xemacs to be a symlink or a directory, not a file, skipping"
@@ -61,18 +61,18 @@ elif [ -d "${HOME}/.xemacs" ]; then
   if [ ${auto} -eq 0 ]; then
     log "${HOME}/.xemacs already exists as a directory, moving to the side"
   fi
-  mv "${HOME}/.xemacs" "${HOME}/.xemacs.old"
-  ln -sf "${mydir}/emacs" "${HOME}/.xemacs"
+  try mv "${HOME}/.xemacs" "${HOME}/.xemacs.old"
+  try ln -sf "${mydir}/emacs" "${HOME}/.xemacs"
 else
-  ln -sf "${mydir}/emacs" "${HOME}/.xemacs"
+  try ln -sf "${mydir}/emacs" "${HOME}/.xemacs"
 fi
 
 
 # vim
-ln -sf "${mydir}/vimrc" "${HOME}/.vimrc"
+try ln -sf "${mydir}/vimrc" "${HOME}/.vimrc"
 if [ -L "${HOME}/.vim" ]; then
-  rm -f "${HOME}/.vim"
-  ln -sf "${mydir}/vim" "${HOME}/.vim"
+  try rm -f "${HOME}/.vim"
+  try ln -sf "${mydir}/vim" "${HOME}/.vim"
 elif [ -f "${HOME}/.vim" ]; then
   if [ ${auto} -eq 0 ]; then
     log "Expecting ${HOME}/.vim to be a symlink or a directory, not a file, skipping"
@@ -81,45 +81,52 @@ elif [ -d "${HOME}/.vim" ]; then
   if [ ${auto} -eq 0 ]; then
     log "${HOME}/.vim already exists as a directory, moving to the side"
   fi
-  mv "${HOME}/.vim" "${HOME}/.vim.old"
-  ln -sf "${mydir}/vim" "${HOME}/.vim"
+  try mv "${HOME}/.vim" "${HOME}/.vim.old"
+  try ln -sf "${mydir}/vim" "${HOME}/.vim"
 else
-  ln -sf "${mydir}/vim" "${HOME}/.vim"
+  try ln -sf "${mydir}/vim" "${HOME}/.vim"
 fi
 
 # screen
-ln -sf "${mydir}/screenrc" "${HOME}/.screenrc"
+try ln -sf "${mydir}/screenrc" "${HOME}/.screenrc"
 
 # subversion
 mkdir -p "${HOME}/.subversion"
 if [ -f "${HOME}/.subversion/config" ]; then
-  /bin/mv "${HOME}/.subversion/config" "${HOME}/.subversion/config.old"
+  try /bin/mv "${HOME}/.subversion/config" "${HOME}/.subversion/config.old"
 fi
-ln -fs "${mydir}/subversion-config" "${HOME}/.subversion/config"
+try ln -fs "${mydir}/subversion-config" "${HOME}/.subversion/config"
 
 # cvs
-ln -fs "${mydir}/cvsrc" "${HOME}/.cvsrc"
+try ln -fs "${mydir}/cvsrc" "${HOME}/.cvsrc"
 
 # tig
-ln -sf "${mydir}/tigrc" "${HOME}/.tigrc"
+try ln -sf "${mydir}/tigrc" "${HOME}/.tigrc"
 
 # always link so that sssha-helper can be called from checkout when
 # desired
-ln -sf "${mydir}/sssha" "${HOME}/.ssh/sssha"
+try ln -sf "${mydir}/sssha" "${HOME}/.ssh/sssha"
 if [ ${auto} -eq 0 ]; then
   # ask about ssh
   printf "Would you like to have ssh-agent start up on login? (y/N) "
   answer=''
   read answer
   if [ "x${answer}" = "xy" ]; then
-    mkdir -p "${HOME}/.ssh"
-    ln -sf "${mydir}/sssha-helper" "${HOME}/.ssh/sssha-helper"
+    try mkdir -p "${HOME}/.ssh"
+    try ln -sf "${mydir}/sssha-helper" "${HOME}/.ssh/sssha-helper"
   else
-    rm -f "${HOME}/.ssh/sssha-helper"
+    try rm -f "${HOME}/.ssh/sssha-helper"
   fi
 fi
 
-"${mydir}"/hook-scripts/setup-gitconfig
+try "${mydir}"/hook-scripts/setup-gitconfig
+
+# systemd scripts
+try mkdir -p "${HOME}/.config/systemd/user"
+for system_script in "${mydir}"/systemd/*; do
+    base=$(basename "${system_script}")
+    try ln -sf "${system_script}" "${HOME}/.config/systemd/user/${base}"
+done
 
 # make sure that ssh directory is setup correctly
 try mkdir -p "${HOME}"/.ssh/sockets

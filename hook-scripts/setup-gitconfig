@@ -5,6 +5,7 @@ log() { printf '%s\n' "$*"; }
 warn() { log "WARNING: $*" >&2; }
 error() { log "ERROR: $*" >&2; }
 fatal() { error "$*"; exit 1; }
+try() { "$@" || fatal "'$@' failed"; }
 
 mydir=$(cd "$(dirname "$0")" && pwd -L) || fatal "Unable to determine script directory"
 
@@ -19,47 +20,47 @@ case "${USER}" in
 esac
 
 # push nothing, always use explicit
-git config --global push.default nothing
+try git config --global push.default nothing
 
 # turn on colors
-git config --global color.branch 'auto'
-git config --global color.diff 'auto'
-git config --global color.status 'auto'
-git config --global color.ui 'auto'
+try git config --global color.branch 'auto'
+try git config --global color.diff 'auto'
+try git config --global color.status 'auto'
+try git config --global color.ui 'auto'
 
 # aliases
-git config --global alias.nlog 'log --abbrev-commit --graph --decorate --pretty=fuller'
-git config --global alias.redocommit 'reset --soft HEAD^'
-git config --global alias.diffemptytreehash 'diff -p 4b825dc642cb6eb9a060e54bf8d69288fbee4904'
+try git config --global alias.nlog 'log --abbrev-commit --graph --decorate --pretty=fuller'
+try git config --global alias.redocommit 'reset --soft HEAD^'
+try git config --global alias.diffemptytreehash 'diff -p 4b825dc642cb6eb9a060e54bf8d69288fbee4904'
 
-git config --global alias.changes "diff --name-status -r"
-git config --global alias.diffstat "diff --stat -r"
-git config --global alias.whatis "show -s --pretty='tformat:%h (%s, %ad)' --date=short"
-git config --global alias.pwhatis "show -s --pretty='tformat:%h, %s, %ad' --date=short"
+try git config --global alias.changes "diff --name-status -r"
+try git config --global alias.diffstat "diff --stat -r"
+try git config --global alias.whatis "show -s --pretty='tformat:%h (%s, %ad)' --date=short"
+try git config --global alias.pwhatis "show -s --pretty='tformat:%h, %s, %ad' --date=short"
 
 
 # turn on rerere to keep track of conflict resolutions
-git config --global rerere.enabled true
+try git config --global rerere.enabled true
 
 # global git config
-ln -fs "${mydir}/../global-gitignore" "${HOME}/.global-gitignore"
-git config --global core.excludesfile "${HOME}/.global-gitignore" 
+try ln -fs "${mydir}/../global-gitignore" "${HOME}/.global-gitignore"
+try git config --global core.excludesfile "${HOME}/.global-gitignore" 
 
 # fsck objects received
-git config --global  transfer.fsckobjects true
-git config --global  fetch.fsckobjects true
-git config --global  receive.fsckobjects true
+try git config --global  transfer.fsckobjects true
+try git config --global  fetch.fsckobjects true
+try git config --global  receive.fsckobjects true
 
 # make submodules more bearable
-git config --global push.recurseSubmodules on-demand
-git config --global submodule.recurse true
-git config --global diff.submodule log
+try git config --global push.recurseSubmodules on-demand
+try git config --global submodule.recurse true
+try git config --global diff.submodule log
 
 # stop spellcheck in git cola
-git config --global cola.spellcheck false
+try git config --global cola.spellcheck false
 
 # cache git credentials
 current_value=$(git config --global --get credential.helper)
 if [ -z "${current_value}" ]; then
-    git config --global credential.helper cache
+    try git config --global credential.helper cache
 fi
