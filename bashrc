@@ -152,7 +152,7 @@ alias where='type -all'
 #my aliases
 alias ls='ls -F'
 
-ls -hl / > /dev/null 2>&1
+ls -hl > /dev/null 2>&1
 if [ $? == 0 ]; then
   alias ll='ls -hl'
 else
