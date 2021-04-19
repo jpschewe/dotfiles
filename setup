@@ -34,7 +34,7 @@ git config --local fetch.recurseSubmodules yes
 
 # setup bin
 mkdir -p "${HOME}/bin"
-for script in reattach-namespace; do
+for script in i3exit reattach-namespace; do
   try ln -sf "${mydir}/bin/${script}" "${HOME}/bin/${script}"
 done
 try ln -sf "${mydir}/lib/vcprompt/bin/vcprompt" "${HOME}/bin/vcprompt"
@@ -131,3 +131,7 @@ done
 # make sure that ssh directory is setup correctly
 try mkdir -p "${HOME}"/.ssh/sockets
 try chmod go-rwx "${HOME}"/.ssh
+
+# i3 config
+try mkdir -p "${HOME}"/.config/i3
+try ln -sf "${mydir}/i3-config" "${HOME}"/.config/i3/config
