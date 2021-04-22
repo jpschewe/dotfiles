@@ -57,10 +57,16 @@ bindsym $alt+F4 kill
 bindsym $mod+d exec rofi -modi "drun#run#window" -show drun
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
 bindsym $mod+semicolon focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+semicolon move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -68,11 +74,6 @@ bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-# move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
 
 # alternatively, you can use the cursor keys:
 # bindsym $mod+Shift+Left move left
@@ -83,11 +84,13 @@ bindsym $mod+Shift+semicolon move right
 bindsym $mod+Shift+Left move workspace to output left
 bindsym $mod+Shift+Right move workspace to output right
 
-# split in horizontal orientation
-bindsym $mod+h split h
-
-# split in vertical orientation
-bindsym $mod+v split v
+set $mode_layout Split (h) horizonal, (v) vertical
+mode "$mode_layout" {
+    bindsym h split h, mode "default"
+    bindsym v split v, mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+l mode "$mode_layout"
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -211,12 +214,12 @@ bindsym $mod+r mode "resize"
 #bindsym $mod+m [title="^Rhythmbox"] scratchpad show
 
 mode "scratchpad" {
-     bindsym h move scratchpad; mode "default"
-     bindsym p [title="^.*KeePassXC$"] scratchpad show; mode "default"
-     bindsym m [title="^Rhythmbox"] scratchpad show; mode "default"
-     bindsym o [title="^.*Toggl"] scratchpad show; mode "default"
-     bindsym t [title="^.*Toodledo"] scratchpad show; mode "default"
-     bindsym c [title="^Cisco"] scratchpad show; mode "default"
+     bindsym h move scratchpad, mode "default"
+     bindsym p [title="^.*KeePassXC$"] scratchpad show, mode "default"
+     bindsym m [title="^Rhythmbox"] scratchpad show, mode "default"
+     bindsym o [title="^.*Toggl"] scratchpad show, mode "default"
+     bindsym t [title="^.*Toodledo"] scratchpad show, mode "default"
+     bindsym c [title="^Cisco"] scratchpad show, mode "default"
      
      bindsym Escape mode "default"
 }
