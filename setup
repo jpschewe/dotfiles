@@ -103,9 +103,6 @@ try ln -fs "${mydir}/cvsrc" "${HOME}/.cvsrc"
 # tig
 try ln -sf "${mydir}/tigrc" "${HOME}/.tigrc"
 
-# always link so that sssha-helper can be called from checkout when
-# desired
-try ln -sf "${mydir}/sssha" "${HOME}/.ssh/sssha"
 if [ ${auto} -eq 0 ]; then
   # ask about ssh
   printf "Would you like to have ssh-agent start up on login? (y/N) "
@@ -113,9 +110,9 @@ if [ ${auto} -eq 0 ]; then
   read answer
   if [ "x${answer}" = "xy" ]; then
     try mkdir -p "${HOME}/.ssh"
-    try ln -sf "${mydir}/sssha-helper" "${HOME}/.ssh/sssha-helper"
+    try ln -sf "${mydir}/setup-ssh-agent" "${HOME}/.ssh/setup-ssh-agent"
   else
-    try rm -f "${HOME}/.ssh/sssha-helper"
+    try rm -f "${HOME}/.ssh/setup-ssh-agent"
   fi
 fi
 

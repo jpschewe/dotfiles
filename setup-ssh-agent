@@ -1,0 +1,68 @@
+#!/bin/sh
+# Hey EMACS, this should be in -*- sh -*- mode
+#
+# This starts ssh-agent in a predictable location if it's not already configured
+# The location is ${hOME}/.ssh/agents/${HOSTNAME}
+#
+# To use this script you must source it so that the environment variable SSH_AUTH_SOCK can be set
+# This is best done from your bashrc
+#  if [ -f "${HOME}"/.ssh/setup-ssh-agent ]; then
+#    source "${HOME}"/.ssh/setup-ssh-agent
+#  fi
+
+debug() { ! "${log_debug-false}" || log "DEBUG: $*" >&2; }
+log() { printf '%s\n' "$*"; }
+warn() { log "WARNING: $*" >&2; }
+error() { log "ERROR: $*" >&2; }
+try() { "$@" || error "'$@' failed"; }
+
+# Canonicalize hostname to just the short name
+if [ -z "${HOSTNAME}" ]; then 
+    HOSTNAME=$(hostname)
+fi
+HOSTNAME=$(echo $HOSTNAME | sed 's/\..*//')
+
+SOCKET_FILENAME="${HOME}"/.ssh/agents/${HOSTNAME}
+
+start_agent() {
+    debug "Starting agent"
+    try mkdir -p "${HOME}"/.ssh/agents
+    try ssh-agent -a "${SOCKET_FILENAME}" > /dev/null 2>&1
+    SSH_AUTH_SOCK="${SOCKET_FILENAME}"
+    export SSH_AUTH_SOCK
+}
+
+if [ -z "${SSH_AUTH_SOCK}" ]; then
+    debug "No socket variable defined"
+    if [ -e "${SOCKET_FILENAME}" ]; then
+        debug "Attempting to use existing socket at '${SOCKET_FILENAME}'"
+        SSH_AUTH_SOCK="${SOCKET_FILENAME}"
+    fi
+fi
+
+if [ -n "${SSH_AUTH_SOCK}" ]; then
+    debug "Socket variable is defined"
+
+    # check if the socket is valid
+    ssh-add -l > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        debug "Valid SSH socket at '${SSH_AUTH_SOCK}'"
+
+        if [ "${SSH_AUTH_SOCK}" != "${SOCKET_FILENAME}" ]; then
+            debug "Valid socket is not in the expected location, setting symlink and environment variable"
+            ln -sf "${SSH_AUTH_SOCK}" "${SOCKET_FILENAME}"
+            SSH_AUTH_SOCK="${SOCKET_FILENAME}"
+            export SSH_AUTH_SOCK
+        fi
+        
+    else
+        debug "Invalid SSH socket at '${SSH_AUTH_SOCK}'"
+        start_agent
+    fi
+else
+    debug "No socket defined, starting agent"
+    start_agent
+fi
+
+# cleanup
+unset SOCKET_FILENAME
