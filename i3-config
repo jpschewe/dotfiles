@@ -84,21 +84,22 @@ bindsym $mod+Right focus right
 bindsym $mod+Shift+Left move workspace to output left
 bindsym $mod+Shift+Right move workspace to output right
 
-set $mode_layout Split (h) horizonal, (v) vertical
+set $mode_layout Layout (h) horizonal split, (v) vertical split, (s) stacked, (t) tabbed, (e) tiled
 mode "$mode_layout" {
     bindsym h split h, mode "default"
     bindsym v split v, mode "default"
+
+    # change container layout (stacked, tabbed, toggle split)
+    bindsym s layout stacking, mode "default"
+    bindsym t layout tabbed, mode "default"
+    bindsym e layout toggle split, mode "default"
+
     bindsym Escape mode "default"
 }
 bindsym $mod+l mode "$mode_layout"
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
-
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
