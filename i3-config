@@ -54,7 +54,7 @@ bindsym $alt+F4 kill
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
-bindsym $mod+d exec rofi -modi "run#drun#window" -show run
+bindsym $mod+d exec rofi -modi "drun#run#window" -show drun
 
 # change focus
 bindsym $mod+j focus left
@@ -206,9 +206,21 @@ bindsym $mod+r mode "resize"
 
 # floating windows for things that should always be easily accessible
 # works
-bindsym $mod+Shift+minus move scratchpad
-bindsym $mod+p [title="^.*KeePassXC$"] scratchpad show
-bindsym $mod+m [title="^Rhythmbox"] scratchpad show
+#bindsym $mod+Shift+minus move scratchpad
+#bindsym $mod+p [title="^.*KeePassXC$"] scratchpad show
+#bindsym $mod+m [title="^Rhythmbox"] scratchpad show
+
+mode "scratchpad" {
+     bindsym h move scratchpad; mode "default"
+     bindsym p [title="^.*KeePassXC$"] scratchpad show; mode "default"
+     bindsym m [title="^Rhythmbox"] scratchpad show; mode "default"
+     bindsym o [title="^.*Toggl"] scratchpad show; mode "default"
+     bindsym t [title="^.*Toodledo"] scratchpad show; mode "default"
+     bindsym c [title="^Cisco"] scratchpad show; mode "default"
+     
+     bindsym Escape mode "default"
+}
+bindsym $mod+u mode "scratchpad"
 
 # not working
 # keycode 135 is the menu key
@@ -237,7 +249,12 @@ assign [class="TelegramDesktop"] chat
 
 
 # applications to start on login
+exec_always --no-startup-id numlockx on
+
 exec --no-startup-id "duplicati --no-hosted-server"
 exec --no-startup-id "insync start"
+
 exec "flatpak run org.telegram.desktop"
 exec "discord"
+
+exec --no-startup-id "workrave"
