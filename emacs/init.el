@@ -71,7 +71,7 @@ There are two things you can do about this warning:
  '(package-get-remote (quote (("ftp.xemacs.org" "/pub/xemacs/packages"))))
  '(package-selected-packages
    (quote
-    (ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode)))
+    (groovy-mode ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode)))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    (quote
@@ -1998,10 +1998,10 @@ in some window."
 
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
-(autoload 'gfm-mode "gfm-mode"
-  "Major mode for editing GitHub Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
+;(autoload 'gfm-mode "gfm-mode"
+;  "Major mode for editing GitHub Markdown files" t)
+;(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+;(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 (add-hook 'markdown-mode-hook
 	  (lambda ()
 	    (setq indent-tabs-mode nil)
@@ -2091,6 +2091,11 @@ in some window."
 ;; pandoc mode
 
 (setq pandoc-data-dir "~/.xemacs/xemacs-packages/etc/pandoc-mode")
+(add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
+
+;; cua mode
+(setq cua-enable-cua-keys nil)  ; enable only CUA's rectangle selections
+(cua-mode t)
 
 ;; prompt before exit
 (defun ask-before-closing ()
