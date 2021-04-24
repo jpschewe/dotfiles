@@ -414,7 +414,8 @@ fi
 
 
 if [ -e "${HOME}/.ssh/setup-ssh-agent" ]; then
-  . "${HOME}/.ssh/setup-ssh-agent"
+    #log_debug=true
+    . "${HOME}/.ssh/setup-ssh-agent"
 fi
 
 # from http://wiki.tcl.tk/1373
