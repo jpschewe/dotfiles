@@ -7,7 +7,9 @@ OnFailure=status-email-jschewe@%n.service
 Type=forking
 ExecStart=/usr/bin/emacs --daemon
 ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
-Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+# Eventually use %l, but need a systemd newer than 245
+Environment=SSH_AUTH_SOCK=%h/.ssh/agents/%H
+#Environment=SSH_AUTH_SOCK=%h/.ssh/agents/%l
 Restart=on-failure
 
 [Install]
