@@ -1173,10 +1173,17 @@ There are two things you can do about this warning:
 ;; Enabling SEMANTIC minor modes.  See semantic/INSTALL for more ideas.
 ;;(semantic-load-enable-minimum-features)
 
-(add-to-list 'auto-mode-alist '("\\.jass$" . jde-mode))
-(add-to-list 'auto-mode-alist '("\\.jad$" . jde-mode))
-(add-to-list 'auto-mode-alist '("\\.xjava$" . jde-mode))
-(add-to-list 'auto-mode-alist '("\\.groovy$" . jde-mode))
+;; (add-to-list 'auto-mode-alist '("\\.jass$" . jde-mode))
+;; (add-to-list 'auto-mode-alist '("\\.jad$" . jde-mode))
+;; (add-to-list 'auto-mode-alist '("\\.xjava$" . jde-mode))
+;; (add-to-list 'auto-mode-alist '("\\.groovy$" . jde-mode))
+;; (add-to-list 'auto-mode-alist '("\\.astub$" . jde-mode))
+
+(add-to-list 'auto-mode-alist '("\\.jass$" . java-mode))
+(add-to-list 'auto-mode-alist '("\\.jad$" . java-mode))
+(add-to-list 'auto-mode-alist '("\\.xjava$" . java-mode))
+(add-to-list 'auto-mode-alist '("\\.groovy$" . java-mode))
+(add-to-list 'auto-mode-alist '("\\.astub$" . java-mode))
 
 ;;basic setup
 (setq java-home (getenv "JAVA_HOME"))
