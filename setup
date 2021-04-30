@@ -127,6 +127,7 @@ done
 
 # make sure that ssh directory is setup correctly
 try mkdir -p "${HOME}"/.ssh/sockets
+try mkdir -p "${HOME}"/.ssh/agents
 try chmod go-rwx "${HOME}"/.ssh
 
 # i3 config
