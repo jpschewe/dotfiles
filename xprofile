@@ -1,0 +1,5 @@
+
+if [ -e "${HOME}/.ssh/setup-ssh-agent" ]; then
+    #log_debug=true
+    . "${HOME}/.ssh/setup-ssh-agent"
+fi

@@ -8,7 +8,7 @@ Type=forking
 ExecStart=/usr/bin/emacs --daemon
 ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
 # Eventually use %l, but need a systemd newer than 245
-Environment=SSH_AUTH_SOCK=%h/.ssh/agents/%H
+#Environment=SSH_AUTH_SOCK=%h/.ssh/agents/%H
 #Environment=SSH_AUTH_SOCK=%h/.ssh/agents/%l
 Restart=on-failure
 

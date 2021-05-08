@@ -130,6 +130,8 @@ try mkdir -p "${HOME}"/.ssh/sockets
 try mkdir -p "${HOME}"/.ssh/agents
 try chmod go-rwx "${HOME}"/.ssh
 
+try ln -sf "${mydir}/xprofile" "${HOME}/.xprofile"
+
 # i3 config
 try mkdir -p "${HOME}"/.config/i3
 try ln -sf "${mydir}/i3-config" "${HOME}"/.config/i3/config
