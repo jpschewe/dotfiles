@@ -265,6 +265,8 @@ exec --no-startup-id "duplicati --no-hosted-server"
 exec --no-startup-id "insync start"
 exec --no-startup-id "workrave"
 exec --no-startup-id "nextcloud"
+exec --no-startup-id "dropbox"
+exec --no-startup-id "redshift"
 
 exec "flatpak run org.telegram.desktop"
 exec "discord"
