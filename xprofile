@@ -1,5 +1,8 @@
+#echo $(date) >> /tmp/xprofile.log
 
 if [ -e "${HOME}/.ssh/setup-ssh-agent" ]; then
     #log_debug=true
+    #echo "Setting up ssh agent" >> /tmp/xprofile.log
     . "${HOME}/.ssh/setup-ssh-agent"
+    #echo "SSH auth '${SSH_AUTH_SOCK}'" >> /tmp/xprofile.log
 fi
