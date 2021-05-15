@@ -508,19 +508,28 @@ There are two things you can do about this warning:
 (setq
  ;; kprinter
  ;;lpr-command "kprinter"
- ;;lpr-switches '("--stdin") ;;(list "-r" "-G" "-b\"- jschewe -\"")
+ ;;lpr-switches '("--stdin") ;;(list "-r" "-G" "-b\"- Schewe -\"")
  ;;lpr-page-header-switches '("-F" "-l 58") ; be compatible with linux pr
 
  ;; enscript
  lpr-command "enscript"
- lpr-switches (list "-r" "-G" "-b\"- jschewe -\"")
- lpr-add-switches t			; add -J title
- lpr-page-header-program "pr"
+ lpr-switches '(
+		"-r" ; landscape
+		"-G" ; fancy header
+		"-b\"- %n -\"" ; include username in header
+		"-DDuplex:true" ; double sided
+		)
+ ; lpr-add-switches t			; add -J title
+ ; lpr-page-header-program "pr"
 
  ;; lpr for ps
- ps-print-header-frame nil		; save some toner
- ps-lpr-command "lpr"
- ps-lpr-switches nil
+ ; ps-print-header-frame nil		; save some toner
+ ; ps-lpr-command "lpr"
+					; ps-lpr-switches nil
+
+;lpr-switches '(
+;		"-o" "sides=two-sided-long-edge"
+;		)
  )
 
 
