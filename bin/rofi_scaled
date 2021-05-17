@@ -1,0 +1,18 @@
+#!/bin/sh
+
+debug() { ! "${log_debug-false}" || log "DEBUG: $*" >&2; }
+log() { printf '%s\n' "$*"; }
+warn() { log "WARNING: $*" >&2; }
+error() { log "ERROR: $*" >&2; }
+fatal() { error "$*"; exit 1; }
+try() { "$@" || fatal "'$@' failed"; }
+
+mydir=$(cd "$(dirname "$0")" && pwd -L) || fatal "Unable to determine script directory"
+
+dpi_arg=""
+pixels_wide=$(xrandr | grep connected | grep primary | awk '{print $4}' | awk -F x '{print $1}')
+if [ -n "${pixels_wide}" -a ${pixels_wide} -gt 3000 ]; then
+    dpi_arg="-dpi 177"
+fi
+
+exec rofi ${dpi_arg} $*
