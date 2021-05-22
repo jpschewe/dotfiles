@@ -566,7 +566,7 @@ There are two things you can do about this warning:
   (local-set-key "\C-cc" 'comint-continue-subjob)
   (if running-xemacs
       (turn-off-font-lock))
-  (local-set-key [tab] 'comint-dynamic-complete)
+  ;(local-set-key [tab] 'comint-dynamic-complete)
   )
 
 (add-hook 'gdb-mode-hook 'comint-common-hook-jps)
@@ -1447,7 +1447,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;
 ;;;;;;;;;;;;
 ;;
-;;FIX... (load-library "cool-functions")
 ;; handy methods
 (require 'cl)
 (defun kill-buffers-by-file-pattern (pattern)
@@ -1668,18 +1667,26 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;
 ;;;;;;;;;;;;
 (message "Tramp")
-(load-library "tramp") ; otherwise variables below don't exist
-;;(setq tramp-default-method "scp")
-(setq tramp-default-method "ssh")
 
-;; TRAMP gets confused by my prompt some times, so make sure it's
-;; simple for THIS Emacs process, and therefore subprocesses.
-(setenv "PS1" "tramp@\h> ")
+;; installed in standard location, should not need these calls 
+;;(require 'tramp)
+;;(load-library "tramp") ; otherwise variables below don't exist
 
-;; disable backups of files edited with tramp
-(add-to-list 'bkup-backup-directory-info
-             (list tramp-file-name-regexp ""))
-(setq tramp-bkup-backup-directory-info  nil)
+;;(with-eval-after-load "tramp"
+(eval-after-load "tramp"
+  (lambda ()
+    (message "tramp has been loaded, setting variables")
+    (setq tramp-default-method "ssh") ; default is scp
+ 
+    ;; TRAMP gets confused by my prompt some times, so make sure it's
+    ;; simple for THIS Emacs process, and therefore subprocesses.
+    (setenv "PS1" "tramp@\h> ")
+ 
+    ;; disable backups of files edited with tramp
+    (add-to-list 'bkup-backup-directory-info
+ 		 (list tramp-file-name-regexp ""))
+    (setq tramp-bkup-backup-directory-info  nil)
+    ))
 
 
 
@@ -1896,8 +1903,6 @@ in some window."
 ;;HACK Something is screwed up, but this fixes it
 (when (not (boundp 'null-buffer-file-name)) (defun null-buffer-file-name ()))
 
-(message "done loading configuration")
-
 ;; make sure to always split windows vertically
 (setq split-width-threshold 80000)
 
@@ -1956,3 +1961,7 @@ in some window."
 (put 'erase-buffer 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (setq minibuffer-max-depth nil)
+
+;; END
+(message "done loading configuration")
+
