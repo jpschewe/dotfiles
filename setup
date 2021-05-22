@@ -135,3 +135,6 @@ try ln -sf "${mydir}/xprofile" "${HOME}/.xprofile"
 # i3 config
 try mkdir -p "${HOME}"/.config/i3
 try ln -sf "${mydir}/i3-config" "${HOME}"/.config/i3/config
+
+try mkdir -p "${HOME}"/.config/i3status
+try ln -sf "${mydir}/i3-status-config" "${HOME}"/.config/i3status/config
