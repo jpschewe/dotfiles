@@ -71,13 +71,14 @@ There are two things you can do about this warning:
  '(package-get-remote (quote (("ftp.xemacs.org" "/pub/xemacs/packages"))))
  '(package-selected-packages
    (quote
-    (groovy-mode ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode)))
+    (tramp groovy-mode ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode)))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    (quote
     ((whitespace-newline . t)
      (whitespace-style face trailing lines-tail space-before-tab indentation empty))))
  '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
+ '(send-mail-function (quote mailclient-send-it))
  '(visual-line-mode nil t))
 
 
@@ -138,23 +139,7 @@ There are two things you can do about this warning:
 
 (when (not (boundp 'windows-nt)) (setq windows-nt nil))
 
-;; define a variable to tell us where we are
-;;(defvar system-location 'unknown "The location that we're at.  Possible values: htc, home, unknown")
-;;(let ((host (downcase (system-name))))
-;;  (cond ((string-match "htc.honeywell.com" host)
-;;	 (setq system-location 'htc))
-;;	((string-match "mn.mtu.net" host)
-;;	 (setq system-location 'home))
-;;	((string-match "eggplant-laptop" host)
-;;	 (setq system-location 'home))
-;;	))
-
 ;;(setq stack-trace-on-error t)
-
-
-;;Make sure XEmacs doesn't close unless I really want it to
-;(setq kill-emacs-query-functions
-;      (cons (lambda () (yes-or-no-p "Really kill Emacs? ")) kill-emacs-query-functions))
 
 ;;;;;;;;;;;
 ;;
@@ -668,52 +653,6 @@ There are two things you can do about this warning:
 
 ;;;;;;;;;;;
 ;;
-;; Allegro
-;;
-;;;;;;;;;;;
-;;(when (and
-;;       (eq system-location 'htc)
-;;       (or (file-exists-p "/net/packages/allegro/acl62/xeli")
-;;	   (file-exists-p "/usr/local/acl/acl62/xeli")))
-;  
-;;  ;;check if we have a local version
-;;  (if (file-exists-p "/usr/local/acl/acl62/xeli")
-;;      (add-to-list 'load-path (expand-file-name "/usr/local/acl/acl62/xeli"))
-;;    (add-to-list 'load-path (expand-file-name "/net/packages/allegro/acl62/xeli")))
-;
-;;  (add-to-list 'completion-ignored-extensions ".fasl")
-;  
-;;  (setq fi:find-tag-lock nil)
-;;  (require 'fi-site-init)
-;;  (defun allegro-lisp-mode-hook-jps ()
-;;    (let ((map (current-local-map)))
-;;      (define-key map "\C-c."	'find-tag)
-;;      (define-key map "\C-c,"	'tags-loop-continue)
-;;      (define-key map "\e."	'fi:lisp-find-definition)
-;;      (define-key map "\e,"	'fi:lisp-find-next-definition)
-;;      (add-special-font-lock-faces-jps (list 'lisp-font-lock-keywords 'lisp-font-lock-keywords-1 'lisp-font-lock-keywords-2))
-;;      (turn-on-font-lock)
-;;      ))
-;;  (add-hook 'fi:lisp-mode-hook 'allegro-lisp-mode-hook-jps)
-;
-;;  (defun allegro-elisp-mode-hook-jps ()
-;;    (let ((map (current-local-map)))
-;;      (add-special-font-lock-faces-jps (list 'lisp-font-lock-keywords 'lisp-font-lock-keywords-1 'lisp-font-lock-keywords-2))
-;;      (turn-on-font-lock)
-;;      ))
-;;  (add-hook 'fi:emacs-lisp-mode-hook 'allegro-elisp-mode-hook-jps)
-;  
-;;  ;;have a way to start Allegro lisp
-;;  (defun start-lisp-jps()
-;;    "Start Allegro Lisp"
-;;    (interactive)
-;;    (fi:common-lisp)
-;;    )
-;;  (global-set-key (concat prefix-key-jps "l") 'start-lisp-jps)
-;;  )
-
-;;;;;;;;;;;
-;;
 ;; LaTex
 ;;
 ;;;;;;;;;;;;
@@ -1108,26 +1047,6 @@ There are two things you can do about this warning:
 ;;  (switch-to-buffer-other-window compilation-last-buffer)
 ;;  )
   
-;;Make sure compilation mode finds the right file when instrumenting Java code
-;;(defun compilation-filter-hook-jps ()
-;;  (interactive)
-;;  (save-excursion
-;;    ;;(goto-char (process-mark (get-buffer-process (current-buffer))))
-;;    ;;Just want to search over the last set of stuff, so exchange point and mark?
-;;    ;;(exchange-point-and-mark t) ;;doesn't work for first compile...
-;;    (let* ((point-marker (point-marker))
-;;	   (end (process-mark (get-buffer-process (current-buffer))))
-;;	   (beg (or (and (boundp 'comint-last-output-start)
-;;			 comint-last-output-start)
-;;		    (- end (length string)))))
-;;      (goto-char beg)
-;;      (while (re-search-forward "[/\\\\]instrumented\\([/\\\\].\\)" nil t)
-;;	(replace-match "/src\\1"))
-;;      (goto-char point-marker))
-;;    ))
-;;(add-hook 'compilation-filter-hook 'compilation-filter-hook-jps)
-
-
 ;;;;;;;;;;;
 ;;
 ;; EDiff
@@ -1762,59 +1681,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
              (list tramp-file-name-regexp ""))
 (setq tramp-bkup-backup-directory-info  nil)
 
-;; first match in tramp-default-proxies-alist wins.
-;;
-;; add-to-list always adds to the front of the list, so put the highest
-;; priority match last
-;;
-;; testing without ;; when connecting to a host as root (see the exceptions for localhost
-;; testing without ;; below), ssh to the host first and then use the specified method (usually
-;; testing without ;; sudo)
-;; testing without (add-to-list 'tramp-default-proxies-alist
-;; testing without 	     '(nil "\\`root\\'" "/ssh:%h:"))
-;; testing without ;; when connecting to the local system -> no proxy
-;; testing without (add-to-list 'tramp-default-proxies-alist
-;; testing without 	     '((regexp-quote (system-name)) nil nil))
-;; testing without ;; when connecting to localhost -> no proxy
-;; testing without (add-to-list 'tramp-default-proxies-alist
-;; testing without 	     '("localhost" nil nil))
-
-;;; patch to fix default-coding-process error
-;; Index: lisp/uudecode.el
-;; ===================================================================
-;; RCS file: /pack/xemacscvs/XEmacs/packages/xemacs-packages/gnus/lisp/uudecode.el,v
-;; retrieving revision 1.5
-;; diff -u -r1.5 uudecode.el
-;; --- lisp/gnus/uudecode.el	2006/03/16 04:18:08	1.5
-;; +++ lisp/gnus/uudecode.el	2006/07/07 09:31:58
-;; @@ -100,7 +100,8 @@
-;;  			      (make-temp-name "uu")
-;;  			      uudecode-temporary-file-directory))))
-;;  	(let ((cdir default-directory)
-;; -	      default-process-coding-system)
-;; +	      (coding-system-for-read 'binary)
-;; +	      (coding-system-for-write 'binary))
-;;  	  (unwind-protect
-;;  	      (with-temp-buffer
-;;  		(insert "begin 600 " (file-name-nondirectory tempfile) "\n")
-;; Index: lisp/binhex.el
-;; ===================================================================
-;; RCS file: /pack/xemacscvs/XEmacs/packages/xemacs-packages/gnus/lisp/binhex.el,v
-;; retrieving revision 1.5
-;; diff -u -r1.5 binhex.el
-;; --- lisp/gnus/binhex.el	2006/03/16 04:17:41	1.5
-;; +++ lisp/gnus/binhex.el	2006/07/07 09:32:00
-;; @@ -289,7 +289,9 @@
-;;      (save-excursion
-;;        (goto-char start)
-;;        (when (re-search-forward binhex-begin-line nil t)
-;; -	(let ((cdir default-directory) default-process-coding-system)
-;; +	(let ((cdir default-directory)
-;; +	      (coding-system-for-read 'binary)
-;; +	      (coding-system-for-write 'binary))
-;;  	  (unwind-protect
-;;  	      (progn
-;;  		(set-buffer (setq work-buffer
 
 
 ;;; --------------------
@@ -1825,34 +1691,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;    nil))
 ;;(ido-mode)
 ;;(setq ido-default-buffer-method 'selected-window)
-
-;;;;;;;;;;;
-;;
-;; EFS
-;;
-;;;;;;;;;;;;
-(if running-xemacs
-    (progn
-      (message "EFS")
-      (require 'efs)
-      (efs-display-ftp-activity)
-      (setq efs-disable-netrc-security-check t)
-      (setq efs-nslookup-threshold 10000)
-      (setq efs-umask 22)))
-
-
-;;;;;;;;;;;
-;;
-;; Info
-;;
-;;;;;;;;;;;;
-;;(message "Info")
-
-;;(defun setup-bzip2 ()
-;;  (progn
-;;    (nconc Info-suffix-list '((".info.bz2" . "bzip2 -dc %s")))
-;;    (nconc Info-suffix-list '((".bz2" . "bzip2 -dc %s")))))
-;;(add-hook 'Info-mode-hook 'setup-bzip2)
 
 ;;;;;;;;;;;
 ;;
@@ -2060,15 +1898,6 @@ in some window."
 
 (message "done loading configuration")
 
-;;;stuff emacs likes to append on it's own
-(put 'erase-buffer 'disabled nil)
-
-
-
-(put 'narrow-to-region 'disabled nil)
-
-(setq minibuffer-max-depth nil)
-
 ;; make sure to always split windows vertically
 (setq split-width-threshold 80000)
 
@@ -2122,3 +1951,8 @@ in some window."
     (message "Canceled frame close")))
 
 (global-set-key (kbd "C-x C-c") 'ask-before-closing)
+
+;;;stuff emacs likes to append on it's own
+(put 'erase-buffer 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(setq minibuffer-max-depth nil)
