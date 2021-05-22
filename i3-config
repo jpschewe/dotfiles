@@ -230,6 +230,7 @@ mode "scratchpad" {
      bindsym o [title="^.*Toggl"] scratchpad show, mode "default"
      bindsym t [title="^.*Toodledo"] scratchpad show, mode "default"
      bindsym c [title="^Cisco"] scratchpad show, mode "default"
+     bindsym r [title="^top"] scratchpad show, mode "default"
 
      # show windows that don't have a specific binding
      bindsym s scratchpad show, mode "default"
