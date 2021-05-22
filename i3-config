@@ -262,6 +262,7 @@ bar {
 
 assign [class="discord"] chat
 assign [class="TelegramDesktop"] chat
+assign [class="Pavucontrol"] audio
 
 
 # applications to start on login
@@ -274,6 +275,7 @@ exec --no-startup-id "nextcloud"
 exec --no-startup-id "dropbox"
 exec --no-startup-id "redshift"
 exec --no-startup-id "lxpolkit"
+exec --no-startup-id "pavucontrol"
 
 exec "flatpak run org.telegram.desktop"
 exec "discord"
