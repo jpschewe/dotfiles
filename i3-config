@@ -222,19 +222,24 @@ bindsym $mod+r mode "resize"
 #bindsym $mod+m [title="^Rhythmbox"] scratchpad show
 
 mode "scratchpad" {
+
+     bindsym a [class="Pavucontrol"] scratchpad show, mode "default"
+     bindsym c [title="^Cisco"] scratchpad show, mode "default"
+
      # hide current window
      bindsym h move scratchpad, mode "default"
-     
-     bindsym p [title="^.*KeePassXC$"] scratchpad show, mode "default"
+
      bindsym m [class="Rhythmbox"] scratchpad show, mode "default"
+
      bindsym o [title="^.*Toggl"] scratchpad show, mode "default"
-     bindsym t [title="^.*Toodledo"] scratchpad show, mode "default"
-     bindsym c [title="^Cisco"] scratchpad show, mode "default"
+     bindsym p [title="^.*KeePassXC$"] scratchpad show, mode "default"
      bindsym r [title="^top"] scratchpad show, mode "default"
 
      # show windows that don't have a specific binding
      bindsym s scratchpad show, mode "default"
-     
+
+     bindsym t [title="^.*Toodledo"] scratchpad show, mode "default"
+
      bindsym Escape mode "default"
 }
 bindsym $mod+u mode "scratchpad"
@@ -261,11 +266,6 @@ bar {
         status_command i3status
 }
 
-assign [class="discord"] chat
-assign [class="TelegramDesktop"] chat
-assign [class="Pavucontrol"] audio
-
-
 # applications to start on login
 exec_always --no-startup-id numlockx on
 
@@ -276,8 +276,18 @@ exec --no-startup-id "nextcloud"
 exec --no-startup-id "dropbox"
 exec --no-startup-id "redshift"
 exec --no-startup-id "lxpolkit"
-exec --no-startup-id "pavucontrol"
+
 exec --no-startup-id "emacs --daemon"
 
+#assign [class="Pavucontrol"] audio
+for_window [class="Pavucontrol"] move scratchpad
+exec --no-startup-id "pavucontrol"
+
+for_window [title="^top"] move scratchpad
+exec --no-startup-id "xterm -e \"tmux attach -t top\""
+
+assign [class="TelegramDesktop"] chat
 exec "flatpak run org.telegram.desktop"
+
+assign [class="discord"] chat
 exec "discord"
