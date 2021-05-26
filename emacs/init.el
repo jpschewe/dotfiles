@@ -65,6 +65,7 @@ There are two things you can do about this warning:
  '(display-time-mode t)
  '(gutter-buffers-tab-enabled nil)
  '(gutter-buffers-tab-visible nil)
+ '(indent-tabs-mode nil)
  '(ns-alternate-modifier (quote alt))
  '(ns-tool-bar-display-mode nil t)
  '(ns-tool-bar-size-mode nil t)
