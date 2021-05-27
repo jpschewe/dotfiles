@@ -421,8 +421,8 @@ There are two things you can do about this warning:
 (global-set-key "\C-x\C-v" 'view-file)
 (global-set-key "\C-m" 'newline-and-indent)
 
-(autoload 'top "top-mode" nil t)
-(global-set-key (concat prefix-key-jps "t") 'top)
+;(autoload 'top "top-mode" nil t)
+;(global-set-key (concat prefix-key-jps "t") 'top)
 
 (global-set-key "\C-xk" 'kill-this-buffer)
 
