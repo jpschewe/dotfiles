@@ -1948,6 +1948,11 @@ in some window."
 (setq cua-enable-cua-keys nil)  ; enable only CUA's rectangle selections
 (cua-mode t)
 
+
+;; elpy mode
+(setq python-shell-interpreter "python3"
+      python-shell-interpreter-args "-i")
+
 ;; prompt before exit
 (defun ask-before-closing ()
   "Close only if y was pressed."
