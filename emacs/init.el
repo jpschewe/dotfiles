@@ -175,7 +175,6 @@ There are two things you can do about this warning:
       kept-old-versions 1
       delete-old-versions t
       version-control t
-      shell-multiple-shells t;; allow multiple shell buffers
       ;;completion-ignore-case t          ;case insensitive file matching
       find-file-compare-truenames t;; watch out for symlinks
       vc-follow-symlinks t ;; follow symlinks without question
@@ -350,12 +349,19 @@ There are two things you can do about this warning:
 
 (global-set-key (concat prefix-key-jps "f") 'iconify-frame)
 (global-set-key (concat prefix-key-jps "d") 'delete-region)
-(global-set-key (concat prefix-key-jps "s") 'switch-to-shell-jps)
-(global-set-key (concat prefix-key-jps "m") 'shell)
+(global-set-key (concat prefix-key-jps "s") 'shell)
+(global-set-key (concat prefix-key-jps "m") 'new-shell-jps)
+(defun new-shell-jps ()
+    "Create a new shell buffer"
+  (interactive)
+  (let ((current-prefix-arg '-)) ;; emulate C-u
+    (call-interactively 'shell)))
+
 ;;(global-set-key (concat prefix-key-jps "g") 'gnus)
 (global-set-key (concat prefix-key-jps "n") 'rename-buffer)
 (global-set-key (concat prefix-key-jps "r") 'revert-buffer-jps)
 (global-set-key (concat prefix-key-jps "b") 'bury-buffer)
+
 
 (global-set-key (concat prefix-key-jps "a") 'tags-search-jps)
 (defun tags-search-jps (regex)
