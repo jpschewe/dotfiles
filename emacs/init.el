@@ -341,9 +341,9 @@ There are two things you can do about this warning:
 ;;;;;;;;;;;;
 (message "Keybindings")
 
-(when (or running-gnuemacs running-aquamacs)
-  (global-set-key [(control tab)] 'other-window)
-  )
+;; (when (or running-gnuemacs running-aquamacs)
+;;   (global-set-key [(control tab)] 'other-window)
+;;   )
 
 (defvar prefix-key-jps "\M-o" "Used as a prefix for my keybindings")
 
