@@ -235,7 +235,7 @@ mode "scratchpad" {
 
      bindsym o [title="^.*Toggl"] scratchpad show, mode "default"
      bindsym p [title="^.*KeePassXC$"] scratchpad show, mode "default"
-     bindsym r [title="^top"] scratchpad show, mode "default"
+     bindsym r [title="^BpyTOP"] scratchpad show, mode "default"
 
      # show windows that don't have a specific binding
      bindsym s scratchpad show, mode "default"
@@ -286,7 +286,7 @@ for_window [class="Pavucontrol"] move scratchpad
 exec --no-startup-id "pavucontrol"
 
 for_window [title="^top"] move scratchpad
-exec --no-startup-id "xterm -e \"tmux attach -t top\""
+exec --no-startup-id "xterm -e \"bpytop\""
 
 assign [class="TelegramDesktop"] chat
 exec "flatpak run org.telegram.desktop"

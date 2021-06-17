@@ -119,11 +119,11 @@ fi
 try "${mydir}"/hook-scripts/setup-gitconfig
 
 # systemd scripts
-try mkdir -p "${HOME}/.config/systemd/user"
-for system_script in "${mydir}"/systemd/*; do
-    base=$(basename "${system_script}")
-    try ln -sf "${system_script}" "${HOME}/.config/systemd/user/${base}"
-done
+# try mkdir -p "${HOME}/.config/systemd/user"
+# for system_script in "${mydir}"/systemd/*; do
+#     base=$(basename "${system_script}")
+#     try ln -sf "${system_script}" "${HOME}/.config/systemd/user/${base}"
+# done
 
 # make sure that ssh directory is setup correctly
 try mkdir -p "${HOME}"/.ssh/sockets
