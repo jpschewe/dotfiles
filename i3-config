@@ -237,6 +237,8 @@ mode "scratchpad" {
      bindsym p [title="^.*KeePassXC$"] scratchpad show, mode "default"
      bindsym r [title="^BpyTOP"] scratchpad show, mode "default"
 
+     bindsym z [title="^Zoom"] scratchpad show, mode "default"
+
      # show windows that don't have a specific binding
      bindsym s scratchpad show, mode "default"
 
