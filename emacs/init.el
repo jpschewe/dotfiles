@@ -350,13 +350,20 @@ There are two things you can do about this warning:
 
 (global-set-key (concat prefix-key-jps "f") 'iconify-frame)
 (global-set-key (concat prefix-key-jps "d") 'delete-region)
-(global-set-key (concat prefix-key-jps "s") 'shell)
+(global-set-key (concat prefix-key-jps "s") 'shell-jps)
 (global-set-key (concat prefix-key-jps "m") 'new-shell-jps)
+
+(defun shell-jps ()
+  (interactive)
+  (let ((default-directory (if (file-remote-p default-directory) "~" default-directory)))
+    (call-interactively 'shell)))
+
 (defun new-shell-jps ()
     "Create a new shell buffer"
   (interactive)
   (let ((current-prefix-arg '-)) ;; emulate C-u
-    (call-interactively 'shell)))
+    (call-interactively 'shell-jps)))
+
 
 ;;(global-set-key (concat prefix-key-jps "g") 'gnus)
 (global-set-key (concat prefix-key-jps "n") 'rename-buffer)
