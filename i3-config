@@ -106,6 +106,9 @@ mode "$mode_layout" {
 }
 bindsym $mod+l mode "$mode_layout"
 
+# default the layout to stacking
+workspace_layout stacking
+
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
