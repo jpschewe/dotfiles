@@ -299,3 +299,6 @@ exec "flatpak run org.telegram.desktop"
 
 assign [class="discord"] chat
 exec "discord"
+
+# disable screen blanking - has trouble with some systems
+exec --no-startup-id "xset -dpms"
