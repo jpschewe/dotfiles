@@ -1701,6 +1701,9 @@ Unless optional argument INPLACE is non-nil, return a new string."
     (add-to-list 'bkup-backup-directory-info
  		 (list tramp-file-name-regexp ""))
     (setq tramp-bkup-backup-directory-info  nil)
+
+    ;; pickup the path from the remote system
+    (add-to-list 'tramp-remote-path 'tramp-own-remote-path)    
     ))
 
 
