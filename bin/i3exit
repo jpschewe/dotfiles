@@ -1,7 +1,7 @@
 #!/bin/sh
 
 lock() {
-    i3lock --color=000000 -f
+    i3lock --color=3A3737 -f
 }
 
 case "$1" in
