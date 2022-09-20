@@ -520,6 +520,9 @@ prepend PATH /usr/local/brew/bin
 ### MacTex
 append PATH /Library/TeX/texbin
 
+### TexLive
+prepend PATH "${HOME}"/texlive/2022/bin/x86_64-linux
+
 ### snaps
 append PATH /snap/bin
 
