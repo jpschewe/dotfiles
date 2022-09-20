@@ -567,8 +567,12 @@ There are two things you can do about this warning:
 (require 'comint)
 
 ;;handle password prompts
+;;; Enter PKCS#11 token PIN for PIV_II:
 (setq comint-password-prompt-regexp
+      (concat
        "^.*\\(?:[Pp]ass\\(?:word\\| ?phrase\\)\\).*:\\s-*\\'"
+       "\\|" "token PIN"
+       )
        )
 
 (when running-xemacs (require 'comint-local))
