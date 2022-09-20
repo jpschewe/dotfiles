@@ -400,6 +400,7 @@ export HISTTIMEFORMAT="%h/%d - %H:%M:%S "
 for ask_pass in \
     /usr/lib64/ssh/ssh-askpass \
     /usr/lib/ssh/ssh-askpass \
+    /usr/bin/ssh-askpass \
     /usr/lib64/ssh/gnome-ssh-askpass \
     /usr/lib/ssh/gnome-ssh-askpass \
     /usr/lib64/ssh/ksshaskpass
