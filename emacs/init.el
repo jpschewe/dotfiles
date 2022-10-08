@@ -260,9 +260,6 @@ There are two things you can do about this warning:
 	    ((file-exists-p (expand-file-name "c:\\cygwin\\bin\\bash.exe"))
 	     (setq shell-file-name "c:\\cygwin\\bin\\bash.exe"))))
        
-       ;; Make "M-x shell-command" use the same shell as "M-x shell"
-       (setq explicit-shell-file-name shell-file-name)
-       
        ;; Use -i to force .bashrc file to be run, otherwise aliases defined
        ;; in you .bashrc file will not be available.
        (setq shell-command-switch "-c")
@@ -355,8 +352,9 @@ There are two things you can do about this warning:
 
 (defun shell-jps ()
   (interactive)
-  (let ((default-directory (if (file-remote-p default-directory) "~" default-directory)))
-    (call-interactively 'shell)))
+  ;;(let ((default-directory (if (file-remote-p default-directory) "~" default-directory)))
+  ;;  (call-interactively 'shell)))
+  (call-interactively 'shell))
 
 (defun new-shell-jps ()
     "Create a new shell buffer"
@@ -590,6 +588,10 @@ There are two things you can do about this warning:
 
 (add-hook 'gdb-mode-hook 'comint-common-hook-jps)
 (add-hook 'shell-mode-hook 'comint-common-hook-jps)
+
+;; Make "M-x shell-command" use the same shell as "M-x shell"
+(setq explicit-shell-file-name shell-file-name)
+       
 
 (defun ssh-hook-jps ()
   (comint-common-hook-jps)
