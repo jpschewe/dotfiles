@@ -329,6 +329,12 @@ if [ -n "$(command -v git)" ]; then
 else
   PS1="${BASE_PS1}\n>"
 fi
+
+# Reset the prompt for remote TRAMP shells.
+if [ "${INSIDE_EMACS/*tramp*/tramp}" == "tramp" ] ; then
+   PS1="[\u@\h \w]$ "
+fi
+
 export PS1
 
 if [ -n "$EMACS" -o "$TERM" = "emacs" ]; then

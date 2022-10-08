@@ -1699,7 +1699,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
  
     ;; TRAMP gets confused by my prompt some times, so make sure it's
     ;; simple for THIS Emacs process, and therefore subprocesses.
-    (setenv "PS1" "tramp@\h> ")
+    ;(setenv "PS1" "tramp@\h> ")
  
     ;; disable backups of files edited with tramp
     (add-to-list 'bkup-backup-directory-info
