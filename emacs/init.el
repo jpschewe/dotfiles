@@ -570,6 +570,7 @@ There are two things you can do about this warning:
       (concat
        "^.*\\(?:[Pp]ass\\(?:word\\| ?phrase\\)\\).*:\\s-*\\'"
        "\\|" "token PIN"
+       "\\|" "Enter PIN"
        )
        )
 
