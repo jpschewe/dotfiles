@@ -303,3 +303,7 @@ exec "discord"
 
 # disable screen blanking - has trouble with some systems
 exec --no-startup-id "xset -dpms"
+
+# screenshots
+bindsym Print exec --no-startup-id "flameshot gui"
+exec --no-startup-id "flameshot"
