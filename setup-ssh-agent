@@ -2,11 +2,11 @@
 # Hey EMACS, this should be in -*- sh -*- mode
 #
 # This starts ssh-agent in a predictable location if it's not already configured
-# The location is ${hOME}/.ssh/agents/${HOSTNAME}
+# The location is ${HOME}/.ssh/agents/${HOSTNAME}
 #
 # To use this script you must source it so that the environment variable SSH_AUTH_SOCK can be set
 # This is best done from your bashrc
-#  if [ -f "${HOME}"/.ssh/setup-ssh-agent ]; then
+#  if [ -e "${HOME}"/.ssh/setup-ssh-agent ]; then
 #    source "${HOME}"/.ssh/setup-ssh-agent
 #  fi
 
@@ -20,21 +20,25 @@ try() { "$@" || error "'$@' failed"; }
 if [ -z "${HOSTNAME}" ]; then 
     HOSTNAME=$(hostname)
 fi
-HOSTNAME=$(echo $HOSTNAME | sed 's/\..*//')
+HOSTNAME=$(echo ${HOSTNAME} | sed 's/\..*//')
 
 SOCKET_FILENAME="${HOME}"/.ssh/agents/${HOSTNAME}
 
 start_agent() {
-    debug "Starting agent with ${SOCKET_FILENAME}"
-    try mkdir -p "${HOME}"/.ssh/agents
-    
-    # remove any existing socket that might be left over
-    try rm -f "${SOCKET_FILENAME}"
-    
-    try ssh-agent -a "${SOCKET_FILENAME}" > /dev/null 2>&1
-    SSH_AUTH_SOCK="${SOCKET_FILENAME}"
-    export SSH_AUTH_SOCK
-    debug "agent started"
+    if [ -e "${HOME}/.ssh/.start-ssh-agent" ]; then
+        debug "Starting agent with ${SOCKET_FILENAME}"
+        try mkdir -p "${HOME}"/.ssh/agents
+        
+        # remove any existing socket that might be left over
+        try rm -f "${SOCKET_FILENAME}"
+        
+        try ssh-agent -a "${SOCKET_FILENAME}" > /dev/null 2>&1
+        SSH_AUTH_SOCK="${SOCKET_FILENAME}"
+        export SSH_AUTH_SOCK
+        debug "agent started"
+    else
+        debug "Agent not started due to user request"
+    fi
 }
 
 if [ -z "${SSH_AUTH_SOCK}" ]; then

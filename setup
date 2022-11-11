@@ -109,11 +109,13 @@ if [ ${auto} -eq 0 ]; then
   answer=''
   read answer
   if [ "x${answer}" = "xy" ]; then
-    try mkdir -p "${HOME}/.ssh"
-    try ln -sf "${mydir}/setup-ssh-agent" "${HOME}/.ssh/setup-ssh-agent"
+      try mkdir -p "${HOME}/.ssh"
+      touch "${HOME}/.ssh/.start-ssh-agent"
   else
-    try rm -f "${HOME}/.ssh/setup-ssh-agent"
+    try rm -f "${HOME}/.ssh/.start-ssh-agent"
   fi
+  # always setup ssh-agent environment variables
+  try ln -sf "${mydir}/setup-ssh-agent" "${HOME}/.ssh/setup-ssh-agent"
 fi
 
 try "${mydir}"/hook-scripts/setup-gitconfig
