@@ -24,6 +24,7 @@ HOSTNAME=$(echo ${HOSTNAME} | sed 's/\..*//')
 
 SOCKET_FILENAME="${HOME}"/.ssh/agents/${HOSTNAME}
 
+# start agent if instructed to
 start_agent() {
     if [ -e "${HOME}/.ssh/.start-ssh-agent" ]; then
         debug "Starting agent with ${SOCKET_FILENAME}"
@@ -71,14 +72,7 @@ if [ -n "${SSH_AUTH_SOCK}" ]; then
     else
         debug "Invalid SSH socket at '${SSH_AUTH_SOCK}', clearing"
         unset SSH_AUTH_SOCK
-        
-        if [ -e "${SOCKET_FILENAME}" ]; then
-            debug "Attempting to use existing socket at '${SOCKET_FILENAME}'"
-            SSH_AUTH_SOCK="${SOCKET_FILENAME}"
-            export SSH_AUTH_SOCK
-        else
-            start_agent
-        fi
+        start_agent
     fi
 else
     debug "No socket defined, starting agent"
