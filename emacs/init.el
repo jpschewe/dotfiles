@@ -42,6 +42,9 @@ There are two things you can do about this warning:
 ;;(when (not package-archive-contents)
 ;;  (package-refresh-contents))
 
+; rebuild installed packages - useful when changing versions of emacs
+;; (byte-recompile-directory package-user-dir nil 'force)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
