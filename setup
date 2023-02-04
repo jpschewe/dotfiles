@@ -34,8 +34,8 @@ git config --local fetch.recurseSubmodules yes
 
 # setup bin
 mkdir -p "${HOME}/bin"
-for script in i3exit reattach-namespace rofi_scaled; do
-  try ln -sf "${mydir}/bin/${script}" "${HOME}/bin/${script}"
+for script in ${mydir}/bin/*; do
+    try ln -sf "${script}" "${HOME}/bin/$(basename ${script})"
 done
 try ln -sf "${mydir}/lib/vcprompt/bin/vcprompt" "${HOME}/bin/vcprompt"
 
