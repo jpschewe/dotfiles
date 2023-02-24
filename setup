@@ -103,13 +103,15 @@ try ln -fs "${mydir}/cvsrc" "${HOME}/.cvsrc"
 # tig
 try ln -sf "${mydir}/tigrc" "${HOME}/.tigrc"
 
+# ssh
+try mkdir -p "${HOME}/.ssh"
+try chmod go-rwx "${HOME}/.ssh"
 if [ ${auto} -eq 0 ]; then
   # ask about ssh
   printf "Would you like to have ssh-agent start up on login? (y/N) "
   answer=''
   read answer
   if [ "x${answer}" = "xy" ]; then
-      try mkdir -p "${HOME}/.ssh"
       touch "${HOME}/.ssh/.start-ssh-agent"
   else
     try rm -f "${HOME}/.ssh/.start-ssh-agent"
