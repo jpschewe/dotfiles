@@ -540,6 +540,10 @@ if [ -e ${HOME}/.gem/ruby ]; then
 fi
 
 ### rust
+function install_rust() {
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y -q
+    brc
+}
 if [ -e "${HOME}"/.cargo/env ]; then
     . "${HOME}"/.cargo/env
 fi
