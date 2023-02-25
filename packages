@@ -539,6 +539,11 @@ if [ -e ${HOME}/.gem/ruby ]; then
     done
 fi
 
+### rust
+if [ -e "${HOME}"/.cargo/env ]; then
+    . "${HOME}"/.cargo/env
+fi
+
 ### HOME
 prepend PATH "${HOME}/bin"
 prepend PATH "${HOME}/bin/$OSTYPE"
