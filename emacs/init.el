@@ -480,7 +480,10 @@ There are two things you can do about this warning:
   (add-hook 'font-lock-mode-hook 'turn-on-fast-lock)
   ;;(add-hook 'font-lock-mode-hook 'turn-on-lazy-lock)
   )
-       
+
+;; used for selected text
+(set-face-attribute 'region nil :background "#666")
+
 (set-face-foreground 'font-lock-warning-face "yellow")
 (set-face-background 'font-lock-warning-face "red")
 (make-face 'font-lock-todo-face)
