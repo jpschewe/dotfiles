@@ -601,6 +601,9 @@ There are two things you can do about this warning:
   (comint-common-hook-jps)
   (setq comint-process-echoes nil);;some do and some don't, so leave the extra copies in there
   ;;(add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m)
+  (setq ssh-directory-tracking-mode t)
+  (shell-dirtrack-mode t)
+  (setq dirtrackp nil)
   )
 (add-hook 'ssh-mode-hook 'ssh-hook-jps)
 
