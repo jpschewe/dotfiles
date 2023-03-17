@@ -55,8 +55,7 @@ There are two things you can do about this warning:
  '(aquamacs-tool-bar-user-customization nil t)
  '(auth-source-save-behavior nil)
  '(default-frame-alist
-    (quote
-     ((menu-bar-lines . 1)
+    '((menu-bar-lines . 1)
       (foreground-color . "Black")
       (background-color . "White")
       (cursor-type . box)
@@ -64,25 +63,23 @@ There are two things you can do about this warning:
       (internal-border-width . 0)
       (left-fringe . 1)
       (right-fringe)
-      (fringe))))
+      (fringe)))
  '(display-time-mode t)
  '(gutter-buffers-tab-enabled nil)
  '(gutter-buffers-tab-visible nil)
  '(indent-tabs-mode nil)
- '(ns-alternate-modifier (quote alt))
+ '(ns-alternate-modifier 'alt)
  '(ns-tool-bar-display-mode nil t)
  '(ns-tool-bar-size-mode nil t)
- '(package-get-remote (quote (("ftp.xemacs.org" "/pub/xemacs/packages"))))
+ '(package-get-remote '(("ftp.xemacs.org" "/pub/xemacs/packages")))
  '(package-selected-packages
-   (quote
-    (magit tramp groovy-mode ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode)))
+   '(magit tramp groovy-mode ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
-   (quote
-    ((whitespace-newline . t)
-     (whitespace-style face trailing lines-tail space-before-tab indentation empty))))
+   '((whitespace-newline . t)
+     (whitespace-style face trailing lines-tail space-before-tab indentation empty)))
  '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
- '(send-mail-function (quote mailclient-send-it))
+ '(send-mail-function 'mailclient-send-it)
  '(visual-line-mode nil t))
 
 
@@ -480,7 +477,10 @@ There are two things you can do about this warning:
   (add-hook 'font-lock-mode-hook 'turn-on-fast-lock)
   ;;(add-hook 'font-lock-mode-hook 'turn-on-lazy-lock)
   )
-       
+
+;; used for selected text
+(set-face-attribute 'region nil :background "#666")
+
 (set-face-foreground 'font-lock-warning-face "yellow")
 (set-face-background 'font-lock-warning-face "red")
 (make-face 'font-lock-todo-face)
@@ -601,6 +601,9 @@ There are two things you can do about this warning:
   (comint-common-hook-jps)
   (setq comint-process-echoes nil);;some do and some don't, so leave the extra copies in there
   ;;(add-to-list 'comint-output-filter-functions 'comint-strip-ctrl-m)
+  (setq ssh-directory-tracking-mode t)
+  (shell-dirtrack-mode t)
+  (setq dirtrackp nil)
   )
 (add-hook 'ssh-mode-hook 'ssh-hook-jps)
 
