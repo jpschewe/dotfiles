@@ -51,6 +51,29 @@ if [ -z "${SSH_AUTH_SOCK}" ]; then
     fi
 fi
 
+# check if SOCKET_FILENAME is valid, if so use it
+if [ -e "${SOCKET_FILENAME}" ]; then
+    debug "Saving ${SSH_AUTH_SOCK} while testing ${SOCKET_FILENAME}"
+    TMP_SSH_AUTH_SOCK=${SSH_AUTH_SOCK}
+    
+    debug "Attempting to use existing socket at '${SOCKET_FILENAME}'"
+    SSH_AUTH_SOCK="${SOCKET_FILENAME}"
+    export SSH_AUTH_SOCK
+
+    # check if the socket is valid
+    output=$(ssh-add -l 2>&1)
+    ssh_add_status=$?
+    debug "ssh-add status ${ssh_add_status}"
+    debug "ssh-add output '${output}'"
+    if [ ${ssh_add_status} -eq 0 -o "${output#The agent has no identities}" != "${output}" ]; then
+        debug "Valid SSH socket at '${SSH_AUTH_SOCK}'"
+    else
+        debug "Socket at '${SSH_AUTH_SOCK}' is not valid using '${TMP_SSH_AUTH_SOCK}'"
+        SSH_AUTH_SOCK=TMP_SSH_AUTH_SOCK
+    fi
+fi
+
+
 if [ -n "${SSH_AUTH_SOCK}" ]; then
     debug "Socket variable is defined as ${SSH_AUTH_SOCK}"
 
