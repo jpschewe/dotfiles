@@ -19,24 +19,9 @@ There are two things you can do about this warning:
   (when (< emacs-major-version 24)
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
-;(package-initialize)
+;should not be needed (package-initialize)
 
-;; execute manually ;; install packages
-;; execute manually (mapc #'(lambda (package)
-;; execute manually           (unless (package-installed-p package)
-;; execute manually             (package-install package)))
-;; execute manually       '(
-;; execute manually 	applescript-mode
-;; execute manually 	cargo
-;; execute manually 	csharp-mode
-;; execute manually 	diminish
-;; execute manually 	elpy
-;; execute manually 	go-mode
-;; execute manually 	markdown-mode
-;; execute manually 	osx-clipboard
-;; execute manually 	rustic
-;; execute manually 	yaml-mode
-;; execute manually 	))
+;; use install-packages.sh to install packages
 
 ;; If there are no archived package contents, refresh them
 ;;(when (not package-archive-contents)
