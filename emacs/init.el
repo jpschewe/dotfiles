@@ -376,6 +376,10 @@ There are two things you can do about this warning:
   (tags-search regex)
   )
 
+(autoload 'insert-stardate "stardate" nil t)
+(setq user-login-name (user-real-login-name))
+(global-set-key (concat prefix-key-jps "c") 'insert-stardate)
+ 
 (global-set-key [(meta return)] 'hippie-expand);; expand
 ;; replaced by C-x C-q (global-set-key [insert] 'toggle-read-only)
 
@@ -426,11 +430,7 @@ There are two things you can do about this warning:
 ;;(global-set-key [(control f27)] 'beginning-of-buffer)
 ;;(global-set-key [(control f33)] 'end-of-buffer)
 
-(global-set-key "\C-x\C-d" 'insert-stardate)
-(autoload 'insert-stardate "stardate" nil t)
-(setq user-login-name (user-real-login-name))
- 
-(global-set-key "\C-x\C-v" 'view-file)
+;(global-set-key "\C-x\C-v" 'view-file)
 (global-set-key "\C-m" 'newline-and-indent)
 
 ;(autoload 'top "top-mode" nil t)
@@ -441,6 +441,8 @@ There are two things you can do about this warning:
 (global-set-key [scroll-lock] 'overwrite-mode)
 
 (global-set-key "\C-xt" 'toggle-truncate-lines)
+
+(ffap-bindings)
 ;; end keybindings
 
 ;;;;;;;;;;;
