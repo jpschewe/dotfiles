@@ -1616,33 +1616,37 @@ Unless optional argument INPLACE is non-nil, return a new string."
 (when (or running-xemacs running-gnuemacs)
   (message "Backups")
   ;;backup-dir, stick all backups in a directory
-  (require 'backup-dir)
-  (setq bkup-backup-directory-info
-	'((t "~/.xemacs/backups/" ok-create full-path prepend-name)
-	  ))
-  (setq make-backup-files t
-	backup-by-copying t		; don't clobber symlinks
-	delete-old-versions t
-	backup-directory-alist '((".*" . "~/.xemacs/backups"))
-	)
+;; (require 'backup-dir)
+;; (setq bkup-backup-directory-info
+;;       '((t "~/.xemacs/backups/" ok-create full-path prepend-name)
+  ;;         ))
+
+  ;; 4/29/2023 - I can't remember the last time I used an emacs backup file
+  (setq make-backup-files nil)
   
-  (setq auto-save-directory (expand-file-name "~/.xemacs/auto-save/")
-	auto-save-directory-fallback auto-save-directory
-	auto-save-hash-p nil
-	;;ange-ftp-auto-save t
-	;;ange-ftp-auto-save-remotely nil
-	efs-auto-save t
-	efs-auto-save-remotely nil
-	;; now that we have auto-save-timeout, let's crank this up
-	;; for better interactive response.
-	auto-save-interval 2000
-	efs-ding-on-umask-failure nil
-	)
-  ;; We load this afterwards because it checks to make sure the
-  ;; auto-save-directory exists (creating it if not) when it's loaded.
-  (when running-xemacs
-    (require 'auto-save)
-    )
+ ;;  (setq make-backup-files t
+ ;;        backup-by-copying t		; don't clobber symlinks
+ ;;        delete-old-versions t
+ ;;        backup-directory-alist '((".*" . "~/.xemacs/backups"))
+ ;;        )
+ ;;  
+  ;; (setq auto-save-directory (expand-file-name "~/.xemacs/auto-save/")
+  ;;       auto-save-directory-fallback auto-save-directory
+  ;;       auto-save-hash-p nil
+  ;;       ;;ange-ftp-auto-save t
+  ;;       ;;ange-ftp-auto-save-remotely nil
+  ;;       efs-auto-save t
+  ;;       efs-auto-save-remotely nil
+  ;;       ;; now that we have auto-save-timeout, let's crank this up
+  ;;       ;; for better interactive response.
+  ;;       auto-save-interval 2000
+  ;;       efs-ding-on-umask-failure nil
+  ;;       )
+  ;; ;; We load this afterwards because it checks to make sure the
+  ;; ;; auto-save-directory exists (creating it if not) when it's loaded.
+  ;; (when running-xemacs
+  ;;   (require 'auto-save)
+  ;;   )
   )
 
 (when (and
