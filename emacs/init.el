@@ -125,7 +125,8 @@ There are two things you can do about this warning:
 
 (when (not (boundp 'windows-nt)) (setq windows-nt nil))
 
-;;(setq stack-trace-on-error t)
+;;(setq debug-on-error t)
+;;(setq debug-on-error nil)
 
 ;;;;;;;;;;;
 ;;
@@ -564,8 +565,6 @@ There are two things you can do about this warning:
        "\\|" "Enter PIN"
        )
        )
-
-(when running-xemacs (require 'comint-local))
 
 (defun comint-common-hook-jps ()
   (local-set-key [up] 'comint-previous-matching-input-from-input)
@@ -1616,11 +1615,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;;;;;;;;;;;
 (when (or running-xemacs running-gnuemacs)
   (message "Backups")
-  ;;backup-dir, stick all backups in a directory
-;; (require 'backup-dir)
-;; (setq bkup-backup-directory-info
-;;       '((t "~/.xemacs/backups/" ok-create full-path prepend-name)
-  ;;         ))
 
   ;; 4/29/2023 - I can't remember the last time I used an emacs backup file
   (setq make-backup-files nil)
@@ -1703,8 +1697,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
     ;(setenv "PS1" "tramp@\h> ")
  
     ;; disable backups of files edited with tramp
-    (add-to-list 'bkup-backup-directory-info
- 		 (list tramp-file-name-regexp ""))
     (setq tramp-bkup-backup-directory-info  nil)
 
     ;; pickup the path from the remote system
