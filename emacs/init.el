@@ -427,7 +427,8 @@ There are two things you can do about this warning:
 
 (global-set-key "\C-xt" 'toggle-truncate-lines)
 
-(ffap-bindings)
+; I found this annoying most times as it keeps wanting to suggst files in dired that aren't what I want
+;;(ffap-bindings)
 ;; end keybindings
 
 ;;;;;;;;;;;
