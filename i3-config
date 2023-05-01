@@ -322,3 +322,7 @@ exec --no-startup-id "xset -dpms"
 # screenshots
 bindsym Print exec --no-startup-id "flameshot gui"
 exec --no-startup-id "flameshot"
+
+# fix composter issues
+# https://www.reddit.com/r/i3wm/comments/n3wzaj/fix_for_black_screen_in_zoom_when_annotating/
+#Doesn't work - needs more testing exec --no-startup-id "xcompmgr -c -l0 -t0 -r0 -o.00
