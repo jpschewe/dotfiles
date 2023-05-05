@@ -1628,14 +1628,9 @@ Unless optional argument INPLACE is non-nil, return a new string."
   ;; (setq auto-save-directory (expand-file-name "~/.xemacs/auto-save/")
   ;;       auto-save-directory-fallback auto-save-directory
   ;;       auto-save-hash-p nil
-  ;;       ;;ange-ftp-auto-save t
-  ;;       ;;ange-ftp-auto-save-remotely nil
-  ;;       efs-auto-save t
-  ;;       efs-auto-save-remotely nil
   ;;       ;; now that we have auto-save-timeout, let's crank this up
   ;;       ;; for better interactive response.
   ;;       auto-save-interval 2000
-  ;;       efs-ding-on-umask-failure nil
   ;;       )
   ;; ;; We load this afterwards because it checks to make sure the
   ;; ;; auto-save-directory exists (creating it if not) when it's loaded.
