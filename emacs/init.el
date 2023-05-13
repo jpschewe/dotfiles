@@ -58,7 +58,7 @@ There are two things you can do about this warning:
  '(ns-tool-bar-size-mode nil t)
  '(package-get-remote '(("ftp.xemacs.org" "/pub/xemacs/packages")))
  '(package-selected-packages
-   '(compat ssh magit tramp groovy-mode ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode))
+   '(bash-completion compat ssh magit tramp groovy-mode ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    '((whitespace-newline . t)
@@ -593,6 +593,9 @@ There are two things you can do about this warning:
   (setq dirtrackp nil)
   )
 (add-hook 'ssh-mode-hook 'ssh-hook-jps)
+
+(require 'bash-completion)
+(bash-completion-setup)
 
 ;;;;;;;;;;;
 ;;
