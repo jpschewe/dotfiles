@@ -3,6 +3,17 @@
 ;; MELPA package support
 (require 'package)
 
+;; use install-packages.sh to install packages
+
+;; If there are no archived package contents, refresh them
+;;(when (not package-archive-contents)
+;;  (package-refresh-contents))
+
+; rebuild installed packages - useful when changing versions of emacs
+;; (byte-recompile-directory package-user-dir nil 'force)
+
+;; use package-install-selected-packages to install the packages in the variable package-selected-packages
+
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
@@ -20,15 +31,6 @@ There are two things you can do about this warning:
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 ;should not be needed (package-initialize)
-
-;; use install-packages.sh to install packages
-
-;; If there are no archived package contents, refresh them
-;;(when (not package-archive-contents)
-;;  (package-refresh-contents))
-
-; rebuild installed packages - useful when changing versions of emacs
-;; (byte-recompile-directory package-user-dir nil 'force)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
