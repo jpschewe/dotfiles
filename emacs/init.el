@@ -562,9 +562,11 @@ There are two things you can do about this warning:
 ;;; Enter PKCS#11 token PIN for PIV_II:
 (setq comint-password-prompt-regexp
       (concat
-       "^.*\\(?:[Pp]ass\\(?:word\\| ?phrase\\)\\).*:\\s-*\\'"
+       comint-password-prompt-regexp
+       "\\|"  "^.*\\(?:[Pp]ass\\(?:word\\| ?phrase\\)\\).*:\\s-*\\'"
        "\\|" "token PIN"
        "\\|" "Enter PIN"
+       "\\|" "\\(will be hidden\\)"
        )
        )
 
