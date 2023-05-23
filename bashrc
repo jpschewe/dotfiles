@@ -181,7 +181,7 @@ alias bc='bc -l'
 alias lsdir='ls -lA | grep "^d"'
 alias lsfile='ls -lA | egrep -v "^d|^l"'
 alias lslink='ls -lA | grep "^l"'
-alias en='enscript -2r -b"- jschewe -" -G'
+alias en='enscript -2r -b"- ${USER} -" -G'
 #alias en='enscript -2rG'
 #alias en1='enscript -1rG'
 
@@ -530,6 +530,11 @@ function tmux-cwd {
 ## github tokens
 if [ -e "${HOME}"/.github-token ]; then
     . "${HOME}"/.github-token
+fi
+
+## hashicorp vault
+if [ -e "${HOME}"/.hashicorp-vault.env ]; then
+    . "${HOME}"/.hashicorp-vault.env
 fi
 
 #
