@@ -93,8 +93,11 @@ bindsym $mod+Shift+semicolon move right
 # bindsym $mod+Shift+Up move up
 # bindsym $mod+Shift+Right move right
 
+# move workspaces between screens
 bindsym $mod+Shift+Left move workspace to output left
 bindsym $mod+Shift+Right move workspace to output right
+bindsym $mod+Shift+Up move workspace to output up
+bindsym $mod+Shift+Down move workspace to output down
 
 set $mode_layout Layout (h) horizonal split, (v) vertical split, (s) stacked, (t) tabbed, (e) tiled
 mode "$mode_layout" {
