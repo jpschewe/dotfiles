@@ -1968,6 +1968,7 @@ in some window."
 ;; elpy mode
 (setq python-shell-interpreter "python3"
       python-shell-interpreter-args "-i")
+(setq elpy-rpc-python-command python-shell-interpreter)
 
 ;; prompt before exit
 (defun ask-before-closing ()
