@@ -49,7 +49,7 @@ try ln -sf "${mydir}/tmux.conf" "${HOME}/.tmux.conf"
 try ln -sf "${mydir}/npmrc" "${HOME}/.npmrc"
 
 # don't overwrite Xresources if it's not a link
-if [ ! -L "${HOME}/.Xresources" ]; then
+if [ -e "${HOME}/.Xresources" -a ! -L "${HOME}/.Xresources" ]; then
     try /bin/mv "${HOME}/.Xresources" "${HOME}/.Xresources.old"
 fi
 try ln -sf "${mydir}/Xresources" "${HOME}/.Xresources"
