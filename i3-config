@@ -312,7 +312,7 @@ for_window [class="Pavucontrol"] move scratchpad
 exec --no-startup-id "pavucontrol"
 
 for_window [title="^BpyTOP"] move scratchpad
-exec --no-startup-id "xterm -e \"bpytop\""
+exec --no-startup-id "i3-sensible-terminal -e \"bpytop\""
 
 assign [class="TelegramDesktop"] chat
 exec "flatpak run org.telegram.desktop"
