@@ -1,0 +1,9 @@
+configuration {
+	display-drun: "Applications";
+	display-window: "Windows";
+	modi: "drun,run,filebrowser,window,ssh";
+	kb-cancel: "Escape,Alt+F1";
+	show-icons: true;
+	icon-theme: "Papirus";
+ }
+ 

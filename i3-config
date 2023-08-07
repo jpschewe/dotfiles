@@ -67,7 +67,7 @@ bindsym $mod+Shift+q kill
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 #bindsym $mod+d exec rofi_scaled -modi "drun#run#window#ssh" -show drun
 #bindsym $mod+d exec rofi -dpi 200 -modi "drun#run#window#ssh" -show drun
-bindsym $mod+d exec rofi -modi "drun#run#filebrowser#window#ssh" -show drun
+bindsym $mod+d exec rofi -show drun
 
 # change focus
 bindsym $mod+h focus left; exec --no-startup-id center-mouse
