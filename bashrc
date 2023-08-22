@@ -535,6 +535,7 @@ fi
 ## hashicorp vault
 if [ -e "${HOME}"/.hashicorp-vault.env ]; then
     . "${HOME}"/.hashicorp-vault.env
+    alias vault-login="vault login -method=oidc -path=admin-webauth"
 fi
 
 #
