@@ -364,9 +364,10 @@ There are two things you can do about this warning:
   (tags-search regex)
   )
 
-(autoload 'insert-stardate "stardate" nil t)
-(setq user-login-name (user-real-login-name))
-(global-set-key (concat prefix-key-jps "c") 'insert-stardate)
+(defun insert-date-signature ()
+  (interactive)
+  (insert (format-time-string "%Y-%m-%d") " -- " (user-full-name)))
+(global-set-key (concat prefix-key-jps "c") 'insert-date-signature)
  
 (global-set-key [(meta return)] 'hippie-expand);; expand
 ;; replaced by C-x C-q (global-set-key [insert] 'toggle-read-only)
