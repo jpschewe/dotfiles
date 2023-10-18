@@ -609,7 +609,7 @@ There are two things you can do about this warning:
 (defun eshell-hook-jps ()
   (add-to-list 'eshell-visual-options '("git" "--help" "--paginate"))
   (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show" "nlog" "branch"))
-  (setq eshell-prefer-lisp-functions t)
+  ;;(setq eshell-prefer-lisp-functions t)
   )
 
 (add-hook 'eshell-mode-hook 'eshell-hook-jps)
