@@ -342,8 +342,8 @@ There are two things you can do about this warning:
   (interactive)
   ;;(let ((default-directory (if (file-remote-p default-directory) "~" default-directory)))
   ;;  (call-interactively 'shell)))
-  ;;(call-interactively 'shell)
-  (call-interactively 'eshell)
+  (call-interactively 'shell)
+  ;;(call-interactively 'eshell)
   )
 
 (defun new-shell-jps ()
