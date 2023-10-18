@@ -342,7 +342,9 @@ There are two things you can do about this warning:
   (interactive)
   ;;(let ((default-directory (if (file-remote-p default-directory) "~" default-directory)))
   ;;  (call-interactively 'shell)))
-  (call-interactively 'shell))
+  ;;(call-interactively 'shell)
+  (call-interactively 'eshell)
+  )
 
 (defun new-shell-jps ()
     "Create a new shell buffer"
@@ -601,6 +603,18 @@ There are two things you can do about this warning:
 
 (require 'bash-completion)
 (bash-completion-setup)
+
+
+;; eshell setup
+(defun eshell-hook-jps ()
+  (add-to-list 'eshell-visual-options '("git" "--help" "--paginate"))
+  (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show" "nlog" "branch"))
+  (setq eshell-prefer-lisp-functions t)
+  )
+
+(add-hook 'eshell-mode-hook 'eshell-hook-jps)
+
+
 
 ;;;;;;;;;;;
 ;;
