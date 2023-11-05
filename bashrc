@@ -330,9 +330,13 @@ else
   PS1="${BASE_PS1}\n>"
 fi
 
-# Reset the prompt for remote TRAMP shells.
 if [ "${INSIDE_EMACS/*tramp*/tramp}" == "tramp" ] ; then
-   PS1="[\u@\h \w]$ "
+    # Reset the prompt for remote TRAMP shells.
+    PS1="[\u@\h \w]$ "
+elif [ "${INSIDE_EMACS/*comint*/comint}" == "comint" ] ; then
+    # disable pager for git
+    GIT_PAGER=cat
+    export GIT_PAGER
 fi
 
 export PS1
