@@ -1710,17 +1710,17 @@ Unless optional argument INPLACE is non-nil, return a new string."
 (eval-after-load "tramp"
   (lambda ()
     (message "tramp has been loaded, setting variables")
-    (setq tramp-default-method "ssh") ; default is scp
+    ;;(setq tramp-default-method "ssh") ; default is scp
  
     ;; TRAMP gets confused by my prompt some times, so make sure it's
     ;; simple for THIS Emacs process, and therefore subprocesses.
-    ;(setenv "PS1" "tramp@\h> ")
+    ;;(setenv "PS1" "tramp@\h> ")
  
     ;; disable backups of files edited with tramp
-    (setq tramp-bkup-backup-directory-info  nil)
+    ;;(setq tramp-bkup-backup-directory-info  nil)
 
     ;; pickup the path from the remote system
-    (add-to-list 'tramp-remote-path 'tramp-own-remote-path)    
+    ;;(add-to-list 'tramp-remote-path 'tramp-own-remote-path)    
     ))
 
 
