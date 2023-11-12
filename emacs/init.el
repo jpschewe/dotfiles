@@ -29,7 +29,13 @@ There are two things you can do about this warning:
   ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
   (when (< emacs-major-version 24)
     ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
+    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/"))))
+
+
+  (when (< emacs-major-version 28)
+    (add-to-list 'package-archives
+                 '("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+  )
 ;should not be needed (package-initialize)
 
 (custom-set-variables
@@ -60,7 +66,7 @@ There are two things you can do about this warning:
  '(ns-tool-bar-size-mode nil t)
  '(package-get-remote '(("ftp.xemacs.org" "/pub/xemacs/packages")))
  '(package-selected-packages
-   '(forge x509-mode bash-completion compat ssh magit tramp groovy-mode ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode))
+   '(x509-mode forge eat journalctl-mode bash-completion compat ssh magit tramp groovy-mode ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    '((whitespace-newline . t)
@@ -343,7 +349,9 @@ There are two things you can do about this warning:
   (interactive)
   ;;(let ((default-directory (if (file-remote-p default-directory) "~" default-directory)))
   ;;  (call-interactively 'shell)))
-  (call-interactively 'shell))
+  ;;(call-interactively 'shell)
+  (call-interactively 'eat)
+  )
 
 (defun new-shell-jps ()
     "Create a new shell buffer"
@@ -617,6 +625,7 @@ There are two things you can do about this warning:
 
 (add-hook 'eshell-mode-hook 'eshell-hook-jps)
 
+(add-hook 'eshell-load-hook #'eat-eshell-mode)
 
 
 ;;;;;;;;;;;

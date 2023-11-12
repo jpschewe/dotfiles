@@ -542,6 +542,14 @@ if [ -e "${HOME}"/.hashicorp-vault.env ]; then
     alias vault-login="vault login -method=oidc -path=admin-webauth"
 fi
 
+## emacs EAT
+
+
+if [ -n "$EAT_SHELL_INTEGRATION_DIR" ]; then
+    . "$EAT_SHELL_INTEGRATION_DIR/bash"
+fi
+
+
 #
 # Avoid loops and such
 #
