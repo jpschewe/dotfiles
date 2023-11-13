@@ -64,7 +64,6 @@ There are two things you can do about this warning:
  '(ns-alternate-modifier 'alt)
  '(ns-tool-bar-display-mode nil t)
  '(ns-tool-bar-size-mode nil t)
- '(package-get-remote '(("ftp.xemacs.org" "/pub/xemacs/packages")))
  '(package-selected-packages
    '(trashed x509-mode forge eat journalctl-mode bash-completion compat ssh magit tramp groovy-mode ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode))
  '(query-user-mail-address nil)
