@@ -825,6 +825,7 @@ There are two things you can do about this warning:
   ;;(define-key dired-mode-map " " 'scroll-up)
   ;;(define-key dired-mode-map "b" 'scroll-down)
   ;;(define-key dired-mode-map "\C-x\C-j" 'dired-up-directory)
+  
   ;;(setq dired-gnutar-program "tar")
   ;;(setq dired-unshar-program "unshar")
 
@@ -1445,6 +1446,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
   (set-face-foreground 'man-heading "blue")
   (set-face-foreground 'man-italic "steelblue")
   (set-face-foreground 'man-xref "darkgreen")
+  (setq Man-notify-method 'aggressive) ; focus on the man page after formatting
   )
 ;;(set-face-foreground 'font-lock-comment-face "red")      
 (add-hook 'Manual-mode-hook 'my-Manual-mode-hook)
@@ -2013,6 +2015,9 @@ in some window."
     (message "Canceled frame close")))
 
 (global-set-key (kbd "C-x C-c") 'ask-before-closing)
+
+;; HELP-mode
+(setq help-window-select t) ; always focus on the help buffer after asking for help
 
 ;;;stuff emacs likes to append on it's own
 (put 'erase-buffer 'disabled nil)
