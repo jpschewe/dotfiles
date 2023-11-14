@@ -342,7 +342,7 @@ There are two things you can do about this warning:
 (global-set-key (concat prefix-key-jps "f") 'iconify-frame)
 (global-set-key (concat prefix-key-jps "d") 'delete-region)
 (global-set-key (concat prefix-key-jps "s") 'shell-jps)
-(global-set-key (concat prefix-key-jps "m") 'new-shell-jps)
+(global-set-key (concat prefix-key-jps "m") 'new-eat-shell-jps)
 (global-set-key (concat prefix-key-jps "e") 'eshell-jps)
 
 (defun shell-jps ()
@@ -359,6 +359,13 @@ There are two things you can do about this warning:
   (let ((current-prefix-arg '-)) ;; emulate C-u
     (call-interactively 'shell-jps)))
 
+(defun new-eat-shell-jps ()
+  (interactive)
+  (let ((current-prefix-arg '-))
+    (let ((eat-buffer (call-interactively 'eat)))
+      (let ((new-name (read-from-minibuffer "Name: " (buffer-name eat-buffer))))
+        (switch-to-buffer eat-buffer)
+        (rename-buffer new-name t)))))
 
 (defun eshell-jps ()
   (interactive)
