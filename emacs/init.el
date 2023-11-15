@@ -337,7 +337,7 @@ There are two things you can do about this warning:
 ;;   (global-set-key [(control tab)] 'other-window)
 ;;   )
 
-(defvar prefix-key-jps "\M-o" "Used as a prefix for my keybindings")
+(defvar prefix-key-jps "\C-co" "Used as a prefix for my keybindings")
 
 (global-set-key (concat prefix-key-jps "f") 'iconify-frame)
 (global-set-key (concat prefix-key-jps "d") 'delete-region)
