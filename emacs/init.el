@@ -66,7 +66,7 @@ There are two things you can do about this warning:
  '(ns-tool-bar-size-mode nil t)
  '(package-get-remote '(("ftp.xemacs.org" "/pub/xemacs/packages")))
  '(package-selected-packages
-   '(x509-mode forge eat journalctl-mode bash-completion compat ssh magit tramp groovy-mode ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode))
+   '(trashed x509-mode forge eat journalctl-mode bash-completion compat ssh magit tramp groovy-mode ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    '((whitespace-newline . t)
@@ -2018,6 +2018,10 @@ in some window."
 
 ;; HELP-mode
 (setq help-window-select t) ; always focus on the help buffer after asking for help
+
+;; manage the trash
+(require 'trashed)
+(global-set-key (concat prefix-key-jps "t") 'trashed)
 
 ;;;stuff emacs likes to append on it's own
 (put 'erase-buffer 'disabled nil)
