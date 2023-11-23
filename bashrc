@@ -545,7 +545,7 @@ fi
 ## emacs EAT
 
 
-if [ -n "$EAT_SHELL_INTEGRATION_DIR" ]; then
+if [ -n "$EAT_SHELL_INTEGRATION_DIR" -a -e "$EAT_SHELL_INTEGRATION_DIR/bash" ]; then
     . "$EAT_SHELL_INTEGRATION_DIR/bash"
 fi
 
