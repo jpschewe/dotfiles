@@ -1,13 +1,14 @@
-URxvt.scrollBar_right: true
 URxvt.background: black
 URxvt.foreground: lightgrey
+!URxvt.font: VeraMono
 
-xterm*renderFont: true
-xterm*faceName: VeraMono
-xterm*faceSize: 12
-xterm*selectToClipboard: true
-xterm*disallowedWindowOps: 20,21,SetXprop
 
-xterm*VT100.Translations: #override \
+xterm*.renderFont: true
+xterm*.faceName: VeraMono
+xterm*.faceSize: 12
+xterm*.selectToClipboard: true
+xterm*.disallowedWindowOps: GetIconTitle,GetWinTitle,SetXprop
+
+xterm*.VT100.Translations: #override \
                  Ctrl Shift <Key>V:    insert-selection(SELECT) \n\
                  Ctrl Shift <Key>C:    copy-selection(SELECT)
