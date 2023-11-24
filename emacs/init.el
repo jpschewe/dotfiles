@@ -1449,10 +1449,10 @@ Unless optional argument INPLACE is non-nil, return a new string."
   (set-face-foreground 'man-heading "blue")
   (set-face-foreground 'man-italic "steelblue")
   (set-face-foreground 'man-xref "darkgreen")
-  (setq Man-notify-method 'aggressive) ; focus on the man page after formatting
   )
 ;;(set-face-foreground 'font-lock-comment-face "red")      
 (add-hook 'Manual-mode-hook 'my-Manual-mode-hook)
+(setq Man-notify-method 'aggressive) ; focus on the man page after formatting
 
 
 ;;;;;;;;;;;
