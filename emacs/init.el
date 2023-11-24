@@ -952,6 +952,10 @@ There are two things you can do about this warning:
 ;;          nil
 ;;        (kill-buffer buffer)))))
 
+;; load dired-x
+(with-eval-after-load 'dired
+  (require 'dired-x)
+  )
 
 
 ;;;;;;;;;;;
