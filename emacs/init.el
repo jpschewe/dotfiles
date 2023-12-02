@@ -2026,6 +2026,11 @@ in some window."
 (require 'trashed)
 (global-set-key (concat prefix-key-jps "t") 'trashed)
 
+
+;; net-utils
+(setq whois-server-name "whois.arin.net")
+
+
 ;;;stuff emacs likes to append on it's own
 (put 'erase-buffer 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
