@@ -1741,7 +1741,12 @@ Unless optional argument INPLACE is non-nil, return a new string."
     ;;(setq tramp-bkup-backup-directory-info  nil)
 
     ;; pickup the path from the remote system
-    ;;(add-to-list 'tramp-remote-path 'tramp-own-remote-path)    
+    ;;(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
+    ;; keep auto-save files local for speed
+    ;; specify a directory in my home directory to make it secure
+    ;; the directory is automatically created
+    (setq tramp-auto-save-directory "~/.emacs.d/tramp-auto-save")
     ))
 
 
