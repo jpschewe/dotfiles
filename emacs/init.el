@@ -340,11 +340,20 @@ There are two things you can do about this warning:
 
 (global-set-key (concat prefix-key-jps "f") 'iconify-frame)
 (global-set-key (concat prefix-key-jps "d") 'delete-region)
+;;(global-set-key (concat prefix-key-jps "s") 'eat-shell-jps)
+;;(global-set-key (concat prefix-key-jps "m") 'new-eat-shell-jps)
 (global-set-key (concat prefix-key-jps "s") 'shell-jps)
-(global-set-key (concat prefix-key-jps "m") 'new-eat-shell-jps)
+(global-set-key (concat prefix-key-jps "m") 'new-shell-jps)
 (global-set-key (concat prefix-key-jps "e") 'eshell-jps)
 
 (defun shell-jps ()
+  (interactive)
+  ;;(let ((default-directory (if (file-remote-p default-directory) "~" default-directory)))
+  ;;  (call-interactively 'shell)))
+  (call-interactively 'shell)
+  )
+
+(defun eat-shell-jps ()
   (interactive)
   ;;(let ((default-directory (if (file-remote-p default-directory) "~" default-directory)))
   ;;  (call-interactively 'shell)))
@@ -626,6 +635,10 @@ There are two things you can do about this warning:
 (defun eshell-hook-jps ()
   (add-to-list 'eshell-visual-options '("git" "--help" "--paginate"))
   (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show" "nlog" "branch"))
+  
+  ;; https://codeberg.org/akib/emacs-eat/issues/85
+  ;;(add-to-list 'eshell-modules-list 'eshell-tramp)
+  
   ;;(setq eshell-prefer-lisp-functions t)
   )
 
