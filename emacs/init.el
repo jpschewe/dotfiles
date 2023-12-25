@@ -631,7 +631,11 @@ There are two things you can do about this warning:
 (bash-completion-setup)
 
 
-;; eshell setup
+;;;;;;;;;;;
+;;
+;; eshell
+;;
+;;;;;;;;;;;;
 (defun eshell-hook-jps ()
   (add-to-list 'eshell-visual-options '("git" "--help" "--paginate"))
   (add-to-list 'eshell-visual-subcommands '("git" "log" "diff" "show" "nlog" "branch"))
@@ -645,6 +649,21 @@ There are two things you can do about this warning:
 (add-hook 'eshell-mode-hook 'eshell-hook-jps)
 
 (add-hook 'eshell-load-hook #'eat-eshell-mode)
+
+;;;;;;;;;;;
+;;
+;; eat
+;;
+;;;;;;;;;;;;
+(defadvice eat--set-cwd (before jps-eat--set-cwd (_ host cwd) activate)
+  "Support remote directory tracking https://codeberg.org/akib/emacs-eat/issues/125"
+  (when eat-enable-directory-tracking
+    (unless (string= host (system-name))
+      (let*
+          ((_eat-pieces (split-string default-directory ":"))
+           (_eat-pieces-front (butlast _eat-pieces))
+           (_eat-dir-new (mapconcat 'identity (append _eat-pieces-front (list cwd)) ":")))
+        (setq default-directory _eat-dir-new)))))
 
 
 ;;;;;;;;;;;
