@@ -333,21 +333,20 @@ fi
 if [ "${INSIDE_EMACS/*tramp*/tramp}" == "tramp" ] ; then
     # Reset the prompt for remote TRAMP shells.
     PS1="[\u@\h \w]$ "
-elif [ "${INSIDE_EMACS/*comint*/comint}" == "comint" ] ; then
-    # disable pager for git
-    GIT_PAGER=cat
-    export GIT_PAGER
 fi
 
 export PS1
 
-if [ -n "$EMACS" -o "$TERM" = "emacs" ]; then
+if [ -n "${INSIDE_EMACS}" ]; then
   export PAGER=cat
   alias ls='ls -F'
   alias more='cat'
   alias less='cat'
-  PS1="\u@\h:\w\n>";
+  #PS1="\u@\h:\w\n>";
   export EDITOR=gnuclient
+  # disable pager for git
+  GIT_PAGER=cat
+  export GIT_PAGER
 fi
 
 # perl - this may be wrong - need to play with it for a while.
@@ -542,13 +541,27 @@ if [ -e "${HOME}"/.hashicorp-vault.env ]; then
     alias vault-login="vault login -method=oidc -path=admin-webauth"
 fi
 
+
 ## emacs EAT
+if [ -n "${EAT_SHELL_INTEGRATION_DIR}" ]; then
+    if [ ! -e "${EAT_SHELL_INTEGRATION_DIR}/bash" -a -e "${HOME}/.config/eat/integration/bash" ]; then
+        EAT_SHELL_INTEGRATION_DIR="${HOME}/.config/eat/integration"
+        # terminal info will be broken too
+        TERMINFO="${HOME}/.config/eat/terminfo"
+    fi
 
-
-if [ -n "$EAT_SHELL_INTEGRATION_DIR" -a -e "$EAT_SHELL_INTEGRATION_DIR/bash" ]; then
-    . "$EAT_SHELL_INTEGRATION_DIR/bash"
+    if [ -e "${EAT_SHELL_INTEGRATION_DIR}/bash" ]; then
+        if [ "${TERM:0:4}" != "eat-" ]; then
+            # ensure that the TERM variable is set so that the integration executes
+            TERM_RAW=${TERM}
+            TERM="eat-"
+        fi
+        . "${EAT_SHELL_INTEGRATION_DIR}/bash"
+        if [ -n "${TERM_RAW}" ]; then
+            TERM=TERM_RAW
+        fi
+    fi
 fi
-
 
 #
 # Avoid loops and such

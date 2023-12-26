@@ -153,3 +153,8 @@ try ln -sf "${mydir}/i3-status-config" "${HOME}"/.config/i3status/config
 # rofi config
 try mkdir -p "${HOME}"/.config/rofi
 try ln -sf "${mydir}/rofi-config" "${HOME}"/.config/rofi/config.rasi
+
+# emacs eat
+try mkdir -p "${HOME}"/.config/eat
+try ln -sf "${mydir}/eat/integration" "${HOME}"/.config/eat/integration
+try ln -sf "${mydir}/eat/terminfo" "${HOME}"/.config/eat/terminfo

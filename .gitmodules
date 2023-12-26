@@ -7,3 +7,6 @@
 [submodule "emacs/xemacs-packages/lisp/yaml-mode"]
 	path = emacs/xemacs-packages/lisp/yaml-mode
 	url = https://github.com/yoshiki/yaml-mode.git
+[submodule "eat"]
+	path = eat
+	url = https://codeberg.org/akib/emacs-eat.git
