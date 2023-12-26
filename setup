@@ -34,7 +34,7 @@ git config --local fetch.recurseSubmodules yes
 
 # setup bin
 mkdir -p "${HOME}/bin"
-for script in ${mydir}/bin/*; do
+for script in "${mydir}"/bin/*; do
     try ln -sf "${script}" "${HOME}/bin/$(basename ${script})"
 done
 try ln -sf "${mydir}/lib/vcprompt/bin/vcprompt" "${HOME}/bin/vcprompt"
@@ -157,4 +157,7 @@ try ln -sf "${mydir}/rofi-config" "${HOME}"/.config/rofi/config.rasi
 # emacs eat
 try mkdir -p "${HOME}"/.local/share/eat
 try ln -sf "${mydir}/eat/integration" "${HOME}"/.local/share/eat/integration
-try ln -sf "${mydir}/eat/terminfo" "${HOME}"/.local/share/eat/terminfo
+try mkdir -p "${HOME}"/.terminfo
+for t in "${mydir}"/eat/terminfo/*; do
+    try ln -sf "${t}" "${HOME}/.terminfo/$(basename ${t})"
+done
