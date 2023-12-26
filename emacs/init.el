@@ -665,6 +665,13 @@ There are two things you can do about this warning:
            (_eat-dir-new (mapconcat 'identity (append _eat-pieces-front (list cwd)) ":")))
         (setq default-directory _eat-dir-new)))))
 
+(defun jps-eat-term-name (&optional display)
+  "Set terminal to xterm on remote hosts to ensure that backspace works https://codeberg.org/akib/emacs-eat/issues/119"
+    (if (file-remote-p default-directory)
+        "xterm"
+      (eat-term-get-suitable-term-name display)))
+(setq eat-term-name 'jps-eat-term-name)
+
 
 ;;;;;;;;;;;
 ;;
