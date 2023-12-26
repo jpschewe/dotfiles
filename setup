@@ -155,6 +155,6 @@ try mkdir -p "${HOME}"/.config/rofi
 try ln -sf "${mydir}/rofi-config" "${HOME}"/.config/rofi/config.rasi
 
 # emacs eat
-try mkdir -p "${HOME}"/.config/eat
-try ln -sf "${mydir}/eat/integration" "${HOME}"/.config/eat/integration
-try ln -sf "${mydir}/eat/terminfo" "${HOME}"/.config/eat/terminfo
+try mkdir -p "${HOME}"/.local/share/eat
+try ln -sf "${mydir}/eat/integration" "${HOME}"/.local/share/eat/integration
+try ln -sf "${mydir}/eat/terminfo" "${HOME}"/.local/share/eat/terminfo

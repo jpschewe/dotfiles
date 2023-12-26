@@ -544,10 +544,10 @@ fi
 
 ## emacs EAT
 if [ -n "${EAT_SHELL_INTEGRATION_DIR}" ]; then
-    if [ ! -e "${EAT_SHELL_INTEGRATION_DIR}/bash" -a -e "${HOME}/.config/eat/integration/bash" ]; then
-        EAT_SHELL_INTEGRATION_DIR="${HOME}/.config/eat/integration"
+    if [ ! -e "${EAT_SHELL_INTEGRATION_DIR}/bash" -a -e "${HOME}/.local/share/eat/integration/bash" ]; then
+        EAT_SHELL_INTEGRATION_DIR="${HOME}/.local/share/eat/integration"
         # terminal info will be broken too
-        TERMINFO="${HOME}/.config/eat/terminfo"
+        TERMINFO="${HOME}/.local/share/eat/terminfo"
     fi
 
     if [ -e "${EAT_SHELL_INTEGRATION_DIR}/bash" ]; then
