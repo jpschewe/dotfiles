@@ -558,7 +558,7 @@ if [ -n "${EAT_SHELL_INTEGRATION_DIR}" ]; then
         fi
         . "${EAT_SHELL_INTEGRATION_DIR}/bash"
         if [ -n "${TERM_RAW}" ]; then
-            TERM=TERM_RAW
+            TERM=${TERM_RAW}
         fi
     fi
 fi
