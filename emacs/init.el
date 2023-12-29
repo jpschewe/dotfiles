@@ -65,7 +65,7 @@ There are two things you can do about this warning:
  '(ns-tool-bar-display-mode nil t)
  '(ns-tool-bar-size-mode nil t)
  '(package-selected-packages
-   '(python-mode trashed x509-mode forge eat journalctl-mode bash-completion compat ssh magit tramp groovy-mode ascii-table php-mode pandoc pandoc-mode lsp-mode rustic cargo osx-clipboard markdown-mode diminish csharp-mode applescript-mode elpy go-mode yaml-mode))
+   '(applescript-mode ascii-table bash-completion cargo compat csharp-mode diminish eat elpy forge go-mode groovy-mode journalctl-mode lsp-mode magit markdown-mode osx-clipboard pandoc pandoc-mode php-mode python-mode rust-mode rustic ssh trashed))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    '((whitespace-newline . t)
@@ -2071,6 +2071,12 @@ in some window."
 (require 'trashed)
 (global-set-key (concat prefix-key-jps "t") 'trashed)
 
+
+(defun sort-symbols (reverse beg end)
+  "Sort symbols in region alphabetically, in REVERSE if negative.
+    See `sort-words'."
+  (interactive "*P\nr")
+  (sort-regexp-fields reverse "\\(\\sw\\|\\s_\\)+" "\\&" beg end))
 
 ;; net-utils
 (setq whois-server-name "whois.arin.net")
