@@ -970,8 +970,13 @@ There are two things you can do about this warning:
   ;; don't refresh dired buffers all of the time
   (setq dired-refresh-automatically nil)
   )
-(with-eval-after-load "dired" (dired-load-hook-jps))
+;; needs to be after dired-x due to the dired-guess* variables
+(with-eval-after-load 'dired-x (dired-load-hook-jps))
 
+;; load dired-x
+(with-eval-after-load 'dired
+  (require 'dired-x)
+  )
 
 ;; (defun dired-mode-hook-jps ()
 ;;   (set 'dired-omit-files t)
@@ -993,10 +998,6 @@ There are two things you can do about this warning:
 ;;          nil
 ;;        (kill-buffer buffer)))))
 
-;; load dired-x
-(with-eval-after-load 'dired
-  (require 'dired-x)
-  )
 
 
 ;;;;;;;;;;;
