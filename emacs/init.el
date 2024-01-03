@@ -342,10 +342,10 @@ There are two things you can do about this warning:
 
 (global-set-key (concat prefix-key-jps "f") 'iconify-frame)
 (global-set-key (concat prefix-key-jps "d") 'delete-region)
-;;(global-set-key (concat prefix-key-jps "s") 'eat-shell-jps)
-;;(global-set-key (concat prefix-key-jps "m") 'new-eat-shell-jps)
-(global-set-key (concat prefix-key-jps "s") 'shell-jps)
-(global-set-key (concat prefix-key-jps "m") 'new-shell-jps)
+(global-set-key (concat prefix-key-jps "s") 'eat-shell-jps)
+(global-set-key (concat prefix-key-jps "m") 'new-eat-shell-jps)
+;;(global-set-key (concat prefix-key-jps "s") 'shell-jps)
+;;(global-set-key (concat prefix-key-jps "m") 'new-shell-jps)
 (global-set-key (concat prefix-key-jps "e") 'eshell-jps)
 
 (defun shell-jps ()
