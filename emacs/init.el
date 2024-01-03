@@ -673,7 +673,7 @@ There are two things you can do about this warning:
         "xterm"
       (eat-term-get-suitable-term-name display)))
 (setq eat-term-name 'jps-eat-term-name)
-
+(setq eat-term-scrollback-size nil) ; unlimited scrollback
 
 ;;;;;;;;;;;
 ;;
