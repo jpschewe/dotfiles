@@ -268,6 +268,8 @@ There are two things you can do about this warning:
        )
       (running-unix
        (cond
+	((file-exists-p (expand-file-name "/usr/bin/soffice"))
+	 (setq openoffice-executable (expand-file-name "/usr/bin/soffice")))
 	((file-exists-p (expand-file-name "/usr/bin/ooffice"))
 	 (setq openoffice-executable (expand-file-name "/usr/bin/ooffice")))
 	((file-exists-p (expand-file-name "~/.ooo-1.1/soffice"))
