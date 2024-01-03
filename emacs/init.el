@@ -1534,6 +1534,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
   (setq py-indent-offset 4)
   )
 (add-hook 'python-mode-hook 'python-mode-hook-jps)
+(require 'eat) ; need to load eat before python mode https://codeberg.org/akib/emacs-eat/issues/123 https://gitlab.com/python-mode-devs/python-mode/-/issues/156
 (require 'python-mode)
 
 ;;;;;;;;;;;
