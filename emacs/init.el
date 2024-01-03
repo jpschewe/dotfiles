@@ -883,80 +883,80 @@ There are two things you can do about this warning:
     ;;gimp
     (when (and running-unix running-xemacs)
       (map 'list '(lambda (ext)
-		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "gimp"))
-		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "display"))
-		    (add-to-list 'dired-auto-shell-command-alist (list (concat "\\." ext "$") "gthumb")))
+		    (add-to-list 'dired-guess-shell-alist-user (list (concat "\\." ext "$") "gimp"))
+		    (add-to-list 'dired-guess-shell-alist-user (list (concat "\\." ext "$") "display"))
+		    (add-to-list 'dired-guess-shell-alist-user (list (concat "\\." ext "$") "gthumb")))
 	   extensions)))
   
   ;;bzip
-  (add-to-list 'dired-auto-shell-command-alist '("\\.bz2$" "bunzip2"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.tar.bz2$" "tar -jtf"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.tar.bz2$" "tar -jxvf"))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.bz2$" "bunzip2"))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.tar.bz2$" "tar -jtf"))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.tar.bz2$" "tar -jxvf"))
 
   ;;stuffit
   (when running-unix
-    (add-to-list 'dired-auto-shell-command-alist '("\\.sit$" "unstuff")))
+    (add-to-list 'dired-guess-shell-alist-user '("\\.sit$" "unstuff")))
   
   ;;office documents
-  (add-to-list 'dired-auto-shell-command-alist '("\\.doc$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.DOC$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.sxw$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.xls$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.sxc$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.sdc$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.ppt$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.sxi$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.rtf$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.sxd$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.doc$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.DOC$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.sxw$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.xls$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.sxc$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.sdc$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.ppt$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.sxi$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.rtf$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.sxd$" openoffice-executable))
 
   ;; new formats for 2.0
-  (add-to-list 'dired-auto-shell-command-alist '("\\.odt$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.ott$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.odm$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.oth$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.ods$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.ots$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.odg$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.otg$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.odp$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.otp$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.odf$" openoffice-executable))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.odb$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.odt$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.ott$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.odm$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.oth$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.ods$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.ots$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.odg$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.otg$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.odp$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.otp$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.odf$" openoffice-executable))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.odb$" openoffice-executable))
   
   ;;Protege
-  (add-to-list 'dired-auto-shell-command-alist '("\\.prj$" "protege"))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.prj$" "protege"))
 
   ;;zip
   (when running-unix
-    (add-to-list 'dired-auto-shell-command-alist '("\\.zip$" "unzip")))
+    (add-to-list 'dired-guess-shell-alist-user '("\\.zip$" "unzip")))
 
   ;;adobe
-  (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "acroread"))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.pdf$" "acroread"))
   (when running-unix
-    (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "kghostview"))
-    (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "gpdf"))
-    (add-to-list 'dired-auto-shell-command-alist '("\\.pdf$" "xpdf"))
+    (add-to-list 'dired-guess-shell-alist-user '("\\.pdf$" "kghostview"))
+    (add-to-list 'dired-guess-shell-alist-user '("\\.pdf$" "gpdf"))
+    (add-to-list 'dired-guess-shell-alist-user '("\\.pdf$" "xpdf"))
     )
 
   ;;Postscript
   (when running-unix
-    (add-to-list 'dired-auto-shell-command-alist '("\\.ps$" "kghostview"))
-    (add-to-list 'dired-auto-shell-command-alist '("\\.ps$" "gv"))
+    (add-to-list 'dired-guess-shell-alist-user '("\\.ps$" "kghostview"))
+    (add-to-list 'dired-guess-shell-alist-user '("\\.ps$" "gv"))
     )
   
   ;;dos/windows executables
   (when (or (eq system-type 'windows-nt)
 	    (eq system-type 'cygwin32))
-    (add-to-list 'dired-auto-shell-command-alist '("\\.exe$" "*f")))
+    (add-to-list 'dired-guess-shell-alist-user '("\\.exe$" "*f")))
 
   ;;java
-  (add-to-list 'dired-auto-shell-command-alist '("\\.jar$" "jar -tvf"))
-  (add-to-list 'dired-auto-shell-command-alist '("\\.jar$" "jar -xvf"))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.jar$" "jar -tvf"))
+  (add-to-list 'dired-guess-shell-alist-user '("\\.jar$" "jar -xvf"))
 
   ;; default windows handling
 ;  (when (or (eq system-type 'windows-nt)
 ;	    (eq system-type 'cygwin32))
-;    (add-to-list 'dired-auto-shell-command-alist (list ".*"
+;    (add-to-list 'dired-guess-shell-alist-user (list ".*"
 ;						       (expand-file-name "winrun" (locate-data-directory "config-jps")))))
 
   
