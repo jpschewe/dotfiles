@@ -970,7 +970,7 @@ There are two things you can do about this warning:
   ;; don't refresh dired buffers all of the time
   (setq dired-refresh-automatically nil)
   )
-;; disable for now (with-eval-after-load "dired" (dired-load-hook-jps))
+(with-eval-after-load "dired" (dired-load-hook-jps))
 
 
 ;; (defun dired-mode-hook-jps ()
