@@ -937,6 +937,7 @@ There are two things you can do about this warning:
     (add-to-list 'dired-guess-shell-alist-user '("\\.pdf$" "kghostview"))
     (add-to-list 'dired-guess-shell-alist-user '("\\.pdf$" "gpdf"))
     (add-to-list 'dired-guess-shell-alist-user '("\\.pdf$" "xpdf"))
+    (add-to-list 'dired-guess-shell-alist-user '("\\.pdf$" "evince"))
     )
 
   ;;Postscript
