@@ -2087,6 +2087,8 @@ in some window."
 ;; net-utils
 (setq whois-server-name "whois.arin.net")
 
+;; bookmark+
+(require 'bookmark+)
 
 ;;;stuff emacs likes to append on it's own
 (put 'erase-buffer 'disabled nil)
