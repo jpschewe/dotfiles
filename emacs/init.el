@@ -1803,6 +1803,7 @@ Unless optional argument INPLACE is non-nil, return a new string."
 ;;(unless (fboundp 'called-interactively-p)
 ;;  (defun called-interactively-p (kind)
 ;;    nil))
+;; Causes trouble when using tramp and editing paths
 ;;(ido-mode)
 ;;(setq ido-default-buffer-method 'selected-window)
 
