@@ -1794,6 +1794,9 @@ Unless optional argument INPLACE is non-nil, return a new string."
     ;; specify a directory in my home directory to make it secure
     ;; the directory is automatically created
     (setq tramp-auto-save-directory "~/.emacs.d/tramp-auto-save")
+
+    ;; don't shorten multi-hop paths
+    (customize-set-variable 'tramp-show-ad-hoc-proxies t)
     ))
 
 
