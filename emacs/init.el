@@ -65,7 +65,7 @@ There are two things you can do about this warning:
  '(ns-tool-bar-display-mode nil t)
  '(ns-tool-bar-size-mode nil t)
  '(package-selected-packages
-   '(applescript-mode ascii-table bash-completion cargo compat csharp-mode diminish eat elpy eshell-bookmark forge go-mode groovy-mode journalctl-mode lsp-mode magit markdown-mode osx-clipboard pandoc pandoc-mode php-mode python-mode rust-mode rustic ssh trashed yaml-mode))
+   '(applescript-mode ascii-table bash-completion cargo compat csharp-mode diminish eat elpy eshell-bookmark forge go-mode groovy-mode journalctl-mode lsp-mode magit markdown-mode osx-clipboard pandoc pandoc-mode php-mode python-mode rust-mode rustic ssh trashed x509-mode yaml-mode))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    '((whitespace-newline . t)
