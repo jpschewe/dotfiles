@@ -65,7 +65,8 @@ There are two things you can do about this warning:
  '(ns-tool-bar-display-mode nil t)
  '(ns-tool-bar-size-mode nil t)
  '(package-selected-packages
-   '(applescript-mode ascii-table bash-completion cargo compat csharp-mode diminish eat elpy eshell-bookmark forge go-mode groovy-mode journalctl-mode lsp-mode magit markdown-mode osx-clipboard pandoc pandoc-mode php-mode python-mode rust-mode rustic ssh trashed x509-mode yaml-mode))
+   ;; use sort-symbols on this before checking into git to make diffs easy to see
+   '(applescript-mode ascii-table bash-completion cargo compat csharp-mode csv-mode diminish eat elpy eshell-bookmark forge go-mode groovy-mode journalctl-mode lsp-mode magit markdown-mode osx-clipboard pandoc pandoc-mode php-mode python-mode rust-mode rustic ssh trashed x509-mode yaml-mode))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    '((whitespace-newline . t)
@@ -1793,6 +1794,9 @@ Unless optional argument INPLACE is non-nil, return a new string."
     ;; specify a directory in my home directory to make it secure
     ;; the directory is automatically created
     (setq tramp-auto-save-directory "~/.emacs.d/tramp-auto-save")
+
+    ;; don't shorten multi-hop paths
+    (customize-set-variable 'tramp-show-ad-hoc-proxies t)
     ))
 
 
@@ -2095,6 +2099,26 @@ in some window."
 (put 'erase-buffer 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (setq minibuffer-max-depth nil)
+
+
+;; csv handling
+(require 'color)
+
+(defun csv-highlight (&optional separator)
+  (interactive (list (when current-prefix-arg (read-char "Separator: "))))
+  (font-lock-mode 1)
+  (let* ((separator (or separator ?\,))
+         (n (count-matches (string separator) (pos-bol) (pos-eol)))
+         (colors (cl-loop for i from 0 to 1.0 by (/ 2.0 n)
+                          collect (apply #'color-rgb-to-hex 
+                                         (color-hsl-to-rgb i 0.3 0.5)))))
+    (cl-loop for i from 2 to n by 2 
+             for c in colors
+             for r = (format "^\\([^%c\n]+%c\\)\\{%d\\}" separator separator i)
+             do (font-lock-add-keywords nil `((,r (1 '(face (:foreground ,c)))))))))
+
+(add-hook 'csv-mode-hook 'csv-highlight)
+(add-hook 'csv-mode-hook 'csv-align-mode)
 
 ;; END
 (message "done loading configuration")
