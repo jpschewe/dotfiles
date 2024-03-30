@@ -73,6 +73,7 @@ There are two things you can do about this warning:
      (whitespace-style face trailing lines-tail space-before-tab indentation empty)))
  '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
  '(send-mail-function 'mailclient-send-it)
+ '(tramp-show-ad-hoc-proxies t t) ; don't shorten multi-hop paths
  '(visual-line-mode nil t))
 
 
@@ -1794,9 +1795,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
     ;; specify a directory in my home directory to make it secure
     ;; the directory is automatically created
     (setq tramp-auto-save-directory "~/.emacs.d/tramp-auto-save")
-
-    ;; don't shorten multi-hop paths
-    (customize-set-variable 'tramp-show-ad-hoc-proxies t)
     ))
 
 
