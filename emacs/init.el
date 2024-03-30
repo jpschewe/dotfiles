@@ -61,12 +61,13 @@ There are two things you can do about this warning:
  '(gutter-buffers-tab-enabled nil)
  '(gutter-buffers-tab-visible nil)
  '(indent-tabs-mode nil)
+ '(ispell-dictionary nil)
  '(ns-alternate-modifier 'alt)
  '(ns-tool-bar-display-mode nil t)
  '(ns-tool-bar-size-mode nil t)
+ ;; use sort-symbols on this before checking into git to make diffs easy to see
  '(package-selected-packages
-   ;; use sort-symbols on this before checking into git to make diffs easy to see
-   '(applescript-mode ascii-table bash-completion cargo compat csharp-mode csv-mode diminish eat elpy eshell-bookmark forge go-mode groovy-mode journalctl-mode lsp-mode magit markdown-mode osx-clipboard pandoc pandoc-mode php-mode python-mode rust-mode rustic ssh trashed x509-mode yaml-mode))
+   '(applescript-mode ascii-table bash-completion cargo compat csharp-mode csv-mode dape diminish eat elpy eshell-bookmark flycheck forge gnu-elpa-keyring-update go-mode groovy-mode helm helm-lsp journalctl-mode lsp-java lsp-mode lsp-ui magit markdown-mode osx-clipboard pandoc pandoc-mode php-mode projectile python-mode rust-mode rustic ssh trashed use-package which-key x509-mode yaml-mode))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    '((whitespace-newline . t)
@@ -75,6 +76,9 @@ There are two things you can do about this warning:
  '(send-mail-function 'mailclient-send-it)
  '(tramp-show-ad-hoc-proxies t t) ; don't shorten multi-hop paths
  '(visual-line-mode nil t))
+
+;; enable use-package
+(require 'use-package)
 
 
 ;; check which emacs is running
@@ -1191,27 +1195,38 @@ There are two things you can do about this warning:
 (add-hook 'cperl-mode-hook 'cperl-mode-hook-jps)
 (add-to-list 'auto-mode-alist '("\\.cgi$" . perl-mode))
 
+;;; Java IDE
+;; from https://talks.skybert.net/emacs-java-setup/emacs-java.html
+
+(use-package flycheck)
+(use-package yasnippet :config (yas-global-mode))
+(use-package lsp-mode :hook ((lsp-mode . lsp-enable-which-key-integration)))
+(use-package hydra)
+(use-package company)
+(use-package lsp-ui)
+(use-package which-key :config (which-key-mode))
+(use-package lsp-java :config (add-hook 'java-mode-hook 'lsp))
+(use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
+(use-package dap-java :ensure nil)
+(use-package helm-lsp)
+(use-package helm
+  :config (helm-mode))
+(use-package lsp-treemacs)
+(use-package projectile
+    :ensure t
+    :init (projectile-mode +1)
+    :config
+    (define-key
+        projectile-mode-map
+        (kbd "C-c p")
+        'projectile-command-map))
+
 ;;;;;;;;;;;
 ;;
 ;; Java
 ;;
 ;;;;;;;;;;;;
 (message "Java")
-
-;; Load JDE
-;;(add-to-list 'load-path (expand-file-name "~/.xemacs/jde-2.3.5/lisp"))
-;;(load-file "~/.xemacs/jde-2.3.5/lisp/jde-autoload.el")
-
-;; Load CEDET
-;;(load-file "~/.xemacs/cedet/common/cedet.el")
-;; Enabling SEMANTIC minor modes.  See semantic/INSTALL for more ideas.
-;;(semantic-load-enable-minimum-features)
-
-;; (add-to-list 'auto-mode-alist '("\\.jass$" . jde-mode))
-;; (add-to-list 'auto-mode-alist '("\\.jad$" . jde-mode))
-;; (add-to-list 'auto-mode-alist '("\\.xjava$" . jde-mode))
-;; (add-to-list 'auto-mode-alist '("\\.groovy$" . jde-mode))
-;; (add-to-list 'auto-mode-alist '("\\.astub$" . jde-mode))
 
 (add-to-list 'auto-mode-alist '("\\.jass$" . java-mode))
 (add-to-list 'auto-mode-alist '("\\.jad$" . java-mode))
@@ -1220,15 +1235,12 @@ There are two things you can do about this warning:
 (add-to-list 'auto-mode-alist '("\\.astub$" . java-mode))
 
 ;;basic setup
-(setq java-home (getenv "JAVA_HOME"))
-
 (defun java-mode-hook-jps ()
   ;; make parens show the text before the paren in the minibuffer
   (setq paren-backwards-message t)
   
-  (define-key java-mode-map "\C-cc" 'compile)
+  ;;(define-key java-mode-map "\C-cc" 'compile)
   (define-key java-mode-map (concat prefix-key-jps "l") 'insert-class-name-jps)
-  (define-key java-mode-map (concat prefix-key-jps "e") 'check-java-imports-jps)
   (define-key java-mode-map "\C-cr" 'replace-string)
   (c-set-offset 'inexpr-class 0)	;Don't indent inner classes too much
   (c-set-offset 'class-close 'c-lineup-close-paren) ;Line up end of class
@@ -1242,101 +1254,15 @@ There are two things you can do about this warning:
 ;ignore assert files from ant compilation
 (add-to-list 'completion-ignored-extensions ".assert")
 
-;;(when (eq system-type 'windows-nt)
-;;  (eval-after-load "jde-run"
-;;    ;;fix bug with wrong signal being sent to running processes
-;;    (define-key jde-run-mode-map "\C-c\C-c" 'comint-kill-subjob)))
-
-
- ;;don't jump to the first error or remove the compilation buffer! 
-(defadvice jde-compile-finish-kill-buffer (around remove-jde-compile-finish-kill-buffer)
-  "remove jde-compile-finish-kill-buffer"
-  )
-
-(defun jde-mode-hook-jps()
-  
-  ;; make parens show the text before the paren in the minibuffer
-  (setq paren-backwards-message t)
-  
-  ;;(modify-syntax-entry ?_ " ")
-  (diminish 'senator-minor-mode "Sen")
-  ;;(senator-minor-mode nil)
-  
-  ;;cperl-mode seems to screw this one up, so just make it buffer local and
-  ;;set to nil
-  (make-variable-buffer-local 'fill-paragraph-function)
-  (setq fill-paragraph-function nil)
-
-  (add-special-font-lock-faces-jps
-   (list 'java-font-lock-keywords
-	 'java-font-lock-keywords-1
-	 'java-font-lock-keywords-2
-	 'java-font-lock-keywords-3
-	 'java-font-lock-keywords-4))
-
-  (local-set-key [(control ?c) (control ?v) (control ?i)] 'jde-import-organize-jps)
-  ;;(local-set-key [(control ?c) (control ?v) (control ?z)] 'jde-import-then-organize-jps)
-  (local-set-key (concat prefix-key-jps "p") 'insert-project-header-info-jps)
-  )
-(add-hook 'jde-mode-hook 'jde-mode-hook-jps)
-
-(if running-xemacs
-    (add-hook 'jde-run-mode-hook 'turn-off-font-lock))
-
 (defvar project-header-info nil "Information about a project for the header, usually the charge number and date")
 (defun insert-project-header-info-jps ()
   (interactive)
   (insert project-header-info))
 
-(defun jde-import-then-organize-jps ()
-  (interactive)
-  (call-interactively 'jde-import-find-and-import)
-  (jde-import-organize-jps))
-
-(defun jde-import-organize-jps ()
-  (interactive)
-  (save-excursion
-    (jde-import-organize t)))
-
-;; required by cedet and defined by JDE.  This makes sure it gets defined
-;; up front.
-(unless (fboundp 'subst-char-in-string)
-  (defun subst-char-in-string (fromchar tochar string &optional inplace)
-    "Replace FROMCHAR with TOCHAR in STRING each time it occurs.
-Unless optional argument INPLACE is non-nil, return a new string."
-    (let ((i (length string))
-	  (newstr (if inplace string (copy-sequence string))))
-      (while (> i 0)
-	(setq i (1- i))
-	(if (eq (aref newstr i) fromchar)
-	    (aset newstr i tochar)))
-      newstr)))
-
-
-;;(defadvice jde-run-executable (around fix-for-process-connection-type-0)
-;;  "Fix process type to be pipes for java"
-;;  (let ((process-connection-type nil))
-;;    (setq ad-return-value ad-do-it)))
-;;
-;;(defadvice jde-run-vm-launch (around fix-for-process-connection-type-1)
-;;  "Fix process type to be pipes for java"
-;;  (let ((process-connection-type nil))
-;;    (setq ad-return-value ad-do-it)))
-;;
-;;(defadvice jde-ant-build (around fix-for-process-connection-type-2)
-;;  "Fix process type to be pipes for java"
-;;  (let ((process-connection-type nil))
-;;    (setq ad-return-value ad-do-it)))
-
 (defun insert-class-name-jps ()
   (interactive)
   (insert (replace-in-string (file-name-nondirectory (buffer-file-name))
 			     ".java" "")))
-
-(defun check-java-imports-jps ()
-  (interactive)
-  (compile (concat "imports.pl "
-		   (get-java-file-jps))))
 
 (defun get-java-file-jps ()
   (interactive)
@@ -1798,16 +1724,6 @@ Unless optional argument INPLACE is non-nil, return a new string."
     ))
 
 
-
-;;; --------------------
-;;; -- ido - buffer completion and other stuff
-;;; http://www.emacswiki.org/emacs/InteractivelyDoThings
-;;(unless (fboundp 'called-interactively-p)
-;;  (defun called-interactively-p (kind)
-;;    nil))
-;; Causes trouble when using tramp and editing paths
-;;(ido-mode)
-;;(setq ido-default-buffer-method 'selected-window)
 
 ;;;;;;;;;;;
 ;;
