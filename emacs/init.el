@@ -47,6 +47,7 @@ There are two things you can do about this warning:
  '(aquamacs-customization-version-id 216 t)
  '(aquamacs-tool-bar-user-customization nil t)
  '(auth-source-save-behavior nil)
+ '(bmkp-last-as-first-bookmark-file nil)
  '(default-frame-alist
     '((menu-bar-lines . 1)
       (foreground-color . "Black")
