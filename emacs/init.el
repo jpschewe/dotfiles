@@ -1230,7 +1230,7 @@ There are two things you can do about this warning:
 (add-to-list 'auto-mode-alist '("\\.jass$" . java-mode))
 (add-to-list 'auto-mode-alist '("\\.jad$" . java-mode))
 (add-to-list 'auto-mode-alist '("\\.xjava$" . java-mode))
-(add-to-list 'auto-mode-alist '("\\.groovy$" . java-mode))
+;;(add-to-list 'auto-mode-alist '("\\.groovy$" . java-mode))
 (add-to-list 'auto-mode-alist '("\\.astub$" . java-mode))
 
 ;;basic setup
