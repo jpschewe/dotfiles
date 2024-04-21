@@ -74,7 +74,7 @@ There are two things you can do about this warning:
      (whitespace-style face trailing lines-tail space-before-tab indentation empty)))
  '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
  '(send-mail-function 'mailclient-send-it)
- '(tramp-show-ad-hoc-proxies t t)
+ '(tramp-show-ad-hoc-proxies t)
  '(visual-line-mode nil t))
 
 ;; enable use-package
