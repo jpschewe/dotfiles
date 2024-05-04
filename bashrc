@@ -343,7 +343,7 @@ if [ -n "${INSIDE_EMACS}" ]; then
   alias more='cat'
   alias less='cat'
   #PS1="\u@\h:\w\n>";
-  export EDITOR=gnuclient
+  export EDITOR=emacsclient
   # disable pager for git
   GIT_PAGER=cat
   export GIT_PAGER
