@@ -67,7 +67,7 @@ There are two things you can do about this warning:
  '(ns-tool-bar-display-mode nil t)
  '(ns-tool-bar-size-mode nil t)
  '(package-selected-packages
-   '(applescript-mode ascii-table bash-completion cargo compat csharp-mode csv-mode diminish eat elpy eshell-bookmark flycheck forge gnu-elpa-keyring-update go-mode groovy-mode helm helm-lsp journalctl-mode lsp-java lsp-mode lsp-ui magit markdown-mode osx-clipboard pandoc pandoc-mode php-mode projectile python-mode rust-mode rustic ssh trashed use-package web-mode which-key x509-mode yaml-mode))
+   '(applescript-mode ascii-table bash-completion cargo company compat csharp-mode csv-mode diminish eat elpy eshell-bookmark flycheck forge gnu-elpa-keyring-update go-mode groovy-mode journalctl-mode magit markdown-mode osx-clipboard pandoc pandoc-mode php-mode python-mode rust-mode rustic ssh trashed use-package web-mode which-key x509-mode yaml-mode))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    '((whitespace-newline . t)
@@ -1199,27 +1199,8 @@ There are two things you can do about this warning:
 ;; from https://talks.skybert.net/emacs-java-setup/emacs-java.html
 
 (use-package flycheck)
-(use-package yasnippet :config (yas-global-mode))
-(use-package lsp-mode :hook ((lsp-mode . lsp-enable-which-key-integration)))
-(use-package hydra)
 (use-package company)
-(use-package lsp-ui)
 (use-package which-key :config (which-key-mode))
-(use-package lsp-java :config (add-hook 'java-mode-hook 'lsp))
-(use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
-(use-package dap-java :ensure nil)
-(use-package helm-lsp)
-(use-package helm
-  :config (helm-mode))
-(use-package lsp-treemacs)
-(use-package projectile
-    :ensure t
-    :init (projectile-mode +1)
-    :config
-    (define-key
-        projectile-mode-map
-        (kbd "C-c p")
-        'projectile-command-map))
 
 ;;;;;;;;;;;
 ;;
