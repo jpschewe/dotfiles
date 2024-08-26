@@ -26,7 +26,8 @@ font pango:monospace 10
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --color=3A3737 -f
+#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --color=3A3737 -f
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --color=000000 -f
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
