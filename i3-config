@@ -311,7 +311,7 @@ assign [class="TelegramDesktop"] chat
 exec "flatpak run org.telegram.desktop"
 
 assign [class="discord"] chat
-exec "discord"
+#exec "discord"
 
 for_window [title="^WhatsApp"] move container to workspace chat
 for_window [title="^Messenger"] move container to workspace chat
