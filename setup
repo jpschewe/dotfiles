@@ -18,7 +18,7 @@ do	case "${opt}" in
 done
 shift $((OPTIND-1))
 
-
+cd "${mydir}"
 # get git submodules
 # Run a second time if there is an error. This happens when a new submodule is added.
 git submodule sync >/dev/null
