@@ -49,15 +49,15 @@ There are two things you can do about this warning:
  '(auth-source-save-behavior nil)
  '(bmkp-last-as-first-bookmark-file nil)
  '(default-frame-alist
-    '((menu-bar-lines . 1)
-      (foreground-color . "Black")
-      (background-color . "White")
-      (cursor-type . box)
-      (cursor-color . "Red")
-      (internal-border-width . 0)
-      (left-fringe . 1)
-      (right-fringe)
-      (fringe)))
+   '((menu-bar-lines . 1)
+     (foreground-color . "Black")
+     (background-color . "White")
+     (cursor-type . box)
+     (cursor-color . "Red")
+     (internal-border-width . 0)
+     (left-fringe . 1)
+     (right-fringe)
+     (fringe)))
  '(display-time-mode t)
  '(gutter-buffers-tab-enabled nil)
  '(gutter-buffers-tab-visible nil)
@@ -1306,6 +1306,7 @@ There are two things you can do about this warning:
 (add-to-list 'auto-mode-alist '("\\.xsd$" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.qrc$" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.wxs$" . xml-mode))
+(add-to-list 'auto-mode-alist '("\\.fo$" . xml-mode))
 
 
 ;;;;;;;;;;;
