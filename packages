@@ -397,21 +397,6 @@ case $OSTYPE in
          ;;
 esac
 
-### Oracle XE
-#ORACLE_HOME=/usr/lib/oracle/xe/app/oracle/product/10.2.0/server/
-#export ORACLE_HOME
-#append PATH ${ORACLE_HOME}/bin
-
-### oracle
-if [ -e /usr/local/bin/oraenv ]; then
-  export ORACLE_SID=gate
-  export ORAENV_ASK=NO
-  . /usr/local/bin/oraenv
-  append PATH ${ORACLE_HOME}/bin
-  alias start_oracle="lsnrctl start; emctl start dbconsole; isqlplusctl start"
-  alias stop_oracle="lsnrctl stop; emctl stop dbconsole; isqlplusctl stop"
-fi
-
 ### Unison
 # tell unison to just use the name of a machine
 short_name=`hostname -s > /dev/null 2>&1`
