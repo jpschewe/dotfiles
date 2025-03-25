@@ -329,6 +329,8 @@ exec --no-startup-id "flameshot"
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+# bluetooth manager
+exec --no-startup-id blueman-applet 
 
 # fix composter issues
 # https://www.reddit.com/r/i3wm/comments/n3wzaj/fix_for_black_screen_in_zoom_when_annotating/
