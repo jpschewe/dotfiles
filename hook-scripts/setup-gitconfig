@@ -41,6 +41,7 @@ try git config --global alias.pwhatis "show -s --pretty='tformat:%h, %s, %ad' --
 
 # turn on rerere to keep track of conflict resolutions
 try git config --global rerere.enabled true
+try git config --global rerere.autoupdate true
 
 # global git config
 try ln -fs "${mydir}/../global-gitignore" "${HOME}/.global-gitignore"
@@ -64,3 +65,32 @@ current_value=$(git config --global --get credential.helper)
 if [ -z "${current_value}" ]; then
     try git config --global credential.helper cache
 fi
+
+# show diffs in commit message template
+git config --global commit.verbose true
+
+# prune when fetching
+git config --global fetch.prune true
+git config --global fetch.pruneTags true
+git config --global fetch.all true
+
+# make diff nice 
+git config --global diff.colorMoved plain
+git config --global diff.mnemonicPrefix true
+git config --global diff.renames true
+git config --global diff.algorithm histogram
+
+# setup default branch
+git config --global init.defaultBranch main
+
+# sort tags by version strings
+git config --global tag.sort version:refname
+
+# use columns for output
+git config --global column.ui auto
+
+# sort branches by last commit
+git config --global branch.sort -committerdate
+
+# show the base in a merge conflict
+git config --global merge.conflictstyle zdiff3
