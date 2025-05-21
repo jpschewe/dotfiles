@@ -316,7 +316,9 @@ assign [class="discord"] chat
 for_window [title="^WhatsApp"] move container to workspace chat
 for_window [title="^Messenger"] move container to workspace chat
 for_window [title=".* Slack "] move container to workspace chat
+
 for_window [title="^Signal$"] move container to workspace chat
+exec "signal-desktop"
 
 
 # disable screen blanking - has trouble with some systems
