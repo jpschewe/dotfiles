@@ -530,6 +530,10 @@ function tmux_cwd {
     tmux command-prompt -I $PWD -p "New session dir:" "attach -c %1"
 }
 
+function tmuxa {
+    tmux new-session -t main
+}
+
 ## github tokens
 if [ -e "${HOME}"/.github-token ]; then
     . "${HOME}"/.github-token
