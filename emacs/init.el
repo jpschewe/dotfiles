@@ -2017,6 +2017,30 @@ in some window."
 (add-hook 'csv-mode-hook 'csv-highlight)
 (add-hook 'csv-mode-hook 'csv-align-mode)
 
+;; ssh function
+(defun ssh-to-host-jps (host)
+  "Switch to or create a buffer based on the short name of the host and then ssh to the host"
+  (interactive "sHostname: ")
+  (let* ((hostname-dot (cl-search "." host))
+         (short-name (if hostname-dot (substring host 0 hostname-dot) host))
+         (buffer-name (concat "*" short-name "*"))
+         (buffer (get-buffer buffer-name))
+         )
+    (if buffer
+        (pop-to-buffer-same-window buffer)
+      (progn
+        (switch-to-buffer (eat--1 nil t #'pop-to-buffer-same-window))
+        (rename-buffer buffer-name t)
+        ;(eat-line-mode)
+        ;; TODO: look for shell prompt
+        (sleep-for 1)
+        (eat-term-send-string eat-terminal (concat "ssh " host "\n"))
+        ;; TODO make the character be sent
+        ;(eat-semi-char-mode)
+        ))))
+(global-set-key (concat prefix-key-jps "h") 'ssh-to-host-jps)
+
+
 ;; END
 (message "done loading configuration")
 
