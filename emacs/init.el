@@ -2017,6 +2017,31 @@ in some window."
 (add-hook 'csv-mode-hook 'csv-highlight)
 (add-hook 'csv-mode-hook 'csv-align-mode)
 
+
+;; vault
+(defun vault-jps ()
+  (interactive)
+  
+  ;; setup the vault buffer if it doesn't exist
+  (if (not (get-buffer "*vault*"))
+      (let ((new-vault-buffer (eat--1 nil t #'pop-to-buffer-same-window)))
+        (switch-to-buffer new-vault-buffer)
+        (rename-buffer "*vault*")))
+
+  (switch-to-buffer (get-buffer "*vault*"))
+
+  ;; setup the vault.log buffer if it doesn't exist
+  (if (not (get-buffer "*vault.log*"))
+      (progn
+        (switch-to-buffer (clone-indirect-buffer "*vault.log*" t))
+        (eat-emacs-mode)
+        ))
+  
+  (switch-to-buffer (get-buffer "*vault.log*"))
+  (switch-to-buffer-other-window (get-buffer "*vault*"))
+  )
+(global-set-key (concat prefix-key-jps "v") 'vault-jps)
+
 ;; ssh function
 (defun ssh-to-host-jps (host)
   "Switch to or create a buffer based on the short name of the host and then ssh to the host"
