@@ -1996,6 +1996,7 @@ in some window."
 (put 'narrow-to-region 'disabled nil)
 (setq minibuffer-max-depth nil)
 
+(setq bookmark-save-flag 1)
 
 ;; csv handling
 (require 'color)
