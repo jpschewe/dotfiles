@@ -1996,6 +1996,7 @@ in some window."
 (put 'narrow-to-region 'disabled nil)
 (setq minibuffer-max-depth nil)
 
+(setq bookmark-save-flag 1)
 
 ;; csv handling
 (require 'color)
@@ -2015,6 +2016,55 @@ in some window."
 
 (add-hook 'csv-mode-hook 'csv-highlight)
 (add-hook 'csv-mode-hook 'csv-align-mode)
+
+
+;; vault
+(defun vault-jps ()
+  (interactive)
+  
+  ;; setup the vault buffer if it doesn't exist
+  (if (not (get-buffer "*vault*"))
+      (let ((new-vault-buffer (eat--1 nil t #'pop-to-buffer-same-window)))
+        (switch-to-buffer new-vault-buffer)
+        (rename-buffer "*vault*")))
+
+  (switch-to-buffer (get-buffer "*vault*"))
+
+  ;; setup the vault.log buffer if it doesn't exist
+  (if (not (get-buffer "*vault.log*"))
+      (progn
+        (switch-to-buffer (clone-indirect-buffer "*vault.log*" t))
+        (eat-emacs-mode)
+        ))
+  
+  (switch-to-buffer (get-buffer "*vault.log*"))
+  (switch-to-buffer-other-window (get-buffer "*vault*"))
+  )
+(global-set-key (concat prefix-key-jps "v") 'vault-jps)
+
+;; ssh function
+(defun ssh-to-host-jps (host)
+  "Switch to or create a buffer based on the short name of the host and then ssh to the host"
+  (interactive "sHostname: ")
+  (let* ((hostname-dot (cl-search "." host))
+         (short-name (if hostname-dot (substring host 0 hostname-dot) host))
+         (buffer-name (concat "*" short-name "*"))
+         (buffer (get-buffer buffer-name))
+         )
+    (if buffer
+        (pop-to-buffer-same-window buffer)
+      (progn
+        (switch-to-buffer (eat--1 nil t #'pop-to-buffer-same-window))
+        (rename-buffer buffer-name t)
+        ;(eat-line-mode)
+        ;; TODO: look for shell prompt
+        (sleep-for 1)
+        (eat-term-send-string eat-terminal (concat "ssh " host "\n"))
+        ;; TODO make the character be sent
+        ;(eat-semi-char-mode)
+        ))))
+(global-set-key (concat prefix-key-jps "h") 'ssh-to-host-jps)
+
 
 ;; END
 (message "done loading configuration")
