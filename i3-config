@@ -63,7 +63,7 @@ bindsym $mod+Shift+q kill
 #bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 #bindsym $mod+d exec rofi_scaled -modi "drun#run#window#ssh" -show drun
 #bindsym $mod+d exec rofi -dpi 200 -modi "drun#run#window#ssh" -show drun
-bindsym $mod+d exec rofi -show drun
+bindsym $mod+d exec rofi -show combi
 
 # change focus
 bindsym $mod+h focus left; exec --no-startup-id center-mouse
@@ -176,7 +176,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # system menu
 set $mode_system System (l) lock, (e) logout, (Shift+r) reboot, (Shift+s) shutdown
@@ -287,9 +287,10 @@ bindsym $mod+u mode "scratchpad"
 # finds out, if available)
 bar {
         status_command i3status
+        #font pango:monospace 10
 }
 
-# applications to start on login
+# Applications to start on login
 exec_always --no-startup-id numlockx on
 
 exec --no-startup-id "duplicati --no-hosted-server"

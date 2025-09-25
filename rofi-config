@@ -1,9 +1,15 @@
+// -*- javascript -*-
+
 configuration {
-	display-drun: "Applications";
-	display-window: "Windows";
-	modi: "drun,run,filebrowser,window,ssh";
-	kb-cancel: "Escape,Alt+F1";
-	show-icons: true;
-	icon-theme: "Papirus";
- }
- 
+    // modi: [combi,drun,run,filebrowser,window,ssh,"recent:rofi-recent"];
+    modes: [combi,drun,run,ssh,window,"recent:rofi-recent",filebrowser];
+    //combi-modes: [drun,run,"recent:rofi-recent",window,ssh];
+    combi-modes: [drun,run,window,ssh];
+    kb-cancel: "Escape,Alt+F1";
+    show-icons: true;
+    icon-theme: "Papirus";
+    // display-recent: "";
+    display-drun: "Applications";
+    display-window: "Windows";
+    display-combi: "";
+}
