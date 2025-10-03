@@ -2,7 +2,8 @@
 
 configuration {
     // modi: [combi,drun,run,filebrowser,window,ssh,"recent:rofi-recent"];
-    modes: [combi,drun,run,ssh,window,"recent:rofi-recent",filebrowser];
+    //modes: [combi,drun,run,ssh,window,"recent:rofi-recent",filebrowser];
+    modes: [combi,drun,run,ssh,window,filebrowser];
     //combi-modes: [drun,run,"recent:rofi-recent",window,ssh];
     combi-modes: [drun,run,window,ssh];
     kb-cancel: "Escape,Alt+F1";
