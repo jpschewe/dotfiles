@@ -9,8 +9,8 @@
 # If the above line is not correctly displayed, fix your editor first!
 
 general {
-        colors = true
-        interval = 5
+  colors = true
+  interval = 5
 }
 
 order += "battery 0"
@@ -24,50 +24,50 @@ order += "ethernet _first_"
 order += "tztime local"
 
 wireless _first_ {
-        format_up = "W: (%quality at %essid, %bitrate / %frequency) %ip"
-        format_down = "W: down"
+  format_up = "W: (%quality at %essid, %bitrate / %frequency) %ip"
+  format_down = "W: down"
 }
 
 ethernet _first_ {
-        format_up = "E: %ip (%speed)"
-        format_down = "E: down"
+  format_up = "E: %ip (%speed)"
+  format_down = "E: down"
 }
 
 battery 0 {
-        format = "%status %percentage %remaining"
-        status_full = "🔋"
-        status_chr = "🔌"
-        status_bat = "🪫"
-        status_unk = "🔌"
-        format_down = "🔌"
-        last_full_capacity = true
+  format = "%status %percentage %remaining"
+  status_full = "🔋"
+  status_chr = "🔌"
+  status_bat = "🪫"
+  status_unk = "🔌"
+  format_down = "🔌"
+  last_full_capacity = true
 }
 
 disk "/" {
-        format = "%avail"
+  format = "%avail"
 }
 
 load {
-        format = "%1min"
+  format = "%1min"
 }
 
 memory {
-        format = "🐏 %used | %available"
-        #threshold_degraded = "1G"
-        #format_degraded = "MEMORY < %available"
-        threshold_degraded = "10%"
-        format_degraded = "🐏⚠️  %used / %total"
+  format = "🐏 %used | %available"
+  #threshold_degraded = "1G"
+  #format_degraded = "MEMORY < %available"
+  threshold_degraded = "10%"
+  format_degraded = "🐏⚠️  %used / %total"
 }
 
 tztime local {
-        #format = "%Y-%m-%d %H:%M:%S"
+  #format = "%Y-%m-%d %H:%M:%S"
 	format = "%a %D %H:%M"
 }
 
 volume master {
-        format = "♪: %volume"
-        format_muted = "♪: muted (%volume)"
-        device = "default"
-        mixer = "Master"
-        mixer_idx = 0
+  format = "♪: %volume"
+  format_muted = "♪: muted (%volume)"
+  device = "default"
+  mixer = "Master"
+  mixer_idx = 0
 }
