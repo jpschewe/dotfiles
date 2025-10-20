@@ -13,7 +13,7 @@ general {
         interval = 5
 }
 
-order += "battery all"
+order += "battery 0"
 order += "volume master"
 order += "ipv6"
 order += "wireless _first_"
@@ -33,8 +33,14 @@ ethernet _first_ {
         format_down = "E: down"
 }
 
-battery all {
+battery 0 {
         format = "%status %percentage %remaining"
+        status_full = "🔋"
+        status_chr = "🔌"
+        status_bat = "🪫"
+        status_unk = "🔌"
+        format_down = "🔌"
+        last_full_capacity = true
 }
 
 disk "/" {
@@ -46,9 +52,11 @@ load {
 }
 
 memory {
-        format = "%used | %available"
-        threshold_degraded = "1G"
-        format_degraded = "MEMORY < %available"
+        format = "🐏 %used | %available"
+        #threshold_degraded = "1G"
+        #format_degraded = "MEMORY < %available"
+        threshold_degraded = "10%"
+        format_degraded = "🐏⚠️  %used / %total"
 }
 
 tztime local {
