@@ -182,7 +182,6 @@ There are two things you can do about this warning:
       visible-bell t;; don't beep
       scroll-step 5			; set how many lines to scroll at a time
       enable-local-eval t ;;don't propmt me about evals in files
-      delete-by-moving-to-trash t ;; don't delete files, move them to the trash
       )
 
 ;; turn off file locking
@@ -1974,9 +1973,21 @@ in some window."
 ;; HELP-mode
 (setq help-window-select t) ; always focus on the help buffer after asking for help
 
+;;;;;;;;;;;
+;;
+;; Trash
+;;
+;;;;;;;;;;;;
+(setq delete-by-moving-to-trash t) ;; don't delete files, move them to the trash
+
 ;; manage the trash
 (require 'trashed)
 (global-set-key (concat prefix-key-jps "t") 'trashed)
+
+(require 'trash-settings)
+;; don't trash remote files, just delete them
+(add-to-list 'system-trash-exclude-path-matches
+             'file-remote-p)
 
 
 (defun sort-symbols (reverse beg end)
