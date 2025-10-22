@@ -286,8 +286,36 @@ bindsym $mod+u mode "scratchpad"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
-        #font pango:monospace 10
+  status_command i3status
+
+  #font pango:monospace 10
+  #font pango:CommitMono Regular 8
+
+  # top right bottom left
+  #padding 5px 5px 5px 5px
+
+  colors {
+    # See https://i3wm.org/docs/userguide.html#_colors for colors
+    # visual: #272C42
+    # tabLine: #3E445E
+    # modeMsg: #6B7089
+
+    background #272C42
+    statusline #F8F8F2
+    separator  #6B7089
+
+    # whati            border  bg      text
+    focused_workspace  #161821 #B4BE82 #000000
+    #active_workspace   #161821 #161821 #B4BE82
+    inactive_workspace #161821 #161821 #6B7089
+    #urgent_workspace   #161821 #161821 #6B7089
+    #binding_mode       #161821 #161821 #6B7089
+    #focused_workspace  #4c7899 #285577 #ffffff
+    active_workspace   #333333 #5f676a #ffffff
+    #inactive_workspace #333333 #222222 #888888
+    urgent_workspace   #2f343a #900000 #ffffff
+    binding_mode       #2f343a #900000 #ffffffx
+  }
 }
 
 # Applications to start on login
