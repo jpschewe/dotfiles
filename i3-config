@@ -77,6 +77,52 @@ bindsym $mod+Down focus down; exec --no-startup-id center-mouse
 bindsym $mod+Up focus up; exec --no-startup-id center-mouse
 bindsym $mod+Right focus right; exec --no-startup-id center-mouse
 
+# Ideas from
+# https://gist.github.com/danhab99/050d68eea261da1374807c79ac63bfde
+# 
+set $mode_mouse Move Mouse
+mode "$mode_mouse" {
+    # move mouse pointer (vi keys)
+    # left
+    bindsym h exec xdotool mousemove_relative -p 270 10
+    # down
+    bindsym j exec xdotool mousemove_relative -p 0 10
+    # up
+    bindsym k exec xdotool mousemove_relative -p 180 10
+    # right
+    bindsym l exec xdotool mousemove_relative -p 90 10
+    
+    # move fast
+    bindsym y exec xdotool mousemove_relative -p 270 100
+    bindsym u exec xdotool mousemove_relative -p 0 100
+    bindsym i exec xdotool mousemove_relative -p 180 100
+    bindsym o exec xdotool mousemove_relative -p 90 100
+    
+    # move slow
+    bindsym n exec xdotool mousemove_relative -p 270 5
+    bindsym m exec xdotool mousemove_relative -p 0 5
+    bindsym comma exec xdotool mousemove_relative -p 180 5
+    bindsym period exec xdotool mousemove_relative -p 90 5
+
+    # click
+    bindsym f exec xdotool click 1
+    bindsym d exec xdotool click 2
+    bindsym s exec xdotool click 3
+
+    # mouse up and down
+    bindsym v exec xdotool mousedown 1
+    bindsym c exec xdotool mousedown 2
+    bindsym x exec xdotool mousedown 3
+    
+    bindsym r exec xdotool mouseup 1
+    bindsym e exec xdotool mouseup 2
+    bindsym w exec xdotool mouseup 3
+    
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+}
+bindsym $mod+m mode "$mode_mouse"
+
 # move focused window
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
