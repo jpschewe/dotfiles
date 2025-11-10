@@ -533,7 +533,7 @@ if [ -e "${HOME}"/.cargo/env ]; then
     . "${HOME}"/.cargo/env
 fi
 
-append "${HOME}"/.krew/bin
+append PATH "${HOME}"/.krew/bin
 
 ### HOME
 prepend PATH "${HOME}/bin"
