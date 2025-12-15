@@ -286,10 +286,6 @@ bindsym $mod+r mode "resize"
 
 # floating windows for things that should always be easily accessible
 # works
-#bindsym $mod+Shift+minus move scratchpad
-#bindsym $mod+p [title="^.*KeePassXC$"] scratchpad show
-#bindsym $mod+m [title="^Rhythmbox"] scratchpad show
-
 mode "scratchpad" {
 
      bindsym a [class="Pavucontrol"] scratchpad show, mode "default"
@@ -315,17 +311,16 @@ mode "scratchpad" {
 }
 bindsym $mod+u mode "scratchpad"
 
+# scratchpad windows
+for_window [title="^.*KeePassXC$"] move scratchpad, scratchpad show, resize set 100 100
+for_window [title="^.*Toggl"] move scratchpad, scratchpad show, resize set 100 200
+for_window [title="^BpyTOP"] move scratchpad, scratchpad show, resize set 300 200
+
 # not working
 # keycode 135 is the menu key
 #exec --no-startup-id xmodmap -e "add mod3 = Menu"
 # exec --no-startup-id xmodmap -e "remove mod4 = Super_R"
 # exec --no-startup-id xmodmap -e "keycode 135 = Super_R"
-
-# set $menu Mod3
-# bindsym $menu+h move scratchpad
-# bindsym $menu+p [title="^.*KeePassXC$"] scratchpad show
-# bindsym $menu+m [title="^Rhythmbox"] scratchpad show
-
 
 # add HDMI monitor when connected
 # exec --no-startup-id xrandr --output HDMI-1-0 --right-of eDP-1
