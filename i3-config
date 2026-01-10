@@ -44,6 +44,10 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s 5-%
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl s +5%
 
+# keyboard colors
+bindsym XF86KbdBrightnessUp exec --no-startup-id /home/jpschewe/src/system76-kbd-led/build/src/system76-kbd-led -i +5
+bindsym XF86KbdBrightnessDown exec --no-startup-id /home/jpschewe/src/system76-kbd-led/build/src/system76-kbd-led -i -5
+bindsym XF86KbdLightOnOff exec --no-startup-id /home/jpschewe/src/system76-kbd-led/build/src/system76-kbd-led -t
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -379,7 +383,7 @@ for_window [class="Pavucontrol"] move scratchpad
 exec --no-startup-id "pavucontrol"
 
 for_window [title="^BpyTOP"] move scratchpad
-exec --no-startup-id "i3-sensible-terminal -e \"bpytop\""
+exec --no-startup-id "i3-sensible-terminal -e \"uvx bpytop\""
 
 assign [class="TelegramDesktop"] chat
 #exec "flatpak run org.telegram.desktop"
