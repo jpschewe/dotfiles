@@ -10,3 +10,6 @@
 [submodule "eat"]
 	path = eat
 	url = https://codeberg.org/akib/emacs-eat.git
+[submodule "emacs/xemacs-packages/lisp/bookmark-plus"]
+	path = emacs/xemacs-packages/lisp/bookmark-plus
+	url = https://github.com/emacsmirror/bookmark-plus.git
