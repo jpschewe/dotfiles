@@ -508,6 +508,9 @@ There are two things you can do about this warning:
 ;; used for selected text
 (set-face-attribute 'region nil :background "#666")
 
+;; font size
+(set-face-attribute 'default t :height 140) ; 14pt
+
 (set-face-foreground 'font-lock-warning-face "yellow")
 (set-face-background 'font-lock-warning-face "red")
 (make-face 'font-lock-todo-face)
