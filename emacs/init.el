@@ -6,13 +6,12 @@
 ;; use install-packages.sh to install packages
 
 ;; If there are no archived package contents, refresh them
-;;(when (not package-archive-contents)
-;;  (package-refresh-contents))
+;;(when (not package-archive-contents) (package-refresh-contents))
 
 ; rebuild installed packages - useful when changing versions of emacs
 ;; (byte-recompile-directory package-user-dir nil 'force)
 
-;; use package-install-selected-packages to install the packages in the variable package-selected-packages
+;; use (package-install-selected-packages) to install the packages in the variable package-selected-packages
 
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))

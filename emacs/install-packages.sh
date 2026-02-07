@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# install selected packages and upgrade if desired
+
 debug() { ! "${log_debug-false}" || log "DEBUG: $*" >&2; }
 log() { printf '%s\n' "$*"; }
 warn() { log "WARNING: $*" >&2; }

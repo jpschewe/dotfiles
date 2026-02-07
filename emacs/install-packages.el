@@ -1,24 +1,19 @@
 (require 'package)
 
-(package-initialize)
+(package-refresh-contents)
 
-(when (not package-archive-contents)
-  (package-refresh-contents))
+(package-install-selected-packages)
 
-(mapc #'(lambda (package)
-	  (unless (package-installed-p package)
-	    (package-install package)))
-      '(
-	ascii-table
-	php-mode
- 	applescript-mode
- 	cargo
- 	csharp-mode
- 	diminish
- 	elpy
- 	go-mode
- 	markdown-mode
- 	osx-clipboard
- 	rustic
- 	yaml-mode
- 	))
+;; prompt to update update all packages
+(let ((upgrade-count (length (package-menu--find-upgrades))))
+  (if (> upgrade-count 0)
+      (if (yes-or-no-p (format "%d packages can be upgraded. Do it now? " upgrade-count))
+          (progn
+            (package-menu-mark-upgrades)
+            (package-menu-execute t)
+            (message "Upgrades complete."))
+        (message "Upgrade cancelled."))
+    (message "All packages are up to date.")))
+
+;; compile packages
+(byte-recompile-directory package-user-dir nil 'force)
