@@ -67,7 +67,7 @@ There are two things you can do about this warning:
  '(ns-tool-bar-display-mode nil t)
  '(ns-tool-bar-size-mode nil t)
  '(package-selected-packages
-   '(applescript-mode ascii-table bash-completion cargo company compat csharp-mode csv-mode diminish eat elpy eshell-bookmark flycheck forge gnu-elpa-keyring-update go-mode groovy-mode journalctl-mode lsp-mode magit markdown-mode osx-clipboard pandoc pandoc-mode php-mode python-mode rust-mode rustic ssh trashed use-package web-mode which-key x509-mode yaml-mode))
+   '(applescript-mode ascii-table bash-completion cargo company compat csharp-mode csv-mode diminish eat elpy embark eshell-bookmark flycheck forge gnu-elpa-keyring-update go-mode groovy-mode journalctl-mode lsp-mode magit markdown-mode osx-clipboard pandoc pandoc-mode php-mode python-mode rust-mode rustic ssh trashed use-package web-mode which-key x509-mode yaml-mode))
  '(query-user-mail-address nil)
  '(safe-local-variable-values
    '((whitespace-newline . t)
@@ -163,6 +163,8 @@ There are two things you can do about this warning:
        )
       )
 
+;; make sure to always split windows vertically
+(setq split-width-threshold 80000)
 
 (setq next-line-add-newlines nil;; no newlines at EOF
       mouse-yank-at-point t;; yank from current position, ignore mouse
@@ -637,6 +639,30 @@ There are two things you can do about this warning:
   )
 (add-hook 'ssh-mode-hook 'ssh-hook-jps)
 
+
+(defun ssh-to-host-jps (host)
+  "Switch to or create a buffer based on the short name of the host and then ssh to the host"
+  (interactive "sHostname: ")
+  (let* ((hostname-dot (cl-search "." host))
+         (short-name (if hostname-dot (substring host 0 hostname-dot) host))
+         (buffer-name (concat "*" short-name "*"))
+         (buffer (get-buffer buffer-name))
+         )
+    (if buffer
+        (pop-to-buffer-same-window buffer)
+      (progn
+        (switch-to-buffer (eat--1 nil t #'pop-to-buffer-same-window))
+        (rename-buffer buffer-name t)
+        ;(eat-line-mode)
+        ;; TODO: look for shell prompt
+        (sleep-for 1)
+        (eat-term-send-string eat-terminal (concat "ssh " host "\n"))
+        ;; TODO make the character be sent
+        ;(eat-semi-char-mode)
+        ))))
+(global-set-key (concat prefix-key-jps "h") 'ssh-to-host-jps)
+
+
 (require 'bash-completion)
 (bash-completion-setup)
 
@@ -1007,6 +1033,11 @@ There are two things you can do about this warning:
 ;;                     (= (nth 1 (nth 5 attributes)) (cdr modtime)))))
 ;;          nil
 ;;        (kill-buffer buffer)))))
+
+;; dired switch on some Linux distros doesn't work
+(if (and running-xemacs
+	 (or (eq system-type 'linux) (eq system-type 'gnu/linux)))
+    (setq dired-use-ls-dired nil))
 
 
 
@@ -1452,6 +1483,12 @@ There are two things you can do about this warning:
 (require 'eat) ; need to load eat before python mode https://codeberg.org/akib/emacs-eat/issues/123 https://gitlab.com/python-mode-devs/python-mode/-/issues/156
 (require 'python-mode)
 
+;; elpy mode
+(setq python-shell-interpreter "python3"
+      python-shell-interpreter-args "-i")
+(setq elpy-rpc-python-command python-shell-interpreter)
+
+
 ;;;;;;;;;;;
 ;;
 ;; conf mode
@@ -1527,7 +1564,6 @@ There are two things you can do about this warning:
   "Revert the current buffer with no questions asked"
   (interactive)
   (revert-buffer t t nil))
-
 
 ;; ASCII table
 (defun ascii-table ()
@@ -1609,7 +1645,7 @@ There are two things you can do about this warning:
 (message "Save Place")
 (require 'saveplace)
 (setq-default save-place t)
-(setq save-place-file "~/.xemacs/saved-places")
+;;(setq save-place-file "~/.xemacs/saved-places")
 ; may speed up emacs exit (setq save-place-forget-unreadable-files nil)
 
 ;;;;;;;;;;;
@@ -1641,22 +1677,6 @@ There are two things you can do about this warning:
   ;; (when running-xemacs
   ;;   (require 'auto-save)
   ;;   )
-  )
-
-(when (and
-       running-unix
-       (fboundp 'gnuserv-start)
-       )
-  ;;(setq gnuserv-frame t);;Use the current frame for gnuserv clients, Setting this causes gnuclient to not work correctly!
-  (gnuserv-start)
-  )
-
-(when (and
-       running-unix
-       (fboundp 'server-start)
-       )
-  ;;(setq gnuserv-frame t);;Use the current frame for gnuserv clients, Setting this causes gnuclient to not work correctly!
-  (server-start)
   )
 
 ;; dictionary and thesaurus
@@ -1913,15 +1933,11 @@ in some window."
 ;;HACK Something is screwed up, but this fixes it
 (when (not (boundp 'null-buffer-file-name)) (defun null-buffer-file-name ()))
 
-;; make sure to always split windows vertically
-(setq split-width-threshold 80000)
-
-;; dired switch on some Linux distros doesn't work
-(if (and running-xemacs
-	 (or (eq system-type 'linux) (eq system-type 'gnu/linux)))
-    (setq dired-use-ls-dired nil))
-
+;;;;;;;;;;;
+;;
 ;; go-mode
+;;
+;;;;;;;;;;;;
 (add-hook 'go-mode-hook
 	  '(lambda ()
 	     ;; make parens show the text before the paren in the minibuffer
@@ -1930,7 +1946,11 @@ in some window."
 	     (setq tab-width 2)
 	     ))
 
+;;;;;;;;;;;
+;;
 ;; yaml-mode
+;;
+;;;;;;;;;;;;
 ;;(require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 
@@ -1938,30 +1958,33 @@ in some window."
           (lambda ()
             (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 
+;;;;;;;;;;;
+;;
 ;; applescript
+;;
+;;;;;;;;;;;;
 (autoload 'applescript-mode "applescript-mode"
   "Major mode for editing AppleScript source." t)
 (add-to-list 'auto-mode-alist '("\\.applescript$" . applescript-mode))
 
-;; something for Aquamacs
-(if (not (boundp 'display-info))
-    (setq display-info nil))
 
-
+;;;;;;;;;;;
+;;
 ;; pandoc mode
-
+;;
+;;;;;;;;;;;;
 (setq pandoc-data-dir "~/.xemacs/xemacs-packages/etc/pandoc-mode")
 (add-hook 'pandoc-mode-hook 'pandoc-load-default-settings)
 
+
+;;;;;;;;;;;
+;;
 ;; cua mode
+;;
+;;;;;;;;;;;;
 (setq cua-enable-cua-keys nil)  ; enable only CUA's rectangle selections
 (cua-mode t)
 
-
-;; elpy mode
-(setq python-shell-interpreter "python3"
-      python-shell-interpreter-args "-i")
-(setq elpy-rpc-python-command python-shell-interpreter)
 
 ;; prompt before exit
 (defun ask-before-closing ()
@@ -1973,7 +1996,12 @@ in some window."
 
 (global-set-key (kbd "C-x C-c") 'ask-before-closing)
 
-;; HELP-mode
+
+;;;;;;;;;;;
+;;
+;; HELP mode
+;;
+;;;;;;;;;;;;
 (setq help-window-select t) ; always focus on the help buffer after asking for help
 
 ;;;;;;;;;;;
@@ -1999,18 +2027,24 @@ in some window."
   (interactive "*P\nr")
   (sort-regexp-fields reverse "\\(\\sw\\|\\s_\\)+" "\\&" beg end))
 
+;;;;;;;;;;;
+;;
 ;; net-utils
+;;
+;;;;;;;;;;;;
 (setq whois-server-name "whois.arin.net")
+
+;;;;;;;;;;;
+;;
+;; Bookmark, Bookmark+
+;;
+;;;;;;;;;;;;
 
 ;; bookmark+
 (require 'bookmark+)
 
-;;;stuff emacs likes to append on it's own
-(put 'erase-buffer 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-(setq minibuffer-max-depth nil)
-
 (setq bookmark-save-flag 1)
+
 
 ;; handler for opening files with xdg-open
 (defun jps-xdg-open-bookmark-handler (bookmark)
@@ -2031,12 +2065,16 @@ in some window."
 
 (global-set-key (kbd "C-x r e") 'bmkp-bookmark-a-file)
 
-
 ;; bookmark list bindings
 (define-key bookmark-bmenu-mode-map "n" 'next-line)
 (define-key bookmark-bmenu-mode-map "p" 'previous-line)
 
-;; csv handling
+;;;;;;;;;;;
+;;
+;; CSV formatting
+;;
+;;;;;;;;;;;;
+
 (require 'color)
 
 (defun csv-highlight (&optional separator)
@@ -2056,7 +2094,11 @@ in some window."
 (add-hook 'csv-mode-hook 'csv-align-mode)
 
 
-;; vault
+;;;;;;;;;;;
+;;
+;; Hashicorp Vault
+;;
+;;;;;;;;;;;;
 (defun vault-jps ()
   (interactive)
   
@@ -2080,28 +2122,42 @@ in some window."
   )
 (global-set-key (concat prefix-key-jps "v") 'vault-jps)
 
-;; ssh function
-(defun ssh-to-host-jps (host)
-  "Switch to or create a buffer based on the short name of the host and then ssh to the host"
-  (interactive "sHostname: ")
-  (let* ((hostname-dot (cl-search "." host))
-         (short-name (if hostname-dot (substring host 0 hostname-dot) host))
-         (buffer-name (concat "*" short-name "*"))
-         (buffer (get-buffer buffer-name))
-         )
-    (if buffer
-        (pop-to-buffer-same-window buffer)
-      (progn
-        (switch-to-buffer (eat--1 nil t #'pop-to-buffer-same-window))
-        (rename-buffer buffer-name t)
-        ;(eat-line-mode)
-        ;; TODO: look for shell prompt
-        (sleep-for 1)
-        (eat-term-send-string eat-terminal (concat "ssh " host "\n"))
-        ;; TODO make the character be sent
-        ;(eat-semi-char-mode)
-        ))))
-(global-set-key (concat prefix-key-jps "h") 'ssh-to-host-jps)
+;;;;;;;;;;;
+;;
+;; embark
+;; https://github.com/oantolin/embark?tab=readme-ov-file
+;;
+;;;;;;;;;;;;
+(require 'embark)
+(global-set-key (kbd "C-.") 'embark-act)
+
+
+;;;;;;;;;;;
+;;
+;; Server
+;;
+;;;;;;;;;;;;
+(when (and
+       running-unix
+       (fboundp 'gnuserv-start)
+       )
+  ;;(setq gnuserv-frame t);;Use the current frame for gnuserv clients, Setting this causes gnuclient to not work correctly!
+  (gnuserv-start)
+  )
+
+(when (and
+       running-unix
+       (fboundp 'server-start)
+       )
+  ;;(setq gnuserv-frame t);;Use the current frame for gnuserv clients, Setting this causes gnuclient to not work correctly!
+  (server-start)
+  )
+
+
+;;;stuff emacs likes to append on it's own
+(put 'erase-buffer 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(setq minibuffer-max-depth nil)
 
 
 ;; END
