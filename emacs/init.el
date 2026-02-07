@@ -765,14 +765,6 @@ There are two things you can do about this warning:
 
 ;;;;;;;;;;;
 ;;
-;; Alter
-;;
-;;;;;;;;;;;;
-(add-to-list 'auto-mode-alist  '("\\.alt$" . scheme-mode))
-(add-to-list 'auto-mode-alist  '("\\.lib$" . scheme-mode))
-
-;;;;;;;;;;;
-;;
 ;; Lisp
 ;;
 ;;;;;;;;;;;;
