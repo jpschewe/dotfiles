@@ -8,7 +8,7 @@
 ;; If there are no archived package contents, refresh them
 ;;(when (not package-archive-contents) (package-refresh-contents))
 
-; rebuild installed packages - useful when changing versions of emacs
+                                        ; rebuild installed packages - useful when changing versions of emacs
 ;; (byte-recompile-directory package-user-dir nil 'force)
 
 ;; use (package-install-selected-packages) to install the packages in the variable package-selected-packages
@@ -35,7 +35,7 @@ There are two things you can do about this warning:
     (add-to-list 'package-archives
                  '("nongnu" . "https://elpa.nongnu.org/nongnu/")))
   )
-;should not be needed (package-initialize)
+                                        ;should not be needed (package-initialize)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -299,21 +299,21 @@ There are two things you can do about this warning:
        (if (executable-find "trash")
 	   ;; true
 	   (progn
-	    (defun system-move-file-to-trash (file)
-	   "Use \"trash\" to move FILE to the system trash."
-	   (call-process (executable-find "trash")
-			 nil 0 nil
-			 file)))
+	     (defun system-move-file-to-trash (file)
+	       "Use \"trash\" to move FILE to the system trash."
+	       (call-process (executable-find "trash")
+			     nil 0 nil
+			     file)))
 	 ;; false
 	 (setq delete-by-moving-to-trash nil)
 	 )
        
        ;; for macports
-       ;(let ((path-entries (split-string (getenv "PATH") ":")))
-	 ;(add-to-list 'path-entries "/opt/local/bin")
-	 ;(add-to-list 'path-entries "/Users/jschewe/bin")
-	 ;(setenv "PATH" (mapconcat 'identity path-entries ":"))
-;	 )
+                                        ;(let ((path-entries (split-string (getenv "PATH") ":")))
+                                        ;(add-to-list 'path-entries "/opt/local/bin")
+                                        ;(add-to-list 'path-entries "/Users/jschewe/bin")
+                                        ;(setenv "PATH" (mapconcat 'identity path-entries ":"))
+                                        ;	 )
 
        ))
 
@@ -370,7 +370,7 @@ There are two things you can do about this warning:
   )
 
 (defun new-shell-jps ()
-    "Create a new shell buffer"
+  "Create a new shell buffer"
   (interactive)
   (let ((current-prefix-arg '-)) ;; emulate C-u
     (call-interactively 'shell-jps)))
@@ -404,7 +404,7 @@ There are two things you can do about this warning:
   (interactive)
   (insert (format-time-string "%Y-%m-%d") " -- " (user-full-name)))
 (global-set-key (concat prefix-key-jps "c") 'insert-date-signature)
- 
+
 (global-set-key [(meta return)] 'hippie-expand);; expand
 ;; replaced by C-x C-q (global-set-key [insert] 'toggle-read-only)
 
@@ -412,8 +412,8 @@ There are two things you can do about this warning:
 (global-set-key [(button4)] 'scroll-down-command)
 (global-set-key [(button5)] 'scroll-up-command)
 
-;(global-set-key [(control ?s)] 'isearch-forward-regexp)
-;(global-set-key [(control ?r)] 'isearch-backward-regexp)
+                                        ;(global-set-key [(control ?s)] 'isearch-forward-regexp)
+                                        ;(global-set-key [(control ?r)] 'isearch-backward-regexp)
 
 ;;(global-set-key [f6] 'x-copy-primary-selection)
 ;;(global-set-key [f8] 'x-yank-clipboard-selection)
@@ -455,11 +455,11 @@ There are two things you can do about this warning:
 ;;(global-set-key [(control f27)] 'beginning-of-buffer)
 ;;(global-set-key [(control f33)] 'end-of-buffer)
 
-;(global-set-key "\C-x\C-v" 'view-file)
+                                        ;(global-set-key "\C-x\C-v" 'view-file)
 (global-set-key "\C-m" 'newline-and-indent)
 
-;(autoload 'top "top-mode" nil t)
-;(global-set-key (concat prefix-key-jps "t") 'top)
+                                        ;(autoload 'top "top-mode" nil t)
+                                        ;(global-set-key (concat prefix-key-jps "t") 'top)
 
 (global-set-key "\C-xk" 'kill-this-buffer)
 
@@ -467,7 +467,7 @@ There are two things you can do about this warning:
 
 (global-set-key "\C-xt" 'toggle-truncate-lines)
 
-; I found this annoying most times as it keeps wanting to suggst files in dired that aren't what I want
+                                        ; I found this annoying most times as it keeps wanting to suggst files in dired that aren't what I want
 ;;(ffap-bindings)
 ;; end keybindings
 
@@ -479,7 +479,7 @@ There are two things you can do about this warning:
 (message "Font lock")
 ;;turn off stupid extra buffer when fontifying things
 (setq progress-feedback-use-echo-area t)
-;(set-face-background 'default "light gray")
+                                        ;(set-face-background 'default "light gray")
 (setq font-lock-maximum-decoration t
       font-lock-use-colors '(color)
       font-lock-auto-fontify t
@@ -520,16 +520,16 @@ There are two things you can do about this warning:
 (set-face-foreground 'font-lock-todo-face "red")
 (defun add-special-font-lock-faces-jps (vars)
   "Add my special highlighting to each font-lock var in the given list"
-  (map 'list '(lambda (font-var)
-		(add-to-list font-var
-			     '("\\<\\(FIX\\)" 1 font-lock-warning-face t))
-		(add-to-list font-var
-			     '("\\<\\(HACK\\)" 1 font-lock-warning-face t))
-		(add-to-list font-var
-			     '("\\<\\(TODO\\)" 1 font-lock-todo-face t))
-		(add-to-list font-var
-			     '("\\<\\(NOTE\\)" 1 font-lock-todo-face t))
-		) vars))
+  (map 'list (lambda (font-var)
+	       (add-to-list font-var
+			    '("\\<\\(FIX\\)" 1 font-lock-warning-face t))
+	       (add-to-list font-var
+			    '("\\<\\(HACK\\)" 1 font-lock-warning-face t))
+	       (add-to-list font-var
+			    '("\\<\\(TODO\\)" 1 font-lock-todo-face t))
+	       (add-to-list font-var
+			    '("\\<\\(NOTE\\)" 1 font-lock-todo-face t))
+	       ) vars))
 
 ;;;;;;;;;;;
 ;;
@@ -551,17 +551,17 @@ There are two things you can do about this warning:
 		"-b\"- %n -\"" ; include username in header
 		"-DDuplex:true" ; double sided
 		)
- ; lpr-add-switches t			; add -J title
- ; lpr-page-header-program "pr"
+                                        ; lpr-add-switches t			; add -J title
+                                        ; lpr-page-header-program "pr"
 
  ;; lpr for ps
- ; ps-print-header-frame nil		; save some toner
- ; ps-lpr-command "lpr"
+                                        ; ps-print-header-frame nil		; save some toner
+                                        ; ps-lpr-command "lpr"
 					; ps-lpr-switches nil
 
-;lpr-switches '(
-;		"-o" "sides=two-sided-long-edge"
-;		)
+                                        ;lpr-switches '(
+                                        ;		"-o" "sides=two-sided-long-edge"
+                                        ;		)
  )
 
 
@@ -608,7 +608,7 @@ There are two things you can do about this warning:
        "\\|" "Enter PIN"
        "\\|" "\\(will be hidden\\)"
        )
-       )
+      )
 
 (defun comint-common-hook-jps ()
   (local-set-key [up] 'comint-previous-matching-input-from-input)
@@ -618,7 +618,7 @@ There are two things you can do about this warning:
   (local-set-key "\C-cc" 'comint-continue-subjob)
   (if running-xemacs
       (turn-off-font-lock))
-  ;(local-set-key [tab] 'comint-dynamic-complete)
+                                        ;(local-set-key [tab] 'comint-dynamic-complete)
   )
 
 (add-hook 'gdb-mode-hook 'comint-common-hook-jps)
@@ -626,7 +626,7 @@ There are two things you can do about this warning:
 
 ;; Make "M-x shell-command" use the same shell as "M-x shell"
 (setq explicit-shell-file-name shell-file-name)
-       
+
 
 (defun ssh-hook-jps ()
   (comint-common-hook-jps)
@@ -652,12 +652,12 @@ There are two things you can do about this warning:
       (progn
         (switch-to-buffer (eat--1 nil t #'pop-to-buffer-same-window))
         (rename-buffer buffer-name t)
-        ;(eat-line-mode)
+                                        ;(eat-line-mode)
         ;; TODO: look for shell prompt
         (sleep-for 1)
         (eat-term-send-string eat-terminal (concat "ssh " host "\n"))
         ;; TODO make the character be sent
-        ;(eat-semi-char-mode)
+                                        ;(eat-semi-char-mode)
         ))))
 (global-set-key (concat prefix-key-jps "h") 'ssh-to-host-jps)
 
@@ -703,9 +703,9 @@ There are two things you can do about this warning:
 
 (defun jps-eat-term-name (&optional display)
   "Set terminal to xterm on remote hosts to ensure that backspace works https://codeberg.org/akib/emacs-eat/issues/119"
-    (if (file-remote-p default-directory)
-        "xterm"
-      (eat-term-get-suitable-term-name display)))
+  (if (file-remote-p default-directory)
+      "xterm"
+    (eat-term-get-suitable-term-name display)))
 (setq eat-term-name 'jps-eat-term-name)
 (setq eat-term-scrollback-size nil) ; unlimited scrollback
 
@@ -719,7 +719,7 @@ There are two things you can do about this warning:
   (setq indent-tabs-mode nil)
   (font-lock-mode)
   (when running-xemacs
-      (add-special-font-lock-faces-jps (list 'ksh-font-lock-keywords)))
+    (add-special-font-lock-faces-jps (list 'ksh-font-lock-keywords)))
   )
 (add-hook 'ksh-mode-hook  'ksh-mode-hook-jps)
 
@@ -731,9 +731,9 @@ There are two things you can do about this warning:
 (message "sh-mode")
 (add-hook 'sh-mode-hook  'ksh-mode-hook-jps)
 (when running-xemacs
-    (add-hook 'sh-mode-hook '(lambda ()
-			       (add-special-font-lock-faces-jps (list 'sh-font-lock-keywords 'sh-font-lock-keywords-1 'sh-font-lock-keywords-2))))
-)
+  (add-hook 'sh-mode-hook (lambda ()
+			    (add-special-font-lock-faces-jps (list 'sh-font-lock-keywords 'sh-font-lock-keywords-1 'sh-font-lock-keywords-2))))
+  )
 
 ;;;;;;;;;;;
 ;;
@@ -747,7 +747,7 @@ There are two things you can do about this warning:
     (message "text-mode")
     (require 'filladapt)
     (add-hook 'text-mode-hook 
-	      (lambda nil  
+	      (lambda ()
 		(filladapt-mode 1) 
 		))))
 
@@ -806,7 +806,7 @@ There are two things you can do about this warning:
     ;; paragraph, it'll got to blank line above sentence instead of
     ;; beginning of sentence)
     (forward-word) (backward-word)
-    ;(indent-according-to-mode)
+                                        ;(indent-according-to-mode)
     (let ((beg (point))
           (ix (string-match "LaTeX" mode-name)))
       (forward-sentence)
@@ -820,7 +820,7 @@ There are two things you can do about this warning:
 (dolist (hookvar '(latex-mode-hook LaTeX-mode-hook))
   ;; key to fill senteces in LaTeX mode
   (add-hook hookvar
-            '(lambda () (global-set-key (kbd "M-q") 'fill-sentence))))
+            (lambda () (global-set-key (kbd "M-q") 'fill-sentence))))
 
 
 ;;;;;;;;;;;
@@ -831,7 +831,7 @@ There are two things you can do about this warning:
 ;; VC mode doesn't really buy me anything, just disable it
 (setq vc-handled-backends nil)
 ;;(add-hook 'vc-load-vc-hooks
-;;	  '(lambda ()
+;;	  (lambda ()
 ;;	     ;;(delete 'Git vc-handled-backends)
 ;;	     (setq vc-handled-backends nil)
 ;;	     ))
@@ -850,31 +850,31 @@ There are two things you can do about this warning:
 ;; setup the template for new html files
 (eval-after-load "html-helper-mode"
   '(progn
-    (setq tempo-template-html-skeleton
-	  '(
-	    "<?xml version='1.0' encoding='us-ascii'?>" n>
-	    "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" n>
-	    "<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>" n>
-	    "<head>" n>
-	    "<meta http-equiv='Content-Type' content='text/html; charset=us-ascii'/>" n>
-	    "<title>" (p "Document Title: " title) "</title>" n>
-	    "<link rel='stylesheet' type='text/css' href='style.css'/>" n>
-	    "</head>" n>
-	    "<body>" n>
-	    "<h1>" (s title) "</h1>" n>
-	    p
-	    >
-	    ""
-	    "<hr/>"n>
-	    "<p>" n>
-	    (html-helper-return-created-string) html-helper-timestamp-start html-helper-timestamp-end
-	    n>
-	    "</p>" n>
-	    "</body>" n>
-	    "</html>"
-	    )
-	  )
-    t)
+     (setq tempo-template-html-skeleton
+	   '(
+	     "<?xml version='1.0' encoding='us-ascii'?>" n>
+	     "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" n>
+	     "<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>" n>
+	     "<head>" n>
+	     "<meta http-equiv='Content-Type' content='text/html; charset=us-ascii'/>" n>
+	     "<title>" (p "Document Title: " title) "</title>" n>
+	     "<link rel='stylesheet' type='text/css' href='style.css'/>" n>
+	     "</head>" n>
+	     "<body>" n>
+	     "<h1>" (s title) "</h1>" n>
+	     p
+	     >
+	     ""
+	     "<hr/>"n>
+	     "<p>" n>
+	     (html-helper-return-created-string) html-helper-timestamp-start html-helper-timestamp-end
+	     n>
+	     "</p>" n>
+	     "</body>" n>
+	     "</html>"
+	     )
+	   )
+     t)
   )
 
 ;;;;;;;;;;;
@@ -908,10 +908,10 @@ There are two things you can do about this warning:
   (let ((extensions '("ps" "jpg" "bmp" "pbm" "pgm" "ppm" "xbm" "xpm" "ras" "rast" "gif" "tif" "tiff" "png" "xwd")))
     ;;gimp
     (when (and running-unix running-xemacs)
-      (map 'list '(lambda (ext)
-		    (add-to-list 'dired-guess-shell-alist-user (list (concat "\\." ext "$") "gimp"))
-		    (add-to-list 'dired-guess-shell-alist-user (list (concat "\\." ext "$") "display"))
-		    (add-to-list 'dired-guess-shell-alist-user (list (concat "\\." ext "$") "gthumb")))
+      (map 'list (lambda (ext)
+		   (add-to-list 'dired-guess-shell-alist-user (list (concat "\\." ext "$") "gimp"))
+		   (add-to-list 'dired-guess-shell-alist-user (list (concat "\\." ext "$") "display"))
+		   (add-to-list 'dired-guess-shell-alist-user (list (concat "\\." ext "$") "gthumb")))
 	   extensions)))
   
   ;;bzip
@@ -981,10 +981,10 @@ There are two things you can do about this warning:
   (add-to-list 'dired-guess-shell-alist-user '("\\.jar$" "jar -xvf"))
 
   ;; default windows handling
-;  (when (or (eq system-type 'windows-nt)
-;	    (eq system-type 'cygwin32))
-;    (add-to-list 'dired-guess-shell-alist-user (list ".*"
-;						       (expand-file-name "winrun" (locate-data-directory "config-jps")))))
+                                        ;  (when (or (eq system-type 'windows-nt)
+                                        ;	    (eq system-type 'cygwin32))
+                                        ;    (add-to-list 'dired-guess-shell-alist-user (list ".*"
+                                        ;						       (expand-file-name "winrun" (locate-data-directory "config-jps")))))
 
   
   (setq dired-compression-method 'gzip)
@@ -1037,15 +1037,15 @@ There are two things you can do about this warning:
 ;; Script-mode
 ;;
 ;;;;;;;;;;;;
-;(message "script-mode")
-;(defun delete-from-auto-mode-alist-jps (mode)
-;  (delete-if #'(lambda (assoc)
-;                 (eq (cdr assoc) mode))
-;             auto-mode-alist))
-;
-;(delete-from-auto-mode-alist-jps 'html-mode)
-;(delete-from-auto-mode-alist-jps 'sh-mode)
-  
+                                        ;(message "script-mode")
+                                        ;(defun delete-from-auto-mode-alist-jps (mode)
+                                        ;  (delete-if (lambda (assoc)
+                                        ;                 (eq (cdr assoc) mode))
+                                        ;             auto-mode-alist))
+                                        ;
+                                        ;(delete-from-auto-mode-alist-jps 'html-mode)
+                                        ;(delete-from-auto-mode-alist-jps 'sh-mode)
+
 ;; stuff for script.el
 ;;(setq interpreter-mode-alist
 ;;      (append
@@ -1122,15 +1122,15 @@ There are two things you can do about this warning:
   
   ;; setup some compile stuff
   (add-hook 'c-mode-hook
-	    '(lambda () (or (file-exists-p "makefile") (file-exists-p "Makefile")
-			    (progn 
-			      ;; make parens show the text before the paren in the minibuffer
-			      (setq paren-backwards-message t)
-			      
-			      (make-local-variable 'compile-command)  
-			      (setq compile-command
-				    (concat "make "
-					    buffer-file-name))))))
+	    (lambda () (or (file-exists-p "makefile") (file-exists-p "Makefile")
+			   (progn 
+			     ;; make parens show the text before the paren in the minibuffer
+			     (setq paren-backwards-message t)
+			     
+			     (make-local-variable 'compile-command)  
+			     (setq compile-command
+				   (concat "make "
+					   buffer-file-name))))))
 
   (c-set-offset 'class-close -2)
   ;;(c-set-offset 'c-brace-offset -2)
@@ -1180,7 +1180,7 @@ There are two things you can do about this warning:
 ;;		   (setq ad-return-value ad-do-it)
 ;;  (switch-to-buffer-other-window compilation-last-buffer)
 ;;  )
-  
+
 ;;;;;;;;;;;
 ;;
 ;; EDiff
@@ -1256,7 +1256,7 @@ There are two things you can do about this warning:
   )
 (add-hook 'java-mode-hook 'java-mode-hook-jps)
 
-;ignore assert files from ant compilation
+                                        ;ignore assert files from ant compilation
 (add-to-list 'completion-ignored-extensions ".assert")
 
 (defvar project-header-info nil "Information about a project for the header, usually the charge number and date")
@@ -1293,7 +1293,7 @@ There are two things you can do about this warning:
 (set-face-foreground 'sgml-comment-face "darkblue")
 (make-face 'sgml-start-tag-face)
 (if running-xemacs
-(set-face-parent 'sgml-start-tag-face 'default))
+    (set-face-parent 'sgml-start-tag-face 'default))
 (set-face-foreground 'sgml-start-tag-face "black")
 (make-face 'sgml-end-tag-face)
 (if running-xemacs (set-face-parent 'sgml-end-tag-face 'default))
@@ -1307,23 +1307,23 @@ There are two things you can do about this warning:
 
 ;;my own catalog for dtds
 (cond (running-xemacs
-(require 'psgml)
-;(add-to-list 'sgml-catalog-files
-;	     (expand-file-name "CATALOG" (locate-data-directory "config-jps")))
+       (require 'psgml)
+                                        ;(add-to-list 'sgml-catalog-files
+                                        ;	     (expand-file-name "CATALOG" (locate-data-directory "config-jps")))
 
-(setq sgml-auto-activate-dtd nil	; don't parse dtd right away
-      sgml-warn-about-undefined-elements nil ; don't complain about unknown elements
-      sgml-warn-about-undefined-entities nil ; don't complain about unknown entities
-      )
+       (setq sgml-auto-activate-dtd nil	; don't parse dtd right away
+             sgml-warn-about-undefined-elements nil ; don't complain about unknown elements
+             sgml-warn-about-undefined-entities nil ; don't complain about unknown entities
+             )
 
-(setq sgml-set-face t)			; without this, all SGML text is in same color
-(setq sgml-markup-faces
-      '((comment   . sgml-comment-face)
-	(start-tag . sgml-start-tag-face)
-	(end-tag   . sgml-end-tag-face)
-	(doctype   . sgml-doctype-face)
-	(entity    . sgml-entity-face)))
-))
+       (setq sgml-set-face t)			; without this, all SGML text is in same color
+       (setq sgml-markup-faces
+             '((comment   . sgml-comment-face)
+	       (start-tag . sgml-start-tag-face)
+	       (end-tag   . sgml-end-tag-face)
+	       (doctype   . sgml-doctype-face)
+	       (entity    . sgml-entity-face)))
+       ))
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files." t)
 (autoload 'xml-mode "psgml" "Major mode to edit XML files." t)
 
@@ -1390,15 +1390,15 @@ There are two things you can do about this warning:
 ;;
 ;;;;;;;;;;;;
 (cond (running-xemacs
-(message "Crypt")
-(setq crypt-encryption-type 'pgp
-      crypt-confirm-password t
-      ;;crypt-never-ever-decrypt t ; handy if never encrypting stuff
-      crypt-inhibit-formats '() ;; always decrypt stuff, this variable
-				;; contains dos if mule exists
-      )
-(require 'crypt)
-))
+       (message "Crypt")
+       (setq crypt-encryption-type 'pgp
+             crypt-confirm-password t
+             ;;crypt-never-ever-decrypt t ; handy if never encrypting stuff
+             crypt-inhibit-formats '() ;; always decrypt stuff, this variable
+	     ;; contains dos if mule exists
+             )
+       (require 'crypt)
+       ))
 
 ;;;;;;;;;;;
 ;;
@@ -1406,12 +1406,12 @@ There are two things you can do about this warning:
 ;;
 ;;;;;;;;;;;;
 (cond (running-xemacs
-(message "minibuffer")
+       (message "minibuffer")
 
-;; resize the minibuffer when stuff is too big
-(resize-minibuffer-mode 1)
-(setq resize-minibuffer-window-exactly nil)
-))
+       ;; resize the minibuffer when stuff is too big
+       (resize-minibuffer-mode 1)
+       (setq resize-minibuffer-window-exactly nil)
+       ))
 
 ;;;;;;;;;;;
 ;;
@@ -1499,17 +1499,17 @@ There are two things you can do about this warning:
 (defun kill-buffers-by-file-pattern (pattern)
   "Kill all buffers that have a filename containing the string PATTERN"
   (interactive "MFilename pattern: ")
-    (let ((to-remove
-	   (remove-if-not
-	    '(lambda (buff)
-	       (with-current-buffer buff
-		 (let ((fname (if (eq major-mode 'dired-mode)
-				  dired-directory
-				(buffer-file-name buff))))
-		   (and fname (string-match pattern fname)))))
-	    (buffer-list))))
-      (when to-remove
-	(kill-some-buffers to-remove))))
+  (let ((to-remove
+	 (remove-if-not
+	  (lambda (buff)
+	    (with-current-buffer buff
+	      (let ((fname (if (eq major-mode 'dired-mode)
+			       dired-directory
+			     (buffer-file-name buff))))
+		(and fname (string-match pattern fname)))))
+	  (buffer-list))))
+    (when to-remove
+      (kill-some-buffers to-remove))))
 
 (defun global-change-directory (from to)
   "Change directory of all buffers with default-directory FROM to TO."
@@ -1637,7 +1637,7 @@ There are two things you can do about this warning:
 (require 'saveplace)
 (setq-default save-place t)
 ;;(setq save-place-file "~/.xemacs/saved-places")
-; may speed up emacs exit (setq save-place-forget-unreadable-files nil)
+                                        ; may speed up emacs exit (setq save-place-forget-unreadable-files nil)
 
 ;;;;;;;;;;;
 ;;
@@ -1650,12 +1650,12 @@ There are two things you can do about this warning:
   ;; 4/29/2023 - I can't remember the last time I used an emacs backup file
   (setq make-backup-files nil)
   
- ;;  (setq make-backup-files t
- ;;        backup-by-copying t		; don't clobber symlinks
- ;;        delete-old-versions t
- ;;        backup-directory-alist '((".*" . "~/.xemacs/backups"))
- ;;        )
- ;;  
+  ;;  (setq make-backup-files t
+  ;;        backup-by-copying t		; don't clobber symlinks
+  ;;        delete-old-versions t
+  ;;        backup-directory-alist '((".*" . "~/.xemacs/backups"))
+  ;;        )
+  ;;  
   ;; (setq auto-save-directory (expand-file-name "~/.xemacs/auto-save/")
   ;;       auto-save-directory-fallback auto-save-directory
   ;;       auto-save-hash-p nil
@@ -1680,9 +1680,9 @@ There are two things you can do about this warning:
 ;; icomplete - replaces iswitchb
 ;;
 ;;;;;;;;;;;;
-;(icomplete-mode 1)
-;(eval-after-load "icomplete" '(progn (require 'icomplete+)))
-;(icompletep-cycling-mode 1)
+                                        ;(icomplete-mode 1)
+                                        ;(eval-after-load "icomplete" '(progn (require 'icomplete+)))
+                                        ;(icompletep-cycling-mode 1)
 
 
 ;;;;;;;;;;;
@@ -1701,11 +1701,11 @@ There are two things you can do about this warning:
   (lambda ()
     (message "tramp has been loaded, setting variables")
     ;;(setq tramp-default-method "ssh") ; default is scp
- 
+    
     ;; TRAMP gets confused by my prompt some times, so make sure it's
     ;; simple for THIS Emacs process, and therefore subprocesses.
     ;;(setenv "PS1" "tramp@\h> ")
- 
+    
     ;; disable backups of files edited with tramp
     ;;(setq tramp-bkup-backup-directory-info  nil)
 
@@ -1745,7 +1745,7 @@ There are two things you can do about this warning:
        (setq ispell-program-name "/usr/local/brew/bin/aspell"))
       (t
        (setq ispell-program-name "aspell"))
-)
+      )
 
 ;;;;;;;;;;;;
 ;;; -- PCL-CVS
@@ -1764,14 +1764,14 @@ That is, the cvsroot as seen on the cvs server (if remote), without hostname if 
   (let ((root (cvs-get-cvsroot)) 
         (module (cvs-get-module))) 
     (if (and root module) 
-      (if (string-match "\\`.*:\\([^:]+\\)\\'" root) 
-          (concat (match-string 1 root) "/" module) 
-        (concat root "/" module)))))
-  
+        (if (string-match "\\`.*:\\([^:]+\\)\\'" root) 
+            (concat (match-string 1 root) "/" module) 
+          (concat root "/" module)))))
+
 (defun ede-cvs-parse-commit () 
   (let ((root (cvs-get-local-commit-root)) 
         path base-rev subtype) 
-  
+    
     ;;(log-message "CVS" (concat "root: " root)) 
     ;;(log-message "CVS" (concat "matching: '"  
     ;;                           (regexp-quote root) "/" "\\(.*\\),v  <--  .*$" 
@@ -1787,13 +1787,13 @@ That is, the cvsroot as seen on the cvs server (if remote), without hostname if 
       (cvs-or 
        ;; deletion 
        (cvs-match "new revision: delete; previous revision: \\([0-9.]*\\)$" 
-    (subtype 'REMOVED) (base-rev 1)) 
+                  (subtype 'REMOVED) (base-rev 1)) 
        ;; addition 
        (cvs-match "initial revision: \\([0-9.]*\\)$" 
-    (subtype 'ADDED) (base-rev 1)) 
+                  (subtype 'ADDED) (base-rev 1)) 
        ;; update 
        (cvs-match "new revision: \\([0-9.]*\\); previous revision: .*$" 
-    (subtype 'COMMITTED) (base-rev 1))) 
+                  (subtype 'COMMITTED) (base-rev 1))) 
       ;; eat obsolete "done" comment - lost in OpenCVS version 1.12.9 
       (cvs-or (cvs-match "done$") t) 
       ;; it's important here not to rely on the default directory management 
@@ -1801,8 +1801,8 @@ That is, the cvsroot as seen on the cvs server (if remote), without hostname if 
       ;; so the processing of the actual checkin messages might begin with 
       ;; a `current-dir' set to something different from "" 
       (cvs-parsed-fileinfo (cons 'UP-TO-DATE subtype) path 'trust 
-      :base-rev base-rev)) 
-      
+                           :base-rev base-rev)) 
+     
      ;; useless message added before the actual addition: ignored 
      (cvs-match "RCS file: .*\ndone$"))))
 
@@ -1862,12 +1862,12 @@ in some window."
 ;; cmake
 ;;
 ;;;;;;;;;;;;
-; Add cmake listfile names to the mode list.
+                                        ; Add cmake listfile names to the mode list.
 (setq auto-mode-alist
-	  (append
-	   '(("CMakeLists\\.txt\\'" . cmake-mode))
-	   '(("\\.cmake\\'" . cmake-mode))
-	   auto-mode-alist))
+      (append
+       '(("CMakeLists\\.txt\\'" . cmake-mode))
+       '(("\\.cmake\\'" . cmake-mode))
+       auto-mode-alist))
 
 (autoload 'cmake-mode "cmake-mode" nil t)
 
@@ -1880,10 +1880,10 @@ in some window."
 
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
-;(autoload 'gfm-mode "gfm-mode"
-;  "Major mode for editing GitHub Markdown files" t)
-;(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-;(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
+                                        ;(autoload 'gfm-mode "gfm-mode"
+                                        ;  "Major mode for editing GitHub Markdown files" t)
+                                        ;(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+                                        ;(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 (add-hook 'markdown-mode-hook
 	  (lambda ()
 	    (setq indent-tabs-mode nil)
@@ -1903,19 +1903,19 @@ in some window."
 ;;
 ;;;;;;;;;;;;
 (cond (running-xemacs
-(message "diminish")
-(require 'diminish)
-(require 'compile)
-(require 'lazy-lock)
-(diminish 'compilation-in-progress "C")
-(diminish 'compilation-minor-mode "C")
-(diminish 'abbrev-mode "Abv")
-(diminish 'font-lock-mode "F")
-(diminish 'lazy-lock-mode "L")
-(diminish 'auto-fill-function "Af")
-(diminish 'isearch-mode "IS")
-(diminish 'filladapt-mode "Fa")
-))
+       (message "diminish")
+       (require 'diminish)
+       (require 'compile)
+       (require 'lazy-lock)
+       (diminish 'compilation-in-progress "C")
+       (diminish 'compilation-minor-mode "C")
+       (diminish 'abbrev-mode "Abv")
+       (diminish 'font-lock-mode "F")
+       (diminish 'lazy-lock-mode "L")
+       (diminish 'auto-fill-function "Af")
+       (diminish 'isearch-mode "IS")
+       (diminish 'filladapt-mode "Fa")
+       ))
 
 ;;; Emacs compatibility
 (unless (or (fboundp 'quit-window) (boundp 'quit-window))
@@ -1930,12 +1930,12 @@ in some window."
 ;;
 ;;;;;;;;;;;;
 (add-hook 'go-mode-hook
-	  '(lambda ()
-	     ;; make parens show the text before the paren in the minibuffer
-	     (setq paren-backwards-message t)
-	     (setq indent-tabs-mode nil);; no tabs in source code
-	     (setq tab-width 2)
-	     ))
+	  (lambda ()
+	    ;; make parens show the text before the paren in the minibuffer
+	    (setq paren-backwards-message t)
+	    (setq indent-tabs-mode nil);; no tabs in source code
+	    (setq tab-width 2)
+	    ))
 
 ;;;;;;;;;;;
 ;;
