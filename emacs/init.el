@@ -2012,6 +2012,35 @@ in some window."
 
 (setq bookmark-save-flag 1)
 
+;; handler for opening files with xdg-open
+(defun jps-xdg-open-bookmark-handler (bookmark)
+  (interactive)
+  (let* ((filename (bookmark-prop-get bookmark 'filename)))
+    (if filename
+        (start-process "xdg-open-bookmark" "*xdg-open-bookmark-output*" "xdg-open" (expand-file-name filename))
+      (message "Bookmark %s has no filename field" bookmark))))
+
+;; open some bookmarks externally
+(add-to-list 'bmkp-default-handlers-for-file-types
+             '("\\.ods$" . jps-xdg-open-bookmark-handler))
+(add-to-list 'bmkp-default-handlers-for-file-types
+             '("\\.odt$" . jps-xdg-open-bookmark-handler))
+
+(global-set-key (kbd "C-x r e") 'jps-bmkp-bookmark-a-file-default-at-point)
+
+(defun jps-bmkp-bookmark-a-file-default-at-point ()
+  "Bookmark the file at point using Bookmark+. 
+If no file is at point, prompt normally."
+  (interactive)
+  (let ((file-at-point (ffap-file-at-point)))
+    (if (and file-at-point (file-exists-p file-at-point))
+        (bmkp-bookmark-a-file file-at-point)
+      (call-interactively 'bmkp-bookmark-a-file))))
+
+;; bookmark list bindings
+(define-key bookmark-bmenu-mode-map "n" 'next-line)
+(define-key bookmark-bmenu-mode-map "p" 'previous-line)
+
 ;; csv handling
 (require 'color)
 
