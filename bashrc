@@ -90,10 +90,17 @@ unset MAIL
 
 if [ -n "$(command -v vim)" ]; then
   #export EDITOR='vim -u ~/.vimrc'
-    export EDITOR=vim
+    EDITOR=vim
 else
-    export EDITOR=vi
+    EDITOR=vi
 fi
+if [ -n "$(command -v emacsclient)" ]; then
+    # fall back to the system editor
+    ALTERNATE_EDITOR=${EDITOR}
+    export ALTERNATE_EDITOR
+    EDITOR="emacsclient -c"
+fi
+export EDITOR
 
 
 # turn on core files
