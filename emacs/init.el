@@ -2020,22 +2020,17 @@ in some window."
         (start-process "xdg-open-bookmark" "*xdg-open-bookmark-output*" "xdg-open" (expand-file-name filename))
       (message "Bookmark %s has no filename field" bookmark))))
 
+(defun jps-xdg-open (filename)
+  (start-process "xdg-open-bookmark" "*xdg-open-bookmark-output*" "xdg-open" (expand-file-name filename)))
+
 ;; open some bookmarks externally
 (add-to-list 'bmkp-default-handlers-for-file-types
-             '("\\.ods$" . jps-xdg-open-bookmark-handler))
+             '("\\.ods$" . jps-xdg-open))
 (add-to-list 'bmkp-default-handlers-for-file-types
-             '("\\.odt$" . jps-xdg-open-bookmark-handler))
+             '("\\.odt$" . jps-xdg-open))
 
-(global-set-key (kbd "C-x r e") 'jps-bmkp-bookmark-a-file-default-at-point)
+(global-set-key (kbd "C-x r e") 'bmkp-bookmark-a-file)
 
-(defun jps-bmkp-bookmark-a-file-default-at-point ()
-  "Bookmark the file at point using Bookmark+. 
-If no file is at point, prompt normally."
-  (interactive)
-  (let ((file-at-point (ffap-file-at-point)))
-    (if (and file-at-point (file-exists-p file-at-point))
-        (bmkp-bookmark-a-file file-at-point)
-      (call-interactively 'bmkp-bookmark-a-file))))
 
 ;; bookmark list bindings
 (define-key bookmark-bmenu-mode-map "n" 'next-line)
