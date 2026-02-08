@@ -13,72 +13,14 @@
 
 ;; use (package-install-selected-packages) to install the packages in the variable package-selected-packages
 
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  (when no-ssl
-    (warn "\
-Your version of Emacs does not support SSL connections,
-which is unsafe because it allows man-in-the-middle attacks.
-There are two things you can do about this warning:
-1. Install an Emacs version that does support SSL and be safe.
-2. Remove this warning from your init file so you won't see it again."))
-  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
-  (when (< emacs-major-version 24)
-    ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/"))))
+(load (expand-file-name "~/.xemacs/package-config"))
 
-
-  (when (< emacs-major-version 28)
-    (add-to-list 'package-archives
-                 '("nongnu" . "https://elpa.nongnu.org/nongnu/")))
-  )
-                                        ;should not be needed (package-initialize)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(aquamacs-additional-fontsets nil t)
- '(aquamacs-customization-version-id 216 t)
- '(aquamacs-tool-bar-user-customization nil t)
- '(auth-source-save-behavior nil)
- '(bmkp-last-as-first-bookmark-file nil)
- '(default-frame-alist
-   '((menu-bar-lines . 1)
-     (foreground-color . "Black")
-     (background-color . "White")
-     (cursor-type . box)
-     (cursor-color . "Red")
-     (internal-border-width . 0)
-     (left-fringe . 1)
-     (right-fringe)
-     (fringe)))
- '(display-time-mode t)
- '(gutter-buffers-tab-enabled nil)
- '(gutter-buffers-tab-visible nil)
- '(indent-tabs-mode nil)
- '(ispell-dictionary nil)
- '(ns-alternate-modifier 'alt)
- '(ns-tool-bar-display-mode nil t)
- '(ns-tool-bar-size-mode nil t)
- '(package-selected-packages
-   '(applescript-mode ascii-table bash-completion cargo company compat csharp-mode csv-mode diminish eat elpy embark eshell-bookmark flycheck forge gnu-elpa-keyring-update go-mode groovy-mode journalctl-mode lsp-mode magit markdown-mode osx-clipboard pandoc pandoc-mode php-mode python-mode rust-mode rustic ssh trashed use-package web-mode which-key x509-mode yaml-mode))
- '(query-user-mail-address nil)
- '(safe-local-variable-values
-   '((whitespace-newline . t)
-     (whitespace-style face trailing lines-tail space-before-tab indentation empty)))
- '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
- '(send-mail-function 'mailclient-send-it)
- '(tramp-show-ad-hoc-proxies t)
- '(visual-line-mode nil t))
+;; keep in separate file so that it can be referenced from install-packages.el
+(setq custom-file (expand-file-name "~/.xemacs/custom.el"))
+(load custom-file)
 
 ;; enable use-package
 (require 'use-package)
-
 
 ;; check which emacs is running
 (defvar running-xemacs (featurep 'xemacs))
@@ -115,25 +57,6 @@ There are two things you can do about this warning:
    )      
   (setq safe-local-variable-values (quote ((Syntax . COMMON-LISP) (Base . 10))))
   )
-
-;; setup paths
-(when (not running-xemacs)
-  (let ((base-dir (expand-file-name "~/.xemacs/xemacs-packages/lisp")))
-    (add-to-list 'load-path base-dir)
-    (dolist (fileOrDir (directory-files base-dir))
-      (if (not (string= "." (substring fileOrDir 0 1)))
-	  (let ((path (expand-file-name fileOrDir base-dir)))
-	    (if (file-directory-p path)
-		(add-to-list 'load-path path)
-	      ))))))
-
-;;set faces up front
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 (when (not (boundp 'windows-nt)) (setq windows-nt nil))
 

@@ -11,6 +11,8 @@ try() { "$@" || fatal "'$@' failed"; }
 
 mydir=$(cd "$(dirname "$0")" && pwd -L) || fatal "Unable to determine script directory"
 
+# need to get package list out of init.el
+
 try emacs \
     --no-splash \
     --batch \
