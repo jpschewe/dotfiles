@@ -1,5 +1,3 @@
-EMACS = xemacs
-
 ELCS=$(patsubst %.el,%.elc,$(wildcard *.el))
 
 %.elc: %.el
