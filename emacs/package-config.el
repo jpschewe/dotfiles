@@ -11,8 +11,8 @@ There are two things you can do about this warning:
 1. Install an Emacs version that does support SSL and be safe.
 2. Remove this warning from your init file so you won't see it again."))
   ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  ;;(add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
   (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
   (when (< emacs-major-version 24)
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/"))))
@@ -22,6 +22,9 @@ There are two things you can do about this warning:
     (add-to-list 'package-archives
                  '("nongnu" . "https://elpa.nongnu.org/nongnu/")))
   )
+
+;; pin packages to melpa-stable by default
+(setq use-package-always-pin "melpa-stable")
 
 (defvar jps-lisp-path (expand-file-name "~/.xemacs/xemacs-packages/lisp") "My additional lisp files that aren't available in MELPA.")
 (let ((base-dir jps-lisp-path))

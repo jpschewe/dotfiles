@@ -1473,61 +1473,9 @@
   (revert-buffer t t nil))
 
 ;; ASCII table
-(defun ascii-table ()
-  "Display a list of the first 128 ASCII chars and keyboard equivalents."
-  (interactive)
-  (let ((char 0)
-	(next-line-add-newlines-save next-line-add-newlines))
-    (message "Making the ascii table...")
-    (setq next-line-add-newlines t)
-    (save-excursion
-      (set-buffer (get-buffer-create "*ASCII Table*"))
-      (setq buffer-read-only nil)
-      (erase-buffer)
-      (goto-char (point-min))
-      (while (<= char 127)
-	(insert (format "%d %s\t" char (single-key-description char)))
-	(setq char (1+ char))
-	(if (>= (count-lines (point-min) (point)) 13)
-	    (goto-char (point-min))
-	  (next-line 1))
-	(end-of-line))
-      (goto-char (point-min))
-      ;; this may be overkill, but it is the quickest way I know to nuke
-      ;; blank space at the end of all the lines in a buffer.
-      ;;(picture-mode) (picture-mode-exit)
-      (setq buffer-read-only t))
-    (setq next-line-add-newlines next-line-add-newlines-save)
-    (display-buffer "*ASCII Table*")
-    (message "Making the ascii table...done")))
-
-(defun ascii-table-octal ()
-  "Display a list of the first 128 ASCII chars and keyboard equivalents."
-  (interactive)
-  (let ((char 0)
-	(next-line-add-newlines-save next-line-add-newlines))
-    (message "Making the ascii table...")
-    (setq next-line-add-newlines t)
-    (save-excursion
-      (set-buffer (get-buffer-create "*ASCII Table Octal*"))
-      (setq buffer-read-only nil)
-      (erase-buffer)
-      (goto-char (point-min))
-      (while (<= char 127)
-	(insert (format "%o %s\t" char (single-key-description char)))
-	(setq char (1+ char))
-	(if (>= (count-lines (point-min) (point)) 13)
-	    (goto-char (point-min))
-	  (next-line 1))
-	(end-of-line))
-      (goto-char (point-min))
-      ;; this may be overkill, but it is the quickest way I know to nuke
-      ;; blank space at the end of all the lines in a buffer.
-      (picture-mode) (picture-mode-exit)
-      (setq buffer-read-only t))
-    (setq next-line-add-newlines next-line-add-newlines-save)
-    (display-buffer "*ASCII Table Octal*")
-    (message "Making the ascii table...done")))
+(use-package ascii-table
+  :ensure t
+)
 
 
 ;;;;;;;;;;;
@@ -2104,6 +2052,11 @@ in some window."
   (server-start)
   )
 
+
+;;; misc packages
+(use-package x509-mode
+  :ensure t
+  :pin "melpa")
 
 ;;;stuff emacs likes to append on it's own
 (put 'erase-buffer 'disabled nil)
