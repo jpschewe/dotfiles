@@ -1983,6 +1983,13 @@ in some window."
 ;; https://github.com/oantolin/embark?tab=readme-ov-file
 ;;
 ;;;;;;;;;;;;
+
+;; marginalia is suggested to be used with embark
+(use-package marginalia
+  :ensure t
+  :config
+  (marginalia-mode))
+
 (use-package embark
   :ensure t
 
