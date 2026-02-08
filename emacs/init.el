@@ -2071,6 +2071,18 @@ in some window."
                  (window-parameters (mode-line-format . none)))))
 
 
+;;;;;;;;;;;;
+;;
+;; csharp mode
+;;
+;;;;;;;;;;;;
+(use-package csharp-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
+  )
+
+
 ;;;;;;;;;;;
 ;;
 ;; Server
