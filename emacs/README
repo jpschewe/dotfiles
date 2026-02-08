@@ -1,5 +1,4 @@
-My emacs config. Meant to be put in ~/.xemacs. Execute "make" to build
-initial directories and precompile things.
+My emacs config. Meant to be put in ~/.xemacs.
 
 Tested on:
   * gnu emacs
