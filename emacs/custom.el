@@ -32,8 +32,10 @@
  '(safe-local-variable-values
    '((whitespace-newline . t)
      (whitespace-style face trailing lines-tail space-before-tab indentation empty)))
+ '(scroll-bar-mode 'right)
  '(semanticdb-default-save-directory (concat "/tmp/" user-login-name "/xemacs-cache"))
  '(send-mail-function 'mailclient-send-it)
+ '(tool-bar-mode nil)
  '(tramp-show-ad-hoc-proxies t)
  '(visual-line-mode nil t))
 

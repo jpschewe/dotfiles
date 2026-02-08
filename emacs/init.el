@@ -72,16 +72,9 @@
 ;; toolbar stuff
 (message "toolbar")
 (cond (running-xemacs
-       (set-default-toolbar-position 'top)
        (set-specifier default-toolbar-visible-p nil))
       (running-aquamacs
-       ;; remove toolbar
-       (tool-bar-mode -1)
        (setq aquamacs-set-creator-codes-after-writing-files nil)
-       )
-      (running-gnuemacs
-       (tool-bar-mode -1)
-       (set-scroll-bar-mode 'right)
        )
       )
 
