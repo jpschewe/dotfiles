@@ -35,8 +35,8 @@
 			 (eq system-type 'berkeley-unix)))
 
 ;; only warn me of errors
-(setq display-warning-minimum-level 'error)
-(setq log-warning-minimum-level 'error)
+(setq warning-minimum-level 'error)
+(setq warning-minimum-log-level 'error)
 
 ;; take care of some custom variables right up front
 
