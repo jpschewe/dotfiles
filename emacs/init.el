@@ -305,7 +305,6 @@
 
 ;;(global-set-key (concat prefix-key-jps "g") 'gnus)
 (global-set-key (concat prefix-key-jps "n") 'rename-buffer)
-(global-set-key (concat prefix-key-jps "r") 'revert-buffer-jps)
 (global-set-key (concat prefix-key-jps "b") 'bury-buffer)
 
 
@@ -1471,8 +1470,33 @@
   "Revert the current buffer with no questions asked"
   (interactive)
   (revert-buffer t t nil))
+(global-set-key (concat prefix-key-jps "r") 'revert-buffer-jps)
 
+
+(defun jps/copy-cwd-to-clipboard ()
+  "Copy the current buffer's directory into the kill ring."
+  (interactive)
+  (let ((dir (file-name-directory (or (buffer-file-name) default-directory))))
+    (when dir
+      (kill-new dir)
+      (message "Copied directory '%s' to the kill ring" dir))))
+(global-set-key (concat prefix-key-jps "y") 'jps/copy-cwd-to-clipboard)
+
+(defun jps/terminal-in-cwd ()
+  "Launch a terminal (i3-sensible-terminal) in the current directory"
+  (interactive)
+  (let ((dir (file-name-directory (or (buffer-file-name) default-directory))))
+    (when dir
+      (start-process "launch-terminal" "*launch-terminal*" "i3-sensible-terminal")
+      (message "Launched terminal in directory '%s'" dir))))
+(global-set-key (concat prefix-key-jps "o") 'jps/terminal-in-cwd)
+
+
+;;;;;;;;;;;
+;;
 ;; ASCII table
+;;
+;;;;;;;;;;;;
 (use-package ascii-table
   :ensure t
 )
