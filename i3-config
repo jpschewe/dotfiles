@@ -368,6 +368,9 @@ bar {
 # Applications to start on login
 exec_always --no-startup-id numlockx on
 
+# location services
+exec --no-startup-id /usr/libexec/geoclue-2.0/demos/agent
+
 exec --no-startup-id "duplicati --no-hosted-server"
 exec --no-startup-id "insync start"
 exec --no-startup-id "workrave"
@@ -416,3 +419,4 @@ exec --no-startup-id blueman-applet
 # fix composter issues
 # https://www.reddit.com/r/i3wm/comments/n3wzaj/fix_for_black_screen_in_zoom_when_annotating/
 #Doesn't work - needs more testing exec --no-startup-id "xcompmgr -c -l0 -t0 -r0 -o.00
+
