@@ -80,7 +80,10 @@ if [ -z "${SSH_AUTH_SOCK}" -a -n "${ORIG_SSH_AUTH_SOCK}" ]; then
 fi
 
 # ensure the directory exists
-try mkdir -p "${HOME}"/.ssh/agents
+if [ ! -d "${HOME}"/.ssh/agents ]; then
+    try mkdir -p "${HOME}"/.ssh/agents
+    chmod go-rwx "${HOME}"/.ssh
+fi
 
 if [ -n "${SSH_AUTH_SOCK}" ]; then
     debug "Socket variable is defined as ${SSH_AUTH_SOCK}"
