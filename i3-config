@@ -386,7 +386,7 @@ for_window [class="Pavucontrol"] move scratchpad
 exec --no-startup-id "pavucontrol"
 
 for_window [title="^BpyTOP"] move scratchpad
-exec --no-startup-id "i3-sensible-terminal -e \"uvx bpytop\""
+exec --no-startup-id "i3-sensible-terminal -e \"uvx bpytop || uvx --offline bpytop\""
 
 assign [class="TelegramDesktop"] chat
 #exec "flatpak run org.telegram.desktop"
