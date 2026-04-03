@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# Modified from https://unix.stackexchange.com/questions/252054/paste-clipboard-as-text-into-keyboard-buffer
+
+debug() { ! "${log_debug-false}" || log "DEBUG: $*" >&2; }
+log() { printf '%s\n' "$*"; }
+warn() { log "WARNING: $*" >&2; }
+error() { log "ERROR: $*" >&2; }
+fatal() { error "$*"; exit 1; }
+try() { "$@" || fatal "'$@' failed"; }
+
+mydir=$(cd "$(dirname "$0")" && pwd -L) || fatal "Unable to determine script directory"
+
+cleanup() {
+    debug "In cleanup"
+}
+trap 'cleanup' INT TERM EXIT
+
+
+XCLIP=$(command -v xclip)
+if [ -z "${XCLIP}" ]; then
+    fatal "Need to install xclip"
+fi
+
+XDOTOOL=$(command -v xdotool)
+if [ -z "$XDOTOOL" ]; then
+    fatal "Need to install xdotool"
+fi
+
+TEXT=$($XCLIP -out)
+
+if [ -z "$TEXT" ]; then
+    error "No text on clipboard"
+    exit;
+fi
+
+ACTIVEWIN=$(${XDOTOOL} getactivewindow)
+if [ -z "${ACTIVEWIN}" ]; then
+    fatal "Unable to find active window"
+fi
+
+${XDOTOOL} type --window ${ACTIVEWIN} "${TEXT}"
