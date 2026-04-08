@@ -230,6 +230,10 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 #bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
+# paste clipboard by typing it
+# need the sleep to ensure that the right window gets focus
+bindsym $mod+p exec --no-startup-id "sh -c 'sleep 1; exec echo-clipboard'"
+
 # system menu
 set $mode_system System (l) lock, (e) logout, (Shift+r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
