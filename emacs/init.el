@@ -2014,6 +2014,12 @@ in some window."
   :config
   (marginalia-mode))
 
+;; disable marginalia for tramp
+(defun my-marginalia-disable-for-tramp ()
+  (when (file-remote-p (minibuffer-prompt))
+    (setq-local marginalia-mode nil)))
+(add-hook 'minibuffer-setup-hook #'my-marginalia-disable-for-tramp)
+
 (use-package embark
   :ensure t
 
