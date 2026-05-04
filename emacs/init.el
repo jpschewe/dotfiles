@@ -2068,6 +2068,21 @@ in some window."
   )
 
 
+;;;;;;;;;;;;
+;;
+;; LSP setup
+;;
+;;;;;;;;;;;;
+(use-package lsp-mode
+:hook (python-mode . lsp)
+:commands lsp)
+
+(use-package lsp-pyright
+:ensure t
+:hook (python-mode . (lambda ()
+(require 'lsp-pyright)
+(lsp)))) ; or lsp-deferred
+
 ;;;;;;;;;;;
 ;;
 ;; Server
