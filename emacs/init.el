@@ -2067,6 +2067,16 @@ in some window."
   (add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
   )
 
+;;;;;;;;;;;;
+;;
+;; dockerfile
+;;
+;;;;;;;;;;;;
+(add-to-list 'treesit-language-source-alist
+             '((dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")))
+
+(add-to-list 'major-mode-remap-alist '(dockerfile-mode . dockerfile-ts-mode))
+
 
 ;;;;;;;;;;;;
 ;;
