@@ -541,6 +541,10 @@ function tmuxa {
     tmux new-session -t main
 }
 
+if [ -e /usr/share/bash-completion/completions/tmuxinator.bash ]; then
+    . /usr/share/bash-completion/completions/tmuxinator.bash
+fi
+
 ## github tokens
 if [ -e "${HOME}"/.github-token ]; then
     . "${HOME}"/.github-token
