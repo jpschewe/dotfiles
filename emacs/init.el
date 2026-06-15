@@ -2008,53 +2008,54 @@ in some window."
 ;;
 ;;;;;;;;;;;;
 
-;; marginalia is suggested to be used with embark
-(use-package marginalia
-  :ensure t
-  :config
-  (marginalia-mode))
-
-;; disable marginalia for tramp
-(defun my-marginalia-disable-for-tramp ()
-  (when (file-remote-p (minibuffer-prompt))
-    (setq-local marginalia-mode nil)))
-(add-hook 'minibuffer-setup-hook #'my-marginalia-disable-for-tramp)
-
-(use-package embark
-  :ensure t
-
-  :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ;;("C-;" . embark-dwim)        ;; good alternative: M-.
-   ;;("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
-   )
-  
-  :init
-
-  ;; Optionally replace the key help with a completing-read interface
-  ;;(setq prefix-help-command #'embark-prefix-help-command)
-
-  ;; Show the Embark target at point via Eldoc. You may adjust the
-  ;; Eldoc strategy, if you want to see the documentation from
-  ;; multiple providers. Beware that using this can be a little
-  ;; jarring since the message shown in the minibuffer can be more
-  ;; than one line, causing the modeline to move up and down:
-
-  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
-  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
-
-  ;; Add Embark to the mouse context menu. Also enable `context-menu-mode'.
-  ;; (context-menu-mode 1)
-  ;; (add-hook 'context-menu-functions #'embark-context-menu 100)
-
-  :config
-
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
-
+;; disabled 4/30/2026 to see if this speeds up tramp access
+;;DISABELD ;; marginalia is suggested to be used with embark
+;;DISABELD (use-package marginalia
+;;DISABELD   :ensure t
+;;DISABELD   :config
+;;DISABELD   (marginalia-mode))
+;;DISABELD 
+;;DISABELD ;; disable marginalia for tramp
+;;DISABELD (defun my-marginalia-disable-for-tramp ()
+;;DISABELD   (when (file-remote-p (minibuffer-prompt))
+;;DISABELD     (setq-local marginalia-mode nil)))
+;;DISABELD (add-hook 'minibuffer-setup-hook #'my-marginalia-disable-for-tramp)
+;;DISABELD 
+;;DISABELD (use-package embark
+;;DISABELD   :ensure t
+;;DISABELD 
+;;DISABELD   :bind
+;;DISABELD   (("C-." . embark-act)         ;; pick some comfortable binding
+;;DISABELD    ;;("C-;" . embark-dwim)        ;; good alternative: M-.
+;;DISABELD    ;;("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
+;;DISABELD    )
+;;DISABELD   
+;;DISABELD   :init
+;;DISABELD 
+;;DISABELD   ;; Optionally replace the key help with a completing-read interface
+;;DISABELD   ;;(setq prefix-help-command #'embark-prefix-help-command)
+;;DISABELD 
+;;DISABELD   ;; Show the Embark target at point via Eldoc. You may adjust the
+;;DISABELD   ;; Eldoc strategy, if you want to see the documentation from
+;;DISABELD   ;; multiple providers. Beware that using this can be a little
+;;DISABELD   ;; jarring since the message shown in the minibuffer can be more
+;;DISABELD   ;; than one line, causing the modeline to move up and down:
+;;DISABELD 
+;;DISABELD   ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+;;DISABELD   ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+;;DISABELD 
+;;DISABELD   ;; Add Embark to the mouse context menu. Also enable `context-menu-mode'.
+;;DISABELD   ;; (context-menu-mode 1)
+;;DISABELD   ;; (add-hook 'context-menu-functions #'embark-context-menu 100)
+;;DISABELD 
+;;DISABELD   :config
+;;DISABELD 
+;;DISABELD   ;; Hide the mode line of the Embark live/completions buffers
+;;DISABELD   (add-to-list 'display-buffer-alist
+;;DISABELD                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+;;DISABELD                  nil
+;;DISABELD                  (window-parameters (mode-line-format . none)))))
+;;DISABELD 
 
 ;;;;;;;;;;;;
 ;;
