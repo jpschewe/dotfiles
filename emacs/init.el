@@ -599,7 +599,7 @@
 (add-hook 'eshell-mode-hook 'eshell-hook-jps)
 
 (add-hook 'eshell-load-hook #'eat-eshell-mode)
-(add-hook 'eshell-mode-hook 'eshell-bookmark-setup)
+(eshell-bookmark-setup)
 
 ;;;;;;;;;;;
 ;;
@@ -1915,15 +1915,12 @@ in some window."
 
 ;;;;;;;;;;;
 ;;
-;; Bookmark, Bookmark+
+;; Bookmark
 ;;
 ;;;;;;;;;;;;
 
-;; bookmark+
-(require 'bookmark+)
-
 (setq bookmark-save-flag 1)
-
+(setq bookmark-sort-flag 'last-modified)
 
 ;; handler for opening files with xdg-open
 (defun jps-xdg-open-bookmark-handler (bookmark)
@@ -1932,17 +1929,6 @@ in some window."
     (if filename
         (start-process "xdg-open-bookmark" "*xdg-open-bookmark-output*" "xdg-open" (expand-file-name filename))
       (message "Bookmark %s has no filename field" bookmark))))
-
-(defun jps-xdg-open (filename)
-  (start-process "xdg-open-bookmark" "*xdg-open-bookmark-output*" "xdg-open" (expand-file-name filename)))
-
-;; open some bookmarks externally
-(add-to-list 'bmkp-default-handlers-for-file-types
-             '("\\.ods$" . jps-xdg-open))
-(add-to-list 'bmkp-default-handlers-for-file-types
-             '("\\.odt$" . jps-xdg-open))
-
-(global-set-key (kbd "C-x r e") 'bmkp-bookmark-a-file)
 
 ;; bookmark list bindings
 (define-key bookmark-bmenu-mode-map "n" 'next-line)
